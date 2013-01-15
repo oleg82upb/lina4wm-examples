@@ -59,7 +59,7 @@ bool MSQueue::dequeue(int *value)
 	do {
 		localHead = head;
 		localTail = tail;
-		next = head->next;
+		next = localHead->next;
 		if(localHead == head)
 		{
 			if(localHead == localTail)

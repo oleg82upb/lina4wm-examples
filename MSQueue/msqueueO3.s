@@ -79,39 +79,38 @@ entry:
 do.body:                                          ; preds = %if.end, %if.else, %do.body, %entry
   %2 = load volatile %class.Node** %head, align 4, !tbaa !3
   %3 = load volatile %class.Node** %tail, align 4, !tbaa !3
-  %4 = load volatile %class.Node** %head, align 4, !tbaa !3
-  %next3 = getelementptr inbounds %class.Node* %4, i32 0, i32 1
-  %5 = load %class.Node** %next3, align 4, !tbaa !3
-  %6 = load volatile %class.Node** %head, align 4, !tbaa !3
-  %cmp = icmp eq %class.Node* %2, %6
+  %next2 = getelementptr inbounds %class.Node* %2, i32 0, i32 1
+  %4 = load %class.Node** %next2, align 4, !tbaa !3
+  %5 = load volatile %class.Node** %head, align 4, !tbaa !3
+  %cmp = icmp eq %class.Node* %2, %5
   br i1 %cmp, label %if.then, label %do.body
 
 if.then:                                          ; preds = %do.body
-  %cmp5 = icmp eq %class.Node* %2, %3
-  br i1 %cmp5, label %if.then6, label %if.else
+  %cmp4 = icmp eq %class.Node* %2, %3
+  br i1 %cmp4, label %if.then5, label %if.else
 
-if.then6:                                         ; preds = %if.then
-  %cmp7 = icmp eq %class.Node* %5, null
-  br i1 %cmp7, label %return, label %if.end
+if.then5:                                         ; preds = %if.then
+  %cmp6 = icmp eq %class.Node* %4, null
+  br i1 %cmp6, label %return, label %if.end
 
-if.end:                                           ; preds = %if.then6
-  %7 = ptrtoint %class.Node* %2 to i32
-  %8 = ptrtoint %class.Node* %5 to i32
-  %9 = cmpxchg i32* %0, i32 %7, i32 %8 seq_cst
+if.end:                                           ; preds = %if.then5
+  %6 = ptrtoint %class.Node* %2 to i32
+  %7 = ptrtoint %class.Node* %4 to i32
+  %8 = cmpxchg i32* %0, i32 %6, i32 %7 seq_cst
   br label %do.body
 
 if.else:                                          ; preds = %if.then
-  %val = getelementptr inbounds %class.Node* %5, i32 0, i32 0
-  %10 = load i32* %val, align 4, !tbaa !0
-  store i32 %10, i32* %value, align 4, !tbaa !0
-  %11 = ptrtoint %class.Node* %2 to i32
-  %12 = ptrtoint %class.Node* %5 to i32
-  %13 = cmpxchg i32* %1, i32 %11, i32 %12 seq_cst
-  %14 = icmp eq i32 %13, %11
-  br i1 %14, label %return, label %do.body
+  %val = getelementptr inbounds %class.Node* %4, i32 0, i32 0
+  %9 = load i32* %val, align 4, !tbaa !0
+  store i32 %9, i32* %value, align 4, !tbaa !0
+  %10 = ptrtoint %class.Node* %2 to i32
+  %11 = ptrtoint %class.Node* %4 to i32
+  %12 = cmpxchg i32* %1, i32 %10, i32 %11 seq_cst
+  %13 = icmp eq i32 %12, %10
+  br i1 %13, label %return, label %do.body
 
-return:                                           ; preds = %if.else, %if.then6
-  %retval.0 = phi i1 [ false, %if.then6 ], [ true, %if.else ]
+return:                                           ; preds = %if.else, %if.then5
+  %retval.0 = phi i1 [ false, %if.then5 ], [ true, %if.else ]
   ret i1 %retval.0
 }
 

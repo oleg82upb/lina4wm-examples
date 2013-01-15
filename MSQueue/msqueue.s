@@ -200,42 +200,41 @@ do.body:                                          ; preds = %do.cond, %entry
   %tail = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 1
   %1 = load volatile %class.Node** %tail, align 4
   store %class.Node* %1, %class.Node** %localTail, align 4
-  %head2 = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 0
-  %2 = load volatile %class.Node** %head2, align 4
-  %next3 = getelementptr inbounds %class.Node* %2, i32 0, i32 1
-  %3 = load %class.Node** %next3, align 4
+  %2 = load %class.Node** %localHead, align 4
+  %next2 = getelementptr inbounds %class.Node* %2, i32 0, i32 1
+  %3 = load %class.Node** %next2, align 4
   store %class.Node* %3, %class.Node** %next, align 4
   %4 = load %class.Node** %localHead, align 4
-  %head4 = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 0
-  %5 = load volatile %class.Node** %head4, align 4
+  %head3 = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 0
+  %5 = load volatile %class.Node** %head3, align 4
   %cmp = icmp eq %class.Node* %4, %5
-  br i1 %cmp, label %if.then, label %if.end14
+  br i1 %cmp, label %if.then, label %if.end13
 
 if.then:                                          ; preds = %do.body
   %6 = load %class.Node** %localHead, align 4
   %7 = load %class.Node** %localTail, align 4
-  %cmp5 = icmp eq %class.Node* %6, %7
-  br i1 %cmp5, label %if.then6, label %if.else
+  %cmp4 = icmp eq %class.Node* %6, %7
+  br i1 %cmp4, label %if.then5, label %if.else
 
-if.then6:                                         ; preds = %if.then
+if.then5:                                         ; preds = %if.then
   %8 = load %class.Node** %next, align 4
-  %cmp7 = icmp eq %class.Node* %8, null
-  br i1 %cmp7, label %if.then8, label %if.end
+  %cmp6 = icmp eq %class.Node* %8, null
+  br i1 %cmp6, label %if.then7, label %if.end
 
-if.then8:                                         ; preds = %if.then6
+if.then7:                                         ; preds = %if.then5
   store i1 false, i1* %retval
   br label %return
 
-if.end:                                           ; preds = %if.then6
-  %tail9 = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 1
-  %9 = bitcast %class.Node** %tail9 to i32*
+if.end:                                           ; preds = %if.then5
+  %tail8 = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 1
+  %9 = bitcast %class.Node** %tail8 to i32*
   %10 = load %class.Node** %localTail, align 4
   %11 = ptrtoint %class.Node* %10 to i32
   %12 = load %class.Node** %next, align 4
   %13 = ptrtoint %class.Node* %12 to i32
   %14 = cmpxchg i32* %9, i32 %11, i32 %13 seq_cst
   %15 = icmp eq i32 %14, %11
-  br label %if.end13
+  br label %if.end12
 
 if.else:                                          ; preds = %if.then
   %16 = load %class.Node** %next, align 4
@@ -243,36 +242,36 @@ if.else:                                          ; preds = %if.then
   %17 = load i32* %val, align 4
   %18 = load i32** %value.addr, align 4
   store i32 %17, i32* %18, align 4
-  %head10 = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 0
-  %19 = bitcast %class.Node** %head10 to i32*
+  %head9 = getelementptr inbounds %class.MSQueue* %this1, i32 0, i32 0
+  %19 = bitcast %class.Node** %head9 to i32*
   %20 = load %class.Node** %localHead, align 4
   %21 = ptrtoint %class.Node* %20 to i32
   %22 = load %class.Node** %next, align 4
   %23 = ptrtoint %class.Node* %22 to i32
   %24 = cmpxchg i32* %19, i32 %21, i32 %23 seq_cst
   %25 = icmp eq i32 %24, %21
-  br i1 %25, label %if.then11, label %if.end12
+  br i1 %25, label %if.then10, label %if.end11
 
-if.then11:                                        ; preds = %if.else
+if.then10:                                        ; preds = %if.else
   br label %do.end
 
-if.end12:                                         ; preds = %if.else
+if.end11:                                         ; preds = %if.else
+  br label %if.end12
+
+if.end12:                                         ; preds = %if.end11, %if.end
   br label %if.end13
 
-if.end13:                                         ; preds = %if.end12, %if.end
-  br label %if.end14
-
-if.end14:                                         ; preds = %if.end13, %do.body
+if.end13:                                         ; preds = %if.end12, %do.body
   br label %do.cond
 
-do.cond:                                          ; preds = %if.end14
+do.cond:                                          ; preds = %if.end13
   br i1 true, label %do.body, label %do.end
 
-do.end:                                           ; preds = %do.cond, %if.then11
+do.end:                                           ; preds = %do.cond, %if.then10
   store i1 true, i1* %retval
   br label %return
 
-return:                                           ; preds = %do.end, %if.then8
+return:                                           ; preds = %do.end, %if.then7
   %26 = load i1* %retval
   ret i1 %26
 }
