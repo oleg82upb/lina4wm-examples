@@ -12,20 +12,17 @@ const int arrayinit=10;
 
 typedef int KeySpace;
 typedef KeySpace keyType[arrayinit];
-typedef int genType[arrayinit];
 keyType key;
-genType gen;
 
 /**///const unique null: KeySpace;
 /**///axiom null == 0;
 
 int length=0;
 
-/* Preprocessors */
-bool Member(KeySpace);
-void Insert(KeySpace);
-void Delete(KeySpace);
-
+///* Preprocessors */
+//bool Member(KeySpace);
+//void Insert(KeySpace);
+//void Delete(KeySpace);
 
 bool Member(KeySpace x)
 {
@@ -70,15 +67,8 @@ void Insert(KeySpace x)
       i=i+1;
     }
     while(!added && nholes > 0){
-/**/// atomic open
-    {
-        added =(key[holes[nholes]]==0);
-        if(added) {
-          key[holes[nholes]] = x;
-        }
-    }
-/**/// atomic-close
-      nholes = nholes -1;
+        added = __sync_bool_compare_and_swap(&key[holes[nholes]], 0, x);      
+        nholes = nholes -1;
     }
     while(!added) {
 /**///    atomic-open
@@ -87,54 +77,67 @@ void Insert(KeySpace x)
         i=length;
       }
 /**///    atomic-close
-/**///    atomic-open
-      {
-        added =(key[i]==0);
-        if(added) {
-          key[i]=x;
-        }
-      }
-/**///    atomic-close
+        added = __sync_bool_compare_and_swap(&key[i],0,x);
     }
 /**///  assert added;
 }
+
+////// Delete-Precedure replaced, because of malfunction. //////
+//Old Code:
+/*
+procedure Delete(x: KeySpace)
+{
+  var mylength, i: int;
+  var todo: [int]int;
+  var gen: [int]int;
+  var ntodo: int;
+  var removed: bool;
+  var v: KeySpace;
+  var g: int;
+
+  assume x > 0;
+
+  ntodo := 0;
+
+  mylength := length;
+  i := 1;
+  while(i <= mylength) {
+    g := gen[i];
+    v := key[i];
+    if(v == null) { 
+      ntodo := ntodo + 1;
+      todo[ntodo] := i;
+      gen[ntodo] := g;
+    }
+    i := i + 1;
+  }
+
+  i := 0;
+  while(i <= ntodo) {
+    atomic {
+      removed := (gen[todo[i]] == gen[i]);
+      if(removed) {
+        key[todo[i]] := null;
+	gen[todo[i]] := gen[todo[i]] + 1;
+      }
+    }
+    i := i + 1;
+  }
+
+  assert removed;
+}
+*/
+
 
 void Delete(KeySpace x)
 {
     int i;
     int mylength;
-    int todo[length];
-    int gen[length];
-    int ntodo;
-    bool removed;
-    KeySpace v;
-    int g;
-/**///  assume x > 0;
-    ntodo = 0;
     mylength = length;
+    bool removed;
     i=1;
-    while(i<=mylength) {
-      g=gen[i];
-      v=key[i];
-      if(v==0){
-        ntodo = ntodo+1;
-        todo[ntodo]=i;
-        gen[ntodo] = g;
-      }
-      i=i+1;
+    while(!removed && i<=mylength) {
+       __sync_bool_compare_and_swap(&key[i],x,0);
+       i=i+1;
     }
-    i=0;
-    while(i<=ntodo) {
-/**///    atomic-open
-      {
-        removed = (gen[todo[i]]==gen[i]);
-        if(removed){
-          key[todo[i]]=0;
-          gen[todo[i]]=gen[todo[i]]+1;
-        }
-      }
-/**///    atomic-close
-      i=i+1;
-    }
-/**///  assert removed;
 }
