@@ -1,0 +1,10 @@
+The concrete representation used in all the algorithms is a sorted
+linked list representation. The list has two sentinel nodes: Head
+with value -inf and Tail with value +inf. Intermediate nodes are
+sorted in a strictly increasing order; thus, there are no duplicates.
+We assume all elements e to be added to or removed from the list
+are in the range -inf < e < +inf. Each node in the list is associated
+with a lock; a private method locate(e) locks and returns the two
+adjacent list nodes whose values enclose e. For brevity, we assume
+there is only one set in existence. This section is just an overview;
+the following one examines a challenging algorithm in detail.
