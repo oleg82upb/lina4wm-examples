@@ -1,0 +1,3 @@
+Proving Correctness of Highly-Concurrent Linearisable Objects
+Viktor Vafeiadis — Maurice Herlihy — Tony Hoare — Marc Shapiro
+10.1145/1122971.1122992
