@@ -1,0 +1,3 @@
+Harris, Timothy L. and Fraser, Keir and Pratt, Ian A.
+A Practical Multi-word Compare-and-Swap Operation
+ACM ID: 676137
