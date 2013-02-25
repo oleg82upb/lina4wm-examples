@@ -1,0 +1,2 @@
+O. Travkin, G. Schellhorn, H. Wehrheim
+Proving Linearizability of Multiset with Local Proof Obligations

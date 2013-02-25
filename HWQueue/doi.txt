@@ -1,0 +1,3 @@
+Herlihy, Maurice P. and Wing, Jeannette M.
+Linearizability: a correctness condition for concurrent objects
+10.1145/78969.78972
