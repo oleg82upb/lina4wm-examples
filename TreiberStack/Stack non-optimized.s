@@ -1,1 +1,195 @@
-; ModuleID = 'stack.cpp'target datalayout = "e-p:32:32:32-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:32:64-f32:32:32-f64:32:64-v64:64:64-v128:128:128-a0:0:64-f80:32:32-n8:16:32-S128"target triple = "i386-pc-linux-gnu"%class.Stack = type { %class.Node* }%class.Node = type { i32, %class.Node* }@_ZN5StackC1Ev = alias void (%class.Stack*)* @_ZN5StackC2Evdefine void @_ZN5StackC2Ev(%class.Stack* %this) unnamed_addr nounwind align 2 {entry:  %this.addr = alloca %class.Stack*, align 4  store %class.Stack* %this, %class.Stack** %this.addr, align 4  %this1 = load %class.Stack** %this.addr  %head = getelementptr inbounds %class.Stack* %this1, i32 0, i32 0  store volatile %class.Node* null, %class.Node** %head, align 4  ret void}; Stack::push(int v)define void @_ZN5Stack4pushEi(%class.Stack* %this, i32 %v) align 2 {entry:  %this.addr = alloca %class.Stack*, align 4  %v.addr = alloca i32, align 4					;allocate parameter v  %n = alloca %class.Node*, align 4				;allocate variable n*  %ss = alloca %class.Node*, align 4			;allocate parameter ss*  %exn.slot = alloca i8*						;deref.  %ehselector.slot = alloca i32					;deref.  store %class.Stack* %this, %class.Stack** %this.addr, align 4		;**this = *this;  store i32 %v, i32* %v.addr, align 4								;25 *v = v;  %this1 = load %class.Stack** %this.addr							;Laden der Klasse  %call = call noalias i8* @_Znwj(i32 8)							;declare @_Znwj ??? leerer Deklarations-Aufruf  %0 = bitcast i8* %call to %class.Node*							;Umwandlung auf Node*   invoke void @_ZN4NodeC1Ev(%class.Node* %0)						;new Node() ???          to label %invoke.cont unwind label %lpadinvoke.cont:                                      ; preds = %entry  store %class.Node* %0, %class.Node** %n, align 4					;n = new Node(); Zuweisung des neuen Nodes an n*  %1 = load i32* %v.addr, align 4									; load v  %2 = load %class.Node** %n, align 4								; load n  %val = getelementptr inbounds %class.Node* %2, i32 0, i32 0		; Pointer-Berechnung n->val  store i32 %1, i32* %val, align 4									;Zuweisung n->val = v;  br label %do.bodydo.body:                                          ; preds = %do.cond, %invoke.cont  %head = getelementptr inbounds %class.Stack* %this1, i32 0, i32 0	; head-Pointer   %3 = load volatile %class.Node** %head, align 4					; volatile load von head*  store %class.Node* %3, %class.Node** %ss, align 4					; Zuweisung von geladenem head an ss  %4 = load %class.Node** %ss, align 4								; lade ss nochmal  %5 = load %class.Node** %n, align 4								; lade n  %next = getelementptr inbounds %class.Node* %5, i32 0, i32 1		; pointer auf next berechnen  store %class.Node* %4, %class.Node** %next, align 4				; next auf ss setzen  br label %do.conddo.cond:                                          ; preds = %do.body  %head2 = getelementptr inbounds %class.Stack* %this1, i32 0, i32 0	; head-Pointer  %6 = bitcast %class.Node** %head2 to i32*								; Pointer von head-Pointer  %7 = load %class.Node** %ss, align 4									; lade ss  %8 = ptrtoint %class.Node* %7 to i32									; ptrtoint ss  %9 = load %class.Node** %n, align 4									; lade n  %10 = ptrtoint %class.Node* %9 to i32									; ptrtoint n  %11 = cmpxchg i32* %6, i32 %8, i32 %10 seq_cst						; CAS(head, ss, n): head == ss, then %11 = ss  %12 = icmp eq i32 %11, %8												; ss == CAS(...): CAS erfolgreich?  %conv = zext i1 %12 to i32											; bool auf Int bringen  %cmp = icmp eq i32 0, %conv											; CAS-Rückgabewert == 0 ?  br i1 %cmp, label %do.body, label %do.end								; CAS failed -> Body else Enddo.end:                                           ; preds = %do.cond  ret void; Exceptions handling e.g. OutOfMemorylpad:                                             ; preds = %entry  %13 = landingpad { i8*, i32 } personality i8* bitcast (i32 (...)* @__gxx_personality_v0 to i8*)          cleanup  %14 = extractvalue { i8*, i32 } %13, 0  store i8* %14, i8** %exn.slot  %15 = extractvalue { i8*, i32 } %13, 1  store i32 %15, i32* %ehselector.slot  call void @_ZdlPv(i8* %call) nounwind  br label %eh.resumeeh.resume:                                        ; preds = %lpad  %exn = load i8** %exn.slot  %sel = load i32* %ehselector.slot  %lpad.val = insertvalue { i8*, i32 } undef, i8* %exn, 0  %lpad.val3 = insertvalue { i8*, i32 } %lpad.val, i32 %sel, 1  resume { i8*, i32 } %lpad.val3}declare noalias i8* @_Znwj(i32);new Node(), ruft 2. Konstruktor aufdefine linkonce_odr void @_ZN4NodeC1Ev(%class.Node* %this) unnamed_addr align 2 {entry:  %this.addr = alloca %class.Node*, align 4  store %class.Node* %this, %class.Node** %this.addr, align 4  %this1 = load %class.Node** %this.addr  call void @_ZN4NodeC2Ev(%class.Node* %this1)  ret void}declare i32 @__gxx_personality_v0(...)declare void @_ZdlPv(i8*) nounwind; Node* Stack::pop()define %class.Node* @_ZN5Stack3popEv(%class.Stack* %this) nounwind align 2 {entry:  %retval = alloca %class.Node*, align 4				; alloc retval Variable  %this.addr = alloca %class.Stack*, align 4			; alloc lokale Referenz-Variable auf Stack-Objekt  %ss = alloca %class.Node*, align 4					; alloc ss Variable  %ssn = alloca %class.Node*, align 4					; alloc ssn Variable  store %class.Stack* %this, %class.Stack** %this.addr, align 4		;Zuweisung des this-Objekts an this.addr  %this1 = load %class.Stack** %this.addr				; lade this  br label %do.bodydo.body:                                          ; preds = %do.cond, %entry  %head = getelementptr inbounds %class.Stack* %this1, i32 0, i32 0 	;hole head-Adresse  %0 = load volatile %class.Node** %head, align 4						; lade head Wert aus Speicher  store %class.Node* %0, %class.Node** %ss, align 4						; ss = head;  %1 = load %class.Node** %ss, align 4									; lade ss  %cmp = icmp eq %class.Node* %1, null									; ss == null ?  br i1 %cmp, label %if.then, label %if.end								; ss == null -> if.then else if.endif.then:                                          ; preds = %do.body  store %class.Node* null, %class.Node** %retval						; retval = null  br label %return														; returnif.end:                                           ; preds = %do.body  %2 = load %class.Node** %ss, align 4									; lade ss  %next = getelementptr inbounds %class.Node* %2, i32 0, i32 1			; Dereferenziere ss->next  %3 = load %class.Node** %next, align 4								; lade next  store %class.Node* %3, %class.Node** %ssn, align 4					; speichere ssn = ss->next  br label %do.cond														; do.conddo.cond:                                          ; preds = %if.end  %head2 = getelementptr inbounds %class.Stack* %this1, i32 0, i32 0	; head-Pointer holen  %4 = bitcast %class.Node** %head2 to i32*								; Pointer von head-Pointer holen  %5 = load %class.Node** %ss, align 4									; lade ss  %6 = ptrtoint %class.Node* %5 to i32									; ptrtoint ss  %7 = load %class.Node** %ssn, align 4									; lade ssn  %8 = ptrtoint %class.Node* %7 to i32									; ptrtoint ssn  %9 = cmpxchg i32* %4, i32 %6, i32 %8 seq_cst							; CAS(head, ss, ssn)  %10 = icmp eq i32 %9, %6												; CAS(..) erfolgreich ??  %conv = zext i1 %10 to i32											; bool auf int erweitern mit 0en  %cmp3 = icmp eq i32 0, %conv											; CAS-Rückgabewert == false  br i1 %cmp3, label %do.body, label %do.end							; CAS nicht erfolgreich, dann wieder BODY, sonst Endedo.end:                                           ; preds = %do.cond  %11 = load %class.Node** %ss, align 4  store %class.Node* %11, %class.Node** %retval  br label %returnreturn:                                           ; preds = %do.end, %if.then  %12 = load %class.Node** %retval  ret %class.Node* %12};new Node():val(0){}define linkonce_odr void @_ZN4NodeC2Ev(%class.Node* %this) unnamed_addr nounwind align 2 {entry:  %this.addr = alloca %class.Node*, align 4  store %class.Node* %this, %class.Node** %this.addr, align 4  %this1 = load %class.Node** %this.addr  %val = getelementptr inbounds %class.Node* %this1, i32 0, i32 0  store i32 0, i32* %val, align 4			;Initialisierung von val mit 0  ret void}
+; ModuleID = 'stack.cpp'
+target datalayout = "e-p:32:32:32-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:32:64-f32:32:32-f64:32:64-v64:64:64-v128:128:128-a0:0:64-f80:32:32-n8:16:32"
+target triple = "i386-linux-gnu"
+
+%struct.Node = type { i32, %struct.Node* }
+%struct.Stack = type { %struct.Node* }
+
+define void @_ZN5StackC2Ev( %struct.Stack* %this) nounwind align 2 {
+entry:
+  %this_addr = alloca %struct.Stack*              ; <%struct.Stack**> [#uses=2]
+  %"alloca point" = bitcast i32 0 to i32          ; <i32> [#uses=0]
+  store %struct.Stack* %this, %struct.Stack** %this_addr
+  %0 = load %struct.Stack** %this_addr, align 4   ; <%struct.Stack*> [#uses=1]
+  %1 = getelementptr inbounds %struct.Stack* %0, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
+  volatile store %struct.Node* null, %struct.Node** %1, align 4
+  br label %return
+
+return:                                           ; preds = %entry
+  ret void
+}
+
+define linkonce_odr void @_ZN4NodeC1Ev( %struct.Node* %this) nounwind align 2 {
+entry:
+  %this_addr = alloca %struct.Node*               ; <%struct.Node**> [#uses=2]
+  %"alloca point" = bitcast i32 0 to i32          ; <i32> [#uses=0]
+  store %struct.Node* %this, %struct.Node** %this_addr
+  %0 = load %struct.Node** %this_addr, align 4    ; <%struct.Node*> [#uses=1]
+  %1 = getelementptr inbounds %struct.Node* %0, i32 0, i32 0 ; <i32*> [#uses=1]
+  store i32 0, i32* %1, align 4
+  br label %return
+
+return:                                           ; preds = %entry
+  ret void
+}
+
+define void @_ZN5StackC1Ev( %struct.Stack* %this) nounwind align 2 {
+entry:
+  %this_addr = alloca %struct.Stack*              ; <%struct.Stack**> [#uses=2]
+  %"alloca point" = bitcast i32 0 to i32          ; <i32> [#uses=0]
+  store %struct.Stack* %this, %struct.Stack** %this_addr
+  %0 = load %struct.Stack** %this_addr, align 4   ; <%struct.Stack*> [#uses=1]
+  %1 = getelementptr inbounds %struct.Stack* %0, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
+  volatile store %struct.Node* null, %struct.Node** %1, align 4
+  br label %return
+
+return:                                           ; preds = %entry
+  ret void
+}
+
+define i32 @main() nounwind {
+entry:
+  %retval = alloca i32                            ; <i32*> [#uses=2]
+  %0 = alloca i32                                 ; <i32*> [#uses=2]
+  %"alloca point" = bitcast i32 0 to i32          ; <i32> [#uses=0]
+  store i32 0, i32* %0, align 4
+  %1 = load i32* %0, align 4                      ; <i32> [#uses=1]
+  store i32 %1, i32* %retval, align 4
+  br label %return
+
+return:                                           ; preds = %entry
+  %retval1 = load i32* %retval                    ; <i32> [#uses=1]
+  ret i32 %retval1
+}
+
+define %struct.Node* @_ZN5Stack3popEv( %struct.Stack* %this) nounwind align 2 {
+entry:
+  %this_addr = alloca %struct.Stack*              ; <%struct.Stack**> [#uses=3]
+  %retval = alloca %struct.Node*                  ; <%struct.Node**> [#uses=2]
+  %0 = alloca %struct.Node*                       ; <%struct.Node**> [#uses=3]
+  %retval.5 = alloca i8                           ; <i8*> [#uses=2]
+  %ss = alloca %struct.Node*                      ; <%struct.Node**> [#uses=5]
+  %ssn = alloca %struct.Node*                     ; <%struct.Node**> [#uses=2]
+  %lv = alloca %struct.Node*                      ; <%struct.Node**> [#uses=0]
+  %"alloca point" = bitcast i32 0 to i32          ; <i32> [#uses=0]
+  store %struct.Stack* %this, %struct.Stack** %this_addr
+  br label %bb
+
+bb:                                               ; preds = %bb2, %entry
+  %1 = load %struct.Stack** %this_addr, align 4   ; <%struct.Stack*> [#uses=1]
+  %2 = getelementptr inbounds %struct.Stack* %1, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
+  %3 = volatile load %struct.Node** %2, align 4   ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %3, %struct.Node** %ss, align 4
+  %4 = load %struct.Node** %ss, align 4           ; <%struct.Node*> [#uses=1]
+  %5 = icmp eq %struct.Node* %4, null             ; <i1> [#uses=1]
+  br i1 %5, label %bb1, label %bb2
+
+bb1:                                              ; preds = %bb
+  store %struct.Node* null, %struct.Node** %0, align 4
+  br label %bb6
+
+bb2:                                              ; preds = %bb
+  %6 = load %struct.Node** %ss, align 4           ; <%struct.Node*> [#uses=1]
+  %7 = getelementptr inbounds %struct.Node* %6, i32 0, i32 1 ; <%struct.Node**> [#uses=1]
+  %8 = load %struct.Node** %7, align 4            ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %8, %struct.Node** %ssn, align 4
+  %9 = load %struct.Node** %ssn, align 4          ; <%struct.Node*> [#uses=1]
+  %10 = ptrtoint %struct.Node* %9 to i32          ; <i32> [#uses=1]
+  %11 = load %struct.Node** %ss, align 4          ; <%struct.Node*> [#uses=1]
+  %12 = ptrtoint %struct.Node* %11 to i32         ; <i32> [#uses=2]
+  %13 = load %struct.Stack** %this_addr, align 4  ; <%struct.Stack*> [#uses=1]
+  %14 = getelementptr inbounds %struct.Stack* %13, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
+  %15 = bitcast %struct.Node** %14 to i32*        ; <i32*> [#uses=1]
+  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
+  %16 = call i32 @llvm.atomic.cmp.swap.i32.p0i32(i32* %15, i32 %12, i32 %10) ; <i32> [#uses=1]
+  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
+  %17 = icmp eq i32 %16, %12                      ; <i1> [#uses=1]
+  %18 = zext i1 %17 to i8                         ; <i8> [#uses=1]
+  %toBool = icmp ne i8 %18, 0                     ; <i1> [#uses=1]
+  %toBoolnot = xor i1 %toBool, true               ; <i1> [#uses=1]
+  %toBoolnot3 = zext i1 %toBoolnot to i8          ; <i8> [#uses=1]
+  store i8 %toBoolnot3, i8* %retval.5, align 1
+  %19 = load i8* %retval.5, align 1               ; <i8> [#uses=1]
+  %toBool4 = icmp ne i8 %19, 0                    ; <i1> [#uses=1]
+  br i1 %toBool4, label %bb, label %bb5
+
+bb5:                                              ; preds = %bb2
+  %20 = load %struct.Node** %ss, align 4          ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %20, %struct.Node** %0, align 4
+  br label %bb6
+
+bb6:                                              ; preds = %bb5, %bb1
+  %21 = load %struct.Node** %0, align 4           ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %21, %struct.Node** %retval, align 4
+  br label %return
+
+return:                                           ; preds = %bb6
+  %retval7 = load %struct.Node** %retval          ; <%struct.Node*> [#uses=1]
+  ret %struct.Node* %retval7
+}
+
+declare void @llvm.memory.barrier(i1, i1, i1, i1, i1) nounwind
+
+declare i32 @llvm.atomic.cmp.swap.i32.p0i32(i32* nocapture, i32, i32) nounwind
+
+define void @_ZN5Stack4pushEi( %struct.Stack* %this, i32 %v) align 2 {
+entry:
+  %this_addr = alloca %struct.Stack*              ; <%struct.Stack**> [#uses=3]
+  %v_addr = alloca i32                            ; <i32*> [#uses=2]
+  %retval.0 = alloca i8                           ; <i8*> [#uses=2]
+  %0 = alloca %struct.Node*                       ; <%struct.Node**> [#uses=3]
+  %n = alloca %struct.Node*                       ; <%struct.Node**> [#uses=4]
+  %ss = alloca %struct.Node*                      ; <%struct.Node**> [#uses=3]
+  %"alloca point" = bitcast i32 0 to i32          ; <i32> [#uses=0]
+  store %struct.Stack* %this, %struct.Stack** %this_addr
+  store i32 %v, i32* %v_addr
+  %1 = call i8* @_Znwj(i32 8)                     ; <i8*> [#uses=1]
+  %2 = bitcast i8* %1 to %struct.Node*            ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %2, %struct.Node** %0, align 4
+  %3 = load %struct.Node** %0, align 4            ; <%struct.Node*> [#uses=1]
+  call void @_ZN4NodeC1Ev( %struct.Node* %3) nounwind
+  %4 = load %struct.Node** %0, align 4            ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %4, %struct.Node** %n, align 4
+  %5 = load %struct.Node** %n, align 4            ; <%struct.Node*> [#uses=1]
+  %6 = getelementptr inbounds %struct.Node* %5, i32 0, i32 0 ; <i32*> [#uses=1]
+  %7 = load i32* %v_addr, align 4                 ; <i32> [#uses=1]
+  store i32 %7, i32* %6, align 4
+  br label %bb
+
+bb:                                               ; preds = %bb, %entry
+  %8 = load %struct.Stack** %this_addr, align 4   ; <%struct.Stack*> [#uses=1]
+  %9 = getelementptr inbounds %struct.Stack* %8, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
+  %10 = volatile load %struct.Node** %9, align 4  ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %10, %struct.Node** %ss, align 4
+  %11 = load %struct.Node** %n, align 4           ; <%struct.Node*> [#uses=1]
+  %12 = getelementptr inbounds %struct.Node* %11, i32 0, i32 1 ; <%struct.Node**> [#uses=1]
+  %13 = load %struct.Node** %ss, align 4          ; <%struct.Node*> [#uses=1]
+  store %struct.Node* %13, %struct.Node** %12, align 4
+  %14 = load %struct.Node** %n, align 4           ; <%struct.Node*> [#uses=1]
+  %15 = ptrtoint %struct.Node* %14 to i32         ; <i32> [#uses=1]
+  %16 = load %struct.Node** %ss, align 4          ; <%struct.Node*> [#uses=1]
+  %17 = ptrtoint %struct.Node* %16 to i32         ; <i32> [#uses=2]
+  %18 = load %struct.Stack** %this_addr, align 4  ; <%struct.Stack*> [#uses=1]
+  %19 = getelementptr inbounds %struct.Stack* %18, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
+  %20 = bitcast %struct.Node** %19 to i32*        ; <i32*> [#uses=1]
+  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
+  %21 = call i32 @llvm.atomic.cmp.swap.i32.p0i32(i32* %20, i32 %17, i32 %15) ; <i32> [#uses=1]
+  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
+  %22 = icmp eq i32 %21, %17                      ; <i1> [#uses=1]
+  %23 = zext i1 %22 to i8                         ; <i8> [#uses=1]
+  %toBool = icmp ne i8 %23, 0                     ; <i1> [#uses=1]
+  %toBoolnot = xor i1 %toBool, true               ; <i1> [#uses=1]
+  %toBoolnot1 = zext i1 %toBoolnot to i8          ; <i8> [#uses=1]
+  store i8 %toBoolnot1, i8* %retval.0, align 1
+  %24 = load i8* %retval.0, align 1               ; <i8> [#uses=1]
+  %toBool2 = icmp ne i8 %24, 0                    ; <i1> [#uses=1]
+  br i1 %toBool2, label %bb, label %bb3
+
+bb3:                                              ; preds = %bb
+  br label %return
+
+return:                                           ; preds = %bb3
+  ret void
+}
+
+declare i8* @_Znwj(i32)
