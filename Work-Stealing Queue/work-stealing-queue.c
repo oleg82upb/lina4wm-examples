@@ -2,21 +2,16 @@
 *---------------------------------------------------------------------
 *author: Annika Mütze muetze.annika@gmail.com
 *date: Oktober 2013
-*Subject:workstealing queue C-Implementation
+*Subject:workstealing queue (Chase-Lev) C-Implementation
 *---------------------------------------------------------------------
 */
 #define CAS(_ptr, _old, _new)  __sync_bool_compare_and_swap(_ptr, _old, _new)
-
 #include "stdlib.h"
-#include "stdio.h"
 
 #define EMPTY 42
 #define ABORT 1334
 
-void fence (char* text){
-	printf("%s \n", text);
-}
-
+/*Typ declaration which allows metadata for queue*/
 typedef struct{
 	long size;
 	int *ap;
@@ -24,7 +19,8 @@ typedef struct{
 
 long top, bottom;
 item_t *wsq = NULL;
-	
+
+/*expand if Array has just one empty slot left*/	
 item_t* expand(){
 	int newsize = wsq->size * 2;
 	int * newitems = (int*) malloc (newsize*sizeof(int));
@@ -35,9 +31,7 @@ item_t* expand(){
 	}
 	newq->size = newsize;
 	newq->ap = newitems;
-	fence("store-store");
 	wsq = newq;
-	printf("Ich bin am Ende von expand!\n");
 	return newq;
 }
 
@@ -45,17 +39,11 @@ item_t* expand(){
 void push (int task){
 	long b = bottom;
 	long t = top;
-	printf("b: %ld\n, t: %ld\n",b,t);
 	item_t* q = wsq;
-	printf("q->size: %ld\n", q->size);
-	printf("nach der Pointer zuweisung\n");
 	if(b-t >= q->size-1){
-		printf("Ich bin im if statement\n");
 		q = expand();
 	}
-	printf("if ende oder kein if\n");
 	q->ap[b % q->size] = task;		//q->size muss  != 0 sein!
-	fence("store-store");
 	bottom = b + 1;
 }
 
@@ -63,7 +51,6 @@ int take(){
 	long b = bottom -1;
 	item_t* q = wsq;
 	bottom = b;
-	fence("store-load");
 	long t = top;
 	if(b < t){
 		bottom = t;
@@ -80,22 +67,20 @@ int take(){
 	bottom = t+1;
 	return task;
 }
+
+
 int steal(){
 	long t = top;
-	fence("load-load");
 	long b = bottom;
-	fence("load-load");
 	item_t* q = wsq;
 	if (t >= b){
 		return EMPTY;
 	}
 	int task;
 	task = q->ap[t % q->size];
-	fence("load-store");
 	if(!CAS(&top, t, t+1)){
 		return ABORT;
 	}
-	printf("Ich bin am Ende von steal()\n");
 	return task;
 }
 
@@ -104,18 +89,13 @@ int main(int argc, char** argv){
 	wsq->size = 1;
 	wsq->ap = NULL;
 	
-	//printf("wsq->size: %ld\n", wsq->size); 
-	
-	int bla, blub;
-	push(65);
-	push(45);
-	push(23);
-	printf("push fertig\n");
-	bla = take();
-	printf("take: %d\n",bla);
-	blub = steal();
-	printf("steal: %d\n",blub);
-
+	/*
+		int i;
+		push(65);
+		for(i=0; i<wsq->size;i++){
+			printf("Queue[%d]: %d\n", i,wsq->ap[i]);
+		}
+	*/
 	free(wsq);
 	return 0;
 }
