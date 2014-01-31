@@ -62,7 +62,8 @@ int take(){
 		return task;
 	}
 	if (!CAS(&top, t, t+1)){
-		return EMPTY;
+		task = EMPTY;				//corrected the mistake in the paper written by Kupferstein, ... not allowed to return here, need to change bottom
+
 	}
 	bottom = t+1;
 	return task;
@@ -89,13 +90,7 @@ int main(int argc, char** argv){
 	wsq->size = 1;
 	wsq->ap = NULL;
 	
-	/*
-		int i;
-		push(65);
-		for(i=0; i<wsq->size;i++){
-			printf("Queue[%d]: %d\n", i,wsq->ap[i]);
-		}
-	*/
+	
 	free(wsq);
 	return 0;
 }
