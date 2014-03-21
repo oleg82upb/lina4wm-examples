@@ -2,7 +2,7 @@
 author: Annika Mütze <muetze.annika@gmail.com>
 date: 03.2014
 
-Burns Mutex SepOps based onSpezification in KIV
+Burns Mutex SepOps based on specification in KIV
 */
 
 #define BUFF_SIZE 2 	//size of Buffer
@@ -18,86 +18,97 @@ Burns Mutex SepOps based onSpezification in KIV
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
 
-short whoIsInCritical = 0; // 0 = nobody, 1 = process1, 2 = process2
-//reicht eig nicht
-hidden short ls = 0; // 0 = neutral, 1 = P1A1, 2= P1A2, 3 = P1A3 // local declaration in process?
-hidden short ls2 = 0;
+bool M1,M2;
 
 inline p1_aq()
 {
-	bool v0;
-Invop:
-entry:
-printf("Processid : %d", _pid);
-	assert( _pid == 1 && whoIsInCritical != 1 && memory[f0] == 0);
-//ls1=1;
-	write(f0,1);
-	mfence();
-p1a1: assert(ls1 == 1 && memory[f0] == 1);
-//ls1=2	
-p1a2:
-whileCond:
-	readLP(f1, v0, 1);
-	if
-	:: v0 != 0 ->	//ls = 2;
-					goto whileCond;
-	::else ->//ls = 3; 
-			skip;
-	fi;	
-p1aR:
-	ls = 0;
+//N:
+	bool n1; //local Variable
+P1A1:
+	atomic{ //entry:
+		write(f0,1);
+		mfence();
+	assert( memory[f0] == 1);
+	}
+
+P1A2: atomic {
+	//whileCond:
+		readLP(f1, n0, 1);
+		if
+			:: n0 == 0 -> M1 = 1; goto P1A3;
+			:: else -> goto P1A2; //whileCond;
+		fi;	
+	}
+P1A3: //skip;
+//N:
+
 }
 
 inline p1_rel()
 {	
-relP1I: assert( ls == 0 && memory[f0] = 1);
-	//ls = R1;
-relP11:	writeLP(f0, 0);
-	assert(memory[f0] == 0);
-	//ls = R2;
-relP1R:
-	//ls = 0;
+//N: 
+	assert(memory[f0] = 1);
+R1: atomic{
+		writeLP(f0, 0);
+		M1 = 0;
+	}
+	
+R2: //skip;
+//N:
 }
 
 inline p2_aq()
 {
-	bool v0, v1;
-p2aI:
-	assert (ls2 == 0 && memory[f1] == 0);
-	//ls2 = 1;
-
-retry:
-p2aq1:
-	read(f0, v0);
-	if
-	:: (v0 != 0) ->  // ls2 = 1;
-					goto retry;
-	:: else ->  //ls2 = 2;
-				skip;
-	fi;
-
-whileEnd:
-p2a2:
-	atomic{	//ls2 = 3;
-	write(f1, 1);
+//N: 
+	atomic {
+		bool n0, v1;
+		assert ( memory[f1] == 0);
 	}
-	mfence();
-	readLP(f0, v1, 2);
-	if
-	:: v1 != 0 ->//ls = 4;
-p2a4:			 atomic{
-				 	write(f1, 0);
-				 	//ls = 1;
-				 }
-				 goto retry;
-	::else -> //ls2 = 8;
-p2a8:			 atomic{
-					skip;
-					//ls2 = 0;
-				}
-	fi;
 	
-}
+P2A1	
+//retry:
+	read(f0, n0);
+	if
+	:: (v0 == 0) -> goto P2A2;
+	:: else -> goto P2A1; //goto retry
+	fi;
+
+//whileEnd:
+P2A2:	atomic{
+			write(f1, 1);
+			mfence();
+		}
+P2A3:	atomic {
+			readLP(f0, n0, 2);
+			if
+				:: n0 == 0 -> M2 = 1; goto P2A8		
+				:: else -> 	if
+							:: true -> goto P2A4 
+							:: true -> goto P2A5 
+							fi;	
+			fi;
+		}
+P2A4:	atomic{
+			write(f1, 0);
+			goto P2A1;	
+		}
+P2A5:  
+//ToDo p2a5, why can in p2a5 mem[f0] be 1  does it change inbetween?????
+
+P2A6:	atomic{
+			write(f1, 0);
+			//fence necessary here?
+			goto P2A2;	
+		}
+
+P2A7: 	atomic{
+			write(f1, 0);
+			goto P2A1;	
+		}
+
+P2A8: //skip;
+//N;
+}	
 
 inline p2_rel()
 {
