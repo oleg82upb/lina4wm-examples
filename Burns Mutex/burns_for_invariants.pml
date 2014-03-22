@@ -92,8 +92,14 @@ P2A4:	atomic{
 			write(f1, 0);
 			goto P2A1;	
 		}
-P2A5:  
-//ToDo p2a5, why can in p2a5 mem[f0] be 1  does it change inbetween?????
+P2A5:	atomic{
+			read(f0, n0)  //LP?????
+			if
+				:: n0 == 0 -> goto P2A6;
+				:: n0 == 1 -> goto P2A5;
+				:: n0 == 1 -> goto P2A7;
+				//do I need a skip-statement as else branch?
+			fi;
 
 P2A6:	atomic{
 			write(f1, 0);
@@ -112,8 +118,16 @@ P2A8: //skip;
 
 inline p2_rel()
 {
-	writeLP(f1,0);
+//N:
+	assert(memory[f1] = 1);
+R1: atomic{
+		writeLP(f1, 0);
+		M2 = 0;
+	}
+R2: //skip;
+//N:
 }
+
 //----------------------------------------------------------------------
 
 proctype process1(chan ch){
