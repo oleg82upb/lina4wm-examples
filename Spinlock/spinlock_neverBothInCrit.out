@@ -1,0 +1,104 @@
+verification result:
+spin -a  spinlock_llvm.pml
+gcc -DMEMLIM=1024 -O2 -DXUSAFE -DSAFETY -DNOCLAIM -w -o pan pan.c
+./pan -m10000  -n
+Pid: 3575
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	- (not selected)
+	assertion violations	+
+	cycle checks       	- (disabled by -DSAFETY)
+	invalid end states	+
+
+State-vector 332 byte, depth reached 62, errors: 0
+      342 states, stored
+      258 states, matched
+      600 transitions (= stored+matched)
+      782 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.117	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.363	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.827	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+No errors found -- did you verify all claims?
+spin -a  spinlock_llvm.pml
+gcc -DMEMLIM=1024 -O2 -DXUSAFE -DSAFETY -DNOCLAIM -w -o pan pan.c
+./pan -m10000  -n
+Pid: 4070
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	- (not selected)
+	assertion violations	+
+	cycle checks       	- (disabled by -DSAFETY)
+	invalid end states	+
+
+State-vector 200 byte, depth reached 62, errors: 0
+      342 states, stored
+      258 states, matched
+      600 transitions (= stored+matched)
+      782 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.074	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.265	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+No errors found -- did you verify all claims?
+spin -a  spinlock_llvm.pml
+ltl neverBothInCrit: [] (! (((process1@critical_sec)) && ((process2@critical_sec))))
+gcc -DMEMLIM=1024 -O2 -DXUSAFE -w -o pan pan.c
+./pan -m10000  -a -n -N neverBothInCrit
+Pid: 4594
+warning: only one claim defined, -N ignored
+pan:1: assertion violated  !( !( !(((process1._p==critical_sec)&&(process2._p==critical_sec))))) (at depth 70)
+pan: wrote spinlock_llvm.pml.trail
+
+(Spin Version 6.2.4 -- 8 March 2013)
+Warning: Search not completed
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (neverBothInCrit)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 208 byte, depth reached 126, errors: 1
+      340 states, stored
+      309 states, matched
+      649 transitions (= stored+matched)
+      922 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.077	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.263	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+To replay the error-trail, goto Simulate/Replay and select "Run"
+
+
