@@ -67,15 +67,15 @@ inline casLPPop(adr, oldValue, newValue, success)
 {
 	// 2 steps for the executing process, but atomic on memory
 	//bit success;
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
+	
 	ch ? iCas, adr, success, _; 
 	//returnValue = success;
 	if 
 		:: success -> asPop(oldValue, success); //if successfull, then the popped value is the oldValue
 		:: else -> skip;
 	fi
-	 
 	}
 }
 
@@ -83,8 +83,9 @@ inline casLPPush(adr, oldValue, newValue, success, controlValue)
 {
 	// 2 steps for the executing process, but atomic on memory
 	//bit success;
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
+	
 	ch ? iCas, adr, success, _; 
 	//returnValue = success;
 	if 	:: success -> asPush(controlValue);
@@ -259,9 +260,10 @@ proctype process1(chan ch){
 proctype process2(chan ch){
 	short returnvalue2;
 	//push(this, 555);
+	pop(returnvalue2);
 	//push(this, 111);
 	pop(returnvalue2);
-	pop(returnvalue2);
+	
 	pop(returnvalue2);
 	//push(this, 999);
 	pop(returnvalue2);

@@ -11,8 +11,8 @@
  short owner = -1;	//initial set to -1, means no process is in its critical section
  
 inline casLPAquire(adr, oldValue, newValue, successBit){
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, adr, successBit, _; 
 	if 	
 	:: successBit -> asAquire();
@@ -23,8 +23,8 @@ inline casLPAquire(adr, oldValue, newValue, successBit){
 
 
 inline casLPTry(adr, oldValue, newValue, successBit){
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, adr, successBit, _;
 	if 	
 	:: successBit -> asAquire();
@@ -153,35 +153,45 @@ proctype process1 (chan ch){
 		:: returnvalue -> release();
 		::else ->skip
 		fi;
-	od;;
+	od;
 }
 
 proctype process2 (chan ch){
 	bit returnvalue;
-	do::
-	tryaquire(returnvalue);
-	if
-	:: returnvalue -> release();
-	::else ->skip
-	fi;
+	do ::
+	aquire();
+	release();
+	:: tryaquire(returnvalue);
+		if
+		:: returnvalue -> release();
+		::else ->skip
+		fi;
 	od;
 }
 
 proctype process3 (chan ch){
+	bit returnvalue;
 	do ::
 	aquire();
 	release();
-	od;;
+	:: tryaquire(returnvalue);
+		if
+		:: returnvalue -> release();
+		::else ->skip
+		fi;
+	od;
 }
 
 proctype process4 (chan ch){
 	bit returnvalue;
-	do::
-	tryaquire(returnvalue);
-	if
-	:: returnvalue -> release();
-	::else ->skip
-	fi;
+	do ::
+	aquire();
+	release();
+	:: tryaquire(returnvalue);
+		if
+		:: returnvalue -> release();
+		::else ->skip
+		fi;
 	od;
 }
 
@@ -190,7 +200,7 @@ init{
 atomic{
 	run process1(channelT1);
 	run bufferProcess(channelT1);
-	run process1(channelT2);
+	run process2(channelT2);
 	run bufferProcess(channelT2);
 	run process3(channelT3);
 	run bufferProcess(channelT3);

@@ -35,15 +35,17 @@ inline read(adr, target)
 
 inline mfence()
 {
+	atomic{
 	ch ! iMfence, NULL, NULL, NULL;
+	}
 }	
 
 inline cas(adr, oldValue, newValue, successBit) 
 {
 	// 2 steps for the executing process, but atomic on memory
 	
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, adr, successBit, _; 
 	}
 }
@@ -116,14 +118,15 @@ atomic{
 }
 
 inline mfenceB() {
+	atomic{
 	do
-	:: atomic{
+	:: 
 			if
 			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
 			::else -> flushB() 
-			fi
-		}
+			fi		
 	od
+	}
 }
 	
 inline casB() 

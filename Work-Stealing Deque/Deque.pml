@@ -40,8 +40,9 @@ inline asEmpty()
 
 inline casLP(age, v0, v1, casResult, task)
 {	
-	ch ! iCas, age, v0, v1;
 	atomic{
+	ch ! iCas, age, v0, v1;
+	
 	ch ? iCas, age, casResult, _;
 	if	:: casResult -> asPopBottom(task);
 		:: else -> skip;
@@ -84,8 +85,8 @@ inline casLPpopTop(age, v0, v5, casResult, task)
 {
 	// 2 steps for the executing process, but atomic on memory
 	
-	ch ! iCas, age, v0, v5;
 	atomic{
+	ch ! iCas, age, v0, v5;
 	ch ? iCas, age, casResult, _;
 	if 	:: casResult -> asPopTop(task); printf("popTop CAS success\n")
 		:: else -> skip;  //cas may fail non-deterministically
@@ -275,9 +276,8 @@ printf("inv popBottom");
 			:: else -> skip;
 		fi;
 		//read(newAge, v2);								//a compiled version would reload here
-		write(age, v1);s
-ret: skip;
-printf("ret popBottom");
+		write(age, v1);
+ret: printf("ret popBottom");
 }
 //---------------------------------------------------------------------------------------------------------------------------------------
 proctype process1(chan ch){

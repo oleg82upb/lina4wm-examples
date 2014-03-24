@@ -5,8 +5,8 @@ date: 02.2013
 abstract MSqueue implementation
 */
 
-#define BUFF_SIZE 9 	//size of Buffer
-#define MEM_SIZE 27	//size of memory
+#define BUFF_SIZE 7 	//size of Buffer
+#define MEM_SIZE 20	//size of memory
  
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 #include "x86_tso_buffer.pml"
@@ -74,14 +74,12 @@ inline asDequeue(asValue, asReturn)
 }
 
 
-inline casLPEnqueue(adr, oldValue, newValue, returnValue, controlValue) 
+inline casLPEnqueue(adr, oldValue, newValue, success, controlValue) 
 {
 	// 2 steps for the executing process, but atomic on memory
-	bit success;
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, adr, success, _; 
-	returnValue = success;
 	if 	:: success -> asEnqueue(controlValue);
 		:: else -> skip;
 	fi
@@ -89,14 +87,12 @@ inline casLPEnqueue(adr, oldValue, newValue, returnValue, controlValue)
 }
 
 
-inline casLPDequeue(adr, oldValue, newValue, returnValue) 
+inline casLPDequeue(adr, oldValue, newValue, success) 
 {
 	// 2 steps for the executing process, but atomic on memory
-	bit success;
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, adr, success, _; 
-	returnValue = success;
 	if 
 		:: success -> asDequeue(newValue, success); //if successfull, then the dequeued value is the newValue
 		:: else -> skip;
@@ -247,7 +243,7 @@ entry:
 	->
 doBody:
 	getelementptr(Queue, this1, 0, ghead);
-	//check wether queue is empty?
+	//check whether queue is empty?
 	read(ghead, v0);
 	write(localHead, v0);
 	getelementptr(Queue, this1, 1, gtail);
@@ -260,7 +256,12 @@ doBody:
 	write(next, v3);
 	read(localHead, v4);
 	getelementptr(Queue, this1, 0, head3);
+	atomic{
 	read(head3, v5);
+	if :: v3 == NULL && v5 == v4 && v6 == v7 -> assert((ok));
+	   :: else -> skip;
+	fi;
+	}
 	
 	if
 	:: v4 == v5 -> goto if_then
@@ -325,9 +326,9 @@ proctype process1(chan ch){
 
 proctype process2(chan ch){
 	short returnval, n;
-	dequeue(returnval,n);
-	//enqueue(this, 777);
 	//dequeue(returnval,n);
+	//enqueue(this, 777);
+	dequeue(returnval,n);
 	//enqueue(this, 888);
 	
 	//dequeue(returnval3,n);
@@ -352,8 +353,8 @@ atomic{
 	run bufferProcess(channelT1);
 	run process2(channelT2);
 	run bufferProcess(channelT2);
-	run process3(channelT3);
-	run bufferProcess(channelT3);
+	//run process3(channelT3);
+	//run bufferProcess(channelT3);
 	}
 }
 
