@@ -152,17 +152,15 @@ atomic{
 	}
 }
 ltl constDisjDef { (F0 != F1) && (F0 != NULL) && (F1 != NULL)}  //what about the auxiliary variable?
-//ltl noOtherProcess { [] _nr_pr <=5 } // what about "for all" statements?
-//ltl INVOP { 
+//ltl noOtherProcess { [] _nr_pr <=5 } // what about "for all" statements? 
 
 
 
- //ltl inv_1 { [] !(memory[F0] == 1 && memory[F1] == 1 && M1 == 1 && M2 == 1) }
- 
- 
- ltl inv_2 { [] (process1 @ P1A1 || process1 @ P1A2) -> M1 == 0}
- 
- 
+ltl inv_1 { [] !(memory[F0] == 1 && memory[F1] == 1 && M1 == 1 && M2 == 1)}
+ltl inv_2 { [] (process1 @ P1A1 || process1 @ P1A2) -> M1 == 0}
+ltl inv_3 { [] (process1 @ P1A3 -> M1 == 1) && (process1 @ P1A1 F0 == 0) && (process1 @ P1A2 || process1 @ P1A3 -> F0 == 1)}
+ltl inv_4 { [] (process2 @ P2A1 || process2 @ P2A2 || process2 @ P2A3 || process2 @ P2A4 || process2 @ P2A5 || process2 @ P2A6 || process2 @ P2A7 -> M2 == 0)}
+ltl inv_5 { [] (process2 @ P2A8 -> M2 == 1) && (process2 @ P2A1 || process2 @ P2A2 -> memory[F1] == 0)}
  
  
  
@@ -171,10 +169,10 @@ ltl constDisjDef { (F0 != F1) && (F0 != NULL) && (F1 != NULL)}  //what about the
  
  (ls .pid = P1 ∨ ls .pid = P2) ∧ (locOfP1(ls .pc) → ls .pid = P1) ∧ (locOfP2(ls .pc) → ls .pid = P2) ∧ M1 ≠ null ∧ M2 ≠ null
                ∧ F0 ≠ null ∧ F1 ≠ null ∧ F0 ≠ F1 ∧ F0 ≠ M1 ∧ F0 ≠ M2 ∧ F1 ≠ M1 ∧ F1 ≠ M2 ∧ M1 ≠ M2 ∧ P1 ≠ P2
-               ∧ ¬ (mem[F0] = 1 ∧ mem[F1] = 1 ∧ mem[M1] = 1 ∧ mem[M2] = 1) ∧ (ls .pc = P1A1 ∨ ls .pc = P1A2 → mem[M1] = 0)
-               ∧ (ls .pc = P1A3 → mem[M1] = 1) ∧ (ls .pc = P1A1 → mem[F0] = 0) ∧ (ls .pc = P1A2 ∨ ls .pc = P1A3 → mem[F0] = 1)
-               ∧ (ls .pc = P2A1 ∨ ls .pc = P2A2 ∨ ls .pc = P2A3 ∨ ls .pc = P2A4 ∨ ls .pc = P2A5 ∨ ls .pc = P2A6 ∨ ls .pc = P2A7 → mem[M2] = 0)
-               ∧ (ls .pc = P2A8 → mem[M2] = 1) ∧ (ls .pc = P2A1 ∨ ls .pc = P2A2 → mem[F1] = 0)
+               //∧ ¬ (mem[F0] = 1 ∧ mem[F1] = 1 ∧ mem[M1] = 1 ∧ mem[M2] = 1) ∧ (ls .pc = P1A1 ∨ ls .pc = P1A2 → mem[M1] = 0)
+               //∧ (ls .pc = P1A3 → mem[M1] = 1) ∧ (ls .pc = P1A1 → mem[F0] = 0) ∧ (ls .pc = P1A2 ∨ ls .pc = P1A3 → mem[F0] = 1)
+               //∧ (ls .pc = P2A1 ∨ ls .pc = P2A2 ∨ ls .pc = P2A3 ∨ ls .pc = P2A4 ∨ ls .pc = P2A5 ∨ ls .pc = P2A6 ∨ ls .pc = P2A7 → mem[M2] = 0)
+              // ∧ (ls .pc = P2A8 → mem[M2] = 1) ∧ (ls .pc = P2A1 ∨ ls .pc = P2A2 → mem[F1] = 0)
                ∧ (ls .pc = P2A3 ∨ ls .pc = P2A4 ∨ ls .pc = P2A5 ∨ ls .pc = P2A6 ∨ ls .pc = P2A7 ∨ ls .pc = P2A8 → mem[F1] = 1)
                ∧ (ls .pc = R1 ∧ ls .pid = P1 → mem[F0] = 1 ∧ mem[M1] = 1) ∧ (ls .pc = R1 ∧ ls .pid = P2 → mem[F1] = 1 ∧ mem[M2] = 1)
                ∧ (ls .pc = R2 ∧ ls .pid = P1 → mem[F0] = 0 ∧ mem[M1] = 0) ∧ (ls .pc = R2 ∧ ls .pid = P2 → mem[F1] = 0 ∧ mem[M2] = 0)
