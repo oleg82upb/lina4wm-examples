@@ -20,8 +20,8 @@ bool M2 = 0;
 
 inline p1_aq()
 {
-//N:
 	bool n1; //local Variable
+//N:
 P1A1:
 	atomic{ //entry:
 		write(F0,1);
@@ -40,11 +40,31 @@ P1A3: //skip;
 
 }
 
+
+inline release(){
+//N:
+	assert((_pid == 1 && memory[F0] == 1) || (_pid == 2 && memory[F1] == 1));
+R1: atomic{
+ 		if
+ 		:: _pid == 1 -> write(F0, 0);
+						M1 = 0;
+						
+		:: _pid == 2 ->	write(F1, 0);
+						M2 = 0;
+		:: else -> assert(false);
+		fi;
+	}
+R2: skip;
+//N: 
+}
+
+
+
 inline p2_aq()
 {
 //N2 
 	bool n0;
-	//assert ( memory[F1] == 0);			//why do I get an error here???
+	assert (memory[F1] == 0);			//why do I get an error here???
 	
 P2A1: 	atomic{	
 //retry:
@@ -65,6 +85,7 @@ P2A3:	atomic {
 				:: else -> 	if
 							:: true -> goto P2A4 
 							:: true -> goto P2A5 
+							// else statement necessary?
 							fi;	
 			fi;
 		}
@@ -96,23 +117,6 @@ P2A7: 	atomic{
 P2A8: //skip;
 //N:
 }	
-
-
-inline release(){
-//N:
-	assert((_pid == 1 && memory[F0] == 1) || (_pid == 2 && memory[F1] == 1));
-R1: atomic{
- 		if
- 		:: _pid == 1 -> write(F0, 0);
-						M1 = 0;
-						
-		:: else -> 		write(F1, 0);
-						M2 = 0;
-		fi;
-	}
-R2: skip;
-//N: 
-}
 
 //----------------------------------------------------------------------
 
