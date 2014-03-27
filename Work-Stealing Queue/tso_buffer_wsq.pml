@@ -28,8 +28,8 @@ inline writeLP(adr, newValue, isLP)
 inline read(adr, target)
 {
 	atomic{
-	ch ! iRead, adr, NULL, NULL;
-	ch ? iRead, adr, target, NULL;
+		ch ! iRead, adr, NULL, NULL;
+		ch ? iRead, adr, target, NULL;
 	}
 }
 
@@ -41,21 +41,20 @@ inline mfence()
 inline cas(adr, oldValue, newValue, successBit) 
 {
 	// 2 steps for the executing process, but atomic on memory
-	
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
-	ch ? iCas, adr, successBit, _; 
+		ch ! iCas, adr, oldValue, newValue;
+		ch ? iCas, adr, successBit, _; 
 	}
 }
 
 
 inline writeB() {
 	atomic{
-	assert(tail < BUFF_SIZE);
-	buffer[tail].line[0] = address;
-	buffer[tail].line[1] = value;
-	buffer[tail].line[2] = isLP;
-	tail++;
+		assert(tail < BUFF_SIZE);
+		buffer[tail].line[0] = address;
+		buffer[tail].line[1] = value;
+		buffer[tail].line[2] = isLP;
+		tail++;
 	}
 }
 
@@ -116,14 +115,15 @@ atomic{
 }
 
 inline mfenceB() {
-	do
-	:: atomic{
+	atomic{	
+		do
+		::
 			if
 			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
 			::else -> flushB() 
 			fi
-		}
-	od
+		od
+	}
 }
 	
 inline casB() 
@@ -169,7 +169,7 @@ end:	do
 				//FENCE
 				:: channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
-				:: channel ? iCas, address , value, newValue -> casB();
+				:: atomic{channel ? iCas, address , value, newValue -> casB()};
 			fi
 		od
 }

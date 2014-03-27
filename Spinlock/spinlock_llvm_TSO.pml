@@ -42,8 +42,8 @@ inline cas(adr, oldValue, newValue, successBit)
 {
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
-	ch ! iCas, adr, oldValue, newValue;
-	ch ? iCas, adr, successBit, _; 
+		ch ! iCas, adr, oldValue, newValue;
+		ch ? iCas, adr, successBit, _; 
 	}
 }
 
@@ -114,13 +114,13 @@ atomic{
 
 inline mfenceB() {
 	atomic{
-	do
-	:: 
+		do
+		:: 
 			if
 			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
 			::else -> flushB() 
 			fi
-	od
+		od
 	}
 }
 	

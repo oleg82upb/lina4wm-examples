@@ -11,40 +11,11 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
-
 //Types for LLVM, actually their length in size of pointers and values
-#define Ptr  0
+
 #define FLAG0 1
 #define FLAG1 2
-short memUse = 1; 	//shows to the next free cell in memory
 short crit = 0;
-
-
-chan channelT1 = [0] of {mtype, short, short, short};
-chan channelT2 = [0] of {mtype, short, short, short};
-
-inline getelementptr(type, instance, offset, targetRegister)
-{
-	atomic{
-	//simplified version of what llvm does.
-	//we don't need the type as long as we assume our memory to hold only values/pointers etc of equal length. 
-	//In this case, the offset directly correspond to adding it to instance address. 
-	assert(offset <= type); //offset shouldn't be greater than the type range
-	targetRegister = instance + offset;
-	}
-}
-
-inline alloca(type, targetRegister)
-{
-	atomic{
-	//need c_Code here, but for now we could use this to statically define used addresses
-	targetRegister = memUse;
-	memUse = memUse + type + 1;
-	assert(memUse < MEM_SIZE);
-	}
-}
-
 
 
 inline critical()
@@ -108,9 +79,7 @@ end:		goto while;
 init{
 atomic{
 	run process1();
-	//run bufferProcess(channelT1);
 	run process2();
-	//run bufferProcess(channelT2);
 	}
 }
 

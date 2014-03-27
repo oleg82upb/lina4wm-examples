@@ -14,8 +14,6 @@
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
 
-
-
 //Types for LLVM, actually their length in size of pointers and values
 #define Ptr  0
 #define FLAG0 1

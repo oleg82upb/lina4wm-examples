@@ -36,12 +36,12 @@ inline read(adr, target)
 inline readLP(adr, target, value1, value2, old_c)
 {
 	atomic{
-	ch ! iRead, adr, NULL, NULL;
-	ch ? iRead, adr, target, NULL;
-	if
-	::target == old_c -> asRead(value1,value2);
-	::else -> skip;
-	fi;
+		ch ! iRead, adr, NULL, NULL;
+		ch ? iRead, adr, target, NULL;
+		if
+		::target == old_c -> asRead(value1,value2);
+		::else -> skip;
+		fi;
 	}
 
 }
@@ -54,10 +54,9 @@ inline mfence()
 inline cas(adr, oldValue, newValue, successBit) 
 {
 	// 2 steps for the executing process, but atomic on memory
-	
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
-	ch ? iCas, adr, successBit, _; 
+		ch ! iCas, adr, oldValue, newValue;
+		ch ? iCas, adr, successBit, _; 
 	}
 }
 
@@ -127,14 +126,15 @@ atomic{
 }
 
 inline mfenceB() {
-	do
-	:: atomic{
+	atomic{
+		do
+		:: 
 			if
 			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
 			::else -> flushB() 
 			fi
-		}
-	od
+		od
+	}	
 }
 	
 inline casB() 
@@ -180,7 +180,7 @@ end:	do
 				//FENCE
 				:: channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
-				:: channel ? iCas, address , value, newValue -> casB();
+				:: atomic{channel ? iCas, address , value, newValue -> casB()};
 			fi
 		od
 }

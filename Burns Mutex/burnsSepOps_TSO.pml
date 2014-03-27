@@ -31,7 +31,7 @@ inline asRelease(p){
 	atomic{
 		assert(as == p);
 		as = 0;
-		}
+	}
 }
 
 inline readLP(f, r, p){
@@ -63,9 +63,8 @@ inline mfence(){
 
 inline cas(adr, oldValue, newValue, successBit){
 	// 2 steps for the executing process, but atomic on memory
-	
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
+	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, adr, successBit, _; 
 	}
 }
@@ -136,14 +135,15 @@ atomic{
 }
 
 inline mfenceB() {
-	do
-	:: atomic{
+	atomic{
+		do
+		:: 
 			if
 			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
 			::else -> flushB() 
 			fi
-		}
-	od
+		od
+	}
 }
 	
 inline casB() 
@@ -189,7 +189,7 @@ end:	do
 				//FENCE
 				:: channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
-				:: channel ? iCas, address , value, newValue -> casB();
+				:: atomic{channel ? iCas, address , value, newValue -> casB()};
 			fi
 		od
 }

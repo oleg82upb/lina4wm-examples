@@ -45,18 +45,18 @@ inline cas(adr, oldValue, newValue, successBit)
 	// 2 steps for the executing process, but atomic on memory
 	
 	atomic{
-	ch ! iCas, adr, oldValue, newValue;
-	ch ? iCas, adr, successBit, _; 
+		ch ! iCas, adr, oldValue, newValue;
+		ch ? iCas, adr, successBit, _; 
 	}
 }
 
 inline writeB() {
 	atomic{
-	assert(tail < BUFF_SIZE);
-	buffer[tail].line[0] = address;
-	buffer[tail].line[1] = value;
-	buffer[tail].line[2] = isLP;
-	tail++;
+		assert(tail < BUFF_SIZE);
+		buffer[tail].line[0] = address;
+		buffer[tail].line[1] = value;
+		buffer[tail].line[2] = isLP;
+		tail++;
 	}
 }
 
@@ -172,7 +172,7 @@ end:	do
 				//FENCE
 				:: channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
-				:: channel ? iCas, address , value, newValue -> casB();
+				:: atomic{channel ? iCas, address , value, newValue -> casB()};
 			fi
 		od
 }

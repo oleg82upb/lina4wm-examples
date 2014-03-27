@@ -24,18 +24,17 @@ inline write(adr, newValue)
 }
 
 short as = 0;
-inline asAcquire(p)
-{
-atomic{
-assert(as == 0);
-as = p;}
+inline asAcquire(p){
+	atomic{
+		assert(as == 0);
+		as = p;
+	}
 }
-inline asRelease(p)
-{
-atomic{
-assert(as == p);
-as = 0;
-}
+inline asRelease(p){
+	atomic{
+		assert(as == p);
+		as = 0;
+	}
 }
 
 inline readLP(f, r, p)
@@ -56,8 +55,8 @@ inline writeLP(adr, newValue)
 inline read(adr, target)
 {
 	atomic{
-	ch ! iRead, adr, NULL, NULL;
-	ch ? iRead, adr, target, NULL;
+		ch ! iRead, adr, NULL, NULL;
+		ch ? iRead, adr, target, NULL;
 	}
 }
 
@@ -71,20 +70,19 @@ inline mfence()
 inline cas(adr, oldValue, newValue, successBit) 
 {
 	// 2 steps for the executing process, but atomic on memory
-	
-	ch ! iCas, adr, oldValue, newValue;
 	atomic{
-	ch ? iCas, adr, successBit, _; 
+		ch ! iCas, adr, oldValue, newValue;
+		ch ? iCas, adr, successBit, _; 
 	}
 }
 
 inline writeB() {
 	atomic{
-	assert(tail < BUFF_SIZE);
-	proc[ _pid -(_pid/2)].buffer[tail].line[0] = address;
-	proc[ _pid -(_pid/2)].buffer[tail].line[1] = value;
-	proc[ _pid -(_pid/2)].buffer[tail].line[2] = isLP;
-	tail++;
+		assert(tail < BUFF_SIZE);
+		proc[ _pid -(_pid/2)].buffer[tail].line[0] = address;
+		proc[ _pid -(_pid/2)].buffer[tail].line[1] = value;
+		proc[ _pid -(_pid/2)].buffer[tail].line[2] = isLP;
+		tail++;
 	}
 }
 
@@ -144,14 +142,15 @@ atomic{
 }
 
 inline mfenceB() {
-	do
-	:: atomic{
+	atomic{
+		do
+		:: 
 			if
 			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
 			::else -> flushB() 
 			fi
-		}
-	od
+		od
+	}
 }
 	
 inline casB() 
@@ -195,7 +194,7 @@ end:	do
 				//FENCE
 				:: channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
-				:: channel ? iCas, address , value, newValue -> casB();
+				:: atomic{channel ? iCas, address , value, newValue -> casB()};
 			fi
 		od
 }

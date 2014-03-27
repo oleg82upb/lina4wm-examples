@@ -12,24 +12,24 @@
  
 inline casLPAquire(adr, oldValue, newValue, successBit){
 	atomic{
-	ch ! iCas, adr, oldValue, newValue;
-	ch ? iCas, adr, successBit, _; 
-	if 	
-	:: successBit -> asAquire();
-	:: else -> assert(owner != -1);
-	fi
+		ch ! iCas, adr, oldValue, newValue;
+		ch ? iCas, adr, successBit, _; 
+		if 	
+		:: successBit -> asAquire();
+		:: else -> assert(owner != -1);
+		fi
 	}
 }
 
 
 inline casLPTry(adr, oldValue, newValue, successBit){
 	atomic{
-	ch ! iCas, adr, oldValue, newValue;
-	ch ? iCas, adr, successBit, _;
-	if 	
-	:: successBit -> asAquire();
-	:: else -> assert(owner != -1);
-	fi
+		ch ! iCas, adr, oldValue, newValue;
+		ch ? iCas, adr, successBit, _;
+		if 	
+		:: successBit -> asAquire();
+		:: else -> assert(owner != -1);
+		fi
 	}
 }
  

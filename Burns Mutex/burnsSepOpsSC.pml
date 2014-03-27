@@ -21,16 +21,17 @@ Burns Mutex SepOps implementation
 short as = 0;
 inline asAcquire(p)
 {
-atomic{
-assert(as == 0);
-as = p;}
+	atomic{
+		assert(as == 0);
+		as = p;
+	}
 }
 inline asRelease(p)
 {
-atomic{
-assert(as == p);
-as = 0;
-}
+	atomic{
+		assert(as == p);
+		as = 0;
+	}
 }
 
 inline readLP(f, r, p)
@@ -62,7 +63,7 @@ whileCond:
 	readLP(f1, v0, 1);
 	if
 	:: v0 != 0 -> goto whileCond;
-	::else -> skip;
+	:: else -> skip;
 	fi;	
 }
 
