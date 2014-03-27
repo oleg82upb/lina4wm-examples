@@ -1,0 +1,363 @@
+Test: burns_for_invariants.pml
+--------------------------------------------------------------------------------------------------------------
+---------inv_1----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_1)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_2----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_2)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 36 byte, depth reached 0, errors: 0
+        1 states, stored
+        0 states, matched
+        1 transitions (= stored+matched)
+        0 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.000	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_3----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_3)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0.32 seconds
+pan: rate       350 states/second
+--------------------------------------------------------------------------------------------------------------
+---------inv_4----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_4)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_5----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_5)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_6----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_6)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_7----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_7)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_8----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_8)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_9----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_9)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_10----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_10)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_11----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_11)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
+---------inv_12----------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+(Spin Version 6.2.4 -- 8 March 2013)
+	+ Partial Order Reduction
+
+Full statespace search for:
+	never claim         	+ (inv_12)
+	assertion violations	+ (if within scope of claim)
+	acceptance   cycles 	+ (fairness disabled)
+	invalid end states	- (disabled by never claim)
+
+State-vector 52 byte, depth reached 95, errors: 0
+      112 states, stored
+      118 states, matched
+      230 transitions (= stored+matched)
+      123 atomic steps
+hash conflicts:         0 (resolved)
+
+Stats on memory usage (in Megabytes):
+    0.009	equivalent memory usage for states (stored*(State-vector + overhead))
+    0.256	actual memory usage for states
+  128.000	memory used for hash table (-w24)
+    0.534	memory used for DFS stack (-m10000)
+  128.730	total actual memory usage
+
+
+
+pan: elapsed time 0 seconds
+--------------------------------------------------------------------------------------------------------------
