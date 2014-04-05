@@ -5,7 +5,6 @@ date: 03.2014
 Burns Mutex SepOps based on specification in KIV
 */
 
-#define BUFF_SIZE 2 	//size of Buffer
 #define MEM_SIZE 3	//size of memory
 #define F0 1
 #define F1 2
@@ -22,6 +21,7 @@ inline p1_aq()
 {
 	bool n1; //local Variable
 //N:
+	assert(memory[F0] == 0);
 P1A1:
 	atomic{ //entry:
 		write(F0,1);
