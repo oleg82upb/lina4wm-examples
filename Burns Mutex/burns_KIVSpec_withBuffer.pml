@@ -139,12 +139,19 @@ atomic{
 	}
 }
 
-
+//¬ (mem[F0] = 1 ∧ mem[F1] = 1 ∧ mem[M1] = 1 ∧ mem[M2] = 1)
 ltl inv_1 { [] !(memory[F0] == 1 && memory[F1] == 1 && M1 == 1 && M2 == 1)}
+//(ls .pc = P1A1 ∨ ls .pc = P1A1' ∨ ls .pc = P1A2 ∨ ls .pc = P1A3 ∨ ls .pc = P1A3' ∧ ls .n1 ≠ 0 → mem[M1] = 0)
 ltl inv_2 { [] (process1 @ P1A1 || process1 @ P1A2 || process1 @ P1A3 && n1 != 0 -> M1 == 0) }
+//(ls .pc = P1A1 ∨ ls .pc = P1A3 ∨ ls .pc = P1A3' ∨ ls .pc = P1A4 → ls .buf = [])
 ltl inv_3 { [] (process1 @ P1A1 || process1 @ P1A3 || process1 @ P1A4 -> proc[1].buffer[0].line[0] == 0)} //global buffer necessary????
-ltl inv_4 {	[] (process1 @ P1A3 && n1 == 0 || process1 @ P1A4 -> M1 == 1)}
+//(ls .pc = P1A3' ∧ ls .n1 = 0 ∨ ls .pc = P1A4 → mem[M1] = 1)
+ltl inv_4 {	[] (process1 @ P1A4 -> M1 == 1)}		//how to translate this part: "ls .pc = P1A3' ∧ ls .n1 = 0 ∨" ? -> process1 @ P1A3 && n1 == 0 || 		//??
+//(ls .pc = P1A1 ∨ (ls .pc = P1A1' ∨ ls .pc = P1A2) ∧ contains(F0, ls .buf) ∨ ls .pc = R2 ∧ ls .pid = P1 → mem[F0] = 0)
 ltl inv_5 { [] (process1 @ P1A1 ||(process1 @ P1A2) && (proc[1].buffer[0].line[0] == F0 || proc[1].buffer[1].line[0] == F0)|| process1 @ R2 -> memory[F0] == 0)}
+
+
+
 ltl inv_6 { [] (process1 @ P1A2 || process1 @ P1A3 || process1 @ P1A4 || process1 @ R1 -> memory[F0] == 1)}
 ltl inv_7 {	[] (process1 @ P1A1 || process1 @ P1A2 || process1 @ P1A3 && n1 != 0 -> M1 == 0)}
 
