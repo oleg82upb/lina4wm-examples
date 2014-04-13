@@ -15,7 +15,7 @@ short top, bottom;
 #define ABORT 1337
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
-#define BUFF_SIZE 18	//size of Buffer
+#define BUFF_SIZE 25	//size of Buffer
 #define MEM_SIZE 50	//size of memory
 #define MAX_QUEUE_SIZE 10
 //-----------------------------------------------------------------------------------------------------------------------------------------------
@@ -82,6 +82,7 @@ inline casLPtake(top, t, new_t, success, task){
 	// 2 steps for the executing process, but atomic on memory
 	
 	ch ! iCas, top, t, new_t;
+	ch ? iMfence, _, _, _;
 	atomic{
 		ch ? iCas, top, success, _;
 		if 	:: success -> asPopBottom(task); printf("popBottom CAS success\n")
@@ -127,6 +128,7 @@ inline casLPsteal(top, t, new_t, success, task){
 	// 2 steps for the executing process, but atomic on memory
 	
 	ch ! iCas, top, t, new_t;
+	ch ? iMfence, _, _, _;
 	atomic{
 		ch ? iCas, top, success, _;
 		if 	:: success -> asPopTop(task); printf("popTop CAS success\n")
@@ -322,7 +324,7 @@ inline take(returnvalue)
 	write(q_ptr, v1);
 	read(b, v2);
     writeFlagTake(bottom, v2); 
-    //mfence();        
+    mfence();        
 	read(top, v3);
 	write(t, v3);
 	//read(b, v4); v4 == v2
@@ -436,20 +438,19 @@ returnLabel:
 	
 
 proctype process1 (chan ch){
-	short tvalue1, tvalue2;
+	short tvalue1; // tvalue2;
 	push(555); 
 	//mfence();
 	//take(tvalue2);
-	//mfence();
-	push(777);
+	//push(777);
 	//push(999);
-	//mfence()
-	//take(tvalue1);
+	take(tvalue1);
+	//take(tvalue2);
 }
-/* 
+/*
  proctype process2 (chan ch) {
- 	short svalue, s2;
-	steal(svalue); printf("svalue: %d\n", svalue);
+ 	short svalue; // s2;
+	steal(svalue);
 	//steal(s2);printf("svalue: %d\n", s2);
 	//skip;
 }
@@ -457,10 +458,9 @@ proctype process1 (chan ch){
 proctype process3 (chan ch){
 	short stealval;
 	steal(stealval);
-	printf("stealval: %d\n", stealval);
 }
+*/
 
-*/ 
 init{
 	short wsq;
 		alloca(Ptr, wsq_ptr);
@@ -477,9 +477,10 @@ init{
 	atomic{
 		run process1(channelT1); 
 		run bufferProcess(channelT1);
-		//run process2(channelT2);
-		//run bufferProcess(channelT2);
-		//run process3(channelT3);
-		//run bufferProcess(channelT3);
+		/*run process2(channelT2);
+		run bufferProcess(channelT2);
+		run process3(channelT3);
+		run bufferProcess(channelT3);
+		*/
 	}	
 }	
