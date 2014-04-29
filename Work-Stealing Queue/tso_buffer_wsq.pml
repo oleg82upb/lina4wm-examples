@@ -41,6 +41,7 @@ inline mfence()
 	}	
 }
 
+
 inline cas(adr, oldValue, newValue, successBit) 
 {
 	// 2 steps for the executing process, but atomic on memory
@@ -52,13 +53,11 @@ inline cas(adr, oldValue, newValue, successBit)
 
 
 inline writeB() {
-	atomic{
-		assert(tail < BUFF_SIZE);
-		buffer[tail].line[0] = address;
-		buffer[tail].line[1] = value;
-		buffer[tail].line[2] = isLP;
-		tail++;
-	}
+	assert(tail < BUFF_SIZE);
+	buffer[tail].line[0] = address;
+	buffer[tail].line[1] = value;
+	buffer[tail].line[2] = isLP;
+	tail++;
 }
 
 
@@ -84,8 +83,6 @@ inline readB() {
 
 
 inline flushB() {
-atomic{
-	
 	if 
 	:: (tail > 0) ->	{
 		//write value in memory: memory[address] = value
@@ -114,39 +111,38 @@ atomic{
 		}
 	:: else -> skip;
 	fi;
-	}
 }
 
-inline mfenceB() {
-	atomic{	
-		do
-		::
-			if
-			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
-			::else -> flushB() 
-			fi
-		od;
-		channel ! iMfence, NULL, NULL, NULL;
-	}
+inline mfenceB() {	
+	do
+	::
+		if
+		::(tail<=0) -> break;	//tail > 0 iff buffer not empty
+		::else -> flushB() 
+		fi
+	od;
 }
 	
+inline fenceWithResponse() {
+	mfenceB();
+	channel ! iMfence, NULL, NULL, NULL;
+}
+
 inline casB() 
 {
-	mfenceB();	//buffer must be empty
-	atomic{ 
-		bit result = false;
-		if 
-			:: memory[address] == value 
-				-> 	memory[address] = newValue;
-					result = true;
-			:: else -> skip;
-		fi
-		->
-		channel ! iCas, address, result, NULL;
-		//reducing state space from here on
-	}
-	
+	mfenceB();	//buffer must be empty 
+	bit result = false;
+	if 
+		:: memory[address] == value 
+			-> 	memory[address] = newValue;
+				result = true;
+		:: else -> skip;
+	fi
+	->
+	channel ! iCas, address, result, NULL;
+	//reducing state space from here on
 }
+	
 
 proctype bufferProcess(chan channel)
 {		
@@ -171,9 +167,9 @@ end:	do
 				//FLUSH
 				:: atomic{(tail > 0) -> flushB();}  //tail > 0  iff not empty
 				//FENCE
-				:: channel ? iMfence, _, _ ,_ -> mfenceB();
+				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();}
 				//COMPARE AND SWAP
-				:: atomic{channel ? iCas, address , value, newValue -> casB()};
+				:: atomic{channel ? iCas, address , value, newValue -> casB();}
 			fi
 		od
 }

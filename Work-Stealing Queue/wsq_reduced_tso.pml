@@ -73,17 +73,27 @@ inline readLPTake(t, v5 ,v4){
 	atomic{ 
 		read(t, v5);
 		if 	:: v4 < v5 -> asEmpty(); printf("---- EMPTY: nothing to TAKE ----\n");
+			:: v4 > v5 -> asPopBottom(....)
 			:: else -> skip;
 		fi;
 	}
 }
 
+inline writeLPsucc(task, v12, v2, v5){
+	atomic{
+		if
+		:: v2 > v5 -> writeLP(task, v12, 2);
+		:: else skip;
+		fi;
+	}
+}
+
+
 inline casLPtake(top, t, new_t, success, task){
 	// 2 steps for the executing process, but atomic on memory
-	
-	ch ! iCas, top, t, new_t;
-	ch ? iMfence, _, _, _;
 	atomic{
+		ch ! iCas, top, t, new_t;
+		/////////////////////
 		ch ? iCas, top, success, _;
 		if 	:: success -> asPopBottom(task); printf("popBottom CAS success\n")
 			:: else -> asEmpty(); printf("---- EMPTY: nothing to TAKE ----\n"); skip;  //cas may fail
@@ -94,7 +104,7 @@ inline casLPtake(top, t, new_t, success, task){
 
 //abstract TAKE()
 inline asPopBottom(task){
-	atomic{
+	atomic{ 
 		flag = 0;
 		printf("FLAG: %d\n", flag);
 		asBottom = (asBottom-1);					//move bottom to the next in line
@@ -107,7 +117,6 @@ inline asPopBottom(task){
 		fi;	
 	}
 }
-
 
 inline readLPSteal(bot, v1, v0){
 	atomic{ 
@@ -126,10 +135,9 @@ inline readLPSteal(bot, v1, v0){
 
 inline casLPsteal(top, t, new_t, success, task){
 	// 2 steps for the executing process, but atomic on memory
-	
-	ch ! iCas, top, t, new_t;
-	ch ? iMfence, _, _, _;
 	atomic{
+	ch ! iCas, top, t, new_t;
+	//////////////////////////////////////////
 		ch ? iCas, top, success, _;
 		if 	:: success -> asPopTop(task); printf("popTop CAS success\n")
 			:: else -> printf("---- ABORT: nothing to steal ----\n"); skip;  //cas may fail
@@ -323,8 +331,9 @@ inline take(returnvalue)
 	read(wsq_ptr, v1);
 	write(q_ptr, v1);
 	read(b, v2);
-    writeFlagTake(bottom, v2); 
-    mfence();        
+    writeFlagTake(bottom, v2, task);		//if take does not result in an empty state LP is here [vgl.http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&rep=rep1&type=pdf]
+    										//how do I know at this point which taask it will take????? 
+    mfence();
 	read(top, v3);
 	write(t, v3);
 	//read(b, v4); v4 == v2
@@ -352,7 +361,7 @@ ifEnd:
 	//read(t, v14);			
 	if
 	::(v2 > v5) -> 	read(task, v15);
-					writeLP(retval, v15, v12);		//LP???				//possible reduction: write(retval = v12)???
+					writeLP(retval, v15);					//possible reduction: write(retval = v12)???
 					goto returnLabel;
 	:: else -> goto ifEnd3;
 	fi;
@@ -436,25 +445,24 @@ returnLabel:
 }
 	
 	
-
 proctype process1 (chan ch){
-	short tvalue1; // tvalue2;
-	push(555); 
+	short tvalue1, tvalue2;
+	//push(555); 
 	//mfence();
 	//take(tvalue2);
-	//push(777);
-	//push(999);
+	push(777);
+	push(999);
 	take(tvalue1);
-	//take(tvalue2);
-}
-/*
- proctype process2 (chan ch) {
- 	short svalue; // s2;
-	steal(svalue);
-	//steal(s2);printf("svalue: %d\n", s2);
-	//skip;
+	take(tvalue2);
 }
 
+ proctype process2 (chan ch) {
+ 	short svalue, s2;
+	steal(svalue);
+	steal(s2);
+	//skip;
+}
+/*
 proctype process3 (chan ch){
 	short stealval;
 	steal(stealval);
@@ -477,9 +485,9 @@ init{
 	atomic{
 		run process1(channelT1); 
 		run bufferProcess(channelT1);
-		/*run process2(channelT2);
+		run process2(channelT2);
 		run bufferProcess(channelT2);
-		run process3(channelT3);
+		/*run process3(channelT3);
 		run bufferProcess(channelT3);
 		*/
 	}	
