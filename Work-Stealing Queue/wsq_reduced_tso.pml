@@ -16,7 +16,7 @@ short top, bottom;
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 
 #define BUFF_SIZE 25	//size of Buffer
-#define MEM_SIZE 50	//size of memory
+#define MEM_SIZE 60	//size of memory
 #define MAX_QUEUE_SIZE 10
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 /* abstract Queue implementation as array*/
@@ -28,7 +28,6 @@ short top, bottom;
 short asQueue[MAX_QUEUE_SIZE];   //Promlem promela intends const.
 hidden byte asTop = 0;
 hidden byte asBottom = 0;
-bool flag = 0;
 
 
 /*
@@ -38,21 +37,18 @@ inline asExpand(){
 }
 */
 
-inline writeFlagTake(bottom, v2){
-	atomic{
-		flag = 1;
-		printf("FLAG: %d\n", flag);
-		write(bottom, v2);
-		
-	}
-}
-
-
 inline asEmpty(){
 	assert (asTop == asBottom);
 	assert (asQueue[asTop] == 0);
 }
 
+inline asEmptyS(){
+	assert ((memory[bottom] == memory[top]) || (asTop == asBottom));
+	if 
+	:: asTop == asBottom -> assert (asQueue[asTop] == 0);
+	:: else skip;
+	fi;
+}
 
 inline asPush(asValue){
 	atomic{
@@ -69,24 +65,16 @@ inline asPush(asValue){
 }
 
 
-inline readLPTake(t, v5 ,v4){
+inline readLPTake(top, v3 ,v2, q_ptr){
 	atomic{ 
-		read(t, v5);
-		if 	:: v4 < v5 -> asEmpty(); printf("---- EMPTY: nothing to TAKE ----\n");
-			:: v4 > v5 -> asPopBottom(....)
+		read(top, v3);
+		if 	:: v2 < v3 -> asEmpty(); printf("---- EMPTY: nothing to TAKE ----\n");
+			:: v2 > v3 -> asPopBottom(memory[memory[q_ptr + 1] + v2 % memory[q_ptr]])
 			:: else -> skip;
 		fi;
 	}
 }
 
-inline writeLPsucc(task, v12, v2, v5){
-	atomic{
-		if
-		:: v2 > v5 -> writeLP(task, v12, 2);
-		:: else skip;
-		fi;
-	}
-}
 
 
 inline casLPtake(top, t, new_t, success, task){
@@ -105,8 +93,6 @@ inline casLPtake(top, t, new_t, success, task){
 //abstract TAKE()
 inline asPopBottom(task){
 	atomic{ 
-		flag = 0;
-		printf("FLAG: %d\n", flag);
 		asBottom = (asBottom-1);					//move bottom to the next in line
 		assert((asQueue[asBottom] == task)|| (task == EMPTY));
 		if
@@ -125,8 +111,8 @@ inline readLPSteal(bot, v1, v0){
 		if 	
 			:: (v0 >= v1)
 				->	if
-						::(flag == 0) -> asEmpty(); printf("---- EMPTY: nothing to steal ----\n");
-						::else -> printf("!!!!! Empty failed !!!!!!   \n");
+						::asEmptyS(); printf("---- EMPTY: nothing to steal ----\n"); //may still nondeterministicly fail
+						:: else -> printf("!!!!! Empty failed !!!!!!   \n");
 					fi
 			:: else -> printf("there is something to steal  \n");
 		fi;
@@ -331,13 +317,13 @@ inline take(returnvalue)
 	read(wsq_ptr, v1);
 	write(q_ptr, v1);
 	read(b, v2);
-    writeFlagTake(bottom, v2, task);		//if take does not result in an empty state LP is here [vgl.http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&rep=rep1&type=pdf]
-    										//how do I know at this point which taask it will take????? 
+    write(bottom, v2);		//if take does not result in an empty state LP is here [vgl.http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.170.1097&rep=rep1&type=pdf]
+   									//how do I know at this point which taask it will take????? 
     mfence();
-	read(top, v3);
+	readLPTake(top, v3, v2, v1);
 	write(t, v3);
 	//read(b, v4); v4 == v2
-	readLPTake(t, v5 ,v2);			//LP
+	read(t, v5);	
 	if
 	:: (v2 < v5) -> 	//read(t, v6);	v6 == v3
 						write(bottom, v5);
@@ -361,7 +347,7 @@ ifEnd:
 	//read(t, v14);			
 	if
 	::(v2 > v5) -> 	read(task, v15);
-					writeLP(retval, v15);					//possible reduction: write(retval = v12)???
+					write(retval, v15);					//possible reduction: write(retval = v12)???
 					goto returnLabel;
 	:: else -> goto ifEnd3;
 	fi;
@@ -451,6 +437,8 @@ proctype process1 (chan ch){
 	//mfence();
 	//take(tvalue2);
 	push(777);
+	push(888);
+	mfence()
 	push(999);
 	take(tvalue1);
 	take(tvalue2);
