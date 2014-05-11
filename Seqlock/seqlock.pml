@@ -6,11 +6,11 @@ date: 05.2013
 Lseqlock (abstracted from: "Show No Weakness: Sequentially Consistent Specifications of TSO Libraries; Alexey Gotsman, Madanlal Musuvathi, and Hongseok Yang
 */
 
-#define BUFF_SIZE 7 	//size of Buffer
+#define BUFF_SIZE 10 	//size of Buffer
 #define MEM_SIZE 5	//size of memory
  
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-#include "x86_tso_buffer.pml"
+#include "../x86_tso_buffer.pml"
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 	

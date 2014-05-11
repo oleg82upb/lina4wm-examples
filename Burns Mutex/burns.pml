@@ -9,7 +9,7 @@
 /* too work with the global buffer add the line #define PROC_NUMBER 2 to define the numbers of processes with are involved
  * and substitute "x86_tso_buffer.pml" with "x86_tso_buffer_globalarray.pml"  
  */ 
-#include "x86_tso_buffer.pml"
+#include "../x86_tso_buffer.pml"
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 

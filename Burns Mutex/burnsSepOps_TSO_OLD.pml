@@ -15,34 +15,53 @@ mtype = {iWrite, iRead , iMfence, iCas};
 short memory[MEM_SIZE];
 
 
-inline write(adr, newValue)
-{
+inline write(adr, newValue){
 	ch ! iWrite, adr, newValue, NULL;
 }
 
-inline writeLP(adr, newValue, isLP)
-{
-	ch ! iWrite, adr, newValue, isLP;
-}
-
-inline read(adr, target)
-{
+short as = 0;
+inline asAcquire(p){
 	atomic{
-	ch ! iRead, adr, NULL, NULL;
-	ch ? iRead, adr, target, NULL;
+		assert(as == 0);
+		as = p;
 	}
 }
 
-inline mfence()
-{
+inline asRelease(p){
 	atomic{
-		ch ! iMfence, NULL, NULL, NULL;
-		ch ? iMfence, NULL, NULL, NULL; 
-	}	
+		assert(as == p);
+		as = 0;
+	}
 }
 
-inline cas(adr, oldValue, newValue, successBit) 
-{
+inline readLP(f, r, p){
+	atomic{
+		read(f, r);
+		if 
+			:: r == 0 -> asAcquire(p);
+	   		:: else -> skip;
+		fi;}
+}
+
+
+inline writeLP(adr, newValue){
+	ch ! iWrite, adr, newValue, 1;
+}
+
+inline read(adr, target){	
+	atomic{				
+		ch ! iRead, adr, NULL, NULL;
+		ch ? iRead, adr, target, NULL;
+	}
+}
+
+
+
+inline mfence(){
+	ch ! iMfence, NULL, NULL, NULL;
+}	
+
+inline cas(adr, oldValue, newValue, successBit){
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
 		ch ! iCas, adr, oldValue, newValue;
@@ -51,11 +70,13 @@ inline cas(adr, oldValue, newValue, successBit)
 }
 
 inline writeB() {
-	assert(tail < BUFF_SIZE);
-	buffer[tail].line[0] = address;
-	buffer[tail].line[1] = value;
-	buffer[tail].line[2] = isLP;
-	tail++;
+	atomic{
+		assert(tail < BUFF_SIZE);
+		buffer[tail].line[0] = address;
+		buffer[tail].line[1] = value;
+		buffer[tail].line[2] = isLP;
+		tail++;
+	}
 }
 
 
@@ -80,37 +101,40 @@ inline readB() {
 }
 
 
-inline flushB() {
-	if 
-	:: (tail > 0) ->	{
-		//write value in memory: memory[address] = value
-		memory[buffer[0].line[0]] = buffer[0].line[1];
+inline flushB() {	
+	atomic{
+		if 
+		:: (tail > 0) ->	{
+			//write value in memory: memory[address] = value
+			memory[buffer[0].line[0]] = buffer[0].line[1];
+			
+			// triggering abstract operation during LP flush here
+			if
+				:: buffer[0].line[2] == 1 -> asRelease(buffer[0].line[0]);
+				:: else -> skip;
+			fi;
 		
-		// triggering abstract operation during LP flush here
-		if
-			:: buffer[0].line[2] == 1 -> asRelease();
-			:: else -> skip;
+			//move all content one step further
+			
+			for (i : 1 .. tail-1) {
+				buffer[i-1].line[0] = buffer[i].line[0];
+				buffer[i-1].line[1] = buffer[i].line[1];
+				buffer[i-1].line[2] = buffer[i].line[2];
+			} 
+			//remove duplicate tail
+			buffer[tail-1].line[0] = 0;
+			buffer[tail-1].line[1] = 0;
+			buffer[tail-1].line[2] = 0;
+			tail--;
+			i = 0;
+			}
+		:: else -> skip;
 		fi;
-		
-		//move all content one step further
-		
-		for (i : 1 .. tail-1) {
-			buffer[i-1].line[0] = buffer[i].line[0];
-			buffer[i-1].line[1] = buffer[i].line[1];
-			buffer[i-1].line[2] = buffer[i].line[2];
-		} 
-		//remove duplicate tail
-		buffer[tail-1].line[0] = 0;
-		buffer[tail-1].line[1] = 0;
-		buffer[tail-1].line[2] = 0;
-		tail--;
-		i = 0;
-		}
-	:: else -> skip;
-	fi;
+	}
 }
 
 inline mfenceB() {
+	atomic{
 		do
 		:: 
 			if
@@ -118,16 +142,18 @@ inline mfenceB() {
 			::else -> flushB() 
 			fi
 		od
+	}
 }
-
+/*
 inline fenceWithResponse() {
 	mfenceB();
 	channel ! iMfence, NULL, NULL, NULL;
 }
-	
+*/	
 inline casB() 
 {
-		mfenceB();	//buffer must be empty
+	mfenceB();	//buffer must be empty
+	atomic{
 		bit result = false;
 		if 
 			:: memory[address] == value 
@@ -137,9 +163,10 @@ inline casB()
 		fi
 		->
 		channel ! iCas, address, result, NULL;
-		//reducing state space from here on
-	
+		//reducing state space from here on	
+	}
 }
+
 
 proctype bufferProcess(chan channel)
 {		
@@ -164,7 +191,7 @@ end:	do
 				//FLUSH
 				:: atomic{(tail > 0) -> flushB();}  //tail > 0  iff not empty
 				//FENCE
-				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();}
+				:: channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
 				:: atomic{channel ? iCas, address , value, newValue -> casB();}
 			fi

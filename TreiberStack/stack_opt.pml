@@ -10,7 +10,7 @@ abstract Treiber Stack implementation based on a LLVM optimized version
 #define MEM_SIZE 40	//size of memory
  
 //-----------------------------------------------------------------------------------------------------------------------------------------------
-#include "x86_tso_buffer.pml"
+#include "../x86_tso_buffer.pml"
 
 //-----------------------------------------------------------------------------------------------------------------------------------------------
 // ----standard stack implementation-------------

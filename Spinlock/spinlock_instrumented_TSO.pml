@@ -37,9 +37,10 @@ inline mfence()
 {
 	atomic{
 		ch ! iMfence, NULL, NULL, NULL;
-		ch ? iMfence, NULL, NULL, NULL; 
+		ch ? iMfence, NULL, NULL, NULL;
 	}	
 }
+
 
 inline cas(adr, oldValue, newValue, successBit) 
 {
@@ -88,7 +89,7 @@ inline flushB() {
 		
 		// triggering abstract operation during LP flush here
 		if
-			:: buffer[0].line[2] == 1 -> asRelease();
+			:: buffer[0].line[2] == 1 -> asRel();
 			:: else -> skip;
 		fi;
 		

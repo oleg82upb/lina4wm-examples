@@ -8,7 +8,7 @@ writebuffer model. Read, write, flush, fence and CAS
 #define NULL 0
 
 /*Buffer as a 2 dimensional array which represents the queue [(nx2)-matrix]*/
-typedef matrix{short line [3]}
+typedef matrix{short line [2]}
 
 mtype = {iWrite, iRead , iMfence, iCas};
 /*memory*/
@@ -18,11 +18,6 @@ short memory[MEM_SIZE];
 inline write(adr, newValue)
 {
 	ch ! iWrite, adr, newValue, NULL;
-}
-
-inline writeLP(adr, newValue, isLP)
-{
-	ch ! iWrite, adr, newValue, isLP;
 }
 
 inline read(adr, target)
@@ -42,21 +37,19 @@ inline cas(adr, oldValue, newValue, successBit)
 {
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
-		ch ! iCas, adr, oldValue, newValue;
-		ch ? iCas, adr, successBit, _; 
+	ch ! iCas, adr, oldValue, newValue;
+	ch ? iCas, adr, successBit, _; 
 	}
 }
 
 inline writeB() {
 	atomic{
-	assert(tail < BUFF_SIZE);
-	buffer[tail].line[0] = address;
-	buffer[tail].line[1] = value;
-	buffer[tail].line[2] = isLP;
-	tail++;
+		assert(tail < BUFF_SIZE);
+		buffer[tail].line[0] = address;
+		buffer[tail].line[1] = value;
+		tail++;
 	}
 }
-
 
 inline readB() {
 	i = tail-1;
@@ -80,35 +73,25 @@ inline readB() {
 
 
 inline flushB() {
-atomic{
-	
-	if 
-	:: (tail > 0) ->	{
-		//write value in memory: memory[address] = value
-		memory[buffer[0].line[0]] = buffer[0].line[1];
+	atomic{
+		if 
+		:: (tail > 0) ->	{
+			//write value in memory: memory[address] = value
+			memory[buffer[0].line[0]] = buffer[0].line[1];
+			//move all content one step further
 		
-		// triggering abstract operation during LP flush here
-		if
-			:: buffer[0].line[2] == 1 -> asRel();
-			:: else -> skip;
+			for (i : 1 .. tail-1) {
+				buffer[i-1].line[0] = buffer[i].line[0];
+				buffer[i-1].line[1] = buffer[i].line[1];
+			} 
+			//remove duplicate tail
+			buffer[tail-1].line[0] = 0;
+			buffer[tail-1].line[1] = 0;
+			tail--;
+			i = 0;
+			}
+		:: else -> skip;
 		fi;
-		
-		//move all content one step further
-		
-		for (i : 1 .. tail-1) {
-			buffer[i-1].line[0] = buffer[i].line[0];
-			buffer[i-1].line[1] = buffer[i].line[1];
-			buffer[i-1].line[2] = buffer[i].line[2];
-		} 
-		//remove duplicate tail
-		buffer[tail-1].line[0] = 0;
-		buffer[tail-1].line[1] = 0;
-		buffer[tail-1].line[2] = 0;
-		tail--;
-		i = 0;
-		}
-	:: else -> skip;
-	fi;
 	}
 }
 
@@ -116,18 +99,25 @@ inline mfenceB() {
 	atomic{
 		do
 		:: 
-			if
-			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
-			::else -> flushB() 
-			fi
-		od
+				if
+				::(tail<=0) -> break;	//tail > 0 iff buffer not empty
+				::else -> flushB() 
+				fi
+		od;
 	}
 }
-	
+
+
+/*inline fenceWithResponse() {
+	mfenceB();
+	channel ! iMfence, NULL, NULL, NULL;
+}
+	*/
+
 inline casB() 
 {
-	mfenceB();	//buffer must be empty
-	atomic{ 
+	mfenceB();	//buffer must be empty 
+	atomic{
 		bit result = false;
 		if 
 			:: memory[address] == value 
@@ -137,9 +127,8 @@ inline casB()
 		fi
 		->
 		channel ! iCas, address, result, NULL;
-		//reducing state space from here on
+		//reducing state space from here on	
 	}
-	
 }
 
 proctype bufferProcess(chan channel)
@@ -150,7 +139,6 @@ proctype bufferProcess(chan channel)
 	short address = 0;
 	short value = 0; 
 	short newValue = 0;
-	short isLP = 0;
 	
 	/*writebuffer*/
 	matrix buffer [BUFF_SIZE];
@@ -159,15 +147,15 @@ proctype bufferProcess(chan channel)
 end:	do 
 		::	if
 				//WRITE
-				:: atomic{channel ? iWrite(address,value, isLP) -> writeB();}
+				:: atomic{channel ? iWrite(address,value, _) -> writeB();}
 				//READ
 				:: atomic{channel ? iRead, address, value, _ -> readB();}
 				//FLUSH
 				:: atomic{(tail > 0) -> flushB();}  //tail > 0  iff not empty
 				//FENCE
-				:: channel ? iMfence, _, _ ,_ -> mfenceB();
+				::channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
-				:: atomic{channel ? iCas, address , value, newValue -> casB()};
+				:: atomic{channel ? iCas, address , value, newValue -> casB();}
 			fi
 		od
 }
