@@ -100,9 +100,7 @@ bb2:                                              ; preds = %bb
   %13 = load %struct.Stack** %this_addr, align 4  ; <%struct.Stack*> [#uses=1]
   %14 = getelementptr inbounds %struct.Stack* %13, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
   %15 = bitcast %struct.Node** %14 to i32*        ; <i32*> [#uses=1]
-  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
-  %16 = call i32 @llvm.atomic.cmp.swap.i32.p0i32(i32* %15, i32 %12, i32 %10) ; <i32> [#uses=1]
-  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
+  %16 = cmpxchg i32* %15, i32 %12, i32 %10 seq_cst
   %17 = icmp eq i32 %16, %12                      ; <i1> [#uses=1]
   %18 = zext i1 %17 to i8                         ; <i8> [#uses=1]
   %toBool = icmp ne i8 %18, 0                     ; <i1> [#uses=1]
@@ -128,9 +126,6 @@ return:                                           ; preds = %bb6
   ret %struct.Node* %retval7
 }
 
-declare void @llvm.memory.barrier(i1, i1, i1, i1, i1) nounwind
-
-declare i32 @llvm.atomic.cmp.swap.i32.p0i32(i32* nocapture, i32, i32) nounwind
 
 define void @_ZN5Stack4pushEi(%struct.Stack* %this, i32 %v) align 2 {
 entry:
@@ -172,9 +167,7 @@ bb:                                               ; preds = %bb, %entry
   %18 = load %struct.Stack** %this_addr, align 4  ; <%struct.Stack*> [#uses=1]
   %19 = getelementptr inbounds %struct.Stack* %18, i32 0, i32 0 ; <%struct.Node**> [#uses=1]
   %20 = bitcast %struct.Node** %19 to i32*        ; <i32*> [#uses=1]
-  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
-  %21 = call i32 @llvm.atomic.cmp.swap.i32.p0i32(i32* %20, i32 %17, i32 %15) ; <i32> [#uses=1]
-  call void @llvm.memory.barrier(i1 true, i1 true, i1 true, i1 true, i1 true)
+  %21 = cmpxchg i32* %20, i32 %17, i32 %15 seq_cst
   %22 = icmp eq i32 %21, %17                      ; <i1> [#uses=1]
   %23 = zext i1 %22 to i8                         ; <i8> [#uses=1]
   %toBool = icmp ne i8 %23, 0                     ; <i1> [#uses=1]
