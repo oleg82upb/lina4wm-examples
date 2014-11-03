@@ -6,7 +6,8 @@ entry:
   %0 = load i32* %r1, align 4, !tbaa !0
   %a = add i32 6, 0
   fence singlethread seq_cst             ; yields void
-  %val_success = cmpxchg i32* %r1, i32 %b, i32 %a acq_rel monotonic ; yields  { i32, i1 }
+  %val_success = cmpxchg i32* %r1, i32 %b, i32 %a seq_cst
+
 return:
   ret void
 } 
