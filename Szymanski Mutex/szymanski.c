@@ -1,26 +1,8 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #define N 2
 
-flag[N] = {0,0};
-
-void proci(int i)
-{
-	flag[i] = 1;
-	while(!allFlags123()) {/* wait */}
-	flag[i] = 3;
-	if (existFlag(1))
-	{
-		flag[i] = 2;
-		while(!existFlag(4)) {/* wait */}
-	}
-	flag[i] = 4;
-	while(allLowerIn01(i)){/* wait */}
-
-	//critical section
-
-	while(allHigherIn014(i)){/* wait */}
-	flag[i] = 0;
-}
+bool flag[N] = {0,0};
 
 int allHigherIn014(int i)
 {
@@ -61,6 +43,27 @@ int allFlags123()
 	}
 	return 1;
 }
+
+void proci(int i)
+{
+	flag[i] = 1;
+	while(!allFlags123()) {/* wait */}
+	flag[i] = 3;
+	if (existFlag(1))
+	{
+		flag[i] = 2;
+		while(!existFlag(4)) {/* wait */}
+	}
+	flag[i] = 4;
+	while(allLowerIn01(i)){/* wait */}
+
+	//critical section
+
+	while(allHigherIn014(i)){/* wait */}
+	flag[i] = 0;
+}
+
+
 
 
 int main () {

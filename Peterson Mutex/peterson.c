@@ -1,7 +1,7 @@
 #include <stdlib.h>
+#include <stdbool.h>
 
-
-flag[2] = {0,0};
+bool flag[2] = {0,0};
 int turn = 0;
 
 void p0()

@@ -1,8 +1,23 @@
 #include <stdlib.h>
+#include <stdbool.h>
 #define N 2
 
-choosing[N] = {0,0};
+bool choosing[N] = {0,0};
 int number[N] = {0,0};
+
+
+int max()
+{
+	int max = 0;
+	for (int i = 0; i < N; i++)
+	{
+		if(max < number[i])
+		{
+			max = number[i];
+		}
+	}
+	return max;
+}
 
 void proci(int i)
 {
@@ -28,18 +43,6 @@ L1:	choosing[i] = 1;
     goto L1;
 }
 
-int max()
-{
-	int max = 0;
-	for (int i = 0; i < N; i++)
-	{
-		if(max < number[i])
-		{
-			max = number[i];
-		}
-	}
-	return max;
-}
 
 
 int main () {
