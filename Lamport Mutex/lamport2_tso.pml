@@ -6,7 +6,7 @@
 #define ch1 1
 #define number 3
 #define num0 3
-#define num1 3
+#define num1 4
 #include "x86_tso_buffer.pml"
 
 
@@ -18,9 +18,9 @@ chan channelT2 = [0] of {mtype, short, short, short};
 
 inline p(i) 
 {
-int n0, n1, nj, ni, n7, j, jn, jc, w1, mych, mynum, add;
-mych  = choosing + i;
-mynum = number + i;
+int n0, n1, nj, ni, n7, j, jn, jc, w1, add;
+int mych  = choosing + i;
+int mynum = number + i;
 
 L1:                                            
   write(mych, 1);
@@ -42,20 +42,23 @@ ifelse:
   goto ifend;
 
 ifend:                                          
-mfence();
 write(mych, 0);
+mfence();
 atomic{
 j = 0;
 jn = num0 + j;
 jc = ch0 + j;}
-mfence(); 
+//mfence(); 
 
 forcond:
-if	:: j < 2 -> goto whilecond;
+if	:: j < 2 -> goto forbody;
 	:: else -> goto crit;
 fi;
 
-
+forbody:
+if 	:: j != i -> goto whilecond;
+	:: else -> goto forinc;
+fi; 
 
 whilecond:
 read(jc, w1);
@@ -85,11 +88,11 @@ crit: skip;
 
 forend: 
 write(mynum, 0);
-mfence();
-goto L1;
+//mfence();
+//goto L1;
 
 }
-
+/* ***********
 inline p0() 
 {
 int n0, n1, w1;
@@ -198,7 +201,7 @@ int n0, n1, w1;
 
 L1:                                            
   write(ch1, 1);
-  mfence();
+  //mfence();
   read(num0, n0);
   if :: n0 == 2 -> goto ifthen;
   	 :: else -> goto ifelse;
@@ -289,15 +292,15 @@ forend:
 memory[num1] = 0;
 goto L1;
 }
-
+************ */
 //----------------------------------------------------------------------
 
 proctype process1(chan ch){
-	p0sc();
+	p(0);
 }
 
 proctype process2(chan ch){
-	p1sc();
+	p(1);
 }
 
 
@@ -312,5 +315,5 @@ atomic{
 	//((process1@crit0) && (process2@crit1))
 }
 
-ltl prop{ [] !((process1@crit0) && (process2@crit1))}
+ltl prop{ [] !((process1@crit) && (process2@crit))}
 
