@@ -1,9 +1,3 @@
-/*
-author: Annika Mütze <muetze.annika@gmail.com>
-date: 05.2013
-
-Burns Mutex SepOps implementation
-*/
 
 #define BUFF_SIZE 4 	//size of Buffer
 #define MEM_SIZE 4	//size of memory
@@ -153,7 +147,7 @@ byte locf0, lturn;
 
 entry:
   write(flag1, 1);
-  mfence();
+  //mfence();
   
 whilecond:   
   read(flag0, locf0);
@@ -194,13 +188,13 @@ whileend:
 //----------------------------------------------------------------------
 
 proctype process1(chan ch){
-	p0();
-	//p0_sb();
+	//p0();
+	p0_sb();
 }
 
 proctype process2(chan ch){
-	p1();
-	//p1_sb();
+	//p1();
+	p1_sb();
 }
 
 
