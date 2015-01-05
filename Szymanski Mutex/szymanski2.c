@@ -14,7 +14,7 @@ L1:	*flag0 = 1;
 	if (*flag1 == 1 )
 	{
 		*flag0 = 2;
-		while(*flag1 == 4) {/* wait */}
+		while(*flag1 != 4) {/* wait */}
 	}
 	*flag0 = 4;
 	//while(0 != 0 && *flag0 > 1){/* wait */} //p1 has to wait for p0
@@ -33,7 +33,7 @@ L1:	*flag1 = 1;
 	if (*flag0 == 1)
 	{
 		*flag1 = 2;
-		while(*flag0 == 4) {/* wait */}
+		while(*flag0 != 4) {/* wait */}
 	}
 	*flag1 = 4;
 	while(*flag0 > 1){/* wait */} //p1 has to wait for p0
