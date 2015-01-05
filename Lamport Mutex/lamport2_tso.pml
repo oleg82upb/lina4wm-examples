@@ -92,215 +92,68 @@ write(mynum, 0);
 //goto L1;
 
 }
-/* ***********
-inline p0() 
+
+inline p_sb(i)
 {
-int n0, n1, w1;
+int n0, n1, nj, ni, n7, j, jn, jc, w1, add;
+int ch_i  = choosing + i;
+int num_i = number + i;
 
-L1:                                            
-  write(ch0, 1);
-  mfence();
-  read(num1, n1);
-  if :: n1 == 2 -> goto ifthen;
-  	 :: else -> goto ifelse;
-  fi;
+L0: skip;
+L1: memory[ch_i] = 1;
+L2: skip;
+L3: n0 = memory[num0];
+L4: n1 = memory[num1];
+L5: if	:: n0 < n1 -> goto L6;
+		:: else -> goto L10;
+	fi;
+L6: goto L7;
+L7: if 	:: true -> goto L9;
+		:: true -> memory[num_i] = n1 + 1; goto L8;
+	fi;
+L8: goto L13;
+L9: memory[num_i] = n1 + 1; goto L13;
+L10: goto L11;
+L11: if	:: true -> goto L12;
+		:: true -> memory[num_i] = n0 + 1; goto L8;
+	fi;
+L12: memory[num_i] = n0 + 1; goto L13;
+L13: memory[ch_i] = 0;
+L14: skip;
+L15: j = 0;
+L16: if	:: j < 2 -> goto L17;
+		:: else -> goto crit;
+	fi;
+L17: if	:: j != i -> goto L18;
+		:: else -> goto L23;
+	fi;
 
-ifthen:
-  write(ch0, 0);
-  goto L1; //re-choose???
-
-ifelse:
-  n0 = n1 + 1;
-  write(num0, n0);
-  mfence();//potential fence
-  goto ifend;
-
-ifend:                                          
-write(ch0, 0);
-mfence();
-//potential fence
-
-
-whilecond:
-read(ch1, w1);
-if	:: w1 != 0 -> goto whilecond;
-	:: else -> goto whilecond2;
-fi;
-
-
-whilecond2:
-read(num1, n1);
-
-if	:: (n1 != 0 && (n1 < n0 || n1 == n0 )) -> goto whilecond2;
-	:: else -> goto crit;
-fi;
-
-
+L18: w1 = memory[choosing + j];
+L19: if	:: w1 -> goto L18;
+		:: else -> goto L19;
+	fi;
+L20: nj = memory[number + j];
+L21: ni = memory[num_i + i];
+L22: if	:: (nj != 0 && (nj < ni || (nj == ni && j < i))) -> goto L20;
+		:: else -> goto L23;
+	 fi;
+L23: j = j + 1; goto L16;
+	
 crit: skip;
 
-
-forend: 
-write(num0, 0);
-goto L1;
-
-}
-inline p0sc() 
-{
-int n0, n1, w1;
-
-L1:                                            
-  memory[ch0] = 1;
-  n1 = memory[num1];
-  if :: n1 == 2 -> goto ifthen;
-  	 :: else -> goto ifelse;
-  fi;
-
-ifthen:
-  memory[ch0] = 0;
-  goto L1; //re-choose???
-
-ifelse:
-  n0 = n1 + 1;
-  memory[num0] = n0;
-  //mfence();//potential fence
-  goto ifend;
-
-ifend:                                          
-memory[ch0] = 0;
-//potential fence
-
-
-whilecond:
-w1 = memory[ch1];
-if	:: w1 != 0 -> goto whilecond;
-	:: else -> goto whilecond2;
-fi;
-
-
-whilecond2:
-n1 = memory[num1]; 
-
-if	:: (n1 != 0 && (n1 < n0 || n1 == n0 )) -> goto whilecond2;
-	:: else -> goto crit0;
-fi;
-
-
-crit0: skip;
-
-
-forend: 
-memory[num0] = 0; 
-goto L1;
-
+memory[num_i] = 0;
 }
 
-
-inline p1() 
-{
-int n0, n1, w1;
-
-L1:                                            
-  write(ch1, 1);
-  //mfence();
-  read(num0, n0);
-  if :: n0 == 2 -> goto ifthen;
-  	 :: else -> goto ifelse;
-  fi;
-
-ifthen:
-  write(ch1, 0);
-  goto L1; //re-choose???
-
-ifelse:
-  n1 = n0 + 1;
-  write(num1, n1);
-  mfence();//potential fence
-  goto ifend;
-
-ifend:                                          
-write(ch1, 0);
-mfence();
-//potential fence
-
-
-whilecond:
-read(ch0, w1);
-if	:: w1 != 0 -> goto whilecond;
-	:: else -> goto whilecond2;
-fi;
-
-
-whilecond2:
-read(num0, n0);
-
-if	:: (n0 != 0 && n0 < n1) -> goto whilecond2;
-	:: else -> goto crit;
-fi;
-
-
-crit: skip;
-
-
-forend: 
-write(num1, 0);
-goto L1;
-}
-
-
-inline p1sc() 
-{
-int n0, n1, w1;
-
-L1:                                            
-  memory[ch1] = 1;
-  n0 = memory[num0];
-  if :: n0 == 2 -> goto ifthen;
-  	 :: else -> goto ifelse;
-  fi;
-
-ifthen:
-  memory[ch0] = 0;
-  goto L1; //re-choose???
-
-ifelse:
-  n1 = n0 + 1;
-  memory[num1] = n1; 
-                           
-  memory[ch1] = 0; 
-  //potential fence
-
-
-whilecond:
-w1 = memory[ch0];
-if	:: w1 != 0 -> goto whilecond;
-	:: else -> goto whilecond2;
-fi;
-
-
-whilecond2:
-n0 = memory[num0];
-
-if	:: (n0 != 0 && n0 < n1) -> goto whilecond2;
-	:: else -> goto crit1;
-fi;
-
-
-crit1: skip;
-
-
-forend: 
-memory[num1] = 0;
-goto L1;
-}
-************ */
 //----------------------------------------------------------------------
 
 proctype process1(chan ch){
-	p(0);
+	//p(0);
+	p_sb(0);
 }
 
 proctype process2(chan ch){
-	p(1);
+	//p(1);
+	p_sb(1);
 }
 
 
