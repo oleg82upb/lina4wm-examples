@@ -12,15 +12,9 @@ L_6_(v_arrayidx,v_elem): if :: true -> memory[v_arrayidx] = v_elem; goto L_6;
 	:: true -> skip;
 fi;
 L_6: skip;
-L_7_(v_arrayidx,v_elem)(v_0,v_inc): if :: true -> memory[v_arrayidx] = v_elem; goto L_7_(v_0,v_inc);
-	:: true -> RET  void
-fi;
-L_7_(v_0,v_inc): if :: true -> memory[v_0] = v_inc; goto L_7;
-	:: true -> RET  void
-fi;
-L_8_(v_arrayidx,v_elem)(v_0,v_inc): memory[v_arrayidx] = v_elem; goto L_8_(v_0,v_inc);
+L_7_(v_arrayidx,v_elem)(v_0,v_inc): memory[v_arrayidx] = v_elem; goto L_7_(v_0,v_inc);
+L_7_(v_0,v_inc): memory[v_0] = v_inc; goto L_7;
 L_7: RET  void
-L_8_(v_0,v_inc): memory[v_0] = v_inc; goto L_8;
 L_8: skip;
 }
 
@@ -100,16 +94,13 @@ L_14_(v_0,v_dec): if :: true -> memory[v_0] = v_dec; goto L_14;
 	:: true -> skip;
 fi;
 L_14: skip;
-L_28_(v_0,v_dec): if :: true -> memory[v_0] = v_dec; goto L_28;
-	:: true -> RET %retval.0 
-fi;
+L_28_(v_0,v_dec): memory[v_0] = v_dec; goto L_28;
 L_15_(v_0,v_dec)(v_0,0): if :: true -> memory[v_0] = v_dec; goto L_15_(v_0,0);
 	:: true -> %and = %5  & 65535 
 fi;
 L_15_(v_0,0): if :: true -> memory[v_0] = 0; goto L_15;
 	:: true -> %and = %5  & 65535 
 fi;
-L_29_(v_0,v_dec): memory[v_0] = v_dec; goto L_29;
 L_16_(v_0,v_dec)(v_0,0): if :: true -> memory[v_0] = v_dec; goto L_16_(v_0,0);
 	:: true -> %add = %and  + 1 
 fi;
@@ -172,26 +163,20 @@ fi;
 L_27_(v_0,0)(v_8,v_add): if :: true -> memory[v_0] = 0; goto L_27_(v_8,v_add);
 	:: true -> phi([-1 , if.end9(PC:27)], [-1 , entry], [%3 , if.end], [%3 , if.then6])
 fi;
-L_28_(v_0,v_dec)(v_0,0)(v_8,v_add): if :: true -> memory[v_0] = v_dec; goto L_28_(v_0,0)(v_8,v_add);
-	:: true -> RET %retval.0 
-fi;
+L_28_(v_0,v_dec)(v_0,0)(v_8,v_add): memory[v_0] = v_dec; goto L_28_(v_0,0)(v_8,v_add);
 L_22: v_.pre = memory[ @age];
 L_26: goto L_27;
 L_27_(v_8,v_add): if :: true -> memory[v_8] = v_add; goto L_27;
 	:: true -> phi([-1 , if.end9(PC:27)], [-1 , entry], [%3 , if.end], [%3 , if.then6])
 fi;
-L_28_(v_0,0)(v_8,v_add): if :: true -> memory[v_0] = 0; goto L_28_(v_8,v_add);
-	:: true -> RET %retval.0 
-fi;
-L_29_(v_0,v_dec)(v_0,0)(v_8,v_add): memory[v_0] = v_dec; goto L_29_(v_0,0)(v_8,v_add);
+L_28_(v_0,0)(v_8,v_add): memory[v_0] = 0; goto L_28_(v_8,v_add);
 L_23: goto L_24;
-L_28_(v_8,v_add): if :: true -> memory[v_8] = v_add; goto L_28;
-	:: true -> RET %retval.0 
-fi;
-L_29_(v_0,0)(v_8,v_add): memory[v_0] = 0; goto L_29_(v_8,v_add);
-L_29_(v_8,v_add): memory[v_8] = v_add; goto L_29;
+L_28_(v_8,v_add): memory[v_8] = v_add; goto L_28;
 
 }
 
-
+inline @main(){ 
+L_0: RET 0 
+L_1: skip;
+}
 
