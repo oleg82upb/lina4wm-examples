@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:controlflow="http://www.upb.de/lina/cfg/controlflow" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_LqAboOQyEeSzZ-YFP7fCvg" type="ControlFlow" measurementUnit="Pixel">
+  <children xmi:type="notation:Shape" xmi:id="_5E11EOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI" fillColor="15906475">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E11EuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E11EeTmEeSC-r-NHTHGAw" x="486"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E11E-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E11FeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.1"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E11FOTmEeSC-r-NHTHGAw" x="486" y="80"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E3qQOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E3qQuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.2"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E3qQeTmEeSC-r-NHTHGAw" x="486" y="160"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E3qQ-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E3qReTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.3"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E3qROTmEeSC-r-NHTHGAw" x="486" y="240"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E3qRuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E3qSOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.4"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E3qR-TmEeSC-r-NHTHGAw" x="365" y="2480"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E3qSeTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E3qS-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.5"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E3qSuTmEeSC-r-NHTHGAw" x="419" y="320"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E3qTOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E3qTuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.6"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E3qTeTmEeSC-r-NHTHGAw" x="474" y="2560"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E3qT-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E3qUeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.7"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E3qUOTmEeSC-r-NHTHGAw" x="401" y="400"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E3qUuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI" fillColor="15906475">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E3qVOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.8"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E3qU-TmEeSC-r-NHTHGAw" x="474" y="2640"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44YOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E44YuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.9"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44YeTmEeSC-r-NHTHGAw" x="354" y="480"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44Y-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E44ZeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.10"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44ZOTmEeSC-r-NHTHGAw" x="250" y="560"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44ZuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E44aOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.11"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44Z-TmEeSC-r-NHTHGAw" x="354" y="560"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44aeTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E44a-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.12"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44auTmEeSC-r-NHTHGAw" x="250" y="640"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44bOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E44buTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.13"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44beTmEeSC-r-NHTHGAw" x="354" y="640"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44b-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E44ceTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.14"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44cOTmEeSC-r-NHTHGAw" x="250" y="720"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44cuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E44dOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.15"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44c-TmEeSC-r-NHTHGAw" x="354" y="720"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E44deTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6tkOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.16"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E44duTmEeSC-r-NHTHGAw" x="250" y="800"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6tkeTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6tk-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.17"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6tkuTmEeSC-r-NHTHGAw" x="354" y="800"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6tlOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6tluTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.18"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6tleTmEeSC-r-NHTHGAw" x="247" y="880"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6tl-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6tmeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.19"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6tmOTmEeSC-r-NHTHGAw" x="247" y="960"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6tmuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6tnOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.20"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6tm-TmEeSC-r-NHTHGAw" x="247" y="1040"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6tneTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6tn-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.21"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6tnuTmEeSC-r-NHTHGAw" x="247" y="1120"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6toOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6touTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.22"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6toeTmEeSC-r-NHTHGAw" x="247" y="1200"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6to-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E6tpeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.23"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6tpOTmEeSC-r-NHTHGAw" x="177" y="1280"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E6tpuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77sOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.24"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E6tp-TmEeSC-r-NHTHGAw" x="110" y="1360"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77seTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77s-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.25"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77suTmEeSC-r-NHTHGAw" y="1440"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77tOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77tuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.26"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77teTmEeSC-r-NHTHGAw" x="110" y="1440"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77t-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77ueTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.27"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77uOTmEeSC-r-NHTHGAw" y="1520"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77uuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77vOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.28"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77u-TmEeSC-r-NHTHGAw" x="110" y="1520"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77veTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77v-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.29"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77vuTmEeSC-r-NHTHGAw" y="1600"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77wOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77wuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.30"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77weTmEeSC-r-NHTHGAw" x="110" y="1600"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77w-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E77xeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.31"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77xOTmEeSC-r-NHTHGAw" y="1680"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E77xuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E9w4OTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.32"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E77x-TmEeSC-r-NHTHGAw" x="110" y="1680"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E9w4eTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E9w4-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.33"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E9w4uTmEeSC-r-NHTHGAw" x="380" y="2071"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E9w5OTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E9w5uTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.34"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E9w5eTmEeSC-r-NHTHGAw" x="84" y="1760"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E9w5-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E9w6eTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.35"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E9w6OTmEeSC-r-NHTHGAw" x="190" y="2170"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E9w6uTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E9w7OTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.36"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E9w6-TmEeSC-r-NHTHGAw" x="380" y="2151"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E9w7eTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E9w7-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.37"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E9w7uTmEeSC-r-NHTHGAw" x="84" y="1840"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E9w8OTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E9w8uTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.38"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E9w8eTmEeSC-r-NHTHGAw" x="190" y="2250"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E9w8-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_AOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.39"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E9w9OTmEeSC-r-NHTHGAw" x="317" y="2240"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_AeTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_A-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.40"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_AuTmEeSC-r-NHTHGAw" x="84" y="1920"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_BOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_BuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.41"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_BeTmEeSC-r-NHTHGAw" x="335" y="2320"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_B-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_CeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.42"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_COTmEeSC-r-NHTHGAw" x="570" y="2261"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_CuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_DOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.43"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_C-TmEeSC-r-NHTHGAw" x="115" y="2000"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_DeTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_D-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.44"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_DuTmEeSC-r-NHTHGAw" x="342" y="2394"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_EOTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_EuTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.45"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_EeTmEeSC-r-NHTHGAw" x="570" y="2394"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_E-TmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5E-_FeTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.46"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_FOTmEeSC-r-NHTHGAw" x="874" y="2394"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5E-_FuTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5FA0MOTmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.47"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5E-_F-TmEeSC-r-NHTHGAw" x="190" y="2090"/>
+  </children>
+  <children xmi:type="notation:Shape" xmi:id="_5FA0MeTmEeSC-r-NHTHGAw" type="2001" fontName="Segoe UI">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5FA0M-TmEeSC-r-NHTHGAw" type="5001"/>
+    <element xmi:type="controlflow:ControlFlowLocation" href="arora-deque-Os-fenced.cfg#/2/@locations.48"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_5FA0MuTmEeSC-r-NHTHGAw" x="741" y="2527"/>
+  </children>
+  <styles xmi:type="notation:DiagramStyle" xmi:id="_LqAboeQyEeSzZ-YFP7fCvg"/>
+  <element xmi:type="controlflow:ControlFlowDiagram" href="arora-deque-Os-fenced.cfg#/2"/>
+  <edges xmi:type="notation:Connector" xmi:id="_5FswsOTmEeSC-r-NHTHGAw" type="4001" source="_5E11EOTmEeSC-r-NHTHGAw" target="_5E11E-TmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Fsws-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5FswtOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5FswseTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.0"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5FswsuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGC9eTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGC9uTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Ful4OTmEeSC-r-NHTHGAw" type="4001" source="_5E11E-TmEeSC-r-NHTHGAw" target="_5E3qQOTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Ful4-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Ful5OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Ful4eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.1"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Ful4uTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R9OTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R9eTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5FxpMOTmEeSC-r-NHTHGAw" type="4001" source="_5E3qQOTmEeSC-r-NHTHGAw" target="_5E3qQ-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5FxpM-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5FxpNOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5FxpMeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.2"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5FxpMuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JFb5OTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGC8OTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Fy3UOTmEeSC-r-NHTHGAw" type="4001" source="_5E3qQ-TmEeSC-r-NHTHGAw" target="_5E3qRuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Fy3U-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Fy3VOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Fy3UeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.3"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Fy3UuTmEeSC-r-NHTHGAw" points="[6, 0, 115, -2220]$[6, 2020, 115, -200]$[-109, 2220, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JH4JuTmEeSC-r-NHTHGAw" id="(0.4772727272727273,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JIfMOTmEeSC-r-NHTHGAw" id="(0.66,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5F0sgOTmEeSC-r-NHTHGAw" type="4001" source="_5E3qQ-TmEeSC-r-NHTHGAw" target="_5E3qSeTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5F0sg-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5F0shOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5F0sgeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.4"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5F0sguTmEeSC-r-NHTHGAw" points="[0, 0, 55, -60]$[-55, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjZOTmEeSC-r-NHTHGAw" id="(0.22727272727272727,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjZeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5F16oOTmEeSC-r-NHTHGAw" type="4001" source="_5E3qRuTmEeSC-r-NHTHGAw" target="_5E3qTOTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5F3v0OTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5F3v0eTmEeSC-r-NHTHGAw" x="-201" y="95"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5F16oeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.5"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5F16ouTmEeSC-r-NHTHGAw" points="[0, 0, -100, -60]$[66, 27, -34, -33]$[100, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gGOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gGeTmEeSC-r-NHTHGAw" id="(0.32,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5F498OTmEeSC-r-NHTHGAw" type="4001" source="_5E3qSeTmEeSC-r-NHTHGAw" target="_5E3qT-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5F498-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5F499OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5F498eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.6"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5F498uTmEeSC-r-NHTHGAw" points="[0, 0, 18, -60]$[-18, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGC8-TmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGC9OTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5F6zIOTmEeSC-r-NHTHGAw" type="4001" source="_5E3qTOTmEeSC-r-NHTHGAw" target="_5E3qUuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5F8BQOTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5F8BQeTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5F6zIeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.7"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5F6zIuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VQeTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VQuTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5F92cOTmEeSC-r-NHTHGAw" type="4001" source="_5E3qT-TmEeSC-r-NHTHGAw" target="_5E44YOTmEeSC-r-NHTHGAw" lineColor="200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5F92c-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5F92dOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5F92ceTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.8"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5F92cuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjZuTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjZ-TmEeSC-r-NHTHGAw" id="(0.6699029126213593,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GA5wOTmEeSC-r-NHTHGAw" type="4001" source="_5E44YOTmEeSC-r-NHTHGAw" target="_5E44Y-TmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GA5w-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GA5xOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GA5weTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.9"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GA5wuTmEeSC-r-NHTHGAw" points="[0, 0, 107, -60]$[-107, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmvuTmEeSC-r-NHTHGAw" id="(0.24271844660194175,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmv-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GD9EOTmEeSC-r-NHTHGAw" type="4001" source="_5E44YOTmEeSC-r-NHTHGAw" target="_5E44ZuTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GD9E-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GD9FOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GD9EeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.10"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GD9EuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmwOTmEeSC-r-NHTHGAw" id="(0.49514563106796117,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmweTmEeSC-r-NHTHGAw" id="(0.49514563106796117,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GFLMOTmEeSC-r-NHTHGAw" type="4001" source="_5E44Y-TmEeSC-r-NHTHGAw" target="_5E44aeTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GHAYOTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GHAYeTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GFLMeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.11"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GFLMuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JH4IOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JH4IeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GIOgOTmEeSC-r-NHTHGAw" type="4001" source="_5E44ZuTmEeSC-r-NHTHGAw" target="_5E44aeTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GIOg-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GIOhOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GIOgeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.12"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GIOguTmEeSC-r-NHTHGAw" points="[0, 0, 96, -60]$[-96, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjYOTmEeSC-r-NHTHGAw" id="(0.24271844660194175,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjYeTmEeSC-r-NHTHGAw" id="(0.75,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GKDsOTmEeSC-r-NHTHGAw" type="4001" source="_5E44ZuTmEeSC-r-NHTHGAw" target="_5E44bOTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GKDs-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GKDtOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GKDseTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.13"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GKDsuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjYuTmEeSC-r-NHTHGAw" id="(0.49514563106796117,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjY-TmEeSC-r-NHTHGAw" id="(0.49514563106796117,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GNHAOTmEeSC-r-NHTHGAw" type="4001" source="_5E44aeTmEeSC-r-NHTHGAw" target="_5E44b-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GNHA-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GNHBOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GNHAeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.14"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GNHAuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGqAuTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGqA-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GOVIOTmEeSC-r-NHTHGAw" type="4001" source="_5E44bOTmEeSC-r-NHTHGAw" target="_5E44b-TmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GOVI-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GOVJOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GOVIeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.15"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GOVIuTmEeSC-r-NHTHGAw" points="[0, 0, 96, -60]$[-96, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R9uTmEeSC-r-NHTHGAw" id="(0.24271844660194175,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R9-TmEeSC-r-NHTHGAw" id="(0.75,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GRYcOTmEeSC-r-NHTHGAw" type="4001" source="_5E44bOTmEeSC-r-NHTHGAw" target="_5E44cuTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GRYc-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GRYdOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GRYceTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.16"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GRYcuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R-OTmEeSC-r-NHTHGAw" id="(0.49514563106796117,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R-eTmEeSC-r-NHTHGAw" id="(0.49514563106796117,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GTNoOTmEeSC-r-NHTHGAw" type="4001" source="_5E44b-TmEeSC-r-NHTHGAw" target="_5E44deTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GTNo-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GTNpOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GTNoeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.17"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GTNouTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjaOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjaeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GUbwOTmEeSC-r-NHTHGAw" type="4001" source="_5E44cuTmEeSC-r-NHTHGAw" target="_5E44deTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GWQ8OTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GWQ8eTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GUbweTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.18"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GUbwuTmEeSC-r-NHTHGAw" points="[0, 0, 96, -60]$[-96, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gHOTmEeSC-r-NHTHGAw" id="(0.24271844660194175,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gHeTmEeSC-r-NHTHGAw" id="(0.75,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GXfEOTmEeSC-r-NHTHGAw" type="4001" source="_5E44cuTmEeSC-r-NHTHGAw" target="_5E6tkeTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GXfE-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GXfFOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GXfEeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.19"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GXfEuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gHuTmEeSC-r-NHTHGAw" id="(0.49514563106796117,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VQOTmEeSC-r-NHTHGAw" id="(0.46788990825688076,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GZUQOTmEeSC-r-NHTHGAw" type="4001" source="_5E44deTmEeSC-r-NHTHGAw" target="_5E6tlOTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GZUQ-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GZUROTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GZUQeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.20"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GZUQuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYmuTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYm-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GaiYOTmEeSC-r-NHTHGAw" type="4001" source="_5E6tkeTmEeSC-r-NHTHGAw" target="_5E6tlOTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GaiY-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GaiZOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GaiYeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.21"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GaiYuTmEeSC-r-NHTHGAw" points="[0, 0, 124, -60]$[-124, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmsuTmEeSC-r-NHTHGAw" id="(0.4954128440366973,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDms-TmEeSC-r-NHTHGAw" id="(0.74,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GcXkOTmEeSC-r-NHTHGAw" type="4001" source="_5E6tlOTmEeSC-r-NHTHGAw" target="_5E6tl-TmEeSC-r-NHTHGAw" lineColor="13107200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GcXk-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GcXlOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GcXkeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.22"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GcXkuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VReTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VRuTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GdlsOTmEeSC-r-NHTHGAw" type="4001" source="_5E6tl-TmEeSC-r-NHTHGAw" target="_5E6tmuTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Gfa4OTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Gfa4eTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GdlseTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.23"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GdlsuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjbOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjbeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GgpAOTmEeSC-r-NHTHGAw" type="4001" source="_5E6tmuTmEeSC-r-NHTHGAw" target="_5E6tneTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GgpA-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GgpBOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GgpAeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.24"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GgpAuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjbuTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjb-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GieMOTmEeSC-r-NHTHGAw" type="4001" source="_5E6tneTmEeSC-r-NHTHGAw" target="_5E6toOTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GieM-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GieNOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GieMeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.25"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GieMuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VTeTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VTuTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GlhgOTmEeSC-r-NHTHGAw" type="4001" source="_5E6toOTmEeSC-r-NHTHGAw" target="_5E3qRuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Glhg-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GlhhOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GlhgeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.26"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GlhguTmEeSC-r-NHTHGAw" points="[0, 0, -118, -1260]$[8, 79, -110, -1181]$[8, 719, -110, -541]$[-52, 780, -170, -480]$[-54, 799, -172, -461]$[-101, 860, -219, -400]$[-101, 1039, -219, -221]$[118, 1260, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JIfMeTmEeSC-r-NHTHGAw" id="(0.32,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JIfMuTmEeSC-r-NHTHGAw" id="(0.32,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GmvoOTmEeSC-r-NHTHGAw" type="4001" source="_5E6toOTmEeSC-r-NHTHGAw" target="_5E6to-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Gok0OTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Gok0eTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GmvoeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.27"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GmvouTmEeSC-r-NHTHGAw" points="[0, 0, 78, -60]$[-52, 53, 26, -7]$[-63, 60, 15, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYkOTmEeSC-r-NHTHGAw" id="(0.66,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYkeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Gpy8OTmEeSC-r-NHTHGAw" type="4001" source="_5E6to-TmEeSC-r-NHTHGAw" target="_5E6tpuTmEeSC-r-NHTHGAw" lineColor="200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Gpy8-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Gpy9OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Gpy8eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.28"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Gpy8uTmEeSC-r-NHTHGAw" points="[0, 0, 49, -60]$[-49, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmsOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmseTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Gs2QOTmEeSC-r-NHTHGAw" type="4001" source="_5E6tpuTmEeSC-r-NHTHGAw" target="_5E77seTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Gs2Q-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Gs2ROTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Gs2QeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.29"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Gs2QuTmEeSC-r-NHTHGAw" points="[0, 0, 106, -60]$[-106, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmuuTmEeSC-r-NHTHGAw" id="(0.2441860465116279,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmu-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GvSgOTmEeSC-r-NHTHGAw" type="4001" source="_5E6tpuTmEeSC-r-NHTHGAw" target="_5E77tOTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GvSg-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Gv5kOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GvSgeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.30"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GvSguTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmuOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmueTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5GxHsOTmEeSC-r-NHTHGAw" type="4001" source="_5E77seTmEeSC-r-NHTHGAw" target="_5E77t-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5GxHs-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5GxuwOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5GxHseTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.31"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5GxHsuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VQ-TmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VROTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Gzj8OTmEeSC-r-NHTHGAw" type="4001" source="_5E77tOTmEeSC-r-NHTHGAw" target="_5E77t-TmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Gzj8-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Gzj9OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Gzj8eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.32"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Gzj8uTmEeSC-r-NHTHGAw" points="[0, 0, 94, -60]$[-94, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmtuTmEeSC-r-NHTHGAw" id="(0.2441860465116279,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmt-TmEeSC-r-NHTHGAw" id="(0.74,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5G1ZIOTmEeSC-r-NHTHGAw" type="4001" source="_5E77tOTmEeSC-r-NHTHGAw" target="_5E77uuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5G2AMOTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5G2AMeTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5G1ZIeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.33"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5G1ZIuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmtOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmteTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5G31YOTmEeSC-r-NHTHGAw" type="4001" source="_5E77t-TmEeSC-r-NHTHGAw" target="_5E77veTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5G31Y-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5G31ZOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5G31YeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.34"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5G31YuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JHRFeTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JHRFuTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5G5qkOTmEeSC-r-NHTHGAw" type="4001" source="_5E77uuTmEeSC-r-NHTHGAw" target="_5E77veTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5G5qk-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5G5qlOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5G5qkeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.35"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5G5qkuTmEeSC-r-NHTHGAw" points="[0, 0, 94, -60]$[-94, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gEOTmEeSC-r-NHTHGAw" id="(0.2441860465116279,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gEeTmEeSC-r-NHTHGAw" id="(0.74,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5G7fwOTmEeSC-r-NHTHGAw" type="4001" source="_5E77uuTmEeSC-r-NHTHGAw" target="_5E77wOTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5G7fw-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5G7fxOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5G7fweTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.36"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5G7fwuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gEuTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gE-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5G8G0OTmEeSC-r-NHTHGAw" type="4001" source="_5E77veTmEeSC-r-NHTHGAw" target="_5E77w-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5G8G0-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5G9U8OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5G8G0eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.37"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5G8G0uTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JHREeTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JHREuTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5G_KIOTmEeSC-r-NHTHGAw" type="4001" source="_5E77wOTmEeSC-r-NHTHGAw" target="_5E77w-TmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5G_KI-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5G_KJOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5G_KIeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.38"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5G_KIuTmEeSC-r-NHTHGAw" points="[0, 0, 94, -60]$[-94, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JFb4OTmEeSC-r-NHTHGAw" id="(0.2441860465116279,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JFb4eTmEeSC-r-NHTHGAw" id="(0.74,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HAYQOTmEeSC-r-NHTHGAw" type="4001" source="_5E77wOTmEeSC-r-NHTHGAw" target="_5E77xuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HAYQ-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HAYROTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HAYQeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.39"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HAYQuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JFb4uTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JFb4-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HCNcOTmEeSC-r-NHTHGAw" type="4001" source="_5E77wOTmEeSC-r-NHTHGAw" target="_5E9w4eTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HDbkOTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HDbkeTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HCNceTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.40"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HCNcuTmEeSC-r-NHTHGAw" points="[0, 0, -186, -460]$[66, 60, -120, -400]$[68, 319, -118, -141]$[186, 460, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JIfM-TmEeSC-r-NHTHGAw" id="(0.7441860465116279,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JIfNOTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HFQwOTmEeSC-r-NHTHGAw" type="4001" source="_5E77w-TmEeSC-r-NHTHGAw" target="_5E9w5OTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HFQw-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HFQxOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HFQweTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.41"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HFQwuTmEeSC-r-NHTHGAw" points="[0, 0, -67, -60]$[67, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VR-TmEeSC-r-NHTHGAw" id="(0.66,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VSOTmEeSC-r-NHTHGAw" id="(0.32,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HGe4OTmEeSC-r-NHTHGAw" type="4001" source="_5E77w-TmEeSC-r-NHTHGAw" target="_5E9w5-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HGe4-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HGe5OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HGe4eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.42"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HGe4uTmEeSC-r-NHTHGAw" points="[0, 0, -203, -460]$[23, 319, -180, -141]$[115, 399, -88, -61]$[203, 460, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JIfNeTmEeSC-r-NHTHGAw" id="(0.32,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JIfNuTmEeSC-r-NHTHGAw" id="(0.24,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HIUEOTmEeSC-r-NHTHGAw" type="4001" source="_5E77xuTmEeSC-r-NHTHGAw" target="_5E9w5OTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HJiMOTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HJiMeTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HIUEeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.43"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HIUEuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JHRE-TmEeSC-r-NHTHGAw" id="(0.08139534883720931,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JHRFOTmEeSC-r-NHTHGAw" id="(0.66,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HLXYOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w4eTmEeSC-r-NHTHGAw" target="_5E9w5-TmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HLXY-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HLXZOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HLXYeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.44"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HLXYuTmEeSC-r-NHTHGAw" points="[0, 0, 94, -60]$[-94, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYnuTmEeSC-r-NHTHGAw" id="(0.2441860465116279,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYn-TmEeSC-r-NHTHGAw" id="(0.74,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HMlgOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w4eTmEeSC-r-NHTHGAw" target="_5E9w6uTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HOasOTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HOaseTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HMlgeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.45"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HMlguTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYnOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYneTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HPo0OTmEeSC-r-NHTHGAw" type="4001" source="_5E9w5OTmEeSC-r-NHTHGAw" target="_5E9w7eTmEeSC-r-NHTHGAw" lineColor="13158400" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HPo0-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HPo1OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HPo0eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.46"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HPo0uTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYkuTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYk-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HReAOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w5-TmEeSC-r-NHTHGAw" target="_5E9w8OTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HReA-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HReBOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HReAeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.47"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HReAuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gGuTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gG-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HSsIOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w6uTmEeSC-r-NHTHGAw" target="_5E9w8OTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HSsI-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HSsJOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HSsIeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.48"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HSsIuTmEeSC-r-NHTHGAw" points="[0, 0, 94, -60]$[-94, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JH4IuTmEeSC-r-NHTHGAw" id="(0.2441860465116279,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JH4I-TmEeSC-r-NHTHGAw" id="(0.74,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HUhUOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w6uTmEeSC-r-NHTHGAw" target="_5E9w8-TmEeSC-r-NHTHGAw" lineColor="200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HUhU-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HUhVOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HUhUeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.49"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HUhUuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JH4JOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JH4JeTmEeSC-r-NHTHGAw" id="(0.2945205479452055,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HVvcOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w7eTmEeSC-r-NHTHGAw" target="_5E-_AeTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HVvc-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HVvdOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HVvceTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.50"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HVvcuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYlOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYleTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HYywOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w8OTmEeSC-r-NHTHGAw" target="_5E-_BOTmEeSC-r-NHTHGAw" lineColor="200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HYyw-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HYyxOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HYyweTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.51"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HYywuTmEeSC-r-NHTHGAw" points="[0, 0, -130, -60]$[130, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGC8eTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGC8uTmEeSC-r-NHTHGAw" id="(0.24545454545454545,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Han8OTmEeSC-r-NHTHGAw" type="4001" source="_5E9w8-TmEeSC-r-NHTHGAw" target="_5E-_BOTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Han8-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Hb2EOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Han8eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.52"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Han8uTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VS-TmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VTOTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HdrQOTmEeSC-r-NHTHGAw" type="4001" source="_5E9w8-TmEeSC-r-NHTHGAw" target="_5E-_B-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HdrQ-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HdrROTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HdrQeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.53"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HdrQuTmEeSC-r-NHTHGAw" points="[0, 0, -236, -39]$[236, 39, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VSeTmEeSC-r-NHTHGAw" id="(0.7465753424657534,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I_VSuTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5He5YOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_AeTmEeSC-r-NHTHGAw" target="_5E3qRuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5He5Y-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5He5ZOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5He5YeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.54"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5He5YuTmEeSC-r-NHTHGAw" points="[0, 0, -273, -540]$[-30, 60, -303, -480]$[-100, 150, -373, -390]$[-100, 492, -373, -48]$[273, 540, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JJGQOTmEeSC-r-NHTHGAw" id="(0.32,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JJGQeTmEeSC-r-NHTHGAw" id="(0.16,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HgukOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_AeTmEeSC-r-NHTHGAw" target="_5E-_CuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Hguk-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HgulOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HgukeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:GuardedTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.55"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HgukuTmEeSC-r-NHTHGAw" points="[0, 0, -23, -60]$[23, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAjauTmEeSC-r-NHTHGAw" id="(0.66,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JAja-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Hh8sOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_BOTmEeSC-r-NHTHGAw" target="_5E-_DeTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Hjx4OTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Hjx4eTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Hh8seTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.56"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Hh8suTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R8OTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R8eTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HlAAOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_BOTmEeSC-r-NHTHGAw" target="_5E-_EOTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HlAA-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HlABOTmEeSC-r-NHTHGAw" x="-10"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HlAAeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.57"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HlAAuTmEeSC-r-NHTHGAw" points="[0, 0, -164, -60]$[164, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R8uTmEeSC-r-NHTHGAw" id="(0.7454545454545455,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R8-TmEeSC-r-NHTHGAw" id="(0.24545454545454545,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Hm1MOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_B-TmEeSC-r-NHTHGAw" target="_5E-_EOTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Hm1M-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Hm1NOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Hm1MeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.58"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Hm1MuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGqBOTmEeSC-r-NHTHGAw" id="(0.3767123287671233,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGqBeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Hp4gOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_B-TmEeSC-r-NHTHGAw" target="_5E-_E-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Hp4g-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Hp4hOTmEeSC-r-NHTHGAw" x="80" y="-65"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Hp4geTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.59"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Hp4guTmEeSC-r-NHTHGAw" points="[0, 0, -143, -60]$[143, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGqBuTmEeSC-r-NHTHGAw" id="(0.684931506849315,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JHREOTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HrGoOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_CuTmEeSC-r-NHTHGAw" target="_5E-_FuTmEeSC-r-NHTHGAw" lineColor="51200" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HrGo-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HrGpOTmEeSC-r-NHTHGAw" x="-7" y="15"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HrGoeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.60"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HrGouTmEeSC-r-NHTHGAw" points="[0, 0, -92, -60]$[92, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGqAOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JGqAeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5Hs70OTmEeSC-r-NHTHGAw" type="4001" source="_5E-_DeTmEeSC-r-NHTHGAw" target="_5E3qRuTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Hs70-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Hs71OTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5Hs70eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.61"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5Hs70uTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R-uTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I8R--TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HuJ8OTmEeSC-r-NHTHGAw" type="4001" source="_5E-_EOTmEeSC-r-NHTHGAw" target="_5E3qRuTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5Hv_IOTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5Hv_IeTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HuJ8eTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.62"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HuJ8uTmEeSC-r-NHTHGAw" points="[0, 0, 191, -66]$[-84, 37, 107, -29]$[-191, 66, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gFuTmEeSC-r-NHTHGAw" id="(0.24545454545454545,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gF-TmEeSC-r-NHTHGAw" id="(0.82,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HxNQOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_EOTmEeSC-r-NHTHGAw" target="_5FA0MeTmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HxNQ-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HxNROTmEeSC-r-NHTHGAw" x="-15" y="-4"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HxNQeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.63"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HxNQuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gFOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5I9gFeTmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5HzCcOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_E-TmEeSC-r-NHTHGAw" target="_5FA0MeTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5HzCc-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5HzCdOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5HzCceTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.64"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5HzCcuTmEeSC-r-NHTHGAw" points="[0, 0, 161, -60]$[-161, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmvOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JDmveTmEeSC-r-NHTHGAw" id="(0.7454545454545455,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5H0QkOTmEeSC-r-NHTHGAw" type="4001" source="_5E-_FuTmEeSC-r-NHTHGAw" target="_5E9w5-TmEeSC-r-NHTHGAw">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5H0Qk-TmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5H0QlOTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5H0QkeTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:Transition" href="arora-deque-Os-fenced.cfg#/2/@transitions.65"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5H0QkuTmEeSC-r-NHTHGAw" points="[0, 0, 0, -60]$[0, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYluTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYl-TmEeSC-r-NHTHGAw" id="(0.5,0.0)"/>
+  </edges>
+  <edges xmi:type="notation:Connector" xmi:id="_5H2FwOTmEeSC-r-NHTHGAw" type="4001" source="_5FA0MeTmEeSC-r-NHTHGAw" target="_5E3qTOTmEeSC-r-NHTHGAw" lineColor="100" lineWidth="2">
+    <children xmi:type="notation:DecorationNode" xmi:id="_5H3T4OTmEeSC-r-NHTHGAw" type="6002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_5H3T4eTmEeSC-r-NHTHGAw" y="40"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_5H2FweTmEeSC-r-NHTHGAw" fontName="Segoe UI"/>
+    <element xmi:type="controlflow:FlushTransition" href="arora-deque-Os-fenced.cfg#/2/@transitions.66"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5H2FwuTmEeSC-r-NHTHGAw" points="[0, 0, 102, -60]$[-102, 60, 0, 0]"/>
+    <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYmOTmEeSC-r-NHTHGAw" id="(0.5,1.0)"/>
+    <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5JCYmeTmEeSC-r-NHTHGAw" id="(0.66,0.0)"/>
+  </edges>
+</notation:Diagram>

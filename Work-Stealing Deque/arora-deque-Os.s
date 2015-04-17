@@ -59,6 +59,7 @@ if.end:                                           ; preds = %entry
   %arrayidx = getelementptr inbounds i32* %2, i32 %dec
   %3 = load i32* %arrayidx, align 4, !tbaa !3
   %4 = load i32** @age, align 4, !tbaa !0
+  fence seq_cst
   %5 = load i32* %4, align 4, !tbaa !3
   %shr = ashr i32 %5, 16
   %cmp1 = icmp ugt i32 %dec, %shr
