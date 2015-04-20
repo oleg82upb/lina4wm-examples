@@ -5,7 +5,7 @@ target triple = "i386-pc-linux-gnu"
 %class.Stack = type { %class.Node* }
 %class.Node = type { i32, %class.Node* }
 
-@_ZN5StackC1Ev = alias void (%class.Stack*)* @_ZN5StackC2Ev
+@_ZN5StackC1Ev = alias void %class.Stack** @_ZN5StackC2Ev
 
 define void @_ZN5StackC2Ev(%class.Stack* %this) unnamed_addr nounwind align 2 {
 entry:
@@ -99,7 +99,7 @@ entry:
   ret void
 }
 
-declare i32 @__gxx_personality_v0(...)
+declare i32 @__gxx_personality_v0( ... )
 
 declare void @_ZdlPv(i8*) nounwind
 ; Node* Stack::pop()
