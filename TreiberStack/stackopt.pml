@@ -99,12 +99,19 @@ skip;
 proctype process1(chan ch){
 	short returnvalue;
 	push(111);
+	mfence();
 	push(222);
+	mfence();
 	push(333);
-	push(444);
+	mfence();
+	//push(444);
+	//mfence();
+	//pop(returnvalue);
+	//mfence();
 	pop(returnvalue);
+	mfence();
 	pop(returnvalue);
-	pop(returnvalue);
+	mfence();
 	pop(returnvalue);
 	//assert(returnvalue == 333);
 }
@@ -112,12 +119,19 @@ proctype process1(chan ch){
 proctype process2(chan ch){
 	short returnvalue;
 	pop(returnvalue);
+	mfence();
 	pop(returnvalue);
+	mfence();
 	pop(returnvalue);
-	pop(returnvalue);
-	push(555);
+	mfence();
+	//pop(returnvalue);
+	//mfence();
+	//push(555);
+	//mfence();
 	push(666);
+	mfence();
 	push(777);
+	mfence();
 	push(888);
 }
 

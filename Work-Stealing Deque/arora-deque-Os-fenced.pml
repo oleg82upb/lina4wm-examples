@@ -2,7 +2,6 @@
 #define NULL 0
 #define I32  0 		// = {0};
 #define Ptr  0
-#define NULL 0
 #define QLength 6
 
 #define EMPTY 0
