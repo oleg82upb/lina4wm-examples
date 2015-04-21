@@ -11,6 +11,8 @@
 short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 short bot, age, deq;
+short res1,res2;
+bit done1 = false, done2 = false;
 
 inline getelementptr(instance, offset, targetRegister)
 {
@@ -32,17 +34,17 @@ inline alloca(type, targetRegister)
 	}
 }
 
-inline ageCAS(age, ageold1, ageold2, agenew1, agenew2, result)
+inline cas(adr, old, new, result)
 {
 	atomic{
-	if 	:: (memory[age] == ageold1 && memory[age + 1] == ageold2) -> memory[age] = agenew1; memory[age + 1] = agenew2; result = true;
+	if 	:: memory[adr] == old -> memory[adr] = new; result = true;
 		:: else -> result = false;
 	fi;
 	}
 }
 
 //TODO make sure loading writing of age as replaced by a two slot write
-inline push(elem){ 
+inline pushBottom(elem){ 
 short v0,v1,v2, idx, inc;
 
 P0: v0 = memory[bot];
@@ -69,23 +71,23 @@ P7v0: memory[v0] = inc;
 P7: skip;
 }
 
-inline dequeue(retval){ 
-short v0, v1top, v1tag, v2, v3, v4, idx, v5, v6; 
+inline popTop(retval){ 
+short v0, v1, v2, v3, v4, idx, v5, v6, shr, add5, cmp; 
 
 D0: v0 = memory[age];
-D1: atomic{v1top = memory[v0]; v1tag = memory[v0+1];}
+D1: v1 = memory[v0];
 D2: v2 = memory[bot];
 D3: v3 = memory[v2];
-D4: skip;
-//D5: cmp = (v3 > v1top);
-D6: if :: (v3 > v1top) -> goto D7;
+D4: shr = v1 % 100;
+D5: cmp = (v3 > shr);
+D6: if :: cmp -> goto D7;
 	:: else -> retval = MYNULL; goto D15;
 fi;
 D7: v4 = memory[deq];
-D8: getelementptr(v4, v1top, idx); 
+D8: getelementptr(v4, shr, idx); 
 D9: v5 = memory[idx]; 
-//D10: newage = v1top + 1 | v1tag 
-D11: ageCAS( v0, v1top, v1tag , v1top + 1, v1tag , v6);
+D10: add5 = v1 + 1;		//2^16 originally
+D11: cas( v0, v1, add5 , v6);
 //D12: v7 = (v6  == v1 )
 D13: if :: v6 -> retval = v5;
 		:: else -> retval = ABORT;
@@ -95,8 +97,8 @@ D15: skip;
 }
 
 
-inline pop(retval){ 
-short v0,v1,cmp, dec, idx, v2, v3, v4, v5top, v5tag, v6, cmp1, newtop, newtag, cmp5; 
+inline popBottom(retval){ 
+short v0,v1,cmp, dec, idx, v2, v3, v4, v5, v6, cmp1, cmp5, add, and, shr; 
 
 O0: v0 = memory[bot];
 O1: v1 = memory[v0];
@@ -137,10 +139,10 @@ O9: v4 = memory[age]; goto O10;
 O10v0: memory[v0] = dec; goto O10;
 O10: skip; //fence
 
-O11: atomic{v5top = memory[v4]; v5tag = memory[v4+1];}
+O11: v5 = memory[v4]; 
 //----------------------
-//O12: %shr = %5  >>[A] 16 
-O13: cmp1 = (dec > v5top );
+O12: shr = v5 % 100; // age.top 
+O13: cmp1 = (dec > shr );
 //-------------------------------
 O14: 
 if	:: cmp1 -> retval = v3; goto O28;
@@ -149,10 +151,10 @@ fi;
 
 O15: skip;
 //------------------------
-O16: newtop = 0; //%and = %5  & 65535 
-O17: newtag = v5tag + 1; //%add = %and  + 1
+O16: and = v5- (v5%100); //v1 first two digits remain, the last two are 00    				newtop = 0; //%and = %5  & 65535 
+O17: add = and + 100;		//tag increment													newtag = v5tag + 1; //%add = %and  + 1
 //-------------------------
-O18: cmp5 = (dec == v5top);
+O18: cmp5 = (dec == shr);
 O19: 
 if	:: cmp5 -> goto O20;
 	:: else -> goto O25;
@@ -161,17 +163,17 @@ fi;
 
 O16v0: 
 if	:: true -> memory[v0] = 0; goto O16;
-	:: true -> newtop = 0; goto O17v0; 
+	:: true -> and = v5- (v5%100); goto O17v0; 
 fi;
 
 O17v0: 
 if	:: true -> memory[v0] = 0; goto O17;
-	:: true -> newtag = v5tag + 1; goto O18v0;
+	:: true -> add = and + 100; goto O18v0;
 fi;
  
 O18v0: 
 if	:: true -> memory[v0] = 0; goto O18;
-	:: true -> cmp5 = (dec == v5top); goto O19v0;
+	:: true -> cmp5 = (dec == shr); goto O19v0;
 fi;
 
 O19v0: 
@@ -182,7 +184,7 @@ fi;
 
 O20v0: memory[v0] = 0; goto O20;
 
-O20: ageCAS(v4 , v5top, v5tag , newtop, newtag, v6);
+O20: cas(v4 , v5, add, v6);
 
 //O21: v7 = (v6  == %5 )
 O22: 
@@ -212,7 +214,7 @@ if	:: true -> memory[v0] = 0; goto O27v8;
 fi;
 
 O27v8: 
-if	:: true -> atomic{memory[v4] = newtop; memory[v4+1] = newtag; }; goto O27;
+if	:: true -> memory[v4] = add; goto O27;
 	:: true -> retval = MYNULL;; goto O28v8;
 fi;
 
@@ -226,13 +228,13 @@ fi;
 
 
 O28v8:
-if	:: true -> atomic{memory[v4] = newtop; memory[v4+1] = newtag; }; goto O28;
+if	:: true -> memory[v4] = add; goto O28;
 	:: true -> goto O29v8; //phi([-1 , if.end9(PC:28)], [-1 , entry], [%3 , if.end], [%3 , if.then6])
 fi;
 
 O29v0v8: memory[v0] = 0; goto O29v8;
 
-O29v8: atomic{memory[v4] = newtop; memory[v4+1] = newtag; }; goto O29;
+O29v8: memory[v4] = add; goto O29;
 
 //return
 O28: skip;
@@ -240,29 +242,24 @@ O29: skip;
 O30: skip;
 }
 
+
 proctype process1(){
-	short result;
-	push(111);
-	//mfence(); 
-	push(222);
-	push(333);
-	pop(result);
-	//assert(result == 333);
-	//printf("Proc1: %d \n", result);
-	pop(result);
-	//printf("Proc1: %d \n", result);
-	push(444);
-	pop(result);
-	//assert(result == 222);
-	//printf("Proc1: %d \n", result);
+	pushBottom(111);
+	popBottom(res1);
+	done1 = true;
+	assert(
+		!(done1&&done2)
+		|| ((res1==111&&res2<0) || (res1<0&&res2==111))
+	);
 }
 
 proctype process2(){
-	short result;
-	dequeue(result);
-	dequeue(result);
-	dequeue(result);
-	skip;
+	popTop(res2);
+	done2 = true;
+	assert(
+		!(done1&&done2)
+		|| ((res1==111&&res2<0) || (res1<0&&res2==111))
+	);
 }
 
 
@@ -271,7 +268,7 @@ atomic{
 	alloca(Ptr, bot);	//int**
 	alloca(Ptr, memory[bot]); //int*
 	alloca(Ptr, age);	//int** 
-	alloca(1, memory[age]); //int* treating age as two memory slots
+	alloca(Ptr, memory[age]); //int* 
 	alloca(Ptr, deq);	//int**
 	alloca(QLength, memory[deq]); //int*
 	//alloca(QLength, memory[memory[deq]]);  //array starting at deq*
