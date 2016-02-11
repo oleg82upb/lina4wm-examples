@@ -5,7 +5,7 @@ target triple = "i386-pc-linux-gnu"
 %class.Stack = type { %class.Node* }
 %class.Node = type { i32, %class.Node* }
 
-@_ZN5StackC1Ev = alias void %class.Stack** @_ZN5StackC2Ev
+@_ZN5StackC1Ev = alias void (%class.Stack*)* @_ZN5StackC2Ev
 
 define void @_ZN5StackC2Ev(%class.Stack* %this) unnamed_addr nounwind align 2 {
 entry:

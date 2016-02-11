@@ -1,6 +1,7 @@
 define void @_Test_Independent_Write_Read() nounwind readonly {
 entry:
   %b = add i32 5, 0
+  %r1 = alloca i32
   %r2 = alloca i32
   %a = add i32 1, 0
   

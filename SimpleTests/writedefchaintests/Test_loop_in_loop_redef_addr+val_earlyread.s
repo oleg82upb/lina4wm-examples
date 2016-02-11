@@ -1,6 +1,7 @@
 define void @_Test() nounwind readonly {
 entry:
  %a = add i32 1, 0
+ %r1 = alloca i32
  
 loop1:
  %b = add i32 %a, 1
