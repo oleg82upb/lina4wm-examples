@@ -14,23 +14,29 @@ short i = 0;
 //------------- functions ------------------
 //function was renamed from: @_Z5p1_aqv
 inline p1_acq(){
-short v0, v1, tobool;
+short v0, tobool, conv, cmp;
 entry: 
  write(f0, 1);
- read(f1, v0); 
- v1 = v0 & 1; 
- tobool = (v1 == 0); 
- if 
- 	:: tobool -> goto whileendsplit;
- 	:: !tobool -> goto whilecond;
- fi;
- 
-
-whilecond: 
+ // NOT SUPPORTED: Fence
  goto whilecond;
  
 
-whileendsplit: 
+whilecond: 
+ read(f1, v0); 
+ tobool = v0; 
+ conv = tobool; 
+ cmp = (conv != 0); 
+ if 
+ 	:: cmp -> goto whilebody;
+ 	:: !cmp -> goto whileend;
+ fi;
+ 
+
+whilebody: 
+ goto whilecond;
+ 
+
+whileend: 
  goto ret;
 
 
@@ -50,23 +56,49 @@ ret: skip;
 
 //function was renamed from: @_Z5p2_aqv
 inline p2_acq(){
-short v0, v1, tobool;
+short v0, tobool, conv, cmp, v1, tobool1, conv2, cmp3;
 entry: 
+ goto retry;
+ 
+
+retry: 
+ goto whilecond;
+ 
+
+whilecond: 
  read(f0, v0); 
- v1 = v0 & 1; 
- tobool = (v1 == 0); 
+ tobool = v0; 
+ conv = tobool; 
+ cmp = (conv != 0); 
  if 
- 	:: tobool -> goto ifend;
- 	:: !tobool -> goto whilecondbackedge;
+ 	:: cmp -> goto whilebody;
+ 	:: !cmp -> goto whileend;
  fi;
  
 
-whilecondbackedge: 
- goto whilecondbackedge;
+whilebody: 
+ goto whilecond;
+ 
+
+whileend: 
+ write(f1, 1);
+ // NOT SUPPORTED: Fence
+ read(f0, v1); 
+ tobool1 = v1; 
+ conv2 = tobool1; 
+ cmp3 = (conv2 != 0); 
+ if 
+ 	:: cmp3 -> goto ifthen;
+ 	:: !cmp3 -> goto ifend;
+ fi;
+ 
+
+ifthen: 
+ write(f1, 0);
+ goto retry;
  
 
 ifend: 
- write(f1, 1);
  goto ret;
 
 
