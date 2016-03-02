@@ -1,16 +1,10 @@
 #define NULL 0
-#define ADRESSE_X 1
-#define ADRESSE_Y 2
-#define BUFF_LENGTH 1	//number of copies per address in buffer
-#define BUFF_SIZE 3 	//size of Buffer (number of different addresses accepted by buffer + 1) 
-#define MEM_SIZE 5		//size of memory 
-
 
 mtype = {iWrite, iRead , iMfence, iCas};
 /*memory*/
 
 //array of values makes an entry
-typedef SingleAdrBuffer {short entry [BUFF_LENGTH]};
+typedef SingleAdrBuffer {short entry [BUFF_SIZE]};
 //one array per address makes a buffer
 //and tails for each buffer/FIFO-queue
 //typedef Buffer {SingleBuffer buffer [BUFF_SIZE];
@@ -53,9 +47,9 @@ inline cas(adr, oldValue, newValue, successBit)
 //the semantics for each instruction
 inline writeB() {
 	atomic{
-	assert(address < BUFF_SIZE);
+	assert(address < MEM_SIZE);
 	i = tail[address];
-	assert(i < BUFF_LENGTH);
+	assert(i < BUFF_SIZE);
 	buffer[address].entry[i] = value;
 	tail[address]++;
 	i= 0;
@@ -83,9 +77,37 @@ inline readB() {
 inline flushB() {
 atomic{
 	//select all possible addresses to flush from (non-deterministically)
-	select(address : 1 .. (BUFF_SIZE - 1));
+	//select(address : 1 .. (BUFF_SIZE - 1));
+	address = 0;
 	if 
-	:: (tail[address] > 0) ->	{
+		:: 1 < MEM_SIZE && tail[1] > 0 -> address = 1;
+		:: 2 < MEM_SIZE && tail[2] > 0 -> address = 2;
+		:: 3 < MEM_SIZE && tail[3] > 0 -> address = 3;
+		:: 4 < MEM_SIZE && tail[4] > 0 -> address = 4;
+		:: 5 < MEM_SIZE && tail[5] > 0 -> address = 5;
+		:: 6 < MEM_SIZE && tail[6] > 0 -> address = 6;
+		:: 7 < MEM_SIZE && tail[7] > 0 -> address = 7;
+		:: 8 < MEM_SIZE && tail[8] > 0 -> address = 8;
+		:: 9 < MEM_SIZE && tail[9] > 0 -> address = 9;
+		:: 10 < MEM_SIZE && tail[10] > 0 -> address = 10;
+		:: 11 < MEM_SIZE && tail[11] > 0 -> address = 11;
+		:: 12 < MEM_SIZE && tail[12] > 0 -> address = 12;
+		:: 13 < MEM_SIZE && tail[13] > 0 -> address = 13;
+		:: 14 < MEM_SIZE && tail[14] > 0 -> address = 14;
+		:: 15 < MEM_SIZE && tail[15] > 0 -> address = 15;
+		:: 16 < MEM_SIZE && tail[16] > 0 -> address = 16;
+		:: 17 < MEM_SIZE && tail[17] > 0 -> address = 17;
+		:: 18 < MEM_SIZE && tail[18] > 0 -> address = 18;
+		:: 19 < MEM_SIZE && tail[19] > 0 -> address = 19;
+		:: 20 < MEM_SIZE && tail[20] > 0 -> address = 20;
+		//...
+		//extend if more memory is required
+		//...
+		:: else -> skip;
+	fi;
+	
+	if 
+	:: (address > 0) ->	{
 		//write oldest value to memory
 		memory[address] = buffer[address].entry[0];
 		
@@ -109,13 +131,8 @@ inline mfenceB() {
 	atomic{	
 		do
 		::
-			i = 0;
-			for(address : 1 .. BUFF_SIZE)
-			{
-				i =  i || (tail[address] > 0);
-			}
 			if
-			::(i <= 0) -> address = 0; i = 0; break;	//tail > 0 iff buffer not empty
+			::(tail[1] <= 0 && tail[2] <= 0) -> break;	//tail > 0 iff buffer not empty
 			::else -> flushB(); 
 			fi;
 		od;
@@ -150,29 +167,29 @@ proctype bufferProcess(chan channel)
 	short address = 0;
 	short value = 0; 
 	short newValue = 0;
-	SingleAdrBuffer buffer [BUFF_SIZE];
-	short tail [BUFF_SIZE];
+	SingleAdrBuffer buffer [MEM_SIZE];
+	short tail [MEM_SIZE];
 
 	
 end:	do 
 		::	if
 				//WRITE
 				:: atomic{channel ? iWrite(address,value, _) -> writeB();
-					//i = 0; address = 0; value = 0; newValue = 0;
+					i = 0; address = 0; value = 0; newValue = 0;
 					}
 				//READ
 				:: atomic{channel ? iRead, address, value, _ -> readB();
-					//i = 0; address = 0; value = 0; newValue = 0;
+					i = 0; address = 0; value = 0; newValue = 0;
 					}
 				//FLUSH
 				:: atomic{flushB();  
-					//i = 0; address = 0; value = 0; newValue = 0;
+					i = 0; address = 0; value = 0; newValue = 0;
 					}
 				//FENCE
 				:: channel ? iMfence, _, _ ,_ -> mfenceB();
 				//COMPARE AND SWAP
-				:: atomic{channel ? iCas, address , value, newValue -> casB()
-					//i = 0; address = 0; value = 0; newValue = 0;
+				:: atomic{channel ? iCas, address , value, newValue -> casB();
+					i = 0; address = 0; value = 0; newValue = 0;
 					};
 			fi
 		od
@@ -181,54 +198,3 @@ end:	do
 
 
 
-//------------------------------------------
-// one channel per process should be declared
-chan channelT1 = [0] of {mtype, short, short, short};
-chan channelT2 = [0] of {mtype, short, short, short};
-
-
-
-
-
-
-//-----------------------------------------
-//global variable definitions
-short r1 = 0;
-short r2 = 0;
-short r3 = 0;
-short r4 = 0;
-
-
-
-//-----------------------------------------
-//proctypes
-
-
-proctype process1(chan ch)
-{
-	write(ADRESSE_X, 1);
-	read(ADRESSE_X, r1);
-	read(ADRESSE_Y, r2);
-	end: skip;
-}
-
-
-proctype process2(chan ch)
-{	
-	write(ADRESSE_Y, 1);
-	read(ADRESSE_Y, r3);
-	read(ADRESSE_X, r4);
-	end: skip;	
-}
-
-init
-{
-	atomic{
-	run process1(channelT1);
-	run bufferProcess(channelT1);
-	run process2(channelT2);
-	run bufferProcess(channelT2)
-	}
-}
-
-ltl check_0{ [] (process1 @ end && process2 @ end -> ( ! (r1 == 1 && r2 == 0 && r3 == 1 && r4 == 0)))}
