@@ -3,12 +3,8 @@
 mtype = {iWrite, iRead , iMfence, iCas};
 /*memory*/
 
-//array of values makes an entry
+//buffer for each address 
 typedef SingleAdrBuffer {short entry [BUFF_SIZE]};
-//one array per address makes a buffer
-//and tails for each buffer/FIFO-queue
-//typedef Buffer {SingleBuffer buffer [BUFF_SIZE];
-//				short tail [BUFF_SIZE]};
 
 //the memory
 short memory[MEM_SIZE];
@@ -30,7 +26,10 @@ inline read(adr, target)
 
 inline mfence()
 {
+	atomic{
 	ch ! iMfence, NULL, NULL, NULL;
+	ch ? iMfence, NULL, NULL, NULL;
+	}
 }	
 
 inline cas(adr, oldValue, newValue, successBit) 
@@ -132,11 +131,39 @@ inline mfenceB() {
 		do
 		::
 			if
-			::(tail[1] <= 0 && tail[2] <= 0) -> break;	//tail > 0 iff buffer not empty
+			::(    (1 >= MEM_SIZE || tail[1] <= 0) 
+				&& (2 >= MEM_SIZE || tail[2] <= 0)
+				&& (3 >= MEM_SIZE || tail[3] <= 0)
+				&& (4 >= MEM_SIZE || tail[4] <= 0)
+				&& (5 >= MEM_SIZE || tail[5] <= 0)
+				&& (6 >= MEM_SIZE || tail[6] <= 0)
+				&& (7 >= MEM_SIZE || tail[7] <= 0)
+				&& (8 >= MEM_SIZE || tail[8] <= 0)
+				&& (9 >= MEM_SIZE || tail[9] <= 0)
+				&& (10 >= MEM_SIZE || tail[10] <= 0)
+				&& (11 >= MEM_SIZE || tail[11] <= 0)
+				&& (12 >= MEM_SIZE || tail[12] <= 0)
+				&& (13 >= MEM_SIZE || tail[13] <= 0)
+				&& (14 >= MEM_SIZE || tail[14] <= 0)
+				&& (15 >= MEM_SIZE || tail[15] <= 0)
+				&& (16 >= MEM_SIZE || tail[16] <= 0)
+				&& (17 >= MEM_SIZE || tail[17] <= 0)
+				&& (18 >= MEM_SIZE || tail[18] <= 0)
+				&& (19 >= MEM_SIZE || tail[19] <= 0)
+				&& (20 >= MEM_SIZE || tail[20] <= 0)
+				//...
+				//extend if more memory is required
+				//...
+				) -> break;	//tail[i] > 0 iff buffer not empty
 			::else -> flushB(); 
 			fi;
 		od;
 	}
+}
+
+inline fenceWithResponse() {
+	mfenceB();
+	channel ! iMfence, NULL, NULL, NULL;
 }
 	
 inline casB() 
@@ -186,7 +213,9 @@ end:	do
 					i = 0; address = 0; value = 0; newValue = 0;
 					}
 				//FENCE
-				:: channel ? iMfence, _, _ ,_ -> mfenceB();
+				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();
+				i = 0; address = 0; value = 0; newValue = 0;
+				}
 				//COMPARE AND SWAP
 				:: atomic{channel ? iCas, address , value, newValue -> casB();
 					i = 0; address = 0; value = 0; newValue = 0;

@@ -141,15 +141,25 @@ proctype bufferProcess(chan channel)
 end:	do 
 		::	if
 				//WRITE
-				:: atomic{channel ? iWrite(address,value, _) -> writeB();}
+				:: atomic{channel ? iWrite(address,value, _) -> writeB();
+				i = 0; address = 0; value = 0; newValue = 0;
+				}
 				//READ
-				:: atomic{channel ? iRead, address, value, _ -> readB();}
+				:: atomic{channel ? iRead, address, value, _ -> readB();
+				i = 0; address = 0; value = 0; newValue = 0;
+				}
 				//FLUSH
-				:: atomic{(tail > 0) -> flushB();}  //tail > 0  iff not empty
+				:: atomic{(tail > 0) -> flushB();  //tail > 0  iff not empty
+				i = 0; address = 0; value = 0; newValue = 0;
+				}
 				//FENCE
-				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();}
+				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();
+				i = 0; address = 0; value = 0; newValue = 0;
+				}
 				//COMPARE AND SWAP
-				:: atomic{channel ? iCas, address , value, newValue -> casB();}
+				:: atomic{channel ? iCas, address , value, newValue -> casB();
+				i = 0; address = 0; value = 0; newValue = 0;
+				}
 			fi
 		od
 }
