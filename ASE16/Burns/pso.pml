@@ -214,8 +214,8 @@ end:	do
 					}
 				//FENCE
 				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();
-				i = 0; address = 0; value = 0; newValue = 0;
-				}
+					i = 0; address = 0; value = 0; newValue = 0;
+					}
 				//COMPARE AND SWAP
 				:: atomic{channel ? iCas, address , value, newValue -> casB();
 					i = 0; address = 0; value = 0; newValue = 0;
