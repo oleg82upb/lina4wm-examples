@@ -8,41 +8,61 @@ target triple = "i386-pc-linux-gnu"
 
 define void @p0() nounwind {
 entry:
-  store i8 1, i8* @flag0, align 1
+  %0 = load i8** @flag0, align 4
+  store i8 1, i8* %0, align 1
   br label %while.cond
 
 while.cond:                                       ; preds = %if.end, %entry
   fence seq_cst
-  %2 = load i8* @flag1, align 1
-  br i1 %2, label %while.body, label %while.end12
+  %1 = load i8** @flag1, align 4
+  %2 = load i8* %1, align 1
+  %tobool = trunc i8 %2 to i1
+  br i1 %tobool, label %while.body, label %while.end9
 
 while.body:                                       ; preds = %while.cond
-  %4 = load i8* @turn, align 1
-  br i1 %4, label %while.cond, label %if.then
+  %3 = load i8** @turn, align 4
+  %4 = load i8* %3, align 1
+  %tobool1 = trunc i8 %4 to i1
+  %conv = zext i1 %tobool1 to i32
+  %cmp = icmp ne i32 %conv, 0
+  br i1 %cmp, label %if.then, label %if.end
 
 if.then:                                          ; preds = %while.body
-  store i8 0, i8* @flag0, align 1
-  br label %while.cond6
+  %5 = load i8** @flag0, align 4
+  store i8 0, i8* %5, align 1
+  br label %while.cond3
 
-while.cond6:                                      ; preds = %while.body11, %if.then
-  %7 = load i8* @turn, align 1
-  br i1 %7, label %while.end, label %while.cond6
+while.cond3:                                      ; preds = %while.body8, %if.then
+  %6 = load i8** @turn, align 4
+  %7 = load i8* %6, align 1
+  %tobool4 = trunc i8 %7 to i1
+  %conv5 = zext i1 %tobool4 to i32
+  %cmp6 = icmp ne i32 %conv5, 0
+  br i1 %cmp6, label %while.body8, label %while.end
 
-while.end:                                        ; preds = %while.cond6
+while.body8:                                      ; preds = %while.cond3
+  br label %while.cond3
+
+while.end:                                        ; preds = %while.cond3
   %8 = load i8** @flag0, align 4
   store i8 1, i8* %8, align 1
+  br label %if.end
+
+if.end:                                           ; preds = %while.end, %while.body
   br label %while.cond
 
-while.end12:                                      ; preds = %while.cond
-  store i8 1, i8* @turn, align 1
-  store i8 0, i8* @flag0, align 1
+while.end9:                                       ; preds = %while.cond
+  %9 = load i8** @turn, align 4
+  store i8 1, i8* %9, align 1
+  %10 = load i8** @flag0, align 4
+  store i8 0, i8* %10, align 1
   ret void
 }
 
 define void @p1() nounwind {
 entry:
   %0 = load i8** @flag1, align 4
-  store i8 1, i8* @flag1, align 1
+  store i8 1, i8* %0, align 1
   br label %while.cond
 
 while.cond:                                       ; preds = %if.end, %entry
@@ -50,35 +70,33 @@ while.cond:                                       ; preds = %if.end, %entry
   %1 = load i8** @flag0, align 4
   %2 = load i8* %1, align 1
   %tobool = trunc i8 %2 to i1
-  %conv = zext i1 %tobool to i32
-  %cmp = icmp eq i32 %conv, 1
-  br i1 %cmp, label %while.body, label %while.end12
+  br i1 %tobool, label %while.body, label %while.end9
 
 while.body:                                       ; preds = %while.cond
   %3 = load i8** @turn, align 4
   %4 = load i8* %3, align 1
-  %tobool2 = trunc i8 %4 to i1
-  %conv3 = zext i1 %tobool2 to i32
-  %cmp4 = icmp ne i32 %conv3, 1
-  br i1 %cmp4, label %if.then, label %if.end
+  %tobool1 = trunc i8 %4 to i1
+  %conv = zext i1 %tobool1 to i32
+  %cmp = icmp ne i32 %conv, 1
+  br i1 %cmp, label %if.then, label %if.end
 
 if.then:                                          ; preds = %while.body
   %5 = load i8** @flag1, align 4
   store i8 0, i8* %5, align 1
-  br label %while.cond6
+  br label %while.cond3
 
-while.cond6:                                      ; preds = %while.body11, %if.then
+while.cond3:                                      ; preds = %while.body8, %if.then
   %6 = load i8** @turn, align 4
   %7 = load i8* %6, align 1
-  %tobool7 = trunc i8 %7 to i1
-  %conv8 = zext i1 %tobool7 to i32
-  %cmp9 = icmp ne i32 %conv8, 1
-  br i1 %cmp9, label %while.body11, label %while.end
+  %tobool4 = trunc i8 %7 to i1
+  %conv5 = zext i1 %tobool4 to i32
+  %cmp6 = icmp ne i32 %conv5, 1
+  br i1 %cmp6, label %while.body8, label %while.end
 
-while.body11:                                     ; preds = %while.cond6
-  br label %while.cond6
+while.body8:                                      ; preds = %while.cond3
+  br label %while.cond3
 
-while.end:                                        ; preds = %while.cond6
+while.end:                                        ; preds = %while.cond3
   %8 = load i8** @flag1, align 4
   store i8 1, i8* %8, align 1
   br label %if.end
@@ -86,7 +104,7 @@ while.end:                                        ; preds = %while.cond6
 if.end:                                           ; preds = %while.end, %while.body
   br label %while.cond
 
-while.end12:                                      ; preds = %while.cond
+while.end9:                                       ; preds = %while.cond
   %9 = load i8** @turn, align 4
   store i8 0, i8* %9, align 1
   %10 = load i8** @flag1, align 4

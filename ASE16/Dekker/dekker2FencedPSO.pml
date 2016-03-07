@@ -25,270 +25,330 @@ inline alloca(type, targetRegister)
 
 
 inline p0(){
-short v2, v4, v7, v8;
+short v0, v1, v2, tobool, v3, v9, v4, tobool1, v10, conv, cmp, v5, v6, v7, tobool4, conv5, cmp6, v8;
 AStart: goto A00;
-A00: goto A01flag0; 
-A01flag0: 
+A00: v0 = memory[flag0]; goto A01; 
+A01: goto A02v0; 
+A02v0: 
 	if 
-	:: goto A02flag0; 
-	:: memory[flag0] = 1; goto A01; 
+	:: goto A03v0; 
+	:: memory[v0] = 1; goto A02; 
 	fi;
-A02flag0: memory[flag0] = 1; goto A02; 
-A01: goto A02; 
+A03v0: memory[v0] = 1; goto A03; 
 A02: goto A03; 
-A03: v2 = memory[flag1]; goto A04; 
-A04: 
+A03: goto A04; 
+A04: v1 = memory[flag1]; goto A05; 
+A05: v2 = memory[v1]; goto A06; 
+A06: tobool = v2; goto A07; 
+A07: 
 	if 
-	::v2 -> goto A05; 
-	::!v2 -> goto A14; 
+	::tobool -> goto A08; 
+	::!tobool -> goto A28; 
 	fi;
-A05: v4 = memory[turn]; goto A06; 
-A14: goto A15turn; 
-A06: 
+A08: v3 = memory[turn]; goto A09; 
+A28: v9 = memory[turn]; goto A29; 
+A09: v4 = memory[v3]; goto A10; 
+A29: goto A30v9; 
+A10: tobool1 = v4; goto A11; 
+A30v9: 
 	if 
-	::v4 -> goto A02; 
-	::!v4 -> goto A07; 
+	:: v10 = memory[flag0]; goto A31v9; 
+	:: memory[v9] = 1; goto A30; 
 	fi;
-A15turn: 
+A11: conv = tobool1; goto A12; 
+A31v9: 
 	if 
-	:: goto A16turnflag0; 
-	:: memory[turn] = 1; goto A15; 
+	:: goto A32v9v10; 
+	:: memory[v9] = 1; goto A31; 
 	fi;
-A07: goto A08flag0; 
-A16turnflag0: 
+A30: v10 = memory[flag0]; goto A31; 
+A12: cmp = (conv != 0); goto A13; 
+A32v9v10: 
 	if 
-	:: memory[turn] = 1; goto A16flag0; 
-	:: memory[flag0] = 0; goto A16turn; 
+	:: memory[v9] = 1; goto A32v10; 
+	:: memory[v10] = 0; goto A32v9; 
 	fi;
-A15: goto A16flag0; 
-A08flag0: 
+A31: goto A32v10; 
+A13: 
 	if 
-	:: goto A09flag0; 
-	:: memory[flag0] = 0; goto A08; 
+	::cmp -> goto A14; 
+	::!cmp -> goto A27; 
 	fi;
-A16flag0: memory[flag0] = 0; goto A16; 
-A16turn: memory[turn] = 1; goto A16; 
-A09flag0: 
+A32v10: memory[v10] = 0; goto A32; 
+A32v9: memory[v9] = 1; goto A32; 
+A14: v5 = memory[flag0]; goto A15; 
+A27: goto A03; 
+A32: goto AEnd;
+A15: goto A16v5; 
+A16v5: 
 	if 
-	:: v7 = memory[turn]; goto A10flag0; 
-	:: memory[flag0] = 0; goto A09; 
+	:: goto A17v5; 
+	:: memory[v5] = 0; goto A16; 
 	fi;
-A08: goto A09; 
-A16: goto AEnd;
-A10flag0: 
+A17v5: 
 	if 
-	::v7 -> goto A11flag0; 
-	::!v7 -> goto A09flag0; 
-	:: memory[flag0] = 0; goto A10; 
+	:: v6 = memory[turn]; goto A18v5; 
+	:: memory[v5] = 0; goto A17; 
 	fi;
-A09: v7 = memory[turn]; goto A10; 
-A11flag0: 
+A16: goto A17; 
+A18v5: 
 	if 
-	:: v8 = memory[flag0]; goto A12flag0; 
-	:: memory[flag0] = 0; goto A11; 
+	:: v7 = memory[v6]; goto A19v5; 
+	:: memory[v5] = 0; goto A18; 
 	fi;
-A10: 
+A17: v6 = memory[turn]; goto A18; 
+A19v5: 
 	if 
-	::v7 -> goto A11; 
-	::!v7 -> goto A09; 
+	:: tobool4 = v7; goto A20v5; 
+	:: memory[v5] = 0; goto A19; 
 	fi;
-A12flag0: 
+A18: v7 = memory[v6]; goto A19; 
+A20v5: 
 	if 
-	:: goto A13flag0v8; 
-	:: memory[flag0] = 0; goto A12; 
+	:: conv5 = tobool4; goto A21v5; 
+	:: memory[v5] = 0; goto A20; 
 	fi;
-A11: v8 = memory[flag0]; goto A12; 
-A13flag0v8: 
+A19: tobool4 = v7; goto A20; 
+A21v5: 
 	if 
-	:: goto A02flag0v8; 
-	:: memory[flag0] = 0; goto A13v8; 
-	:: memory[v8] = 1; goto A13flag0; 
+	:: cmp6 = (conv5 != 0); goto A22v5; 
+	:: memory[v5] = 0; goto A21; 
 	fi;
-A12: goto A13v8; 
-A02flag0v8: 
+A20: conv5 = tobool4; goto A21; 
+A22v5: 
 	if 
-	:: memory[flag0] = 0; goto A02v8; 
-	:: memory[v8] = 1; goto A02flag00; 
+	::cmp6 -> goto A23v5; 
+	::!cmp6 -> goto A24v5; 
+	:: memory[v5] = 0; goto A22; 
 	fi;
-A13v8: 
+A21: cmp6 = (conv5 != 0); goto A22; 
+A23v5: 
 	if 
-	:: goto A02v8; 
-	:: memory[v8] = 1; goto A13; 
+	:: goto A17v5; 
+	:: memory[v5] = 0; goto A23; 
 	fi;
-A13flag0: 
+A24v5: 
 	if 
-	:: goto A02flag00; 
-	:: memory[flag0] = 0; goto A13; 
+	:: v8 = memory[flag0]; goto A25v5; 
+	:: memory[v5] = 0; goto A24; 
 	fi;
-A02v8: memory[v8] = 1; goto A02; 
-A02flag00: memory[flag0] = 0; goto A02; 
-A13: goto A02; 
+A22: 
+	if 
+	::cmp6 -> goto A23; 
+	::!cmp6 -> goto A24; 
+	fi;
+A23: goto A17; 
+A25v5: 
+	if 
+	:: goto A26v5v8; 
+	:: memory[v5] = 0; goto A25; 
+	fi;
+A24: v8 = memory[flag0]; goto A25; 
+A26v5v8: 
+	if 
+	:: goto A27v5v8; 
+	:: memory[v5] = 0; goto A26v8; 
+	:: memory[v8] = 1; goto A26v5; 
+	fi;
+A25: goto A26v8; 
+A27v5v8: 
+	if 
+	:: goto A03v5v8; 
+	:: memory[v5] = 0; goto A27v8; 
+	:: memory[v8] = 1; goto A27v5; 
+	fi;
+A26v8: 
+	if 
+	:: goto A27v8; 
+	:: memory[v8] = 1; goto A26; 
+	fi;
+A26v5: 
+	if 
+	:: goto A27v5; 
+	:: memory[v5] = 0; goto A26; 
+	fi;
+A03v5v8: 
+	if 
+	:: memory[v5] = 0; goto A03v8; 
+	:: memory[v8] = 1; goto A03v5; 
+	fi;
+A27v8: 
+	if 
+	:: goto A03v8; 
+	:: memory[v8] = 1; goto A27; 
+	fi;
+A27v5: 
+	if 
+	:: goto A03v5; 
+	:: memory[v5] = 0; goto A27; 
+	fi;
+A26: goto A27; 
+A03v8: memory[v8] = 1; goto A03; 
+A03v5: memory[v5] = 0; goto A03; 
 AEnd: skip;
 
 }
 
 
 inline p1(){
-short v0, v1, v2, tobool, conv, cmp, v3, v9, v4, tobool2, v10, conv3, cmp4, v5, v6, v7, tobool7, conv8, cmp9, v8;
+short v0, v1, v2, tobool, v3, v9, v4, tobool1, v10, conv, cmp, v5, v6, v7, tobool4, conv5, cmp6, v8;
 BStart: goto B00;
 B00: v0 = memory[flag1]; goto B01; 
-B01: goto B02flag1; 
-B02flag1: 
+B01: goto B02v0; 
+B02v0: 
 	if 
-	:: goto B03flag1; 
-	:: memory[flag1] = 1; goto B02; 
+	:: goto B03v0; 
+	:: memory[v0] = 1; goto B02; 
 	fi;
-B03flag1: memory[flag1] = 1; goto B03; 
+B03v0: memory[v0] = 1; goto B03; 
 B02: goto B03; 
 B03: goto B04; 
 B04: v1 = memory[flag0]; goto B05; 
 B05: v2 = memory[v1]; goto B06; 
 B06: tobool = v2; goto B07; 
-B07: conv = tobool; goto B08; 
-B08: cmp = (conv == 1); goto B09; 
-B09: 
+B07: 
 	if 
-	::cmp -> goto B10; 
-	::!cmp -> goto B30; 
+	::tobool -> goto B08; 
+	::!tobool -> goto B28; 
 	fi;
-B10: v3 = memory[turn]; goto B11; 
-B30: v9 = memory[turn]; goto B31; 
-B11: v4 = memory[v3]; goto B12; 
-B31: goto B32v9; 
-B12: tobool2 = v4; goto B13; 
-B32v9: 
+B08: v3 = memory[turn]; goto B09; 
+B28: v9 = memory[turn]; goto B29; 
+B09: v4 = memory[v3]; goto B10; 
+B29: goto B30v9; 
+B10: tobool1 = v4; goto B11; 
+B30v9: 
 	if 
-	:: v10 = memory[flag1]; goto B33v9; 
-	:: memory[v9] = 0; goto B32; 
+	:: v10 = memory[flag1]; goto B31v9; 
+	:: memory[v9] = 0; goto B30; 
 	fi;
-B13: conv3 = tobool2; goto B14; 
-B33v9: 
+B11: conv = tobool1; goto B12; 
+B31v9: 
 	if 
-	:: goto B34v9v10; 
-	:: memory[v9] = 0; goto B33; 
+	:: goto B32v9v10; 
+	:: memory[v9] = 0; goto B31; 
 	fi;
-B32: v10 = memory[flag1]; goto B33; 
-B14: cmp4 = (conv3 != 1); goto B15; 
-B34v9v10: 
+B30: v10 = memory[flag1]; goto B31; 
+B12: cmp = (conv != 1); goto B13; 
+B32v9v10: 
 	if 
-	:: memory[v9] = 0; goto B34v10; 
-	:: memory[v10] = 0; goto B34v9; 
+	:: memory[v9] = 0; goto B32v10; 
+	:: memory[v10] = 0; goto B32v9; 
 	fi;
-B33: goto B34v10; 
-B15: 
+B31: goto B32v10; 
+B13: 
 	if 
-	::cmp4 -> goto B16; 
-	::!cmp4 -> goto B29; 
+	::cmp -> goto B14; 
+	::!cmp -> goto B27; 
 	fi;
-B34v10: memory[v10] = 0; goto B34; 
-B34v9: memory[v9] = 0; goto B34; 
-B16: v5 = memory[flag1]; goto B17; 
-B29: goto B03; 
-B34: goto BEnd;
-B17: goto B18v5; 
+B32v10: memory[v10] = 0; goto B32; 
+B32v9: memory[v9] = 0; goto B32; 
+B14: v5 = memory[flag1]; goto B15; 
+B27: goto B03; 
+B32: goto BEnd;
+B15: goto B16v5; 
+B16v5: 
+	if 
+	:: goto B17v5; 
+	:: memory[v5] = 0; goto B16; 
+	fi;
+B17v5: 
+	if 
+	:: v6 = memory[turn]; goto B18v5; 
+	:: memory[v5] = 0; goto B17; 
+	fi;
+B16: goto B17; 
 B18v5: 
 	if 
-	:: goto B19v5; 
+	:: v7 = memory[v6]; goto B19v5; 
 	:: memory[v5] = 0; goto B18; 
 	fi;
+B17: v6 = memory[turn]; goto B18; 
 B19v5: 
 	if 
-	:: v6 = memory[turn]; goto B20v5; 
+	:: tobool4 = v7; goto B20v5; 
 	:: memory[v5] = 0; goto B19; 
 	fi;
-B18: goto B19; 
+B18: v7 = memory[v6]; goto B19; 
 B20v5: 
 	if 
-	:: v7 = memory[v6]; goto B21v5; 
+	:: conv5 = tobool4; goto B21v5; 
 	:: memory[v5] = 0; goto B20; 
 	fi;
-B19: v6 = memory[turn]; goto B20; 
+B19: tobool4 = v7; goto B20; 
 B21v5: 
 	if 
-	:: tobool7 = v7; goto B22v5; 
+	:: cmp6 = (conv5 != 1); goto B22v5; 
 	:: memory[v5] = 0; goto B21; 
 	fi;
-B20: v7 = memory[v6]; goto B21; 
+B20: conv5 = tobool4; goto B21; 
 B22v5: 
 	if 
-	:: conv8 = tobool7; goto B23v5; 
+	::cmp6 -> goto B23v5; 
+	::!cmp6 -> goto B24v5; 
 	:: memory[v5] = 0; goto B22; 
 	fi;
-B21: tobool7 = v7; goto B22; 
+B21: cmp6 = (conv5 != 1); goto B22; 
 B23v5: 
 	if 
-	:: cmp9 = (conv8 != 1); goto B24v5; 
+	:: goto B17v5; 
 	:: memory[v5] = 0; goto B23; 
 	fi;
-B22: conv8 = tobool7; goto B23; 
 B24v5: 
 	if 
-	::cmp9 -> goto B25v5; 
-	::!cmp9 -> goto B26v5; 
+	:: v8 = memory[flag1]; goto B25v5; 
 	:: memory[v5] = 0; goto B24; 
 	fi;
-B23: cmp9 = (conv8 != 1); goto B24; 
+B22: 
+	if 
+	::cmp6 -> goto B23; 
+	::!cmp6 -> goto B24; 
+	fi;
+B23: goto B17; 
 B25v5: 
 	if 
-	:: goto B19v5; 
+	:: goto B26v5v8; 
 	:: memory[v5] = 0; goto B25; 
+	fi;
+B24: v8 = memory[flag1]; goto B25; 
+B26v5v8: 
+	if 
+	:: goto B27v5v8; 
+	:: memory[v5] = 0; goto B26v8; 
+	:: memory[v8] = 1; goto B26v5; 
+	fi;
+B25: goto B26v8; 
+B27v5v8: 
+	if 
+	:: goto B03v5v8; 
+	:: memory[v5] = 0; goto B27v8; 
+	:: memory[v8] = 1; goto B27v5; 
+	fi;
+B26v8: 
+	if 
+	:: goto B27v8; 
+	:: memory[v8] = 1; goto B26; 
 	fi;
 B26v5: 
 	if 
-	:: v8 = memory[flag1]; goto B27v5; 
+	:: goto B27v5; 
 	:: memory[v5] = 0; goto B26; 
-	fi;
-B24: 
-	if 
-	::cmp9 -> goto B25; 
-	::!cmp9 -> goto B26; 
-	fi;
-B25: goto B19; 
-B27v5: 
-	if 
-	:: goto B28v5v8; 
-	:: memory[v5] = 0; goto B27; 
-	fi;
-B26: v8 = memory[flag1]; goto B27; 
-B28v5v8: 
-	if 
-	:: goto B29v5v8; 
-	:: memory[v5] = 0; goto B28v8; 
-	:: memory[v8] = 1; goto B28v5; 
-	fi;
-B27: goto B28v8; 
-B29v5v8: 
-	if 
-	:: goto B03v5v8; 
-	:: memory[v5] = 0; goto B29v8; 
-	:: memory[v8] = 1; goto B29v5; 
-	fi;
-B28v8: 
-	if 
-	:: goto B29v8; 
-	:: memory[v8] = 1; goto B28; 
-	fi;
-B28v5: 
-	if 
-	:: goto B29v5; 
-	:: memory[v5] = 0; goto B28; 
 	fi;
 B03v5v8: 
 	if 
 	:: memory[v5] = 0; goto B03v8; 
 	:: memory[v8] = 1; goto B03v5; 
 	fi;
-B29v8: 
+B27v8: 
 	if 
 	:: goto B03v8; 
-	:: memory[v8] = 1; goto B29; 
+	:: memory[v8] = 1; goto B27; 
 	fi;
-B29v5: 
+B27v5: 
 	if 
 	:: goto B03v5; 
-	:: memory[v5] = 0; goto B29; 
+	:: memory[v5] = 0; goto B27; 
 	fi;
-B28: goto B29; 
+B26: goto B27; 
 B03v8: memory[v8] = 1; goto B03; 
 B03v5: memory[v5] = 0; goto B03; 
 BEnd: skip;

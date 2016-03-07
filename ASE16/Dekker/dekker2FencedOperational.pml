@@ -17,52 +17,74 @@ short turn = null;
 //------------- functions ------------------
 
 inline p0(){
-short v2, v4, v7, v8;
+short v0, v1, v2, tobool, v3, v9, v4, tobool1, v10, conv, cmp, v5, v6, v7, tobool4, conv5, cmp6, v8;
 skip;
 entry: 
- write(flag0, 1);
+ read(flag0, v0); 
+ write(v0, 1);
    goto whilecond;
  
 
 whilecond: 
  mfence();
- read(flag1, v2); 
+ read(flag1, v1); 
+ read(v1, v2); 
+ tobool = v2; 
  if 
- 	:: v2 ->  goto whilebody;
- 	:: !v2 ->  goto whileend12;
+ 	:: tobool ->  goto whilebody;
+ 	:: !tobool ->  goto whileend9;
  fi;
  
 
 whilebody: 
- read(turn, v4); 
+ read(turn, v3); 
+ read(v3, v4); 
+ tobool1 = v4; 
+ conv = tobool1; 
+ cmp = (conv != 0); 
  if 
- 	:: v4 ->  goto whilecond;
- 	:: !v4 ->  goto ifthen;
+ 	:: cmp ->  goto ifthen;
+ 	:: !cmp ->  goto ifend;
  fi;
  
 
 ifthen: 
- write(flag0, 0);
-   goto whilecond6;
+ read(flag0, v5); 
+ write(v5, 0);
+   goto whilecond3;
  
 
-whilecond6: 
- read(turn, v7); 
+whilecond3: 
+ read(turn, v6); 
+ read(v6, v7); 
+ tobool4 = v7; 
+ conv5 = tobool4; 
+ cmp6 = (conv5 != 0); 
  if 
- 	:: v7 ->  goto whileend;
- 	:: !v7 ->  goto whilecond6;
+ 	:: cmp6 ->  goto whilebody8;
+ 	:: !cmp6 ->  goto whileend;
  fi;
+ 
+
+whilebody8: 
+   goto whilecond3;
  
 
 whileend: 
  read(flag0, v8); 
  write(v8, 1);
+   goto ifend;
+ 
+
+ifend: 
    goto whilecond;
  
 
-whileend12: 
- write(turn, 1);
- write(flag0, 0);
+whileend9: 
+ read(turn, v9); 
+ write(v9, 1);
+ read(flag0, v10); 
+ write(v10, 0);
  goto ret;
 
 
@@ -71,11 +93,11 @@ ret: skip;
 
 
 inline p1(){
-short v0, v1, v2, tobool, conv, cmp, v3, v9, v4, tobool2, v10, conv3, cmp4, v5, v6, v7, tobool7, conv8, cmp9, v8;
+short v0, v1, v2, tobool, v3, v9, v4, tobool1, v10, conv, cmp, v5, v6, v7, tobool4, conv5, cmp6, v8;
 skip;
 entry: 
  read(flag1, v0); 
- write(flag1, 1);
+ write(v0, 1);
    goto whilecond;
  
 
@@ -84,46 +106,44 @@ whilecond:
  read(flag0, v1); 
  read(v1, v2); 
  tobool = v2; 
- conv = tobool; 
- cmp = (conv == 1); 
  if 
- 	:: cmp ->  goto whilebody;
- 	:: !cmp ->  goto whileend12;
+ 	:: tobool ->  goto whilebody;
+ 	:: !tobool ->  goto whileend9;
  fi;
  
 
 whilebody: 
  read(turn, v3); 
  read(v3, v4); 
- tobool2 = v4; 
- conv3 = tobool2; 
- cmp4 = (conv3 != 1); 
+ tobool1 = v4; 
+ conv = tobool1; 
+ cmp = (conv != 1); 
  if 
- 	:: cmp4 ->  goto ifthen;
- 	:: !cmp4 ->  goto ifend;
+ 	:: cmp ->  goto ifthen;
+ 	:: !cmp ->  goto ifend;
  fi;
  
 
 ifthen: 
  read(flag1, v5); 
  write(v5, 0);
-   goto whilecond6;
+   goto whilecond3;
  
 
-whilecond6: 
+whilecond3: 
  read(turn, v6); 
  read(v6, v7); 
- tobool7 = v7; 
- conv8 = tobool7; 
- cmp9 = (conv8 != 1); 
+ tobool4 = v7; 
+ conv5 = tobool4; 
+ cmp6 = (conv5 != 1); 
  if 
- 	:: cmp9 ->  goto whilebody11;
- 	:: !cmp9 ->  goto whileend;
+ 	:: cmp6 ->  goto whilebody8;
+ 	:: !cmp6 ->  goto whileend;
  fi;
  
 
-whilebody11: 
-   goto whilecond6;
+whilebody8: 
+   goto whilecond3;
  
 
 whileend: 
@@ -136,7 +156,7 @@ ifend:
    goto whilecond;
  
 
-whileend12: 
+whileend9: 
  read(turn, v9); 
  write(v9, 0);
  read(flag1, v10); 
@@ -151,11 +171,11 @@ ret: skip;
 //------------- process template -------------
 
 //Stubs
-proctype process1(){
+proctype process1(chan ch){
 	//TODO: empty stub
 }
 
-proctype process2(){
+proctype process2(chan ch){
 	//TODO: empty stub
 }
 
