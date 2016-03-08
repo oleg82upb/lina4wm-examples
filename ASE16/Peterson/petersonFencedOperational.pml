@@ -5,14 +5,14 @@
 #define PTR 0
 
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
-short flag0 = null;
-short flag1 = null;
-short turn = null;
+short flag0 = 1;
+short flag1 = 2;
+short turn = 3;
 
 //------------- functions ------------------
 
@@ -22,6 +22,7 @@ skip;
 entry: 
  read(flag0, v0); 
  write(v0, 1);
+ //mfence(); required for PSO
  read(turn, v1); 
  write(v1, 1);
  mfence();
@@ -79,6 +80,7 @@ skip;
 entry: 
  read(flag1, v0); 
  write(v0, 1);
+ //mfence(); required for PSO
  read(turn, v1); 
  write(v1, 0);
  mfence();
@@ -133,21 +135,27 @@ ret: skip;
 //------------- process template -------------
 
 //Stubs
-proctype process1(){
-	//TODO: empty stub
+proctype process1(chan ch){
+	p0();
 }
 
-proctype process2(){
-	//TODO: empty stub
+proctype process2(chan ch){
+	p1();
 }
 
 
 init{
 atomic{
 	//TODO: initialize global variables or allocate space here, if necessary
+	//two layers of pointers need initialization
+	memory[flag0] = 4;
+	memory[flag1] = 5;
+	memory[turn] = 6;
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
 	run process1(channelT1);
 	run process2(channelT2);
 	}
 }
+
+ltl prop{ [] !((process1@whileend) && (process2@whileend))}
