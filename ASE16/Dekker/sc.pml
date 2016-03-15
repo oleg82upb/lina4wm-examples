@@ -1,4 +1,6 @@
-
+// Start of user code operational SC model
+// This code will not be regenerated, if you change it. Delete the file 
+// or remove the first and last line of the file, if you want it to be regenerated.  
 #define NULL 0
 
 /*Speicher*/
@@ -35,4 +37,5 @@ inline cas(adr, oldValue, newValue, returnValue) {
 		fi;
 	}
 }
-		
+
+// End of user code

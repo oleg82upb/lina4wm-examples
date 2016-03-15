@@ -1,10 +1,6 @@
-/*
-author: Annika Mütze <muetze.annika@gmail.com>
-date: 10.2012
-
-writebuffer model. Read, write, flush, fence and CAS
-*/
-
+// Start of user code operational TSO model
+// This code will not be regenerated, if you change it. Delete the file 
+// or remove the first and last line of the file, if you want it to be regenerated.  
 #define NULL 0
 
 /*Buffer as a 2 dimensional array which represents the queue [(nx2)-matrix]*/
@@ -24,7 +20,7 @@ inline read(adr, target)
 {
 	atomic{
 	ch ! iRead, adr, NULL, NULL;
-	ch ? iRead, adr, target, NULL;
+	ch ? iRead, NULL, target, NULL;
 	}
 }
 
@@ -41,7 +37,7 @@ inline cas(adr, oldValue, newValue, successBit)
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
 	ch ! iCas, adr, oldValue, newValue;
-	ch ? iCas, adr, successBit, _; 
+	ch ? iCas, NULL, successBit, NULL; 
 	}
 }
 
@@ -60,14 +56,14 @@ inline readB() {
 			if
 			/* if an address in the buffer is equivalent to the searched -> return value*/
 			::buffer[i].line[0] == address 
-				->  channel ! iRead,address,buffer[i].line[1],NULL;
+				->  channel ! iRead,NULL,buffer[i].line[1],NULL;
 					i = 0;
 					break;
 			::else -> i--;
 			fi
 			/*else: access to memory and return value of searched address*/
 	::else ->
-		channel ! iRead,address,memory[address],NULL;
+		channel ! iRead,NULL,memory[address],NULL;
 		i = 0;
 		break;
 	od
@@ -100,7 +96,7 @@ inline mfenceB() {
 	:: 
 			if
 			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
-			::else -> flushB() 
+			::else -> flushB(); 
 			fi
 	od;
 }
@@ -113,16 +109,12 @@ inline fenceWithResponse() {
 inline casB() 
 {
 		mfenceB();	//buffer must be empty 
-		bit result = false;
 		if 
 			:: memory[address] == value 
 				-> 	memory[address] = newValue;
-					result = true;
-			:: else -> skip;
-		fi
-		->
-		channel ! iCas, address, result, NULL;
-		//reducing state space from here on	
+					channel ! iCas, NULL, true, NULL;
+			:: else -> channel ! iCas, NULL, false, NULL;
+		fi;
 }
 
 proctype bufferProcess(chan channel)
@@ -141,25 +133,26 @@ proctype bufferProcess(chan channel)
 end:	do 
 		::	if
 				//WRITE
-				:: atomic{channel ? iWrite(address,value, _) -> writeB();
-				i = 0; address = 0; value = 0; newValue = 0;
+				:: atomic{channel ? iWrite(address,value, NULL) -> writeB();
+				//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 				}
 				//READ
-				:: atomic{channel ? iRead, address, value, _ -> readB();
-				i = 0; address = 0; value = 0; newValue = 0;
+				:: atomic{channel ? iRead, address, NULL, NULL -> readB();
+				//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 				}
 				//FLUSH
 				:: atomic{(tail > 0) -> flushB();  //tail > 0  iff not empty
-				i = 0; address = 0; value = 0; newValue = 0;
+				//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 				}
 				//FENCE
-				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();
-				i = 0; address = 0; value = 0; newValue = 0;
+				:: atomic{channel ? iMfence, NULL, NULL ,NULL -> fenceWithResponse();
+				//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 				}
 				//COMPARE AND SWAP
 				:: atomic{channel ? iCas, address , value, newValue -> casB();
-				i = 0; address = 0; value = 0; newValue = 0;
+				//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 				}
 			fi
 		od
 }
+// End of user code

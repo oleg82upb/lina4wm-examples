@@ -1,3 +1,6 @@
+// Start of user code operational PSO model
+// This code will not be regenerated, if you change it. Delete the file 
+// or remove the first and last line of the file, if you want it to be regenerated.  
 #define NULL 0
 
 mtype = {iWrite, iRead , iMfence, iCas};
@@ -20,7 +23,7 @@ inline read(adr, target)
 {
 	atomic{
 	ch ! iRead, adr, NULL, NULL;
-	ch ? iRead, adr, target, NULL;
+	ch ? iRead, NULL, target, NULL;
 	}
 }
 
@@ -37,7 +40,7 @@ inline cas(adr, oldValue, newValue, successBit)
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
 		ch ! iCas, adr, oldValue, newValue;
-		ch ? iCas, adr, successBit, _; 
+		ch ? iCas, NULL, successBit, _; 
 	}
 }
 
@@ -62,11 +65,11 @@ inline readB() {
 	do
 	//entry in buffer exists
 	:: i >= 0     
-		->	channel ! iRead,address,buffer[address].entry[i],NULL;
+		->	channel ! iRead, NULL, buffer[address].entry[i],NULL;
 			break;
 	//no entry in buffer, take it from memory
 	:: else 
-		->	channel ! iRead, address, memory[address], NULL;
+		->	channel ! iRead, NULL, memory[address], NULL;
 			break;
 	od;
 	i = 0;
@@ -178,10 +181,8 @@ inline casB()
 			:: else -> skip;
 		fi
 		->
-		channel ! iCas, address, result, NULL;
-		//reducing state space from here on
+		channel ! iCas, NULL, result, NULL;
 	}
-	
 }
 
 
@@ -202,28 +203,25 @@ end:	do
 		::	if
 				//WRITE
 				:: atomic{channel ? iWrite(address,value, _) -> writeB();
-					i = 0; address = 0; value = 0; newValue = 0;
+					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//READ
 				:: atomic{channel ? iRead, address, value, _ -> readB();
-					i = 0; address = 0; value = 0; newValue = 0;
+					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//FLUSH
 				:: atomic{flushB();  
-					i = 0; address = 0; value = 0; newValue = 0;
+					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//FENCE
 				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();
-					i = 0; address = 0; value = 0; newValue = 0;
+					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//COMPARE AND SWAP
 				:: atomic{channel ? iCas, address , value, newValue -> casB();
-					i = 0; address = 0; value = 0; newValue = 0;
+					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					};
 			fi
 		od
 }
-
-
-
-
+// End of user code

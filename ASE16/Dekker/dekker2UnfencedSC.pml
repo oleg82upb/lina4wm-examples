@@ -12,7 +12,7 @@ short flag1 = null;
 short turn = null;
 
 
-//standard stuff
+//memory allocation
 inline alloca(type, targetRegister)
 {
 	atomic{
@@ -140,7 +140,14 @@ proctype process2(){
 
 init{
 atomic{
-	//TODO: empty stub
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(1, flag0);
+	alloca(1, flag1);
+	alloca(1, turn);
+	//two layers of pointers need initialization
+	memory[flag0] = 4;
+	memory[flag1] = 5;
+	memory[turn] = 6;
 
 	run process1();
 	run process2();

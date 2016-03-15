@@ -7,12 +7,12 @@ short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 
 
-short flag0 = 1;
-short flag1 = 2;
-short turn = 3;
+short flag0 = null;
+short flag1 = null;
+short turn = null;
 
 
-//standard stuff
+//memory allocation
 inline alloca(type, targetRegister)
 {
 	atomic{
@@ -368,14 +368,17 @@ proctype process2(){
 
 init{
 atomic{
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(1, flag0);
+	alloca(1, flag1);
+	alloca(1, turn);
 	//two layers of pointers need initialization
 	memory[flag0] = 4;
 	memory[flag1] = 5;
 	memory[turn] = 6;
-	
+
 	run process1();
 	run process2();
 	}
 }
-
 ltl prop{ [] !((process1@A28) && (process2@B28))}
