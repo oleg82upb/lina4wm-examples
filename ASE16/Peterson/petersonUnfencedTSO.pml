@@ -1,23 +1,23 @@
 #define MEM_SIZE 15	//size of memory
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
 
 short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 
 
-short flag0 = 1;
-short flag1 = 2;
-short turn = 3;
+short flag0 = null;
+short flag1 = null;
+short turn = null;
 
 
-//standard stuff
+//memory allocation
 inline alloca(type, targetRegister)
 {
 	atomic{
 	targetRegister = memUse;
-	memUse = memUse + type + 1;
+	memUse = memUse + type;
 	assert(memUse < MEM_SIZE);
 	}
 }
@@ -498,22 +498,23 @@ BEnd: skip;
 
 //Stubs
 proctype process1(){
-	p0();
+	//TODO: empty stub
 }
 
 proctype process2(){
-	p1();
+	//TODO: empty stub
 }
 
 
 init{
 atomic{
-	//two layers of pointers need initialization
-	memory[flag0] = 4;
-	memory[flag1] = 5;
-	memory[turn] = 6;
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(1, flag0);
+	alloca(1, flag1);
+	alloca(1, turn);
+	
+
 	run process1();
 	run process2();
 	}
 }
-ltl prop{ [] !((process1@A21 || process1@A21v1 ||process1@A21v0v1 ) && (process2@B21 || process2@B21v1 ||process2@B21v0v1 ))}

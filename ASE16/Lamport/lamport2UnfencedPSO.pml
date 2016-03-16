@@ -1,17 +1,17 @@
 #define MEM_SIZE 15	//size of memory
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
 
 short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 
 
-short choosing = zeroinitializer;
-short number = zeroinitializer;
+short choosing = 0; //Array: please, check initialization in the init process
+short number = 0; //Array: please, check initialization in the init process
 
 
-//standard stuff
+//pointer computation 
 inline getelementptr(type, instance, offset, targetRegister)
 {
 	atomic{
@@ -22,11 +22,12 @@ inline getelementptr(type, instance, offset, targetRegister)
 	targetRegister = instance + offset;
 	}
 }
+//memory allocation
 inline alloca(type, targetRegister)
 {
 	atomic{
 	targetRegister = memUse;
-	memUse = memUse + type + 1;
+	memUse = memUse + type;
 	assert(memUse < MEM_SIZE);
 	}
 }
@@ -36,12 +37,12 @@ inline alloca(type, targetRegister)
 inline proci(i){
 short arrayidx, v0, v1, v2, v3, v4, cmp, add, add2, arrayidx1, arrayidx3, v5, v6, v7, arrayidx11, j_023, inc, arrayidx6, v8, v9, v10, tobool, arrayidx8, v11, v12, cmp9, cmp17, v13, exitcond, v14, cmp12, arrayidx21, cmp15, v15, or_cond, or_cond24;
 AStart: goto A000;
-A000: getelementptr(1, choosing, -1, arrayidx); goto A001; 
+A000: getelementptr(2, choosing, i, arrayidx); goto A001; 
 A001: v0 = memory[arrayidx]; goto A002; 
 A002: goto A003v0; 
 A003v0: 
 	if 
-	:: v1 = memory[]; goto A004v0; 
+	:: v1 = memory[number + 0]; goto A004v0; 
 	:: memory[v0] = 1; goto A003; 
 	fi;
 A004v0: 
@@ -49,10 +50,10 @@ A004v0:
 	:: v2 = memory[v1]; goto A005v0; 
 	:: memory[v0] = 1; goto A004; 
 	fi;
-A003: v1 = memory[]; goto A004; 
+A003: v1 = memory[number + 0]; goto A004; 
 A005v0: 
 	if 
-	:: v3 = memory[]; goto A006v0; 
+	:: v3 = memory[number + 1]; goto A006v0; 
 	:: memory[v0] = 1; goto A005; 
 	fi;
 A004: v2 = memory[v1]; goto A005; 
@@ -61,7 +62,7 @@ A006v0:
 	:: v4 = memory[v3]; goto A007v0; 
 	:: memory[v0] = 1; goto A006; 
 	fi;
-A005: v3 = memory[]; goto A006; 
+A005: v3 = memory[number + 1]; goto A006; 
 A007v0: 
 	if 
 	:: cmp = (v2 < v4); goto A008v0; 
@@ -92,13 +93,13 @@ A008:
 	fi;
 A010v0: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx1); goto A011v0; 
+	:: getelementptr(2, number, i, arrayidx1); goto A011v0; 
 	:: memory[v0] = 1; goto A010; 
 	fi;
 A009: add = v4 + 1; goto A010; 
 A015v0: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx3); goto A016v0; 
+	:: getelementptr(2, number, i, arrayidx3); goto A016v0; 
 	:: memory[v0] = 1; goto A015; 
 	fi;
 A014: add2 = v2 + 1; goto A015; 
@@ -107,13 +108,13 @@ A011v0:
 	:: v5 = memory[arrayidx1]; goto A012v0; 
 	:: memory[v0] = 1; goto A011; 
 	fi;
-A010: getelementptr(1, number, -1, arrayidx1); goto A011; 
+A010: getelementptr(2, number, i, arrayidx1); goto A011; 
 A016v0: 
 	if 
 	:: v6 = memory[arrayidx3]; goto A017v0; 
 	:: memory[v0] = 1; goto A016; 
 	fi;
-A015: getelementptr(1, number, -1, arrayidx3); goto A016; 
+A015: getelementptr(2, number, i, arrayidx3); goto A016; 
 A012v0: 
 	if 
 	:: goto A013v0v5; 
@@ -203,7 +204,7 @@ A019v6:
 A018: goto A019; 
 A021v0v5v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v0v5v7; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v0v5v7; 
 	:: memory[v0] = 1; goto A021v5v7; 
 	:: memory[v5] = add; goto A021v0v7; 
 	:: memory[v7] = 0; goto A021v0v5; 
@@ -221,7 +222,7 @@ A020v0:
 A019: v7 = memory[arrayidx]; goto A020; 
 A021v0v6v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v0v6v7; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v0v6v7; 
 	:: memory[v0] = 1; goto A021v6v7; 
 	:: memory[v6] = add2; goto A021v0v7; 
 	:: memory[v7] = 0; goto A021v0v6; 
@@ -240,19 +241,19 @@ A022v0v5v7:
 	fi;
 A021v5v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v5v7; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v5v7; 
 	:: memory[v5] = add; goto A021v7; 
 	:: memory[v7] = 0; goto A021v5; 
 	fi;
 A021v0v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v0v7; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v0v7; 
 	:: memory[v0] = 1; goto A021v7; 
 	:: memory[v7] = 0; goto A021v0; 
 	fi;
 A021v0v5: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v0v5; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v0v5; 
 	:: memory[v0] = 1; goto A021v5; 
 	:: memory[v5] = add; goto A021v0; 
 	fi;
@@ -266,13 +267,13 @@ A022v0v6v7:
 	fi;
 A021v6v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v6v7; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v6v7; 
 	:: memory[v6] = add2; goto A021v7; 
 	:: memory[v7] = 0; goto A021v6; 
 	fi;
 A021v0v6: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v0v6; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v0v6; 
 	:: memory[v0] = 1; goto A021v6; 
 	:: memory[v6] = add2; goto A021v0; 
 	fi;
@@ -303,17 +304,17 @@ A022v0v5:
 	fi;
 A021v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v7; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v7; 
 	:: memory[v7] = 0; goto A021; 
 	fi;
 A021v5: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v5; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v5; 
 	:: memory[v5] = add; goto A021; 
 	fi;
 A021v0: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v0; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v0; 
 	:: memory[v0] = 1; goto A021; 
 	fi;
 A023v0v6v7: 
@@ -337,12 +338,12 @@ A022v0v6:
 	fi;
 A021v6: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx11); goto A022v6; 
+	:: getelementptr(2, number, i, arrayidx11); goto A022v6; 
 	:: memory[v6] = add2; goto A021; 
 	fi;
 A024v0v5v7: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v0v5v7; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v0v5v7; 
 	:: memory[v0] = 1; goto A024v5v7; 
 	:: memory[v5] = add; goto A024v0v7; 
 	:: memory[v7] = 0; goto A024v0v5; 
@@ -380,10 +381,10 @@ A022v0:
 	:: j_023 = 0; goto A023v0; 
 	:: memory[v0] = 1; goto A022; 
 	fi;
-A021: getelementptr(1, number, -1, arrayidx11); goto A022; 
+A021: getelementptr(2, number, i, arrayidx11); goto A022; 
 A024v0v6v7: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v0v6v7; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v0v6v7; 
 	:: memory[v0] = 1; goto A024v6v7; 
 	:: memory[v6] = add2; goto A024v0v7; 
 	:: memory[v7] = 0; goto A024v0v6; 
@@ -414,19 +415,19 @@ A025v0v5v7:
 	fi;
 A024v5v7: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v5v7; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v5v7; 
 	:: memory[v5] = add; goto A024v7; 
 	:: memory[v7] = 0; goto A024v5; 
 	fi;
 A024v0v7: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v0v7; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v0v7; 
 	:: memory[v0] = 1; goto A024v7; 
 	:: memory[v7] = 0; goto A024v0; 
 	fi;
 A024v0v5: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v0v5; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v0v5; 
 	:: memory[v0] = 1; goto A024v5; 
 	:: memory[v5] = add; goto A024v0; 
 	fi;
@@ -455,13 +456,13 @@ A025v0v6v7:
 	fi;
 A024v6v7: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v6v7; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v6v7; 
 	:: memory[v6] = add2; goto A024v7; 
 	:: memory[v7] = 0; goto A024v6; 
 	fi;
 A024v0v6: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v0v6; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v0v6; 
 	:: memory[v0] = 1; goto A024v6; 
 	:: memory[v6] = add2; goto A024v0; 
 	fi;
@@ -497,17 +498,17 @@ A025v0v5:
 	fi;
 A024v7: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v7; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v7; 
 	:: memory[v7] = 0; goto A024; 
 	fi;
 A024v5: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v5; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v5; 
 	:: memory[v5] = add; goto A024; 
 	fi;
 A024v0: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v0; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v0; 
 	:: memory[v0] = 1; goto A024; 
 	fi;
 A023: goto A024; 
@@ -532,7 +533,7 @@ A025v0v6:
 	fi;
 A024v6: 
 	if 
-	:: getelementptr(1, choosing, -1, arrayidx6); goto A025v6; 
+	:: getelementptr(2, choosing, j_023, arrayidx6); goto A025v6; 
 	:: memory[v6] = add2; goto A024; 
 	fi;
 A027v0v5v7: 
@@ -575,7 +576,7 @@ A025v0:
 	:: v8 = memory[arrayidx6]; goto A026v0; 
 	:: memory[v0] = 1; goto A025; 
 	fi;
-A024: getelementptr(1, choosing, -1, arrayidx6); goto A025; 
+A024: getelementptr(2, choosing, j_023, arrayidx6); goto A025; 
 A027v0v6v7: 
 	if 
 	:: v10 = v9 & 1; goto A028v0v6v7; 
@@ -734,7 +735,7 @@ A027v6:
 	fi;
 A031v0v5v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v0v5v7; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v0v5v7; 
 	:: memory[v0] = 1; goto A031v5v7; 
 	:: memory[v5] = add; goto A031v0v7; 
 	:: memory[v7] = 0; goto A031v0v5; 
@@ -785,7 +786,7 @@ A028v0:
 A027: v10 = v9 & 1; goto A028; 
 A031v0v6v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v0v6v7; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v0v6v7; 
 	:: memory[v0] = 1; goto A031v6v7; 
 	:: memory[v6] = add2; goto A031v0v7; 
 	:: memory[v7] = 0; goto A031v0v6; 
@@ -825,19 +826,19 @@ A032v0v5v7:
 	fi;
 A031v5v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v5v7; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v5v7; 
 	:: memory[v5] = add; goto A031v7; 
 	:: memory[v7] = 0; goto A031v5; 
 	fi;
 A031v0v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v0v7; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v0v7; 
 	:: memory[v0] = 1; goto A031v7; 
 	:: memory[v7] = 0; goto A031v0; 
 	fi;
 A031v0v5: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v0v5; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v0v5; 
 	:: memory[v0] = 1; goto A031v5; 
 	:: memory[v5] = add; goto A031v0; 
 	fi;
@@ -887,13 +888,13 @@ A032v0v6v7:
 	fi;
 A031v6v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v6v7; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v6v7; 
 	:: memory[v6] = add2; goto A031v7; 
 	:: memory[v7] = 0; goto A031v6; 
 	fi;
 A031v0v6: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v0v6; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v0v6; 
 	:: memory[v0] = 1; goto A031v6; 
 	:: memory[v6] = add2; goto A031v0; 
 	fi;
@@ -942,17 +943,17 @@ A032v0v5:
 	fi;
 A031v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v7; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v7; 
 	:: memory[v7] = 0; goto A031; 
 	fi;
 A031v5: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v5; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v5; 
 	:: memory[v5] = add; goto A031; 
 	fi;
 A031v0: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v0; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v0; 
 	:: memory[v0] = 1; goto A031; 
 	fi;
 A030v7: 
@@ -996,7 +997,7 @@ A032v0v6:
 	fi;
 A031v6: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx8); goto A032v6; 
+	:: getelementptr(2, number, j_023, arrayidx8); goto A032v6; 
 	:: memory[v6] = add2; goto A031; 
 	fi;
 A030v6: 
@@ -1044,7 +1045,7 @@ A032v0:
 	:: v11 = memory[arrayidx8]; goto A033v0; 
 	:: memory[v0] = 1; goto A032; 
 	fi;
-A031: getelementptr(1, number, -1, arrayidx8); goto A032; 
+A031: getelementptr(2, number, j_023, arrayidx8); goto A032; 
 A030: goto A030; 
 A034v0v6v7: 
 	if 
@@ -1536,7 +1537,7 @@ A037v6:
 	fi;
 A047v0v5v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v0v5v7; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v0v5v7; 
 	:: memory[v0] = 1; goto A047v5v7; 
 	:: memory[v5] = add; goto A047v0v7; 
 	:: memory[v7] = 0; goto A047v0v5; 
@@ -1621,7 +1622,7 @@ A038v0:
 A037: v13 = memory[arrayidx11]; goto A038; 
 A047v0v6v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v0v6v7; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v0v6v7; 
 	:: memory[v0] = 1; goto A047v6v7; 
 	:: memory[v6] = add2; goto A047v0v7; 
 	:: memory[v7] = 0; goto A047v0v6; 
@@ -1678,19 +1679,19 @@ A048v0v5v7:
 	fi;
 A047v5v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v5v7; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v5v7; 
 	:: memory[v5] = add; goto A047v7; 
 	:: memory[v7] = 0; goto A047v5; 
 	fi;
 A047v0v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v0v7; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v0v7; 
 	:: memory[v0] = 1; goto A047v7; 
 	:: memory[v7] = 0; goto A047v0; 
 	fi;
 A047v0v5: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v0v5; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v0v5; 
 	:: memory[v0] = 1; goto A047v5; 
 	:: memory[v5] = add; goto A047v0; 
 	fi;
@@ -1763,13 +1764,13 @@ A048v0v6v7:
 	fi;
 A047v6v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v6v7; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v6v7; 
 	:: memory[v6] = add2; goto A047v7; 
 	:: memory[v7] = 0; goto A047v6; 
 	fi;
 A047v0v6: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v0v6; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v0v6; 
 	:: memory[v0] = 1; goto A047v6; 
 	:: memory[v6] = add2; goto A047v0; 
 	fi;
@@ -1830,17 +1831,17 @@ A048v0v5:
 	fi;
 A047v7: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v7; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v7; 
 	:: memory[v7] = 0; goto A047; 
 	fi;
 A047v5: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v5; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v5; 
 	:: memory[v5] = add; goto A047; 
 	fi;
 A047v0: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v0; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v0; 
 	:: memory[v0] = 1; goto A047; 
 	fi;
 A046: 
@@ -1910,7 +1911,7 @@ A048v0v6:
 	fi;
 A047v6: 
 	if 
-	:: getelementptr(1, number, -1, arrayidx21); goto A048v6; 
+	:: getelementptr(2, number, i, arrayidx21); goto A048v6; 
 	:: memory[v6] = add2; goto A047; 
 	fi;
 A042v0v6v7: 
@@ -1977,7 +1978,7 @@ A048v0:
 	:: v15 = memory[arrayidx21]; goto A049v0; 
 	:: memory[v0] = 1; goto A048; 
 	fi;
-A047: getelementptr(1, number, -1, arrayidx21); goto A048; 
+A047: getelementptr(2, number, i, arrayidx21); goto A048; 
 A043v0v5v7: 
 	if 
 	::or_cond24 -> goto A037v0v5v7; 
@@ -2287,7 +2288,10 @@ proctype process2(){
 
 init{
 atomic{
-	//TODO: empty stub
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(2, choosing);
+	alloca(2, number);
+	
 
 	run process1();
 	run process2();

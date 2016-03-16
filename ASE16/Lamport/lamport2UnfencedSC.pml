@@ -1,17 +1,17 @@
 #define MEM_SIZE 15	//size of memory
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
 
 short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 
 
-short choosing = zeroinitializer;
-short number = zeroinitializer;
+short choosing = 0; //Array: please, check initialization in the init process
+short number = 0; //Array: please, check initialization in the init process
 
 
-//standard stuff
+//pointer computation 
 inline getelementptr(type, instance, offset, targetRegister)
 {
 	atomic{
@@ -22,11 +22,12 @@ inline getelementptr(type, instance, offset, targetRegister)
 	targetRegister = instance + offset;
 	}
 }
+//memory allocation
 inline alloca(type, targetRegister)
 {
 	atomic{
 	targetRegister = memUse;
-	memUse = memUse + type + 1;
+	memUse = memUse + type;
 	assert(memUse < MEM_SIZE);
 	}
 }
@@ -36,12 +37,12 @@ inline alloca(type, targetRegister)
 inline proci(i){
 short arrayidx, v0, v1, v2, v3, v4, cmp, add, add2, arrayidx1, arrayidx3, v5, v6, v7, arrayidx11, j_023, inc, arrayidx6, v8, v9, v10, tobool, arrayidx8, v11, v12, cmp9, cmp17, v13, exitcond, v14, cmp12, arrayidx21, cmp15, v15, or_cond, or_cond24;
 AStart: goto A00;
-A00: getelementptr(1, choosing, -1, arrayidx); goto A01; 
+A00: getelementptr(2, choosing, i, arrayidx); goto A01; 
 A01: v0 = memory[arrayidx]; goto A02; 
 A02: goto A03; 
-A03: v1 = memory[]; goto A04; 
+A03: v1 = memory[number + 0]; goto A04; 
 A04: v2 = memory[v1]; goto A05; 
-A05: v3 = memory[]; goto A06; 
+A05: v3 = memory[number + 1]; goto A06; 
 A06: v4 = memory[v3]; goto A07; 
 A07: cmp = (v2 < v4); goto A08; 
 A08: 
@@ -51,8 +52,8 @@ A08:
 	fi;
 A09: add = v4 + 1; goto A10; 
 A14: add2 = v2 + 1; goto A15; 
-A10: getelementptr(1, number, -1, arrayidx1); goto A11; 
-A15: getelementptr(1, number, -1, arrayidx3); goto A16; 
+A10: getelementptr(2, number, i, arrayidx1); goto A11; 
+A15: getelementptr(2, number, i, arrayidx3); goto A16; 
 A11: v5 = memory[arrayidx1]; goto A12; 
 A16: v6 = memory[arrayidx3]; goto A17; 
 A12: goto A13; 
@@ -61,10 +62,10 @@ A13: goto A19;
 A18: goto A19; 
 A19: v7 = memory[arrayidx]; goto A20; 
 A20: goto A21; 
-A21: getelementptr(1, number, -1, arrayidx11); goto A22; 
+A21: getelementptr(2, number, i, arrayidx11); goto A22; 
 A22: j_023 = 0; goto A23; 
 A23: goto A24; 
-A24: getelementptr(1, choosing, -1, arrayidx6); goto A25; 
+A24: getelementptr(2, choosing, j_023, arrayidx6); goto A25; 
 A25: v8 = memory[arrayidx6]; goto A26; 
 A26: v9 = memory[v8]; goto A27; 
 A27: v10 = v9 & 1; goto A28; 
@@ -74,7 +75,7 @@ A29:
 	::tobool -> goto A31; 
 	::!tobool -> goto A30; 
 	fi;
-A31: getelementptr(1, number, -1, arrayidx8); goto A32; 
+A31: getelementptr(2, number, j_023, arrayidx8); goto A32; 
 A30: goto A30; 
 A32: v11 = memory[arrayidx8]; goto A33; 
 A33: v12 = memory[v11]; goto A34; 
@@ -95,7 +96,7 @@ A46:
 	::!exitcond -> j_023 = inc; goto A23; 
 	fi;
 A39: cmp12 = (v12 < v14); goto A40; 
-A47: getelementptr(1, number, -1, arrayidx21); goto A48; 
+A47: getelementptr(2, number, i, arrayidx21); goto A48; 
 A40: cmp15 = (v12 == v14); goto A41; 
 A48: v15 = memory[arrayidx21]; goto A49; 
 A41: or_cond = cmp15 & cmp17; goto A42; 
@@ -124,7 +125,10 @@ proctype process2(){
 
 init{
 atomic{
-	//TODO: empty stub
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(2, choosing);
+	alloca(2, number);
+	
 
 	run process1();
 	run process2();

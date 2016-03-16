@@ -1,8 +1,9 @@
 #define MEM_SIZE 10	//size of memory
 #define BUFF_SIZE 3 	//size of Buffer 
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
+short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
 #include "tso.pml"
@@ -10,9 +11,20 @@
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
-short flag = zeroinitializer;
+short flag = 0; //Array: please, check initialization in the init process
 short flag0 = null;
 short flag1 = null;
+
+
+//memory allocation
+inline alloca(type, targetRegister)
+{
+	atomic{
+	targetRegister = memUse;
+	memUse = memUse + type;
+	assert(memUse < MEM_SIZE);
+	}
+}
 
 //------------- functions ------------------
 
@@ -222,18 +234,22 @@ ret: skip;
 //------------- process template -------------
 
 //Stubs
-proctype process1(){
+proctype process1(chan ch){
 	//TODO: empty stub
 }
 
-proctype process2(){
+proctype process2(chan ch){
 	//TODO: empty stub
 }
 
 
 init{
 atomic{
-	//TODO: initialize global variables or allocate space here, if necessary
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(2, flag);
+	alloca(1, flag0);
+	alloca(1, flag1);
+	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
 	run process1(channelT1);

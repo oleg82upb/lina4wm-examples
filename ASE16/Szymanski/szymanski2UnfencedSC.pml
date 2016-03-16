@@ -1,23 +1,23 @@
 #define MEM_SIZE 15	//size of memory
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
 
 short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 
 
-short flag = zeroinitializer;
+short flag = 0; //Array: please, check initialization in the init process
 short flag0 = null;
 short flag1 = null;
 
 
-//standard stuff
+//memory allocation
 inline alloca(type, targetRegister)
 {
 	atomic{
 	targetRegister = memUse;
-	memUse = memUse + type + 1;
+	memUse = memUse + type;
 	assert(memUse < MEM_SIZE);
 	}
 }
@@ -164,7 +164,11 @@ proctype process2(){
 
 init{
 atomic{
-	//TODO: empty stub
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(2, flag);
+	alloca(1, flag0);
+	alloca(1, flag1);
+	
 
 	run process1();
 	run process2();

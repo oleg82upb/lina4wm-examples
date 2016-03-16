@@ -1,7 +1,7 @@
 #define MEM_SIZE 15	//size of memory
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
 
 short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
@@ -9,7 +9,7 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 
 
-//standard stuff
+//pointer computation 
 inline getelementptr(type, instance, offset, targetRegister)
 {
 	atomic{
@@ -20,14 +20,16 @@ inline getelementptr(type, instance, offset, targetRegister)
 	targetRegister = instance + offset;
 	}
 }
+//memory allocation
 inline alloca(type, targetRegister)
 {
 	atomic{
 	targetRegister = memUse;
-	memUse = memUse + type + 1;
+	memUse = memUse + type;
 	assert(memUse < MEM_SIZE);
 	}
 }
+//atomic compare and swap instruction 
 inline cas(adr, old, new, result)
 {
 	atomic{
@@ -50,21 +52,21 @@ A01: val = call; goto A02;
 A02: goto A03val; 
 A03val: 
 	if 
-	:: getelementptr(0, this, 0, head); goto A04val; 
+	:: getelementptr(1, this, 0, head); goto A04val; 
 	:: memory[val] = v; goto A03; 
 	fi;
 A04val: 
 	if 
-	:: getelementptr(0, call, 1, next);  /*Needs attention due to different types of first index and aggregate.*/ goto A05val; 
+	:: getelementptr(1, call, 1, next);  /*Needs attention due to different types of first index and aggregate.*/ goto A05val; 
 	:: memory[val] = v; goto A04; 
 	fi;
-A03: getelementptr(0, this, 0, head); goto A04; 
+A03: getelementptr(1, this, 0, head); goto A04; 
 A05val: 
 	if 
 	:: v0 = next; goto A06val; 
 	:: memory[val] = v; goto A05; 
 	fi;
-A04: getelementptr(0, call, 1, next);  /*Needs attention due to different types of first index and aggregate.*/ goto A05; 
+A04: getelementptr(1, call, 1, next);  /*Needs attention due to different types of first index and aggregate.*/ goto A05; 
 A06val: 
 	if 
 	:: v1 = this; goto A07val; 
@@ -136,7 +138,7 @@ AEnd: skip;
 inline pop(this, returnvalue){
 short head, v0, v1, cmp, retval_0, next, v2, v3, v4, v5, v6;
 BStart: goto B00;
-B00: getelementptr(0, this, 0, head); goto B01; 
+B00: getelementptr(1, this, 0, head); goto B01; 
 B01: v0 = this; goto B02; 
 B02: goto B03; 
 B03: v1 = memory[head]; goto B04; 
@@ -147,7 +149,7 @@ B05:
 	::!cmp -> goto B06; 
 	fi;
 B13: goto B14; 
-B06: getelementptr(1, v1, 1, next); goto B07; 
+B06: getelementptr(2, v1, 1, next); goto B07; 
 B14: returnvalue = retval_0; goto BEnd;
 B07: v2 = memory[next]; goto B08; 
 B08: v3 = v1; goto B09; 
@@ -176,7 +178,8 @@ proctype process2(){
 
 init{
 atomic{
-	//TODO: empty stub
+	//initialize global variables or allocate memory space here, if necessary
+	
 
 	run process1();
 	run process2();

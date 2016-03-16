@@ -1,8 +1,8 @@
 #define MEM_SIZE 10	//size of memory
 #define BUFF_SIZE 3 	//size of Buffer 
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
@@ -21,7 +21,7 @@ inline alloca(type, targetRegister)
 {
 	atomic{
 	targetRegister = memUse;
-	memUse = memUse + type + 1;
+	memUse = memUse + type;
 	assert(memUse < MEM_SIZE);
 	}
 }
@@ -184,11 +184,11 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	p0();
+	//TODO: empty stub
 }
 
 proctype process2(chan ch){
-	p1();
+	//TODO: empty stub
 }
 
 
@@ -198,14 +198,10 @@ atomic{
 	alloca(1, flag0);
 	alloca(1, flag1);
 	alloca(1, turn);
-	//two layers of pointers need initialization
-	memory[flag0] = 4;
-	memory[flag1] = 5;
-	memory[turn] = 6;
+	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
 	run process1(channelT1);
 	run process2(channelT2);
 	}
 }
-ltl prop{ [] !((process1@whileend9) && (process2@whileend9))}
