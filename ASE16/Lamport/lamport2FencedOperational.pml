@@ -39,18 +39,15 @@ inline alloca(type, targetRegister)
 //------------- functions ------------------
 
 inline proci(i){
-short arrayidx, v0, v1, v2, v3, v4, cmp, add, add2, arrayidx1, arrayidx3, v5, v6, v7, arrayidx11, j_023, inc, arrayidx6, v8, v9, v10, tobool, arrayidx8, v11, v12, cmp9, cmp17, v13, exitcond, v14, cmp12, arrayidx21, cmp15, v15, or_cond, or_cond24;
+short arrayidx, v0, v1, cmp, v2, v3, add, add2, arrayidx1, arrayidx3, arrayidx11, j_023, inc, arrayidx6, v4, v5, tobool, arrayidx8, cmp17, v6, cmp9, v7, exitcond, v8, cmp12, arrayidx21, v9, v10, cmp15, or_cond;
 skip;
 entry: 
  getelementptr(2, choosing, i, arrayidx); 
- read(arrayidx, v0); 
- write(v0, 1);
+ write(arrayidx, 1);
  mfence();
- read(number + 0, v1); 
- read(v1, v2); 
- read(number + 1, v3); 
- read(v3, v4); 
- cmp = (v2 < v4); 
+ read(number + 0, v0); 
+ read(number + 1, v1); 
+ cmp = (v0 < v1); 
  if 
  	:: cmp ->  goto ifthen;
  	:: !cmp ->  goto ifelse;
@@ -58,24 +55,23 @@ entry:
  
 
 ifthen: 
- add = v4 + 1; 
+ read(number + 1, v2); 
+ add = v2 + 1; 
  getelementptr(2, number, i, arrayidx1); 
- read(arrayidx1, v5); 
- write(v5, add);
+ write(arrayidx1, add);
    goto ifend;
  
 
 ifelse: 
- add2 = v2 + 1; 
+ read(number + 0, v3); 
+ add2 = v3 + 1; 
  getelementptr(2, number, i, arrayidx3); 
- read(arrayidx3, v6); 
- write(v6, add2);
+ write(arrayidx3, add2);
    goto ifend;
  
 
 ifend: 
- read(arrayidx, v7); 
- write(v7, 0);
+ write(arrayidx, 0);
  getelementptr(2, number, i, arrayidx11); 
  mfence();
  	j_023 = 0;
@@ -85,46 +81,56 @@ ifend:
 whilecondpreheader: 
  // phi instruction replaced by assignments before  the goto to this block 
  getelementptr(2, choosing, j_023, arrayidx6); 
- read(arrayidx6, v8); 
- read(v8, v9); 
- v10 = v9 & 1; 
- tobool = (v10 == 0); 
+   goto whilecond;
+ 
+
+whilecond: 
+ read(arrayidx6, v4); 
+ v5 = v4 & 1; 
+ tobool = (v5 == 0); 
  if 
- 	:: tobool ->  goto whilecond7loopexitsplit;
+ 	:: tobool ->  goto whilecond7loopexit;
  	:: !tobool ->  goto whilecond;
  fi;
  
 
-whilecond: 
-   goto whilecond;
+whilecond7loopexit: 
+ getelementptr(2, number, j_023, arrayidx8); 
+ cmp17 = (j_023 < i); 
+   goto whilecond7;
  
 
-whilecond7loopexitsplit: 
- getelementptr(2, number, j_023, arrayidx8); 
- read(arrayidx8, v11); 
- read(v11, v12); 
- cmp9 = (v12 == 0); 
- cmp17 = (j_023 < i); 
+whilecond7: 
+ read(arrayidx8, v6); 
+ cmp9 = (v6 == 0); 
  if 
- 	:: cmp9 ->  goto forincsplit;
+ 	:: cmp9 ->  goto forinc;
  	:: !cmp9 ->  goto landrhs;
  fi;
  
 
 landrhs: 
- read(arrayidx11, v13); 
- read(v13, v14); 
- cmp12 = (v12 < v14); 
- cmp15 = (v12 == v14); 
- or_cond = cmp15 & cmp17; 
- or_cond24 = cmp12 | or_cond; 
+ read(arrayidx8, v7); 
+ read(arrayidx11, v8); 
+ cmp12 = (v7 < v8); 
  if 
- 	:: or_cond24 ->  goto landrhs;
- 	:: !or_cond24 ->  goto forincsplit;
+ 	:: cmp12 ->  goto whilecond7;
+ 	:: !cmp12 ->  goto lorrhs;
  fi;
  
 
-forincsplit: 
+lorrhs: 
+ read(arrayidx8, v9); 
+ read(arrayidx11, v10); 
+ cmp15 = (v9 == v10); 
+ or_cond = cmp15 & cmp17; 
+ if 
+ 	:: or_cond ->  goto whilecond7;
+ 	:: !or_cond ->  goto forinc;
+ fi;
+ 
+
+forinc: 
  inc = j_023 + 1; 
  exitcond = (inc == 2); 
  if 
@@ -136,8 +142,7 @@ forincsplit:
 
 forend: 
  getelementptr(2, number, i, arrayidx21); 
- read(arrayidx21, v15); 
- write(v15, 0);
+ write(arrayidx21, 0);
  goto ret;
 
 

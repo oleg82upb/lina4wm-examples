@@ -2,11 +2,11 @@
 <llvm:LLVM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:llvm="http://www.upb.de/llvm_parser/llvm">
   <elements xsi:type="llvm:TopLevelEntity" target="e-p:32:32:32-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:32:64-f32:32:32-f64:32:64-v64:64:64-v128:128:128-a0:0:64-f80:32:32-n8:16:32-S128"/>
   <elements xsi:type="llvm:TopLevelEntity" target="i386-pc-linux-gnu"/>
-  <elements xsi:type="llvm:GlobalDefinition" align="4">
+  <elements xsi:type="llvm:GlobalDefinition" align="1">
     <address name="@choosing"/>
     <value xsi:type="llvm:Parameter">
       <type xsi:type="llvm:Array" length="2">
-        <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+        <type xsi:type="llvm:Predefined" type="i8"/>
       </type>
       <value xsi:type="llvm:PrimitiveValue" value="zeroinitializer"/>
     </value>
@@ -15,7 +15,7 @@
     <address name="@number"/>
     <value xsi:type="llvm:Parameter">
       <type xsi:type="llvm:Array" length="2">
-        <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+        <type xsi:type="llvm:Predefined" type="i32"/>
       </type>
       <value xsi:type="llvm:PrimitiveValue" value="zeroinitializer"/>
     </value>
@@ -35,7 +35,7 @@
           <result name="%arrayidx"/>
           <aggregate>
             <type xsi:type="llvm:Array" length="2" pointer="*">
-              <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+              <type xsi:type="llvm:Predefined" type="i8"/>
             </type>
             <value xsi:type="llvm:AddressUse" address="//@elements.2/@address"/>
           </aggregate>
@@ -48,34 +48,26 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@parameter/@params.0/@value"/>
           </indices>
         </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%0"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i8"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.0/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Store" align="1">
+        <instructions xsi:type="llvm:Store" volatile="true" align="1">
           <value>
             <type xsi:type="llvm:Predefined" type="i8"/>
             <value xsi:type="llvm:IntegerConstant" value="1"/>
           </value>
           <targetAddress>
             <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.1/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.0/@result"/>
           </targetAddress>
-          <meta arg="!tbaa" value="!3"/>
+          <meta arg="!tbaa" value="!0"/>
         </instructions>
         <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%1"/>
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%0"/>
           <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i32"/>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
             <value xsi:type="llvm:NestedGetElementPtr">
               <aggregate>
                 <type xsi:type="llvm:Array" length="2" pointer="*">
-                  <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+                  <type xsi:type="llvm:Predefined" type="i32"/>
                 </type>
                 <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
               </aggregate>
@@ -89,24 +81,16 @@
               </indices>
             </value>
           </address>
-          <meta arg="!tbaa" value="!0"/>
+          <meta arg="!tbaa" value="!3"/>
         </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%2"/>
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%1"/>
           <address>
             <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.4/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!4"/>
-        </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%3"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i32"/>
             <value xsi:type="llvm:NestedGetElementPtr">
               <aggregate>
                 <type xsi:type="llvm:Array" length="2" pointer="*">
-                  <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+                  <type xsi:type="llvm:Predefined" type="i32"/>
                 </type>
                 <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
               </aggregate>
@@ -120,38 +104,53 @@
               </indices>
             </value>
           </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%4"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.6/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!4"/>
+          <meta arg="!tbaa" value="!3"/>
         </instructions>
         <instructions xsi:type="llvm:CompareInt" cond="slt">
           <result name="%cmp"/>
           <opType xsi:type="llvm:Predefined" type="i32"/>
-          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.5/@result"/>
-          <operand2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.7/@result"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.3/@result"/>
+          <operand2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.4/@result"/>
         </instructions>
         <instructions xsi:type="llvm:Branch" destination="%if.then" elseDestination="%if.else">
-          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.8/@result"/>
+          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.5/@result"/>
         </instructions>
       </blocks>
       <blocks label="if.then">
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%2"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:NestedGetElementPtr">
+              <aggregate>
+                <type xsi:type="llvm:Array" length="2" pointer="*">
+                  <type xsi:type="llvm:Predefined" type="i32"/>
+                </type>
+                <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
+              </aggregate>
+              <indices>
+                <type xsi:type="llvm:Predefined" type="i32"/>
+                <value xsi:type="llvm:IntegerConstant"/>
+              </indices>
+              <indices>
+                <type xsi:type="llvm:Predefined" type="i32"/>
+                <value xsi:type="llvm:IntegerConstant" value="1"/>
+              </indices>
+            </value>
+          </address>
+          <meta arg="!tbaa" value="!3"/>
+        </instructions>
         <instructions xsi:type="llvm:ArithmeticOperationAdd" operation="add">
           <result name="%add"/>
           <optype xsi:type="llvm:Predefined" type="i32"/>
-          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.7/@result"/>
+          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.1/@instructions.0/@result"/>
           <value2 xsi:type="llvm:IntegerConstant" value="1"/>
         </instructions>
         <instructions xsi:type="llvm:GetElementPtr">
           <result name="%arrayidx1"/>
           <aggregate>
             <type xsi:type="llvm:Array" length="2" pointer="*">
-              <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+              <type xsi:type="llvm:Predefined" type="i32"/>
             </type>
             <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
           </aggregate>
@@ -164,39 +163,54 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@parameter/@params.0/@value"/>
           </indices>
         </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%5"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.1/@instructions.1/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Store" align="4">
+        <instructions xsi:type="llvm:Store" volatile="true" align="4">
           <value>
             <type xsi:type="llvm:Predefined" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.1/@instructions.0/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.1/@instructions.1/@result"/>
           </value>
           <targetAddress>
             <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.1/@instructions.2/@result"/>
           </targetAddress>
-          <meta arg="!tbaa" value="!4"/>
+          <meta arg="!tbaa" value="!3"/>
         </instructions>
         <instructions xsi:type="llvm:Branch" destination="%if.end"/>
       </blocks>
       <blocks label="if.else">
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%3"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:NestedGetElementPtr">
+              <aggregate>
+                <type xsi:type="llvm:Array" length="2" pointer="*">
+                  <type xsi:type="llvm:Predefined" type="i32"/>
+                </type>
+                <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
+              </aggregate>
+              <indices>
+                <type xsi:type="llvm:Predefined" type="i32"/>
+                <value xsi:type="llvm:IntegerConstant"/>
+              </indices>
+              <indices>
+                <type xsi:type="llvm:Predefined" type="i32"/>
+                <value xsi:type="llvm:IntegerConstant"/>
+              </indices>
+            </value>
+          </address>
+          <meta arg="!tbaa" value="!3"/>
+        </instructions>
         <instructions xsi:type="llvm:ArithmeticOperationAdd" operation="add">
           <result name="%add2"/>
           <optype xsi:type="llvm:Predefined" type="i32"/>
-          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.5/@result"/>
+          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.2/@instructions.0/@result"/>
           <value2 xsi:type="llvm:IntegerConstant" value="1"/>
         </instructions>
         <instructions xsi:type="llvm:GetElementPtr">
           <result name="%arrayidx3"/>
           <aggregate>
             <type xsi:type="llvm:Array" length="2" pointer="*">
-              <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+              <type xsi:type="llvm:Predefined" type="i32"/>
             </type>
             <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
           </aggregate>
@@ -209,52 +223,36 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@parameter/@params.0/@value"/>
           </indices>
         </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%6"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.2/@instructions.1/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Store" align="4">
+        <instructions xsi:type="llvm:Store" volatile="true" align="4">
           <value>
             <type xsi:type="llvm:Predefined" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.2/@instructions.0/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.2/@instructions.1/@result"/>
           </value>
           <targetAddress>
             <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.2/@instructions.2/@result"/>
           </targetAddress>
-          <meta arg="!tbaa" value="!4"/>
+          <meta arg="!tbaa" value="!3"/>
         </instructions>
         <instructions xsi:type="llvm:Branch" destination="%if.end"/>
       </blocks>
       <blocks label="if.end">
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%7"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i8"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.0/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Store" align="1">
+        <instructions xsi:type="llvm:Store" volatile="true" align="1">
           <value>
             <type xsi:type="llvm:Predefined" type="i8"/>
             <value xsi:type="llvm:IntegerConstant"/>
           </value>
           <targetAddress>
             <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.0/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.0/@instructions.0/@result"/>
           </targetAddress>
-          <meta arg="!tbaa" value="!3"/>
+          <meta arg="!tbaa" value="!0"/>
         </instructions>
         <instructions xsi:type="llvm:GetElementPtr">
           <result name="%arrayidx11"/>
           <aggregate>
             <type xsi:type="llvm:Array" length="2" pointer="*">
-              <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+              <type xsi:type="llvm:Predefined" type="i32"/>
             </type>
             <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
           </aggregate>
@@ -277,15 +275,15 @@
           <cases label="%if.end">
             <value xsi:type="llvm:IntegerConstant"/>
           </cases>
-          <cases label="%for.inc.split">
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.8/@instructions.0/@result"/>
+          <cases label="%for.inc">
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.10/@instructions.0/@result"/>
           </cases>
         </instructions>
         <instructions xsi:type="llvm:GetElementPtr">
           <result name="%arrayidx6"/>
           <aggregate>
             <type xsi:type="llvm:Array" length="2" pointer="*">
-              <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+              <type xsi:type="llvm:Predefined" type="i8"/>
             </type>
             <value xsi:type="llvm:AddressUse" address="//@elements.2/@address"/>
           </aggregate>
@@ -298,48 +296,40 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.0/@result"/>
           </indices>
         </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%8"/>
+        <instructions xsi:type="llvm:Branch" destination="%while.cond"/>
+      </blocks>
+      <blocks label="while.cond">
+        <instructions xsi:type="llvm:Load" volatile="true" align="1">
+          <result name="%4"/>
           <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i8"/>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.1/@result"/>
           </address>
           <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Load" align="1">
-          <result name="%9"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.2/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!3"/>
-          <meta arg="!range" value="!5"/>
+          <meta arg="!range" value="!4"/>
         </instructions>
         <instructions xsi:type="llvm:LogicOperation" operation="and">
-          <result name="%10"/>
+          <result name="%5"/>
           <optype xsi:type="llvm:Predefined" type="i8"/>
-          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.3/@result"/>
+          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.5/@instructions.0/@result"/>
           <value2 xsi:type="llvm:IntegerConstant" value="1"/>
         </instructions>
         <instructions xsi:type="llvm:CompareInt" cond="eq">
           <result name="%tobool"/>
           <opType xsi:type="llvm:Predefined" type="i8"/>
-          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.4/@result"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.5/@instructions.1/@result"/>
           <operand2 xsi:type="llvm:IntegerConstant"/>
         </instructions>
-        <instructions xsi:type="llvm:Branch" destination="%while.cond7.loopexit.split" elseDestination="%while.cond">
-          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.5/@result"/>
+        <instructions xsi:type="llvm:Branch" destination="%while.cond7.loopexit" elseDestination="%while.cond">
+          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.5/@instructions.2/@result"/>
         </instructions>
       </blocks>
-      <blocks label="while.cond">
-        <instructions xsi:type="llvm:Branch" destination="%while.cond"/>
-      </blocks>
-      <blocks label="while.cond7.loopexit.split">
+      <blocks label="while.cond7.loopexit">
         <instructions xsi:type="llvm:GetElementPtr">
           <result name="%arrayidx8"/>
           <aggregate>
             <type xsi:type="llvm:Array" length="2" pointer="*">
-              <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+              <type xsi:type="llvm:Predefined" type="i32"/>
             </type>
             <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
           </aggregate>
@@ -352,84 +342,94 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.0/@result"/>
           </indices>
         </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%11"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.0/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%12"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.1/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!4"/>
-        </instructions>
-        <instructions xsi:type="llvm:CompareInt" cond="eq">
-          <result name="%cmp9"/>
-          <opType xsi:type="llvm:Predefined" type="i32"/>
-          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.2/@result"/>
-          <operand2 xsi:type="llvm:IntegerConstant"/>
-        </instructions>
         <instructions xsi:type="llvm:CompareInt" cond="slt">
           <result name="%cmp17"/>
           <opType xsi:type="llvm:Predefined" type="i32"/>
           <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.4/@instructions.0/@result"/>
           <operand2 xsi:type="llvm:AddressUse" address="//@elements.4/@parameter/@params.0/@value"/>
         </instructions>
-        <instructions xsi:type="llvm:Branch" destination="%for.inc.split" elseDestination="%land.rhs">
-          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.3/@result"/>
+        <instructions xsi:type="llvm:Branch" destination="%while.cond7"/>
+      </blocks>
+      <blocks label="while.cond7">
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%6"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.0/@result"/>
+          </address>
+          <meta arg="!tbaa" value="!3"/>
+        </instructions>
+        <instructions xsi:type="llvm:CompareInt" cond="eq">
+          <result name="%cmp9"/>
+          <opType xsi:type="llvm:Predefined" type="i32"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.0/@result"/>
+          <operand2 xsi:type="llvm:IntegerConstant"/>
+        </instructions>
+        <instructions xsi:type="llvm:Branch" destination="%for.inc" elseDestination="%land.rhs">
+          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.1/@result"/>
         </instructions>
       </blocks>
       <blocks label="land.rhs">
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%13"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.2/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%14"/>
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%7"/>
           <address>
             <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.0/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.0/@result"/>
           </address>
-          <meta arg="!tbaa" value="!4"/>
+          <meta arg="!tbaa" value="!3"/>
+        </instructions>
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%8"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.1/@result"/>
+          </address>
+          <meta arg="!tbaa" value="!3"/>
         </instructions>
         <instructions xsi:type="llvm:CompareInt" cond="slt">
           <result name="%cmp12"/>
           <opType xsi:type="llvm:Predefined" type="i32"/>
-          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.2/@result"/>
-          <operand2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.1/@result"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.8/@instructions.0/@result"/>
+          <operand2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.8/@instructions.1/@result"/>
+        </instructions>
+        <instructions xsi:type="llvm:Branch" destination="%while.cond7" elseDestination="%lor.rhs">
+          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.8/@instructions.2/@result"/>
+        </instructions>
+      </blocks>
+      <blocks label="lor.rhs">
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%9"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.0/@result"/>
+          </address>
+          <meta arg="!tbaa" value="!3"/>
+        </instructions>
+        <instructions xsi:type="llvm:Load" volatile="true" align="4">
+          <result name="%10"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.1/@result"/>
+          </address>
+          <meta arg="!tbaa" value="!3"/>
         </instructions>
         <instructions xsi:type="llvm:CompareInt" cond="eq">
           <result name="%cmp15"/>
           <opType xsi:type="llvm:Predefined" type="i32"/>
-          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.2/@result"/>
-          <operand2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.1/@result"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.9/@instructions.0/@result"/>
+          <operand2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.9/@instructions.1/@result"/>
         </instructions>
         <instructions xsi:type="llvm:LogicOperation" operation="and">
           <result name="%or.cond"/>
           <optype xsi:type="llvm:Predefined" type="i1"/>
-          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.3/@result"/>
-          <value2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.4/@result"/>
+          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.9/@instructions.2/@result"/>
+          <value2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.6/@instructions.1/@result"/>
         </instructions>
-        <instructions xsi:type="llvm:LogicOperation" operation="or">
-          <result name="%or.cond24"/>
-          <optype xsi:type="llvm:Predefined" type="i1"/>
-          <value1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.2/@result"/>
-          <value2 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.4/@result"/>
-        </instructions>
-        <instructions xsi:type="llvm:Branch" destination="%land.rhs" elseDestination="%for.inc.split">
-          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.7/@instructions.5/@result"/>
+        <instructions xsi:type="llvm:Branch" destination="%while.cond7" elseDestination="%for.inc">
+          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.9/@instructions.3/@result"/>
         </instructions>
       </blocks>
-      <blocks label="for.inc.split">
+      <blocks label="for.inc">
         <instructions xsi:type="llvm:ArithmeticOperationAdd" operation="add">
           <result name="%inc"/>
           <optype xsi:type="llvm:Predefined" type="i32"/>
@@ -439,11 +439,11 @@
         <instructions xsi:type="llvm:CompareInt" cond="eq">
           <result name="%exitcond"/>
           <opType xsi:type="llvm:Predefined" type="i32"/>
-          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.8/@instructions.0/@result"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.10/@instructions.0/@result"/>
           <operand2 xsi:type="llvm:IntegerConstant" value="2"/>
         </instructions>
         <instructions xsi:type="llvm:Branch" destination="%for.end" elseDestination="%while.cond.preheader">
-          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.8/@instructions.1/@result"/>
+          <condition xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.10/@instructions.1/@result"/>
         </instructions>
       </blocks>
       <blocks label="for.end">
@@ -451,7 +451,7 @@
           <result name="%arrayidx21"/>
           <aggregate>
             <type xsi:type="llvm:Array" length="2" pointer="*">
-              <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+              <type xsi:type="llvm:Predefined" type="i32"/>
             </type>
             <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
           </aggregate>
@@ -464,24 +464,16 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@parameter/@params.0/@value"/>
           </indices>
         </instructions>
-        <instructions xsi:type="llvm:Load" align="4">
-          <result name="%15"/>
-          <address>
-            <type xsi:type="llvm:Predefined" pointer="**" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.9/@instructions.0/@result"/>
-          </address>
-          <meta arg="!tbaa" value="!0"/>
-        </instructions>
-        <instructions xsi:type="llvm:Store" align="4">
+        <instructions xsi:type="llvm:Store" volatile="true" align="4">
           <value>
             <type xsi:type="llvm:Predefined" type="i32"/>
             <value xsi:type="llvm:IntegerConstant"/>
           </value>
           <targetAddress>
             <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.9/@instructions.1/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.11/@instructions.0/@result"/>
           </targetAddress>
-          <meta arg="!tbaa" value="!4"/>
+          <meta arg="!tbaa" value="!3"/>
         </instructions>
         <instructions xsi:type="llvm:Return">
           <value xsi:type="llvm:PrimitiveValue" value="void"/>
@@ -504,7 +496,7 @@
     </body>
   </elements>
   <elements xsi:type="llvm:MetadataValue" nodeId="!0">
-    <values meta="!&quot;any pointer&quot;"/>
+    <values meta="!&quot;_Bool&quot;"/>
     <values meta="!1"/>
   </elements>
   <elements xsi:type="llvm:MetadataValue" nodeId="!1">
@@ -518,14 +510,10 @@
     </values>
   </elements>
   <elements xsi:type="llvm:MetadataValue" nodeId="!3">
-    <values meta="!&quot;_Bool&quot;"/>
-    <values meta="!1"/>
-  </elements>
-  <elements xsi:type="llvm:MetadataValue" nodeId="!4">
     <values meta="!&quot;int&quot;"/>
     <values meta="!1"/>
   </elements>
-  <elements xsi:type="llvm:MetadataValue" nodeId="!5">
+  <elements xsi:type="llvm:MetadataValue" nodeId="!4">
     <values>
       <arg type="i8"/>
       <value xsi:type="llvm:IntegerConstant"/>

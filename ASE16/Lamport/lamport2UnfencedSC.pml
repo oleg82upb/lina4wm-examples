@@ -35,78 +35,78 @@ inline alloca(type, targetRegister)
 
 
 inline proci(i){
-short arrayidx, v0, v1, v2, v3, v4, cmp, add, add2, arrayidx1, arrayidx3, v5, v6, v7, arrayidx11, j_023, inc, arrayidx6, v8, v9, v10, tobool, arrayidx8, v11, v12, cmp9, cmp17, v13, exitcond, v14, cmp12, arrayidx21, cmp15, v15, or_cond, or_cond24;
+short arrayidx, v0, v1, cmp, v2, v3, add, add2, arrayidx1, arrayidx3, arrayidx11, j_023, inc, arrayidx6, v4, v5, tobool, arrayidx8, cmp17, v6, cmp9, v7, exitcond, v8, cmp12, arrayidx21, v9, v10, cmp15, or_cond;
 AStart: goto A00;
 A00: getelementptr(2, choosing, i, arrayidx); goto A01; 
-A01: v0 = memory[arrayidx]; goto A02; 
-A02: goto A03; 
-A03: v1 = memory[number + 0]; goto A04; 
-A04: v2 = memory[v1]; goto A05; 
-A05: v3 = memory[number + 1]; goto A06; 
-A06: v4 = memory[v3]; goto A07; 
-A07: cmp = (v2 < v4); goto A08; 
-A08: 
+A01: goto A02; 
+A02: v0 = memory[number + 0]; goto A03; 
+A03: v1 = memory[number + 1]; goto A04; 
+A04: cmp = (v0 < v1); goto A05; 
+A05: 
 	if 
-	::cmp -> goto A09; 
-	::!cmp -> goto A14; 
+	::cmp -> goto A06; 
+	::!cmp -> goto A11; 
 	fi;
-A09: add = v4 + 1; goto A10; 
-A14: add2 = v2 + 1; goto A15; 
-A10: getelementptr(2, number, i, arrayidx1); goto A11; 
-A15: getelementptr(2, number, i, arrayidx3); goto A16; 
-A11: v5 = memory[arrayidx1]; goto A12; 
-A16: v6 = memory[arrayidx3]; goto A17; 
-A12: goto A13; 
-A17: goto A18; 
-A13: goto A19; 
-A18: goto A19; 
-A19: v7 = memory[arrayidx]; goto A20; 
-A20: goto A21; 
-A21: getelementptr(2, number, i, arrayidx11); goto A22; 
-A22: j_023 = 0; goto A23; 
-A23: goto A24; 
-A24: getelementptr(2, choosing, j_023, arrayidx6); goto A25; 
-A25: v8 = memory[arrayidx6]; goto A26; 
-A26: v9 = memory[v8]; goto A27; 
-A27: v10 = v9 & 1; goto A28; 
-A28: tobool = (v10 == 0); goto A29; 
-A29: 
+A06: v2 = memory[number + 1]; goto A07; 
+A11: v3 = memory[number + 0]; goto A12; 
+A07: add = v2 + 1; goto A08; 
+A12: add2 = v3 + 1; goto A13; 
+A08: getelementptr(2, number, i, arrayidx1); goto A09; 
+A13: getelementptr(2, number, i, arrayidx3); goto A14; 
+A09: goto A10; 
+A14: goto A15; 
+A10: goto A16; 
+A15: goto A16; 
+A16: goto A17; 
+A17: getelementptr(2, number, i, arrayidx11); goto A18; 
+A18: j_023 = 0; goto A19; 
+A19: goto A20; 
+A20: getelementptr(2, choosing, j_023, arrayidx6); goto A21; 
+A21: goto A22; 
+A22: v4 = memory[arrayidx6]; goto A23; 
+A23: v5 = v4 & 1; goto A24; 
+A24: tobool = (v5 == 0); goto A25; 
+A25: 
 	if 
-	::tobool -> goto A31; 
-	::!tobool -> goto A30; 
+	::tobool -> goto A26; 
+	::!tobool -> goto A22; 
 	fi;
-A31: getelementptr(2, number, j_023, arrayidx8); goto A32; 
-A30: goto A30; 
-A32: v11 = memory[arrayidx8]; goto A33; 
-A33: v12 = memory[v11]; goto A34; 
-A34: cmp9 = (v12 == 0); goto A35; 
-A35: cmp17 = (j_023 < i); goto A36; 
-A36: 
+A26: getelementptr(2, number, j_023, arrayidx8); goto A27; 
+A27: cmp17 = (j_023 < i); goto A28; 
+A28: goto A29; 
+A29: v6 = memory[arrayidx8]; goto A30; 
+A30: cmp9 = (v6 == 0); goto A31; 
+A31: 
 	if 
-	::cmp9 -> goto A44; 
-	::!cmp9 -> goto A37; 
+	::cmp9 -> goto A41; 
+	::!cmp9 -> goto A32; 
 	fi;
-A44: inc = j_023 + 1; goto A45; 
-A37: v13 = memory[arrayidx11]; goto A38; 
-A45: exitcond = (inc == 2); goto A46; 
-A38: v14 = memory[v13]; goto A39; 
-A46: 
-	if 
-	::exitcond -> goto A47; 
-	::!exitcond -> j_023 = inc; goto A23; 
-	fi;
-A39: cmp12 = (v12 < v14); goto A40; 
-A47: getelementptr(2, number, i, arrayidx21); goto A48; 
-A40: cmp15 = (v12 == v14); goto A41; 
-A48: v15 = memory[arrayidx21]; goto A49; 
-A41: or_cond = cmp15 & cmp17; goto A42; 
-A49: goto A50; 
-A42: or_cond24 = cmp12 | or_cond; goto A43; 
-A50: goto AEnd;
+A41: inc = j_023 + 1; goto A42; 
+A32: v7 = memory[arrayidx8]; goto A33; 
+A42: exitcond = (inc == 2); goto A43; 
+A33: v8 = memory[arrayidx11]; goto A34; 
 A43: 
 	if 
-	::or_cond24 -> goto A37; 
-	::!or_cond24 -> goto A44; 
+	::exitcond -> goto A44; 
+	::!exitcond -> j_023 = inc; goto A19; 
+	fi;
+A34: cmp12 = (v7 < v8); goto A35; 
+A44: getelementptr(2, number, i, arrayidx21); goto A45; 
+A35: 
+	if 
+	::cmp12 -> goto A29; 
+	::!cmp12 -> goto A36; 
+	fi;
+A45: goto A46; 
+A36: v9 = memory[arrayidx8]; goto A37; 
+A46: goto AEnd;
+A37: v10 = memory[arrayidx11]; goto A38; 
+A38: cmp15 = (v9 == v10); goto A39; 
+A39: or_cond = cmp15 & cmp17; goto A40; 
+A40: 
+	if 
+	::or_cond -> goto A29; 
+	::!or_cond -> goto A41; 
 	fi;
 AEnd: skip;
 
