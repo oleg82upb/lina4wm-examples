@@ -1,7 +1,7 @@
 #define MEM_SIZE 15	//size of memory
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
 
 short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
@@ -17,7 +17,7 @@ inline alloca(type, targetRegister)
 {
 	atomic{
 	targetRegister = memUse;
-	memUse = memUse + type + 1;
+	memUse = memUse + type;
 	assert(memUse < MEM_SIZE);
 	}
 }
