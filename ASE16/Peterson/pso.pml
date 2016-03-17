@@ -40,7 +40,7 @@ inline cas(adr, oldValue, newValue, successBit)
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
 		ch ! iCas, adr, oldValue, newValue;
-		ch ? iCas, NULL, successBit, _; 
+		ch ? iCas, NULL, successBit, NULL; 
 	}
 }
 
@@ -50,29 +50,29 @@ inline cas(adr, oldValue, newValue, successBit)
 inline writeB() {
 	atomic{
 	assert(address < MEM_SIZE);
-	i = tail[address];
-	assert(i < BUFF_SIZE);
-	buffer[address].entry[i] = value;
+	assert(tail[address] < BUFF_SIZE);
+	buffer[address].entry[tail[address]] = value;
 	tail[address]++;
-	i= 0;
+	address = 0;
+	value = 0;
 	}
 }
 
 
 inline readB() {
+	atomic{
 	assert(address != 0);
-	i = tail[address] - 1;
-	do
-	//entry in buffer exists
-	:: i >= 0     
-		->	channel ! iRead, NULL, buffer[address].entry[i],NULL;
-			break;
-	//no entry in buffer, take it from memory
-	:: else 
-		->	channel ! iRead, NULL, memory[address], NULL;
-			break;
-	od;
-	i = 0;
+	if	
+		//entry in buffer exists
+		:: ((tail[address] - 1) > 0) 
+			-> channel ! iRead, NULL, buffer[address].entry[(tail[address] - 1)], NULL;
+		//no entry in buffer, take it from memory
+		:: else 
+			-> channel ! iRead, NULL, memory[address], NULL;
+	fi;
+	address = 0;
+	value=0;
+	}
 }
 
 
@@ -173,15 +173,15 @@ inline casB()
 {
 	mfenceB();	//buffer must be empty
 	atomic{ 
-		bit result = false;
 		if 
 			:: memory[address] == value 
 				-> 	memory[address] = newValue;
-					result = true;
-			:: else -> skip;
-		fi
-		->
-		channel ! iCas, NULL, result, NULL;
+					channel ! iCas, NULL, true, NULL;
+			:: else -> channel ! iCas, NULL, false, NULL;
+		fi;
+		address = 0;
+		value = 0;
+		newValue = 0;
 	}
 }
 
@@ -202,11 +202,11 @@ proctype bufferProcess(chan channel)
 end:	do 
 		::	if
 				//WRITE
-				:: atomic{channel ? iWrite(address,value, _) -> writeB();
+				:: atomic{channel ? iWrite(address,value, NULL) -> writeB();
 					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//READ
-				:: atomic{channel ? iRead, address, value, _ -> readB();
+				:: atomic{channel ? iRead, address, NULL, NULL -> readB();
 					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//FLUSH
@@ -214,7 +214,7 @@ end:	do
 					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//FENCE
-				:: atomic{channel ? iMfence, _, _ ,_ -> fenceWithResponse();
+				:: atomic{channel ? iMfence, NULL, NULL, NULL -> fenceWithResponse();
 					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//COMPARE AND SWAP

@@ -1,8 +1,9 @@
 #define MEM_SIZE 10	//size of memory
 #define BUFF_SIZE 3 	//size of Buffer 
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
+short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
 #include "tso.pml"
@@ -10,8 +11,20 @@
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
-short f0 = 1;
-short f1 = 2;
+short f0 = 0;
+short f1 = 0;
+short i = 0;
+
+
+//memory allocation
+inline alloca(type, targetRegister)
+{
+	atomic{
+	targetRegister = memUse;
+	memUse = memUse + type;
+	assert(memUse < MEM_SIZE);
+	}
+}
 
 //------------- functions ------------------
 //function was renamed from: @_Z5p1_aqv
@@ -125,28 +138,24 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	p1_acq();
-	c1: skip;
-	p1_rel();
+	//TODO: empty stub
 }
 
 proctype process2(chan ch){
-	p2_acq();
-	c2: skip;
-	p2_rel();
+	//TODO: empty stub
 }
 
 
 init{
 atomic{
-	//TODO: initialize global variables or allocate space here, if necessary
-	//run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
-	//run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(1, f0);
+	alloca(1, f1);
+	alloca(1, i);
+	
+	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
+	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
 	run process1(channelT1);
 	run process2(channelT2);
-	//run process1();
-	//run process2();
 	}
 }
-
-ltl check{ [] ! (process1 @ c1 && process2 @ c2 )}
