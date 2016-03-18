@@ -1,8 +1,9 @@
 #define MEM_SIZE 10	//size of memory
 #define BUFF_SIZE 3 	//size of Buffer 
 #define null 0
-#define I32  0 		// = {0};
-#define PTR 0
+#define I32  1
+#define PTR 1
+short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
 //#include "tso.pml"
@@ -10,9 +11,20 @@
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
-short flag0 = 1;
-short flag1 = 2;
-short turn = 3;
+short flag0 = null;
+short flag1 = null;
+short turn = null;
+
+
+//memory allocation
+inline alloca(type, targetRegister)
+{
+	atomic{
+	targetRegister = memUse;
+	memUse = memUse + type;
+	assert(memUse < MEM_SIZE);
+	}
+}
 
 //------------- functions ------------------
 
@@ -22,8 +34,8 @@ skip;
 entry: 
  read(flag0, v0); 
  write(v0, 1);
- //mfence(); required for PSO
  read(turn, v1); 
+ mfence();
  write(v1, 1);
  mfence();
    goto whilecond;
@@ -80,8 +92,8 @@ skip;
 entry: 
  read(flag1, v0); 
  write(v0, 1);
- //mfence(); required for PSO
- read(turn, v1); 
+ read(turn, v1);
+ mfence(); 
  write(v1, 0);
  mfence();
    goto whilecond;
@@ -146,7 +158,10 @@ proctype process2(chan ch){
 
 init{
 atomic{
-	//TODO: initialize global variables or allocate space here, if necessary
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(1, flag0);
+	alloca(1, flag1);
+	alloca(1, turn);
 	//two layers of pointers need initialization
 	memory[flag0] = 4;
 	memory[flag1] = 5;

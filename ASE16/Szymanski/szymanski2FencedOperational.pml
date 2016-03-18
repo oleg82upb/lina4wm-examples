@@ -96,8 +96,9 @@ whileend5:
 ifend: 
  read(flag0, v9); 
  write(v9, 4);
-   goto whilecond6;
- 
+   goto critical;
+   
+critical: goto whilecond6; 
 
 whilecond6: 
  read(flag1, v10); 
@@ -239,20 +240,22 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	proc0();
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	proc1();
 }
 
 
 init{
 atomic{
 	//initialize global variables or allocate memory space here, if necessary
-	alloca(2, flag);
 	alloca(1, flag0);
 	alloca(1, flag1);
+	//two layers of pointers need initialization
+	memory[flag0] = 4;
+	memory[flag1] = 5;
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
@@ -260,3 +263,5 @@ atomic{
 	run process2(channelT2);
 	}
 }
+
+ltl prop{ [] !((process1@critical) && (process2@whileend9))}

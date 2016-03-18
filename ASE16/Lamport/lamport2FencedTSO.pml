@@ -157,11 +157,11 @@ AEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	proci(0);
 }
 
 proctype process2(){
-	//TODO: empty stub
+	proci(1);
 }
 
 
@@ -176,3 +176,4 @@ atomic{
 	run process2();
 	}
 }
+ltl prop{ [] !((process1@A46) && (process2@A46))}

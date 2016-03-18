@@ -498,11 +498,11 @@ BEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	p0();
 }
 
 proctype process2(){
-	//TODO: empty stub
+	p1();
 }
 
 
@@ -512,9 +512,13 @@ atomic{
 	alloca(1, flag0);
 	alloca(1, flag1);
 	alloca(1, turn);
-	
+	//two layers of pointers need initialization
+	memory[flag0] = 4;
+	memory[flag1] = 5;
+	memory[turn] = 6;
 
 	run process1();
 	run process2();
 	}
 }
+ltl prop{ [] !((process1@A21 || process1@A21v0v1 || process1@A21v1) && (process2@B21 || process2@B21v0v1 || process2@B21v1))}

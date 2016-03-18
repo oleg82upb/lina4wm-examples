@@ -972,11 +972,11 @@ AEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	proci(0);
 }
 
 proctype process2(){
-	//TODO: empty stub
+	proci(1);
 }
 
 
@@ -991,3 +991,27 @@ atomic{
 	run process2();
 	}
 }
+ltl prop{ [] !(
+(process1@A044
+|| process1@A044arrayidxarrayidx1arrayidx
+|| process1@A044arrayidxarrayidx3arrayidx
+|| process1@A044arrayidx1arrayidx
+|| process1@A044arrayidx3arrayidx
+|| process1@A044arrayidx
+) && (
+process2@A044
+|| process2@A044arrayidxarrayidx1arrayidx
+|| process2@A044arrayidxarrayidx3arrayidx
+|| process2@A044arrayidx1arrayidx
+|| process2@A044arrayidx3arrayidx
+|| process2@A044arrayidx
+))}
+
+
+
+
+
+
+
+
+
