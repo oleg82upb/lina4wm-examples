@@ -6,8 +6,8 @@
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -80,7 +80,7 @@ ifend:
  read(flag0, v9); 
  write(v9, 4);
  read(flag1, v10); 
-   goto whilecond6;
+critical:   goto whilecond6;
  
 
 whilecond6: 
@@ -190,11 +190,11 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	proc0();
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	proc1();
 }
 
 
@@ -203,6 +203,9 @@ atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, flag0);
 	alloca(1, flag1);
+	//two layers of pointers need initialization
+	memory[flag0] = 3;
+	memory[flag1] = 4;
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
@@ -210,3 +213,5 @@ atomic{
 	run process2(channelT2);
 	}
 }
+
+ltl prop{ [] !((process1@critical) && (process2@whileend9))}

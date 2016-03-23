@@ -154,11 +154,11 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	proci(0);
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	proci(1);
 }
 
 
@@ -174,3 +174,4 @@ atomic{
 	run process2(channelT2);
 	}
 }
+ltl prop{ [] !((process1@forend) && (process2@forend))}

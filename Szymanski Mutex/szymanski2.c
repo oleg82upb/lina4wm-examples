@@ -2,9 +2,8 @@
 #include <stdbool.h>
 #define N 2
 
-bool flag[N] = {0,0};
-int *flag0 = 0;
-int *flag1 = 0;
+int volatile *flag0 = 0;
+int volatile *flag1 = 0;
 
 void proc0()
 {

@@ -2909,11 +2909,11 @@ BEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	proc0();
 }
 
 proctype process2(){
-	//TODO: empty stub
+	proc1();
 }
 
 
@@ -2922,9 +2922,26 @@ atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, flag0);
 	alloca(1, flag1);
-	
+	//two layers of pointers need initialization
+	memory[flag0] = 3;
+	memory[flag1] = 4;
 
 	run process1();
 	run process2();
 	}
 }
+ltl prop{ [] !((process1@A023v0v3v6v9 
+|| process1@A023v3v6v9 || process1@A023v0v6v9 || process1@A023v0v3v9 || process1@A023v0v3v6
+|| process1@A023v6v9 || process1@A023v3v9  || process1@A023v3v6
+|| process1@A023v0v9 || process1@A023v0v6
+|| process1@A023v0v3
+|| process1@A023v0 || process1@A023v3 || process1@A023v6 || process1@A023v9 || process1@A023    
+)  
+&& (
+process2@B027v0v3v6v9 
+|| process2@B027v3v6v9 || process2@B027v0v6v9 || process2@B027v0v3v9 || process2@B027v0v3v6
+|| process2@B027v6v9 || process2@B027v3v9  || process2@B027v3v6
+|| process2@B027v0v9 || process2@B027v0v6
+|| process2@B027v0v3
+|| process2@B027v0 || process2@B027v3 || process2@B027v6 || process2@B027v9 || process2@B027 
+))}

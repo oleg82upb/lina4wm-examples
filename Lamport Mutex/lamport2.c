@@ -2,8 +2,8 @@
 #include <stdbool.h>
 #define N 2
 
-bool *choosing[N] = {0,0};
-int *number[N] = {0,0};
+bool volatile *choosing[N] = {0,0};
+int volatile *number[N] = {0,0};
 
 void proci(int i)
 {
@@ -33,7 +33,6 @@ L1:	*choosing[i] = 1;
 
     //critical section
     *number[i] = 0;
-    goto L1;
 }
 
 

@@ -1,5 +1,5 @@
 #define MEM_SIZE 10	//size of memory
-#define BUFF_SIZE 3 	//size of Buffer 
+#define BUFF_SIZE 5 	//size of Buffer 
 #define null 0
 #define I32  1
 #define PTR 1
@@ -152,11 +152,11 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	proci(0);
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	proci(1);
 }
 
 
@@ -172,3 +172,4 @@ atomic{
 	run process2(channelT2);
 	}
 }
+ltl prop{ [] !((process1@forend) && (process2@forend))}
