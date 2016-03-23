@@ -11,7 +11,6 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
-short flag = 0; //Array: please, check initialization in the init process
 short flag0 = null;
 short flag1 = null;
 
@@ -29,31 +28,23 @@ inline alloca(type, targetRegister)
 //------------- functions ------------------
 
 inline proc0(){
-short v0, v1, v2, cmp, v3, v4, v5, cmp1, v6, v9, v7, v10, v8, v11, cmp3, cmp7, v14, cmp8, v12, v13, v15;
+short v0, v1, v2, cmp, v3, v4, v5, cmp1, v6, v9, v7, v10, v8, v11, cmp3, cmp7, v12, cmp8, v13;
 skip;
 entry: 
-   goto L1;
- 
-
-L1: 
  read(flag0, v0); 
  write(v0, 1);
  mfence();
+ read(flag1, v1); 
    goto whilecond;
  
 
 whilecond: 
- read(flag1, v1); 
  read(v1, v2); 
  cmp = (v2 > 2); 
  if 
- 	:: cmp ->  goto whilebody;
+ 	:: cmp ->  goto whilecond;
  	:: !cmp ->  goto whileend;
  fi;
- 
-
-whilebody: 
-   goto whilecond;
  
 
 whileend: 
@@ -72,67 +63,47 @@ whileend:
 ifthen: 
  read(flag0, v6); 
  write(v6, 2);
+ read(flag1, v7); 
    goto whilecond2;
  
 
 whilecond2: 
- read(flag1, v7); 
  read(v7, v8); 
  cmp3 = (v8 == 4); 
  if 
- 	:: cmp3 ->  goto whilebody4;
- 	:: !cmp3 ->  goto whileend5;
+ 	:: cmp3 ->  goto ifend;
+ 	:: !cmp3 ->  goto whilecond2;
  fi;
- 
-
-whilebody4: 
-   goto whilecond2;
- 
-
-whileend5: 
-   goto ifend;
  
 
 ifend: 
  read(flag0, v9); 
  write(v9, 4);
+ read(flag1, v10); 
    goto whilecond6;
  
 
 whilecond6: 
- read(flag1, v10); 
  read(v10, v11); 
  cmp7 = (v11 == 2); 
  if 
- 	:: cmp7 -> 	v14 = true;
- 	 goto lorend;
+ 	:: cmp7 ->  goto whilecond6;
  	:: !cmp7 ->  goto lorrhs;
  fi;
  
 
 lorrhs: 
- read(flag1, v12); 
- read(v12, v13); 
- cmp8 = (v13 == 3); 
- 	v14 = cmp8;
-   goto lorend;
- 
-
-lorend: 
- // phi instruction replaced by assignments before  the goto to this block 
+ read(v10, v12); 
+ cmp8 = (v12 == 3); 
  if 
- 	:: v14 ->  goto whilebody9;
- 	:: !v14 ->  goto whileend10;
+ 	:: cmp8 ->  goto whilecond6;
+ 	:: !cmp8 ->  goto whileend10;
  fi;
  
 
-whilebody9: 
-   goto whilecond6;
- 
-
 whileend10: 
- read(flag0, v15); 
- write(v15, 0);
+ read(flag0, v13); 
+ write(v13, 0);
  goto ret;
 
 
@@ -144,28 +115,20 @@ inline proc1(){
 short v0, v1, v2, cmp, v3, v4, v5, cmp1, v6, v9, v7, v10, v8, v11, cmp3, cmp7, v12;
 skip;
 entry: 
-   goto L1;
- 
-
-L1: 
  read(flag1, v0); 
  write(v0, 1);
  mfence();
+ read(flag0, v1); 
    goto whilecond;
  
 
 whilecond: 
- read(flag0, v1); 
  read(v1, v2); 
  cmp = (v2 > 2); 
  if 
- 	:: cmp ->  goto whilebody;
+ 	:: cmp ->  goto whilecond;
  	:: !cmp ->  goto whileend;
  fi;
- 
-
-whilebody: 
-   goto whilecond;
  
 
 whileend: 
@@ -184,45 +147,33 @@ whileend:
 ifthen: 
  read(flag1, v6); 
  write(v6, 2);
+ read(flag0, v7); 
    goto whilecond2;
  
 
 whilecond2: 
- read(flag0, v7); 
  read(v7, v8); 
  cmp3 = (v8 == 4); 
  if 
- 	:: cmp3 ->  goto whilebody4;
- 	:: !cmp3 ->  goto whileend5;
+ 	:: cmp3 ->  goto ifend;
+ 	:: !cmp3 ->  goto whilecond2;
  fi;
- 
-
-whilebody4: 
-   goto whilecond2;
- 
-
-whileend5: 
-   goto ifend;
  
 
 ifend: 
  read(flag1, v9); 
  write(v9, 4);
+ read(flag0, v10); 
    goto whilecond6;
  
 
 whilecond6: 
- read(flag0, v10); 
  read(v10, v11); 
  cmp7 = (v11 > 1); 
  if 
- 	:: cmp7 ->  goto whilebody8;
+ 	:: cmp7 ->  goto whilecond6;
  	:: !cmp7 ->  goto whileend9;
  fi;
- 
-
-whilebody8: 
-   goto whilecond6;
  
 
 whileend9: 
@@ -250,7 +201,6 @@ proctype process2(chan ch){
 init{
 atomic{
 	//initialize global variables or allocate memory space here, if necessary
-	alloca(2, flag);
 	alloca(1, flag0);
 	alloca(1, flag1);
 	
