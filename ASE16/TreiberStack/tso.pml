@@ -36,16 +36,19 @@ inline cas(adr, oldValue, newValue, successBit)
 {
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
+	assert(adr != null);
 	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, NULL, successBit, NULL; 
 	}
 }
 
 inline writeB() {
-		assert(tail < BUFF_SIZE);
+		assert(tail < BUFF_SIZE && address != null);
 		buffer[tail].line[0] = address;
 		buffer[tail].line[1] = value;
 		tail++;
+		address = 0;
+		value = 0;
 }
 
 
@@ -57,16 +60,17 @@ inline readB() {
 			/* if an address in the buffer is equivalent to the searched -> return value*/
 			::buffer[i].line[0] == address 
 				->  channel ! iRead,NULL,buffer[i].line[1],NULL;
-					i = 0;
 					break;
 			::else -> i--;
 			fi
 			/*else: access to memory and return value of searched address*/
 	::else ->
 		channel ! iRead,NULL,memory[address],NULL;
-		i = 0;
 		break;
-	od
+	od;
+	address = 0;
+	value=0;
+	i = 0;
 }
 
 
@@ -93,11 +97,8 @@ inline flushB() {
 
 inline mfenceB() {
 	do
-	:: 
-			if
-			::(tail<=0) -> break;	//tail > 0 iff buffer not empty
-			::else -> flushB(); 
-			fi
+	::(tail<=0) -> break;	//tail > 0 iff buffer not empty
+	:: else -> flushB(); 
 	od;
 }
 
@@ -115,6 +116,9 @@ inline casB()
 					channel ! iCas, NULL, true, NULL;
 			:: else -> channel ! iCas, NULL, false, NULL;
 		fi;
+		address = 0;
+		value = 0;
+		newValue = 0;
 }
 
 proctype bufferProcess(chan channel)

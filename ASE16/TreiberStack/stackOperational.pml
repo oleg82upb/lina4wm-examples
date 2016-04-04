@@ -1,5 +1,5 @@
-#define MEM_SIZE 10	//size of memory
-#define BUFF_SIZE 3 	//size of Buffer 
+#define MEM_SIZE 15	//size of memory
+#define BUFF_SIZE 6 	//size of Buffer 
 #define null 0
 #define I32  1
 #define PTR 1
@@ -33,18 +33,6 @@ inline alloca(type, targetRegister)
 	assert(memUse < MEM_SIZE);
 	}
 }
-//atomic compare and swap instruction 
-inline cas(adr, old, new, result)
-{
-	atomic{
-	//in LLVM result is usually a tuple (memory[adr], successFlag)
-	//we assume it to be just a loaded value
-	result = memory[adr];
-	if 	:: memory[adr] == old -> memory[adr] = new; 
-		:: else -> skip;
-	fi;
-	}
-}
 
 //------------- functions ------------------
 //function was renamed from: @_ZN5Stack4pushEi
@@ -52,7 +40,7 @@ inline push(this, v){
 short call, val, head, next, v0, v1, v2, v3, v4, v5, v6;
 skip;
 invokecont: 
- Znwj(8, call); 
+ alloca(2, call); 
  val = call; 
  write(val, v);
  getelementptr(1, this, 0, head); 
@@ -67,8 +55,8 @@ dobody:
  read(head, v3); 
  write(v0, v3);
  v4 = v3; 
- cas(v1, v4, v2, v5); 
- v6 = (v5 == v4); 
+ cas(v1, v4, v2, v5); //compiler returns the old value in success bit in case of success. we return only success bit
+ v6 = v5;   // therefore, originalline  v6 = (v5 == v4); does not fit here 
  if 
  	:: v6 ->  goto doend;
  	:: !v6 ->  goto dobody;
@@ -97,7 +85,7 @@ dobody:
  cmp = (v1 == null); 
  if 
  	:: cmp -> 	retval_0 = null;
- 	 goto return;
+ 	 goto return1;
  	:: !cmp ->  goto ifend;
  fi;
  
@@ -108,15 +96,15 @@ ifend:
  v3 = v1; 
  v4 = v2; 
  cas(v0, v3, v4, v5); 
- v6 = (v5 == v3); 
+ v6 = v5; //org.   v6 = (v5 == v3); 
  if 
  	:: v6 -> 	retval_0 = v1;
- 	 goto return;
+ 	 goto return1;
  	:: !v6 ->  goto dobody;
  fi;
  
 
-return: 
+return1: 
  // phi instruction replaced by assignments before  the goto to this block 
  returnvalue = retval_0; 
  goto ret;
@@ -127,24 +115,61 @@ ret: skip;
 
 
 //------------- process template -------------
-
+byte this; 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	short returnvalue;
+	push(this, 111);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
+	push(this, 112);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222  || memory[returnvalue] == 223);
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	short returnvalue;
+	push(this, 222);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222);
+	push(this, 223);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
+}
+
+proctype process3(chan ch){
+	short returnvalue;
+	push(this, 111);
+	push(this, 112);
+	push(this, 113);
+	pop(this, returnvalue);
+	pop(this, returnvalue);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null 
+	|| memory[returnvalue] == 222  || memory[returnvalue] == 223   || memory[returnvalue] == 224);
+}
+
+proctype process4(chan ch){
+	short returnvalue;
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	push(this, 222);
+	push(this, 223);
+	push(this, 224);
 }
 
 
 init{
 atomic{
 	//initialize global variables or allocate memory space here, if necessary
-	
+	alloca(PTR, this)//create share "this" pointers
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
-	run process1(channelT1);
-	run process2(channelT2);
+	run process3(channelT1);
+	run process4(channelT2);
 	}
 }

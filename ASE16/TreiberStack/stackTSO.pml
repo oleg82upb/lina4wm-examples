@@ -47,7 +47,7 @@ inline cas(adr, old, new, result)
 inline push(this, v){
 short call, val, head, next, v0, v1, v2, v3, v4, v5, v6;
 AStart: goto A00;
-A00: Znwj(8, call); goto A01; 
+A00: alloca(2, call); goto A01; 
 A01: val = call; goto A02; 
 A02: goto A03val; 
 A03val: 
@@ -155,22 +155,60 @@ BEnd: skip;
 }
 
 
+byte this;
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	short returnvalue;
+	push(this, 111);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
+	push(this, 112);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222  || memory[returnvalue] == 223);
 }
 
 proctype process2(){
-	//TODO: empty stub
+	short returnvalue;
+	push(this, 222);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222);
+	push(this, 223);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
 }
 
+ 
+proctype process3(){
+	short returnvalue;
+	push(this, 111);
+	push(this, 112);
+	push(this, 113);
+	pop(this, returnvalue);
+	pop(this, returnvalue);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null 
+	|| memory[returnvalue] == 222  || memory[returnvalue] == 223   || memory[returnvalue] == 224);
+}
 
+proctype process4(){
+	short returnvalue;
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	pop(this, returnvalue);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	push(this, 222);
+	push(this, 223);
+	push(this, 224);
+}
+ 
 init{
 atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	
-
-	run process1();
-	run process2();
+	alloca(PTR, this)//create share pointer "this" 
+	run process3();
+	run process4();
 	}
 }
