@@ -57,7 +57,7 @@ AStart: goto A00;
 A00: v0 = memory[bot]; goto A01; 
 A01: v1 = memory[v0]; goto A02; 
 A02: v2 = memory[deq]; goto A03; 
-A03: getelementptr(1, v2, v1, arrayidx); goto A04; 
+A03: getelementptr(10, v2, v1, arrayidx); goto A04; 
 A04: goto A05arrayidx; 
 A05arrayidx: 
 	if 
@@ -76,13 +76,13 @@ AEnd: skip;
 
 
 inline dequeue(returnvalue){
-short v0, v1, v2, v3, shr, cmp, v4, retval_0, _, arrayidx, v5, add5, v6, v7;
+short v0, v1, v2, v3, shr, cmp, v4, retval_0, _v, arrayidx, v5, add5, v6, v7;
 BStart: goto B00;
 B00: v0 = memory[age]; goto B01; 
 B01: v1 = memory[v0]; goto B02; 
 B02: v2 = memory[bot]; goto B03; 
 B03: v3 = memory[v2]; goto B04; 
-B04: shr = v1 >> 16; goto B05; 
+B04: shr = v1 >> 8; goto B05; 
 B05: cmp = (v3 > shr); goto B06; 
 B06: 
 	if 
@@ -91,14 +91,14 @@ B06:
 	fi;
 B07: v4 = memory[deq]; goto B08; 
 B15: goto B16; 
-B08: getelementptr(1, v4, shr, arrayidx); goto B09; 
+B08: getelementptr(10, v4, shr, arrayidx); goto B09; 
 B16: returnvalue = retval_0; goto BEnd;
 B09: v5 = memory[arrayidx]; goto B10; 
-B10: add5 = v1 + 65536; goto B11; 
+B10: add5 = v1 + 256; goto B11; 
 B11: cas(v0, v1, add5, v6); goto B12; 
 B12: v7 = (v6 == v1); goto B13; 
-B13: _ = (v7 -> v5 : -2); goto B14; 
-B14: retval_0 = _; goto B15; 
+B13: _v = (v7 -> v5 : -2); goto B14; 
+B14: retval_0 = _v; goto B15; 
 BEnd: skip;
 
 }
@@ -126,7 +126,7 @@ C06v0:
 	fi;
 C07v0: 
 	if 
-	:: getelementptr(1, v2, dec, arrayidx); goto C08v0; 
+	:: getelementptr(10, v2, dec, arrayidx); goto C08v0; 
 	:: memory[v0] = dec; goto C07; 
 	fi;
 C06: v2 = memory[deq]; goto C07; 
@@ -135,7 +135,7 @@ C08v0:
 	:: v3 = memory[arrayidx]; goto C09v0; 
 	:: memory[v0] = dec; goto C08; 
 	fi;
-C07: getelementptr(1, v2, dec, arrayidx); goto C08; 
+C07: getelementptr(10, v2, dec, arrayidx); goto C08; 
 C09v0: 
 	if 
 	:: v4 = memory[age]; goto C10v0; 
@@ -146,7 +146,7 @@ C10v0: memory[v0] = dec; goto C10;
 C09: v4 = memory[age]; goto C10; 
 C10: goto C11; 
 C11: v5 = memory[v4]; goto C12; 
-C12: shr = v5 >> 16; goto C13; 
+C12: shr = v5 >> 8; goto C13; 
 C13: cmp1 = (dec > shr); goto C14; 
 C14: 
 	if 
@@ -156,7 +156,7 @@ C14:
 C15: goto C16v0; 
 C16v0: 
 	if 
-	:: and = v5 & 65535; goto C17v0; 
+	:: and = v5 & 255; goto C17v0; 
 	:: memory[v0] = 0; goto C16; 
 	fi;
 C17v0: 
@@ -164,7 +164,7 @@ C17v0:
 	:: add = and + 1; goto C18v0; 
 	:: memory[v0] = 0; goto C17; 
 	fi;
-C16: and = v5 & 65535; goto C17; 
+C16: and = v5 & 255; goto C17; 
 C18v0: 
 	if 
 	:: cmp5 = (dec == shr); goto C19v0; 
@@ -235,11 +235,55 @@ CEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	short result;
+	push(111);
+	push(222);
+	push(333);
+	pop(result);
+	assert(result == -1 || result == 111 || result == 222 || result == 333);
+	//printf("Proc1: %d \n", result);
+	pop(result);
+	assert(result == -1 || result == 111 || result == 222 );
+	//printf("Proc1: %d \n", result);
+	push(444);
+	pop(result);
+	assert(result == -1 || result == 111  || result == 444);
 }
 
 proctype process2(){
-	//TODO: empty stub
+	short result;
+	dequeue(result);
+	dequeue(result);
+	dequeue(result);
+	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333 || result == 444);
+}
+
+//Stubs
+proctype process3(){
+	short result;
+	push(111);
+	pop(result);
+	assert(result == -1 || result == 111);
+	push(222);
+	pop(result);
+	assert(result == -1 || result == 222);
+	push(333);
+	pop(result);
+	assert(result == -1 || result == 222 || result == 333);
+}
+
+proctype process4(){
+	short result;
+	dequeue(result);
+	dequeue(result);
+	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333);
+}
+
+proctype process5(){
+	short result;
+	dequeue(result);
+	dequeue(result);
+	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333);
 }
 
 
@@ -247,12 +291,15 @@ init{
 atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, bot);
-	alloca(1, deq);
+	alloca(1, memory[bot]);
 	alloca(1, age);
-	alloca(1, top);
-	
+	alloca(1, memory[age]);
+	alloca(1, deq);
+	alloca(6, memory[deq]);
 
-	run process1();
-	run process2();
+
+	run process3();
+	run process4();
+	run process5();
 	}
 }
