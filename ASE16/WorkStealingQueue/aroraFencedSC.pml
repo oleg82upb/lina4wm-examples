@@ -53,15 +53,16 @@ inline cas(adr, old, new, result)
 
 inline push(elem){
 short v0, v1, v2, arrayidx, inc;
-AStart: goto A0;
-A0: v0 = memory[bot]; goto A1; 
-A1: v1 = memory[v0]; goto A2; 
-A2: v2 = memory[deq]; goto A3; 
-A3: getelementptr(1, v2, v1, arrayidx); goto A4; 
-A4: goto A5; 
-A5: inc = v1 + 1; goto A6; 
-A6: goto A7; 
-A7: goto AEnd;
+AStart: goto A00;
+A00: v0 = memory[bot]; goto A01; 
+A01: v1 = memory[v0]; goto A02; 
+A02: v2 = memory[deq]; goto A03; 
+A03: getelementptr(1, v2, v1, arrayidx); goto A04; 
+A04: goto A05; 
+A05: inc = v1 + 1; goto A06; 
+A06: goto A07; 
+A07: goto A08; 
+A08: goto AEnd;
 AEnd: skip;
 
 }

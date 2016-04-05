@@ -64,16 +64,12 @@ A05arrayidx:
 	:: inc = v1 + 1; goto A06arrayidx; 
 	:: memory[arrayidx] = elem; goto A05; 
 	fi;
-A06arrayidx: 
-	if 
-	:: goto A07arrayidxv0; 
-	:: memory[arrayidx] = elem; goto A06; 
-	fi;
+A06arrayidx: memory[arrayidx] = elem; goto A06; 
 A05: inc = v1 + 1; goto A06; 
-A07arrayidxv0: memory[arrayidx] = elem; goto A07v0; 
-A06: goto A07v0; 
-A07v0: memory[v0] = inc; goto A07; 
-A07: goto AEnd;
+A06: goto A07; 
+A07: goto A08v0; 
+A08v0: memory[v0] = inc; goto A08; 
+A08: goto AEnd;
 AEnd: skip;
 
 }

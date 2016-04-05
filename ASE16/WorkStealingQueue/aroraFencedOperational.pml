@@ -57,6 +57,7 @@ entry:
  getelementptr(1, v2, v1, arrayidx); 
  write(arrayidx, elem);
  inc = v1 + 1; 
+ mfence();
  write(v0, inc);
  goto ret;
 

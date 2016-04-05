@@ -16,6 +16,7 @@ entry:
   %arrayidx = getelementptr inbounds i32* %2, i32 %1
   store i32 %elem, i32* %arrayidx, align 4, !tbaa !3
   %inc = add i32 %1, 1
+  fence seq_cst
   store i32 %inc, i32* %0, align 4, !tbaa !3
   ret void
 }

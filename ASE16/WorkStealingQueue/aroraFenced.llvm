@@ -93,6 +93,7 @@
           <value1 xsi:type="llvm:AddressUse" address="//@elements.6/@body/@blocks.0/@instructions.1/@result"/>
           <value2 xsi:type="llvm:IntegerConstant" value="1"/>
         </instructions>
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
         <instructions xsi:type="llvm:Store" align="4">
           <value>
             <type xsi:type="llvm:Predefined" type="i32"/>
