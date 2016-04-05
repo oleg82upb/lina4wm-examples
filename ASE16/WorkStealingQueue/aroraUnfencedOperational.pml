@@ -37,18 +37,13 @@ inline alloca(type, targetRegister)
 	assert(memUse < MEM_SIZE);
 	}
 }
-//atomic compare and swap instruction 
-inline cas(adr, old, new, result)
-{
-	atomic{
-	//in LLVM result is usually a tuple (memory[adr], successFlag)
-	//we assume it to be just a loaded value
-	result = memory[adr];
-	if 	:: memory[adr] == old -> memory[adr] = new; 
-		:: else -> skip;
-	fi;
-	}
-}
+
+//Note, CAS operations in LLVM return a tuple (i32, i1), the value read and a success bit.
+//Sometimes the follow up code uses the succes bit but usually the read value. 
+//Adjust CAS semantics, if necessary.
+
+
+
 
 //------------- functions ------------------
 
@@ -59,7 +54,7 @@ entry:
  read(bot, v0); 
  read(v0, v1); 
  read(deq, v2); 
- getelementptr(1, v2, 0, arrayidx); 
+ getelementptr(1, v2, v1, arrayidx); 
  write(arrayidx, elem);
  inc = v1 + 1; 
  write(v0, inc);
@@ -89,7 +84,7 @@ entry:
 
 ifend: 
  read(deq, v4); 
- getelementptr(1, v4, 0, arrayidx); 
+ getelementptr(1, v4, shr, arrayidx); 
  read(arrayidx, v5); 
  add5 = v1 + 65536; 
  cas(v0, v1, add5, v6); 
@@ -127,7 +122,7 @@ ifend:
  dec = v1 + -1; 
  write(v0, dec);
  read(deq, v2); 
- getelementptr(1, v2, 0, arrayidx); 
+ getelementptr(1, v2, dec, arrayidx); 
  read(arrayidx, v3); 
  read(age, v4); 
  read(v4, v5); 

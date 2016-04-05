@@ -13,12 +13,16 @@ short memory[MEM_SIZE];
 
 inline write(adr, newValue)
 {
+	atomic{
+	assert(adr != 0);
 	ch ! iWrite, adr, newValue, NULL;
+	}
 }
 
 inline read(adr, target)
 {
 	atomic{
+	assert(adr != 0);
 	ch ! iRead, adr, NULL, NULL;
 	ch ? iRead, NULL, target, NULL;
 	}
@@ -36,14 +40,14 @@ inline cas(adr, oldValue, newValue, successBit)
 {
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
-	assert(adr != null);
+	assert(adr != 0);
 	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, NULL, successBit, NULL; 
 	}
 }
 
 inline writeB() {
-		assert(tail < BUFF_SIZE && address != null);
+		assert(tail < BUFF_SIZE);
 		buffer[tail].line[0] = address;
 		buffer[tail].line[1] = value;
 		tail++;
@@ -60,17 +64,16 @@ inline readB() {
 			/* if an address in the buffer is equivalent to the searched -> return value*/
 			::buffer[i].line[0] == address 
 				->  channel ! iRead,NULL,buffer[i].line[1],NULL;
+					i = 0;
 					break;
 			::else -> i--;
 			fi
 			/*else: access to memory and return value of searched address*/
 	::else ->
 		channel ! iRead,NULL,memory[address],NULL;
+		i = 0;
 		break;
-	od;
-	address = 0;
-	value=0;
-	i = 0;
+	od
 }
 
 
@@ -97,8 +100,8 @@ inline flushB() {
 
 inline mfenceB() {
 	do
-	::(tail<=0) -> break;	//tail > 0 iff buffer not empty
-	:: else -> flushB(); 
+		::(tail<=0) -> break;	//tail > 0 iff buffer not empty
+		:: else -> flushB(); 
 	od;
 }
 
@@ -109,16 +112,17 @@ inline fenceWithResponse() {
 	
 inline casB() 
 {
-		mfenceB();	//buffer must be empty 
-		if 
-			:: memory[address] == value 
-				-> 	memory[address] = newValue;
-					channel ! iCas, NULL, true, NULL;
-			:: else -> channel ! iCas, NULL, false, NULL;
-		fi;
-		address = 0;
-		value = 0;
-		newValue = 0;
+	mfenceB();	//buffer must be empty
+	atomic{
+	i = memory[address]; 
+	if 
+		:: memory[address] == value 
+			-> 	memory[address] = newValue;
+		:: else -> skip;
+	fi;
+	channel ! iCas, NULL, i, NULL;
+	i = 0;
+	}
 }
 
 proctype bufferProcess(chan channel)

@@ -16,12 +16,16 @@ short memory[MEM_SIZE];
 // interface to memory model that is used by program processes
 inline write(adr, newValue)
 {
+	atomic{
+	assert(adr != 0);
 	ch ! iWrite, adr, newValue, NULL;
+	}
 }
 
 inline read(adr, target)
 {
 	atomic{
+	assert(adr != 0);
 	ch ! iRead, adr, NULL, NULL;
 	ch ? iRead, NULL, target, NULL;
 	}
@@ -39,6 +43,7 @@ inline cas(adr, oldValue, newValue, successBit)
 {
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
+		assert(adr != 0);
 		ch ! iCas, adr, oldValue, newValue;
 		ch ? iCas, NULL, successBit, NULL; 
 	}
@@ -80,28 +85,28 @@ inline flushB() {
 atomic{
 	//select all possible addresses to flush from (non-deterministically)
 	//select(address : 1 .. (BUFF_SIZE - 1));
-	address = 0;
+	flushAdr = 0;
 	if 
-		:: 1 < MEM_SIZE && tail[1] > 0 -> address = 1;
-		:: 2 < MEM_SIZE && tail[2] > 0 -> address = 2;
-		:: 3 < MEM_SIZE && tail[3] > 0 -> address = 3;
-		:: 4 < MEM_SIZE && tail[4] > 0 -> address = 4;
-		:: 5 < MEM_SIZE && tail[5] > 0 -> address = 5;
-		:: 6 < MEM_SIZE && tail[6] > 0 -> address = 6;
-		:: 7 < MEM_SIZE && tail[7] > 0 -> address = 7;
-		:: 8 < MEM_SIZE && tail[8] > 0 -> address = 8;
-		:: 9 < MEM_SIZE && tail[9] > 0 -> address = 9;
-		:: 10 < MEM_SIZE && tail[10] > 0 -> address = 10;
-		:: 11 < MEM_SIZE && tail[11] > 0 -> address = 11;
-		:: 12 < MEM_SIZE && tail[12] > 0 -> address = 12;
-		:: 13 < MEM_SIZE && tail[13] > 0 -> address = 13;
-		:: 14 < MEM_SIZE && tail[14] > 0 -> address = 14;
-		:: 15 < MEM_SIZE && tail[15] > 0 -> address = 15;
-		:: 16 < MEM_SIZE && tail[16] > 0 -> address = 16;
-		:: 17 < MEM_SIZE && tail[17] > 0 -> address = 17;
-		:: 18 < MEM_SIZE && tail[18] > 0 -> address = 18;
-		:: 19 < MEM_SIZE && tail[19] > 0 -> address = 19;
-		:: 20 < MEM_SIZE && tail[20] > 0 -> address = 20;
+		:: 1 < MEM_SIZE && tail[1] > 0 -> flushAdr = 1;
+		:: 2 < MEM_SIZE && tail[2] > 0 -> flushAdr = 2;
+		:: 3 < MEM_SIZE && tail[3] > 0 -> flushAdr = 3;
+		:: 4 < MEM_SIZE && tail[4] > 0 -> flushAdr = 4;
+		:: 5 < MEM_SIZE && tail[5] > 0 -> flushAdr = 5;
+		:: 6 < MEM_SIZE && tail[6] > 0 -> flushAdr = 6;
+		:: 7 < MEM_SIZE && tail[7] > 0 -> flushAdr = 7;
+		:: 8 < MEM_SIZE && tail[8] > 0 -> flushAdr = 8;
+		:: 9 < MEM_SIZE && tail[9] > 0 -> flushAdr = 9;
+		:: 10 < MEM_SIZE && tail[10] > 0 -> flushAdr = 10;
+		:: 11 < MEM_SIZE && tail[11] > 0 -> flushAdr = 11;
+		:: 12 < MEM_SIZE && tail[12] > 0 -> flushAdr = 12;
+		:: 13 < MEM_SIZE && tail[13] > 0 -> flushAdr = 13;
+		:: 14 < MEM_SIZE && tail[14] > 0 -> flushAdr = 14;
+		:: 15 < MEM_SIZE && tail[15] > 0 -> flushAdr = 15;
+		:: 16 < MEM_SIZE && tail[16] > 0 -> flushAdr = 16;
+		:: 17 < MEM_SIZE && tail[17] > 0 -> flushAdr = 17;
+		:: 18 < MEM_SIZE && tail[18] > 0 -> flushAdr = 18;
+		:: 19 < MEM_SIZE && tail[19] > 0 -> flushAdr = 19;
+		:: 20 < MEM_SIZE && tail[20] > 0 -> flushAdr = 20;
 		//...
 		//extend if more memory is required
 		//...
@@ -109,19 +114,19 @@ atomic{
 	fi;
 	
 	if 
-	:: (address > 0) ->	{
+	:: (flushAdr > 0) ->	{
 		//write oldest value to memory
-		memory[address] = buffer[address].entry[0];
+		memory[flushAdr] = buffer[flushAdr].entry[0];
 		
 		//move all content one step further
-		for (i : 1 .. (tail[address]-1)) 
+		for (i : 1 .. (tail[flushAdr]-1)) 
 		{
-			buffer[address].entry[i-1] = buffer[address].entry[i]
+			buffer[flushAdr].entry[i-1] = buffer[flushAdr].entry[i]
 		} 
 		//remove duplicate tail
-		buffer[address].entry[tail[address]-1] = 0; //i = tail-1
-		tail[address]--;	//tail--;
-		address = 0;
+		buffer[flushAdr].entry[tail[flushAdr]-1] = 0; //i = tail-1
+		tail[flushAdr]--;	//tail--;
+		flushAdr = 0;
 		i = 0;
 		}
 	:: else -> skip;
@@ -172,16 +177,18 @@ inline fenceWithResponse() {
 inline casB() 
 {
 	mfenceB();	//buffer must be empty
-	atomic{ 
-		if 
-			:: memory[address] == value 
-				-> 	memory[address] = newValue;
-					channel ! iCas, NULL, true, NULL;
-			:: else -> channel ! iCas, NULL, false, NULL;
-		fi;
-		address = 0;
-		value = 0;
-		newValue = 0;
+	atomic{
+	i = memory[address];
+	if 
+		:: memory[address] == value 
+			-> 	memory[address] = newValue;
+		:: else -> skip;
+	fi;
+	channel ! iCas, NULL, i, NULL;
+	address = 0;
+	value = 0;
+	newValue = 0;
+	i = 0;
 	}
 }
 
@@ -193,6 +200,7 @@ proctype bufferProcess(chan channel)
 	/*start resp. end of queue*/
 	short i = 0;
 	short address = 0;
+	short flushAdr = 0;
 	short value = 0; 
 	short newValue = 0;
 	SingleAdrBuffer buffer [MEM_SIZE];

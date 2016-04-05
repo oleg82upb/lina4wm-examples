@@ -34,6 +34,9 @@ inline alloca(type, targetRegister)
 	}
 }
 //atomic compare and swap instruction 
+//Note, LLVM returns a tuple (i32, i1), the value read and a success bit.
+//Sometimes the follow up code uses the succes bit but usually the read value. 
+//Adjust CAS semantics, if necessary.
 inline cas(adr, old, new, result)
 {
 	atomic{
@@ -54,7 +57,7 @@ AStart: goto A00;
 A00: v0 = memory[bot]; goto A01; 
 A01: v1 = memory[v0]; goto A02; 
 A02: v2 = memory[deq]; goto A03; 
-A03: getelementptr(1, v2, 0, arrayidx); goto A04; 
+A03: getelementptr(1, v2, v1, arrayidx); goto A04; 
 A04: goto A05arrayidx; 
 A05arrayidx: 
 	if 
@@ -97,7 +100,7 @@ B06:
 	fi;
 B07: v4 = memory[deq]; goto B08; 
 B15: goto B16; 
-B08: getelementptr(1, v4, 0, arrayidx); goto B09; 
+B08: getelementptr(1, v4, shr, arrayidx); goto B09; 
 B16: returnvalue = retval_0; goto BEnd;
 B09: v5 = memory[arrayidx]; goto B10; 
 B10: add5 = v1 + 65536; goto B11; 
@@ -132,7 +135,7 @@ C06v0:
 	fi;
 C07v0: 
 	if 
-	:: getelementptr(1, v2, 0, arrayidx); goto C08v0; 
+	:: getelementptr(1, v2, dec, arrayidx); goto C08v0; 
 	:: memory[v0] = dec; goto C07; 
 	fi;
 C06: v2 = memory[deq]; goto C07; 
@@ -141,7 +144,7 @@ C08v0:
 	:: v3 = memory[arrayidx]; goto C09v0; 
 	:: memory[v0] = dec; goto C08; 
 	fi;
-C07: getelementptr(1, v2, 0, arrayidx); goto C08; 
+C07: getelementptr(1, v2, dec, arrayidx); goto C08; 
 C09v0: 
 	if 
 	:: v4 = memory[age]; goto C10v0; 

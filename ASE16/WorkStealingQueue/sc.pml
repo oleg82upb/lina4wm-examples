@@ -25,15 +25,16 @@ inline flush() {
 inline mfence() {
 	skip; //no action
 }
-	
+
+//Note, LLVM returns a tuple (i32, i1), the value read and a success bit.
+//Sometimes the follow up code uses the succes bit but usually the read value. 
+//Adjust CAS semantics, if necessary. 
 inline cas(adr, oldValue, newValue, returnValue) {
 	atomic{
+		returnValue = memory[adr];
 		if 	:: memory[adr] == oldValue
-				-> {
-					memory[adr] = newValue;
-					returnValue = true;
-					}
-			:: else -> returnValue = false;
+				-> memory[adr] = newValue;
+			:: else -> skip;;
 		fi;
 	}
 }
