@@ -55,7 +55,8 @@ int proc11() {
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }
@@ -75,7 +76,7 @@ int proc21()
 		}
 		loc++;
 	}
-	*x = 1;
+	*y = 1;
 
 	//TMRead lx := x;
 	tmp = *x;
@@ -86,7 +87,8 @@ int proc21()
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		*glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }
@@ -124,7 +126,8 @@ int proc12() {
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		*glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }
@@ -144,7 +147,7 @@ int proc22()
 		}
 		loc++;
 	}
-	*x = 1;
+	*y = 1;
 
 	//TMRead ly := y;
 	tmp = *y;
@@ -162,7 +165,8 @@ int proc22()
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		*glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }
@@ -186,7 +190,8 @@ int proc13() {
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }
@@ -210,7 +215,8 @@ int proc23() {
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }
@@ -240,7 +246,8 @@ int proc33() {
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }
@@ -270,7 +277,8 @@ int proc43() {
 	//----------------------------
 	//TMend
 	if (loc & 1) {
-		glb++;
+		__sync_synchronize ();
+		(*glb)++;
 	}
 	return OK;
 }

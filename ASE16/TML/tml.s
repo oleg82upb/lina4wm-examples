@@ -44,9 +44,11 @@ if.end6:                                          ; preds = %if.end4
   br i1 %tobool8, label %return, label %if.then9
 
 if.then9:                                         ; preds = %if.end6
+  fence seq_cst
   %9 = load i32** @glb, align 4, !tbaa !0
-  %incdec.ptr = getelementptr inbounds i32* %9, i32 1
-  store i32* %incdec.ptr, i32** @glb, align 4, !tbaa !0
+  %10 = load volatile i32* %9, align 4, !tbaa !3
+  %inc10 = add nsw i32 %10, 1
+  store volatile i32 %inc10, i32* %9, align 4, !tbaa !3
   br label %return
 
 return:                                           ; preds = %if.then9, %if.end6, %if.end4, %if.then
@@ -72,7 +74,7 @@ if.then:                                          ; preds = %do.body
   br i1 %3, label %if.end4, label %return
 
 if.end4:                                          ; preds = %if.then
-  %4 = load i32** @x, align 4, !tbaa !0
+  %4 = load i32** @y, align 4, !tbaa !0
   store volatile i32 1, i32* %4, align 4, !tbaa !3
   %5 = load i32** @x, align 4, !tbaa !0
   %6 = load volatile i32* %5, align 4, !tbaa !3
@@ -88,10 +90,11 @@ if.end6:                                          ; preds = %if.end4
   br i1 %tobool8, label %return, label %if.then9
 
 if.then9:                                         ; preds = %if.end6
+  fence seq_cst
   %9 = load i32** @glb, align 4, !tbaa !0
-  %incdec.ptr = getelementptr inbounds i32* %9, i32 1
-  store i32* %incdec.ptr, i32** @glb, align 4, !tbaa !0
   %10 = load volatile i32* %9, align 4, !tbaa !3
+  %inc10 = add nsw i32 %10, 1
+  store volatile i32 %inc10, i32* %9, align 4, !tbaa !3
   br label %return
 
 return:                                           ; preds = %if.then9, %if.end6, %if.end4, %if.then
@@ -142,10 +145,11 @@ if.end9:                                          ; preds = %if.end6
   br i1 %tobool11, label %return, label %if.then12
 
 if.then12:                                        ; preds = %if.end9
+  fence seq_cst
   %13 = load i32** @glb, align 4, !tbaa !0
-  %incdec.ptr = getelementptr inbounds i32* %13, i32 1
-  store i32* %incdec.ptr, i32** @glb, align 4, !tbaa !0
   %14 = load volatile i32* %13, align 4, !tbaa !3
+  %inc13 = add nsw i32 %14, 1
+  store volatile i32 %inc13, i32* %13, align 4, !tbaa !3
   br label %return
 
 return:                                           ; preds = %if.then12, %if.end9, %if.end6, %if.end4, %if.then
@@ -171,7 +175,7 @@ if.then:                                          ; preds = %do.body
   br i1 %3, label %if.end4, label %return
 
 if.end4:                                          ; preds = %if.then
-  %4 = load i32** @x, align 4, !tbaa !0
+  %4 = load i32** @y, align 4, !tbaa !0
   store volatile i32 1, i32* %4, align 4, !tbaa !3
   %5 = load i32** @y, align 4, !tbaa !0
   %6 = load volatile i32* %5, align 4, !tbaa !3
@@ -196,10 +200,11 @@ if.end9:                                          ; preds = %if.end6
   br i1 %tobool11, label %return, label %if.then12
 
 if.then12:                                        ; preds = %if.end9
+  fence seq_cst
   %13 = load i32** @glb, align 4, !tbaa !0
-  %incdec.ptr = getelementptr inbounds i32* %13, i32 1
-  store i32* %incdec.ptr, i32** @glb, align 4, !tbaa !0
   %14 = load volatile i32* %13, align 4, !tbaa !3
+  %inc13 = add nsw i32 %14, 1
+  store volatile i32 %inc13, i32* %13, align 4, !tbaa !3
   br label %return
 
 return:                                           ; preds = %if.then12, %if.end9, %if.end6, %if.end4, %if.then
@@ -232,9 +237,11 @@ if.end4:                                          ; preds = %if.then
   br i1 %tobool6, label %return, label %if.then7
 
 if.then7:                                         ; preds = %if.end4
+  fence seq_cst
   %5 = load i32** @glb, align 4, !tbaa !0
-  %incdec.ptr = getelementptr inbounds i32* %5, i32 1
-  store i32* %incdec.ptr, i32** @glb, align 4, !tbaa !0
+  %6 = load volatile i32* %5, align 4, !tbaa !3
+  %inc8 = add nsw i32 %6, 1
+  store volatile i32 %inc8, i32* %5, align 4, !tbaa !3
   br label %return
 
 return:                                           ; preds = %if.then7, %if.end4, %if.then
@@ -267,9 +274,11 @@ if.end4:                                          ; preds = %if.then
   br i1 %tobool6, label %return, label %if.then7
 
 if.then7:                                         ; preds = %if.end4
+  fence seq_cst
   %5 = load i32** @glb, align 4, !tbaa !0
-  %incdec.ptr = getelementptr inbounds i32* %5, i32 1
-  store i32* %incdec.ptr, i32** @glb, align 4, !tbaa !0
+  %6 = load volatile i32* %5, align 4, !tbaa !3
+  %inc8 = add nsw i32 %6, 1
+  store volatile i32 %inc8, i32* %5, align 4, !tbaa !3
   br label %return
 
 return:                                           ; preds = %if.then7, %if.end4, %if.then
