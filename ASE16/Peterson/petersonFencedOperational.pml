@@ -6,8 +6,8 @@
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-//#include "tso.pml"
-#include "pso.pml"
+#include "tso.pml"
+//#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -35,7 +35,7 @@ entry:
  read(flag0, v0); 
  write(v0, 1);
  read(turn, v1); 
- mfence();
+ //mfence(); needed for PSO
  write(v1, 1);
  mfence();
    goto whilecond;
@@ -93,7 +93,7 @@ entry:
  read(flag1, v0); 
  write(v0, 1);
  read(turn, v1);
- mfence(); 
+ //mfence(); needed for PSO
  write(v1, 0);
  mfence();
    goto whilecond;

@@ -14,7 +14,6 @@ short memory[MEM_SIZE];
 inline write(adr, newValue)
 {
 	atomic{
-	assert(adr != 0);
 	ch ! iWrite, adr, newValue, NULL;
 	}
 }
@@ -22,7 +21,6 @@ inline write(adr, newValue)
 inline read(adr, target)
 {
 	atomic{
-	assert(adr != 0);
 	ch ! iRead, adr, NULL, NULL;
 	ch ? iRead, NULL, target, NULL;
 	}
@@ -40,13 +38,13 @@ inline cas(adr, oldValue, newValue, successBit)
 {
 	// 2 steps for the executing process, but atomic on memory
 	atomic{
-	assert(adr != 0);
 	ch ! iCas, adr, oldValue, newValue;
 	ch ? iCas, NULL, successBit, NULL; 
 	}
 }
 
 inline writeB() {
+	assert(address != 0);
 		assert(tail < BUFF_SIZE);
 		buffer[tail].line[0] = address;
 		buffer[tail].line[1] = value;
@@ -57,6 +55,7 @@ inline writeB() {
 
 
 inline readB() {
+	assert(address != 0);
 	i = tail-1;
 	do
 	:: i >= 0  -> 
@@ -114,6 +113,7 @@ inline casB()
 {
 	mfenceB();	//buffer must be empty
 	atomic{
+	assert(address != 0);
 	i = memory[address]; 
 	if 
 		:: memory[address] == value 

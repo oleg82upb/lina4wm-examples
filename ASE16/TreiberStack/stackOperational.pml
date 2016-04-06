@@ -56,7 +56,7 @@ dobody:
  write(v0, v3);
  v4 = v3; 
  cas(v1, v4, v2, v5); //compiler returns the old value in success bit in case of success. we return only success bit
- v6 = v5;   // therefore, originalline  v6 = (v5 == v4); does not fit here 
+ v6 = (v5 == v4);  
  if 
  	:: v6 ->  goto doend;
  	:: !v6 ->  goto dobody;
@@ -96,7 +96,7 @@ ifend:
  v3 = v1; 
  v4 = v2; 
  cas(v0, v3, v4, v5); 
- v6 = v5; //org.   v6 = (v5 == v3); 
+ v6 = (v5 == v3); 
  if 
  	:: v6 -> 	retval_0 = v1;
  	 goto return1;
@@ -121,20 +121,20 @@ proctype process1(chan ch){
 	short returnvalue;
 	push(this, 111);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 222 || memory[returnvalue] == 223 || memory[returnvalue] == null);
 	push(this, 112);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222  || memory[returnvalue] == 223);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222  || memory[returnvalue] == 223 || memory[returnvalue] == null);
 }
 
 proctype process2(chan ch){
 	short returnvalue;
 	push(this, 222);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222 || memory[returnvalue] == null);
 	push(this, 223);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
+	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222 || memory[returnvalue] == 223 || memory[returnvalue] == null);
 }
 
 proctype process3(chan ch){

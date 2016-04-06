@@ -6,8 +6,8 @@
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -684,19 +684,19 @@ atomic{
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
-	run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
-	run bufferProcess(channelT4); //obsolete for SC, remove line when SC is chosen
-	run process13(channelT1);
-	run process23(channelT2);
-	run process33(channelT3);
-	run process43(channelT4);
+//	run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
+//	run bufferProcess(channelT4); //obsolete for SC, remove line when SC is chosen
+	run process1(channelT1);
+	run process2(channelT2);
+//	run process33(channelT3);
+//	run process43(channelT4);
 	}
 }
 
-//ltl reorder{ [] ((process1@end && process2@end && result1 == 1 && result2 == 1) -> !(memory[ly1] == 0 && memory[lx2] == 0))}
+ltl reorder{ [] ((process1@end && process2@end && result1 == 1 && result2 == 1) -> !(memory[ly1] == 0 && memory[lx2] == 0))}
 //ltl early{ [] ((process12@end) && (process22@end) -> !(memory[lx1] == 1 && memory[ly1] == 0 && memory[ly2] == 1 && memory[lx2] == 0))}
-ltl iriw{ [] ((process13@end && process23@end && process33@end && process43@end) 
--> !(memory[lx1] == 1 && memory[ly2] == 1 && memory[ly1] == 0 && memory[lx2] == 0))}
+//ltl iriw{ [] ((process13@end && process23@end && process33@end && process43@end) 
+//-> !(memory[lx1] == 1 && memory[ly2] == 1 && memory[ly1] == 0 && memory[lx2] == 0))}
 
 
 

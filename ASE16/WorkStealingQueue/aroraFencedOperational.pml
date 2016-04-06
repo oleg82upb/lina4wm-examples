@@ -270,6 +270,6 @@ atomic{
 	run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
 	run process3(channelT1);
 	run process4(channelT2);
-	run process5(channelT2);
+	run process5(channelT3);
 	}
 }
