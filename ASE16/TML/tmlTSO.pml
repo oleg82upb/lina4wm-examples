@@ -1258,28 +1258,79 @@ HEnd: skip;
 
 
 //Stubs
+
+//proc11 || proc21: litmus test for write reordering
+//proc12 || proc22: litmus test for early reads
+//proc13 || proc23 || proc33  || proc43: litmus test IRIW (independent read independent writes)
+
+short result1, result2, result3, result4;
+
 proctype process1(){
-	//TODO: empty stub
+	proc11(result1);
+end: skip;
 }
 
 proctype process2(){
-	//TODO: empty stub
+	proc21(result2);
+end: skip;
+}
+//-----------
+proctype process12(){
+	proc12(result1);
+end: skip;
 }
 
+proctype process22(){
+	proc22(result2);
+end: skip;
+}
+
+//-----------------------------
+proctype process13(){
+	proc13(result1);
+end: skip;
+}
+
+proctype process23(){
+	proc23(result2);
+end: skip;
+}
+
+proctype process33(){
+	proc33(result3);
+end: skip;
+}
+
+proctype process43(){
+	proc43(result4);
+end: skip;
+}
 
 init{
 atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, glb);
+	alloca(1, memory[glb]);
 	alloca(1, x);
+	alloca(1, memory[x]);
 	alloca(1, y);
+	alloca(1, memory[y]);
 	alloca(1, lx1);
 	alloca(1, ly1);
 	alloca(1, lx2);
 	alloca(1, ly2);
 	
 
-	run process1();
-	run process2();
+	run process13();
+	run process23();
+	run process33();
+	run process43();
 	}
 }
+
+
+//both transactions finished without abort -> only one may observe value 0 
+//ltl reorder{ [] ((process1@end && process2@end && result1 == 1 && result2 == 1) -> !(memory[ly1] == 0 && memory[lx2] == 0))}
+//ltl early{ [] ((process12@end) && (process22@end) -> !(memory[lx1] == 1 && memory[ly1] == 0 && memory[ly2] == 1 && memory[lx2] == 0))}
+ltl iriw{ [] ((process13@end && process23@end && process33@end && process43@end) 
+-> !(memory[lx1] == 1 && memory[ly2] == 1 && memory[ly1] == 0 && memory[lx2] == 0))}
