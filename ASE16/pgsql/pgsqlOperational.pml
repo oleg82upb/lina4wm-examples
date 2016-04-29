@@ -1,13 +1,13 @@
 #define MEM_SIZE 10	//size of memory
-#define BUFF_SIZE 3 	//size of Buffer 
+#define BUFF_SIZE 6 	//size of Buffer 
 #define null 0
 #define I32  1
 #define PTR 1
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -41,6 +41,7 @@ entry:
  
 
 forcond: 
+ //assert(!memory[latch1] || memory[flag1]);
  read(flag1, v0); 
  v1 = v0 & 1; 
  tobool = (v1 == 0); 
@@ -72,7 +73,8 @@ entry:
  
 
 forcond: 
- read(flag2, v0); 
+ //assert(!memory[latch2] || memory[flag2]);
+ read(flag2, v0);
  v1 = v0 & 1; 
  tobool = (v1 == 0); 
  if 
@@ -99,11 +101,11 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	worker_1();
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	worker_2();
 }
 
 
@@ -124,4 +126,4 @@ atomic{
 	}
 }
 
-ltl prop{ [] ((process1@forcond -> memory[latch1] = 0 || memory[flag1] = 1) && (process2@forcond -> memory[latch2] = 0 || memory[flag2] = 1))}
+ltl prop{ [] !((process1@ifthen) && (process2@ifthen))}
