@@ -35,7 +35,7 @@ entry:
  read(flag0, v0); 
  write(v0, 1);
  read(turn, v1); 
- //mfence(); needed for PSO
+ mfence(); //needed for PSO
  write(v1, 1);
  mfence();
    goto whilecond;
@@ -93,7 +93,7 @@ entry:
  read(flag1, v0); 
  write(v0, 1);
  read(turn, v1);
- //mfence(); needed for PSO
+ mfence(); //needed for PSO
  write(v1, 0);
  mfence();
    goto whilecond;

@@ -1,21 +1,18 @@
 #define MEM_SIZE 10	//size of memory
-#define BUFF_SIZE 3 	//size of Buffer 
+#define BUFF_SIZE 10 	//size of Buffer 
 #define null 0
 #define I32  1
 #define PTR 1
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
 short i = 1;
 short j = 1;
-short str = 0; //Array: please, check initialization in the init process
-short str1 = 0; //Array: please, check initialization in the init process
-short _PRETTY_FUNCTION___main = 0; //Array: please, check initialization in the init process
 
 
 //memory allocation
@@ -140,11 +137,15 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	short arg, returnvalue;
+	t1(arg, returnvalue);
+	end: skip;
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	short arg, returnvalue;
+	t2(arg, returnvalue);
+	end: skip;
 }
 
 
@@ -153,9 +154,7 @@ atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, i);
 	alloca(1, j);
-	alloca(2, str);
-	alloca(17, str1);
-	alloca(23, _PRETTY_FUNCTION___main);
+
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
@@ -163,3 +162,4 @@ atomic{
 	run process2(channelT2);
 	}
 }
+ltl prop{ [] !((process1@end) && (process2@end) && (i> 144 || j > 144))}

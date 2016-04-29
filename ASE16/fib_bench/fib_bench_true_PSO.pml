@@ -9,10 +9,6 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 short i = 1;
 short j = 1;
-short str = 0; //Array: please, check initialization in the init process
-short str1 = 0; //Array: please, check initialization in the init process
-short _PRETTY_FUNCTION___main = 0; //Array: please, check initialization in the init process
-
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -496,11 +492,15 @@ BEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	short arg, returnvalue;
+	t1(arg, returnvalue);
+	end: skip;
 }
 
 proctype process2(){
-	//TODO: empty stub
+	short arg, returnvalue;
+	t2(arg, returnvalue);
+	end: skip;
 }
 
 
@@ -509,12 +509,12 @@ atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, i);
 	alloca(1, j);
-	alloca(2, str);
-	alloca(17, str1);
-	alloca(23, _PRETTY_FUNCTION___main);
 	
 
 	run process1();
 	run process2();
 	}
 }
+
+
+ltl prop{ [] !((process1@end) && (process2@end) && (i> 144 || j > 144))}

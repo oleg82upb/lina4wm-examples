@@ -6,8 +6,8 @@
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-//#include "tso.pml"
-#include "pso.pml"
+#include "tso.pml"
+//#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -185,37 +185,40 @@ ret: skip;
 
 //------------- process template -------------
 
+short result1, result2, result3;
 //Stubs
 proctype process1(chan ch){
-	short result;
+	
 	push(111);
 	mfence();
 	push(222);
 	mfence();
 	push(333);
 	mfence();
-	pop(result);
-	assert(result == -1 || result == 111 || result == 222 || result == 333);
+	pop(result1);
+	assert(result1 == -1 || result1 == 111 || result1 == 222 || result1 == 333);
 	mfence();
 	//printf("Proc1: %d \n", result);
-	pop(result);
-	assert(result == -1 || result == 111 || result == 222 );
+	pop(result2);
+	assert(result2 == -1 || result2 == 111 || result2 == 222 );
 	//printf("Proc1: %d \n", result);
 	mfence();
 	push(444);
 	mfence();
-	pop(result);
-	assert(result == -1 || result == 111  || result == 444);
-	//printf("Proc1: %d \n", result);
+	pop(result3);
+	assert(result3 == -1 || result3 == 111  || result3 == 444);
 }
 
 proctype process2(chan ch){
 	short result;
 	dequeue(result);
+	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	mfence();
 	dequeue(result);
+	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	mfence();
 	dequeue(result);
+	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333 || result == 444);
 }
 
@@ -267,9 +270,11 @@ atomic{
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
-	run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
-	run process3(channelT1);
-	run process4(channelT2);
-	run process5(channelT3);
+	//run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
+	run process1(channelT1);
+	run process2(channelT2);
+	//run process3(channelT1);
+	//run process4(channelT2);
+	//run process5(channelT3);
 	}
 }
