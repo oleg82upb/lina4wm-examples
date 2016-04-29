@@ -131,15 +131,10 @@ C07f1:
 	fi;
 C08f1: 
 	if 
-	:: goto C09f1f1; 
+	:: goto C09f101; 
 	:: memory[f1] = 0; goto C08; 
 	fi;
-C09f1f1: 
-	if 
-	:: memory[f1] = 0; goto C09f1; 
-	:: memory[f1] = 1; goto C09f10; 
-	fi;
-C09f10: memory[f1] = 0; goto C09; 
+C09f101: memory[f1] = 0; goto C09f1; 
 CEnd: skip;
 
 }
