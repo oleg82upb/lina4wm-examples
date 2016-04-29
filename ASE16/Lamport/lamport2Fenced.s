@@ -20,7 +20,6 @@ if.then:                                          ; preds = %entry
   %add = add nsw i32 %2, 1
   %arrayidx1 = getelementptr inbounds [2 x i32]* @number, i32 0, i32 %i
   store volatile i32 %add, i32* %arrayidx1, align 4, !tbaa !3
-  fence seq_cst
   br label %if.end
 
 if.else:                                          ; preds = %entry
@@ -31,6 +30,7 @@ if.else:                                          ; preds = %entry
   br label %if.end
 
 if.end:                                           ; preds = %if.else, %if.then
+  fence seq_cst
   store volatile i8 0, i8* %arrayidx, align 1, !tbaa !0
   %arrayidx11 = getelementptr inbounds [2 x i32]* @number, i32 0, i32 %i
   fence seq_cst

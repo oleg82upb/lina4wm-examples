@@ -63,7 +63,6 @@ ifthen:
  add = v2 + 1; 
  getelementptr(2, number, 0 + i, arrayidx1); 
  write(arrayidx1, add);
- mfence();
    goto ifend;
  
 
@@ -76,6 +75,7 @@ ifelse:
  
 
 ifend: 
+ mfence();
  write(arrayidx, 0);
  getelementptr(2, number, 0 + i, arrayidx11); 
  mfence();

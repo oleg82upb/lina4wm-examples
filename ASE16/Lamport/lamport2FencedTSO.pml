@@ -47,37 +47,32 @@ A05: cmp = (v0 < v1); goto A06;
 A06: 
 	if 
 	::cmp -> goto A07; 
-	::!cmp -> goto A13; 
+	::!cmp -> goto A12; 
 	fi;
 A07: v2 = memory[number + 1]; goto A08; 
-A13: v3 = memory[number + 0]; goto A14; 
+A12: v3 = memory[number + 0]; goto A13; 
 A08: add = v2 + 1; goto A09; 
-A14: add2 = v3 + 1; goto A15; 
+A13: add2 = v3 + 1; goto A14; 
 A09: getelementptr(2, number, 0 + i, arrayidx1); goto A10; 
-A15: getelementptr(2, number, 0 + i, arrayidx3); goto A16; 
+A14: getelementptr(2, number, 0 + i, arrayidx3); goto A15; 
 A10: goto A11arrayidx1; 
-A16: goto A17arrayidx3; 
-A11arrayidx1: memory[arrayidx1] = add; goto A11; 
-A17arrayidx3: 
+A15: goto A16arrayidx3; 
+A11arrayidx1: 
 	if 
-	:: goto A18arrayidx3; 
-	:: memory[arrayidx3] = add2; goto A17; 
+	:: goto A17arrayidx1; 
+	:: memory[arrayidx1] = add; goto A11; 
 	fi;
-A11: goto A12; 
-A18arrayidx3: 
+A16arrayidx3: 
 	if 
-	:: goto A19arrayidx3arrayidx; 
-	:: memory[arrayidx3] = add2; goto A18; 
+	:: goto A17arrayidx3; 
+	:: memory[arrayidx3] = add2; goto A16; 
 	fi;
+A17arrayidx1: memory[arrayidx1] = add; goto A17; 
+A11: goto A17; 
+A17arrayidx3: memory[arrayidx3] = add2; goto A17; 
+A16: goto A17; 
 A17: goto A18; 
-A12: goto A18; 
-A19arrayidx3arrayidx: 
-	if 
-	:: getelementptr(2, number, 0 + i, arrayidx11); goto A20arrayidx3arrayidx; 
-	:: memory[arrayidx3] = add2; goto A19arrayidx; 
-	fi;
 A18: goto A19arrayidx; 
-A20arrayidx3arrayidx: memory[arrayidx3] = add2; goto A20arrayidx; 
 A19arrayidx: 
 	if 
 	:: getelementptr(2, number, 0 + i, arrayidx11); goto A20arrayidx; 
@@ -139,7 +134,6 @@ A43:
 AEnd: skip;
 
 }
-
 
 //Stubs
 proctype process1(){
