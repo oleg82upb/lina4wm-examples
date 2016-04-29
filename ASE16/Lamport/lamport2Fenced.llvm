@@ -174,6 +174,7 @@
           </targetAddress>
           <meta arg="!tbaa" value="!3"/>
         </instructions>
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
         <instructions xsi:type="llvm:Branch" destination="%if.end"/>
       </blocks>
       <blocks label="if.else">

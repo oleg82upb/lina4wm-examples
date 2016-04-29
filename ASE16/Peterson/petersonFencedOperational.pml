@@ -26,6 +26,10 @@ inline alloca(type, targetRegister)
 	}
 }
 
+
+
+
+
 //------------- functions ------------------
 
 inline p0(){
@@ -35,7 +39,7 @@ entry:
  read(flag0, v0); 
  write(v0, 1);
  read(turn, v1); 
- mfence(); //needed for PSO
+ mfence();
  write(v1, 1);
  mfence();
    goto whilecond;
@@ -92,8 +96,8 @@ skip;
 entry: 
  read(flag1, v0); 
  write(v0, 1);
- read(turn, v1);
- mfence(); //needed for PSO
+ read(turn, v1); 
+ mfence();
  write(v1, 0);
  mfence();
    goto whilecond;
