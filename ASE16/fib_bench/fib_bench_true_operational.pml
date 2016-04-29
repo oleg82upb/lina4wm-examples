@@ -139,13 +139,13 @@ ret: skip;
 proctype process1(chan ch){
 	short arg, returnvalue;
 	t1(arg, returnvalue);
-	end: skip;
+	assert(!(i> 144 || j > 144));
 }
 
 proctype process2(chan ch){
 	short arg, returnvalue;
 	t2(arg, returnvalue);
-	end: skip;
+	assert(!(i> 144 || j > 144));
 }
 
 
@@ -154,7 +154,8 @@ atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, i);
 	alloca(1, j);
-
+	memory[i] = 1;
+	memory[j] = 1;
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
@@ -162,4 +163,3 @@ atomic{
 	run process2(channelT2);
 	}
 }
-ltl prop{ [] !((process1@end) && (process2@end) && (i> 144 || j > 144))}

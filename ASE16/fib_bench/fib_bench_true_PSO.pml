@@ -9,6 +9,10 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 short i = 1;
 short j = 1;
+short str = 0; //Array: please, check initialization in the init process
+short str1 = 0; //Array: please, check initialization in the init process
+short _PRETTY_FUNCTION___main = 0; //Array: please, check initialization in the init process
+
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -24,233 +28,798 @@ inline alloca(type, targetRegister)
 
 inline t1(arg, returnvalue){
 short v0, v1, add, v2, v3, add_1, v4, v5, add_2, v6, v7, add_3, v8, v9, add_4;
-AStart: goto A00;
-A00: v0 = memory[j]; goto A01; 
-A01: v1 = memory[i]; goto A02; 
-A02: add = v1 + v0; goto A03; 
-A03: goto A04i; 
-A04i: 
+AStart: goto A000;
+A000: v0 = memory[j]; goto A001; 
+A001: v1 = memory[i]; goto A002; 
+A002: add = v1 + v0; goto A003; 
+A003: goto A004i; 
+A004i: 
 	if 
-	:: v2 = memory[j]; goto A05i; 
-	:: memory[i] = add; goto A04; 
+	:: v2 = memory[j]; goto A005i; 
+	:: memory[i] = add; goto A004; 
 	fi;
-A05i: 
+A005i: 
 	if 
-	:: v3 = memory[i]; goto A06i; 
-	:: memory[i] = add; goto A05; 
+	:: v3 = memory[i]; goto A006i; 
+	:: memory[i] = add; goto A005; 
 	fi;
-A04: v2 = memory[j]; goto A05; 
-A06i: 
+A004: v2 = memory[j]; goto A005; 
+A006i: 
 	if 
-	:: add_1 = v3 + v2; goto A07i; 
-	:: memory[i] = add; goto A06; 
+	:: add_1 = v3 + v2; goto A007i; 
+	:: memory[i] = add; goto A006; 
 	fi;
-A05: v3 = memory[i]; goto A06; 
-A07i: 
+A005: v3 = memory[i]; goto A006; 
+A007i: 
 	if 
-	:: goto A08i; 
-	:: memory[i] = add; goto A07; 
+	:: goto A008ii; 
+	:: memory[i] = add; goto A007; 
 	fi;
-A06: add_1 = v3 + v2; goto A07; 
-A08i: 
+A006: add_1 = v3 + v2; goto A007; 
+A008ii: 
 	if 
-	:: v4 = memory[j]; goto A09i; 
-	:: memory[i] = add; goto A08iadd_1; 
+	:: v4 = memory[j]; goto A009ii; 
+	:: memory[i] = add; goto A008i; 
+	:: memory[i] = add_1; goto A008iadd; 
 	fi;
-A07: goto A08iadd_1; 
-A09i: 
+A007: goto A008i; 
+A009ii: 
 	if 
-	:: v5 = memory[i]; goto A10i; 
-	:: memory[i] = add; goto A09iadd_1; 
+	:: v5 = memory[i]; goto A010ii; 
+	:: memory[i] = add; goto A009i; 
+	:: memory[i] = add_1; goto A009iadd; 
 	fi;
-A08iadd_1: 
+A008i: 
 	if 
-	:: v4 = memory[j]; goto A09iadd_1; 
-	:: memory[i] = add_1; goto A08; 
+	:: v4 = memory[j]; goto A009i; 
+	:: memory[i] = add_1; goto A008; 
 	fi;
-A10i: 
+A008iadd: 
 	if 
-	:: add_2 = v5 + v4; goto A11i; 
-	:: memory[i] = add; goto A10iadd_1; 
+	:: v4 = memory[j]; goto A009iadd; 
+	:: memory[i] = add; goto A008; 
 	fi;
-A09iadd_1: 
+A010ii: 
 	if 
-	:: v5 = memory[i]; goto A10iadd_1; 
-	:: memory[i] = add_1; goto A09; 
+	:: add_2 = v5 + v4; goto A011ii; 
+	:: memory[i] = add; goto A010i; 
+	:: memory[i] = add_1; goto A010iadd; 
 	fi;
-A08: v4 = memory[j]; goto A09; 
-A11i: 
+A009i: 
 	if 
-	:: goto A12i; 
-	:: memory[i] = add; goto A11iadd_1; 
+	:: v5 = memory[i]; goto A010i; 
+	:: memory[i] = add_1; goto A009; 
 	fi;
-A10iadd_1: 
+A009iadd: 
 	if 
-	:: add_2 = v5 + v4; goto A11iadd_1; 
-	:: memory[i] = add_1; goto A10; 
+	:: v5 = memory[i]; goto A010iadd; 
+	:: memory[i] = add; goto A009; 
 	fi;
-A09: v5 = memory[i]; goto A10; 
-A12i: 
+A008: v4 = memory[j]; goto A009; 
+A011ii: 
 	if 
-	:: v6 = memory[j]; goto A13i; 
-	:: memory[i] = add; goto A12iadd_1add_2; 
+	:: goto A012iii; 
+	:: memory[i] = add; goto A011i; 
+	:: memory[i] = add_1; goto A011iadd; 
 	fi;
-A11iadd_1: 
+A010i: 
 	if 
-	:: goto A12iadd_1add_2; 
-	:: memory[i] = add_1; goto A11; 
+	:: add_2 = v5 + v4; goto A011i; 
+	:: memory[i] = add_1; goto A010; 
 	fi;
-A10: add_2 = v5 + v4; goto A11; 
-A13i: 
+A010iadd: 
 	if 
-	:: v7 = memory[i]; goto A14i; 
-	:: memory[i] = add; goto A13iadd_1add_2; 
+	:: add_2 = v5 + v4; goto A011iadd; 
+	:: memory[i] = add; goto A010; 
 	fi;
-A12iadd_1add_2: 
+A009: v5 = memory[i]; goto A010; 
+A012iii: 
 	if 
-	:: v6 = memory[j]; goto A13iadd_1add_2; 
-	:: memory[i] = add_1; goto A12iadd_2; 
+	:: v6 = memory[j]; goto A013iii; 
+	:: memory[i] = add; goto A012ii; 
+	:: memory[i] = add_1; goto A012iaddiadd_2; 
+	:: memory[i] = add_2; goto A012iaddiadd_1; 
 	fi;
-A11: goto A12iadd_2; 
-A14i: 
+A011i: 
 	if 
-	:: add_3 = v7 + v6; goto A15i; 
-	:: memory[i] = add; goto A14iadd_1add_2; 
+	:: goto A012ii; 
+	:: memory[i] = add_1; goto A011; 
 	fi;
-A13iadd_1add_2: 
+A011iadd: 
 	if 
-	:: v7 = memory[i]; goto A14iadd_1add_2; 
-	:: memory[i] = add_1; goto A13iadd_2; 
+	:: goto A012iaddiadd_2; 
+	:: memory[i] = add; goto A011; 
 	fi;
-A12iadd_2: 
+A010: add_2 = v5 + v4; goto A011; 
+A013iii: 
 	if 
-	:: v6 = memory[j]; goto A13iadd_2; 
-	:: memory[i] = add_2; goto A12; 
+	:: v7 = memory[i]; goto A014iii; 
+	:: memory[i] = add; goto A013ii; 
+	:: memory[i] = add_1; goto A013iaddiadd_2; 
+	:: memory[i] = add_2; goto A013iaddiadd_1; 
 	fi;
-A15i: 
+A012ii: 
 	if 
-	:: goto A16i; 
-	:: memory[i] = add; goto A15iadd_1add_2; 
+	:: v6 = memory[j]; goto A013ii; 
+	:: memory[i] = add_1; goto A012i; 
+	:: memory[i] = add_2; goto A012iadd_1; 
 	fi;
-A14iadd_1add_2: 
+A012iaddiadd_2: 
 	if 
-	:: add_3 = v7 + v6; goto A15iadd_1add_2; 
-	:: memory[i] = add_1; goto A14iadd_2; 
+	:: v6 = memory[j]; goto A013iaddiadd_2; 
+	:: memory[i] = add; goto A012i; 
+	:: memory[i] = add_2; goto A012iadd; 
 	fi;
-A13iadd_2: 
+A012iaddiadd_1: 
 	if 
-	:: v7 = memory[i]; goto A14iadd_2; 
-	:: memory[i] = add_2; goto A13; 
+	:: v6 = memory[j]; goto A013iaddiadd_1; 
+	:: memory[i] = add; goto A012iadd_1; 
+	:: memory[i] = add_1; goto A012iadd; 
 	fi;
-A12: v6 = memory[j]; goto A13; 
-A16i: 
+A011: goto A012i; 
+A014iii: 
 	if 
-	:: v8 = memory[j]; goto A17i; 
-	:: memory[i] = add; goto A16iadd_1add_2add_3; 
+	:: add_3 = v7 + v6; goto A015iii; 
+	:: memory[i] = add; goto A014ii; 
+	:: memory[i] = add_1; goto A014iaddiadd_2; 
+	:: memory[i] = add_2; goto A014iaddiadd_1; 
 	fi;
-A15iadd_1add_2: 
+A013ii: 
 	if 
-	:: goto A16iadd_1add_2add_3; 
-	:: memory[i] = add_1; goto A15iadd_2; 
+	:: v7 = memory[i]; goto A014ii; 
+	:: memory[i] = add_1; goto A013i; 
+	:: memory[i] = add_2; goto A013iadd_1; 
 	fi;
-A14iadd_2: 
+A013iaddiadd_2: 
 	if 
-	:: add_3 = v7 + v6; goto A15iadd_2; 
-	:: memory[i] = add_2; goto A14; 
+	:: v7 = memory[i]; goto A014iaddiadd_2; 
+	:: memory[i] = add; goto A013i; 
+	:: memory[i] = add_2; goto A013iadd; 
 	fi;
-A13: v7 = memory[i]; goto A14; 
-A17i: 
+A013iaddiadd_1: 
 	if 
-	:: v9 = memory[i]; goto A18i; 
-	:: memory[i] = add; goto A17iadd_1add_2add_3; 
+	:: v7 = memory[i]; goto A014iaddiadd_1; 
+	:: memory[i] = add; goto A013iadd_1; 
+	:: memory[i] = add_1; goto A013iadd; 
 	fi;
-A16iadd_1add_2add_3: 
+A012i: 
 	if 
-	:: v8 = memory[j]; goto A17iadd_1add_2add_3; 
-	:: memory[i] = add_1; goto A16iadd_2add_3; 
+	:: v6 = memory[j]; goto A013i; 
+	:: memory[i] = add_2; goto A012; 
 	fi;
-A15iadd_2: 
+A012iadd_1: 
 	if 
-	:: goto A16iadd_2add_3; 
-	:: memory[i] = add_2; goto A15; 
+	:: v6 = memory[j]; goto A013iadd_1; 
+	:: memory[i] = add_1; goto A012; 
 	fi;
-A14: add_3 = v7 + v6; goto A15; 
-A18i: 
+A012iadd: 
 	if 
-	:: add_4 = v9 + v8; goto A19i; 
-	:: memory[i] = add; goto A18iadd_1add_2add_3; 
+	:: v6 = memory[j]; goto A013iadd; 
+	:: memory[i] = add; goto A012; 
 	fi;
-A17iadd_1add_2add_3: 
+A015iii: 
 	if 
-	:: v9 = memory[i]; goto A18iadd_1add_2add_3; 
-	:: memory[i] = add_1; goto A17iadd_2add_3; 
+	:: goto A016iiii; 
+	:: memory[i] = add; goto A015ii; 
+	:: memory[i] = add_1; goto A015iaddiadd_2; 
+	:: memory[i] = add_2; goto A015iaddiadd_1; 
 	fi;
-A16iadd_2add_3: 
+A014ii: 
 	if 
-	:: v8 = memory[j]; goto A17iadd_2add_3; 
-	:: memory[i] = add_2; goto A16iadd_3; 
+	:: add_3 = v7 + v6; goto A015ii; 
+	:: memory[i] = add_1; goto A014i; 
+	:: memory[i] = add_2; goto A014iadd_1; 
 	fi;
-A15: goto A16iadd_3; 
-A19i: 
+A014iaddiadd_2: 
 	if 
-	:: goto A20i; 
-	:: memory[i] = add; goto A19iadd_1add_2add_3; 
+	:: add_3 = v7 + v6; goto A015iaddiadd_2; 
+	:: memory[i] = add; goto A014i; 
+	:: memory[i] = add_2; goto A014iadd; 
 	fi;
-A18iadd_1add_2add_3: 
+A014iaddiadd_1: 
 	if 
-	:: add_4 = v9 + v8; goto A19iadd_1add_2add_3; 
-	:: memory[i] = add_1; goto A18iadd_2add_3; 
+	:: add_3 = v7 + v6; goto A015iaddiadd_1; 
+	:: memory[i] = add; goto A014iadd_1; 
+	:: memory[i] = add_1; goto A014iadd; 
 	fi;
-A17iadd_2add_3: 
+A013i: 
 	if 
-	:: v9 = memory[i]; goto A18iadd_2add_3; 
-	:: memory[i] = add_2; goto A17iadd_3; 
+	:: v7 = memory[i]; goto A014i; 
+	:: memory[i] = add_2; goto A013; 
 	fi;
-A16iadd_3: 
+A013iadd_1: 
 	if 
-	:: v8 = memory[j]; goto A17iadd_3; 
-	:: memory[i] = add_3; goto A16; 
+	:: v7 = memory[i]; goto A014iadd_1; 
+	:: memory[i] = add_1; goto A013; 
 	fi;
-A20i: memory[i] = add; goto A20iadd_1add_2add_3add_4; 
-A19iadd_1add_2add_3: 
+A013iadd: 
 	if 
-	:: goto A20iadd_1add_2add_3add_4; 
-	:: memory[i] = add_1; goto A19iadd_2add_3; 
+	:: v7 = memory[i]; goto A014iadd; 
+	:: memory[i] = add; goto A013; 
 	fi;
-A18iadd_2add_3: 
+A012: v6 = memory[j]; goto A013; 
+A016iiii: 
 	if 
-	:: add_4 = v9 + v8; goto A19iadd_2add_3; 
-	:: memory[i] = add_2; goto A18iadd_3; 
+	:: v8 = memory[j]; goto A017iiii; 
+	:: memory[i] = add; goto A016iii; 
+	:: memory[i] = add_1; goto A016iaddiadd_2iadd_3; 
+	:: memory[i] = add_2; goto A016iaddiadd_1iadd_3; 
+	:: memory[i] = add_3; goto A016iaddiadd_1iadd_2; 
 	fi;
-A17iadd_3: 
+A015ii: 
 	if 
-	:: v9 = memory[i]; goto A18iadd_3; 
-	:: memory[i] = add_3; goto A17; 
+	:: goto A016iii; 
+	:: memory[i] = add_1; goto A015i; 
+	:: memory[i] = add_2; goto A015iadd_1; 
 	fi;
-A16: v8 = memory[j]; goto A17; 
-A20iadd_1add_2add_3add_4: memory[i] = add_1; goto A20iadd_2add_3add_4; 
-A19iadd_2add_3: 
+A015iaddiadd_2: 
 	if 
-	:: goto A20iadd_2add_3add_4; 
-	:: memory[i] = add_2; goto A19iadd_3; 
+	:: goto A016iaddiadd_2iadd_3; 
+	:: memory[i] = add; goto A015i; 
+	:: memory[i] = add_2; goto A015iadd; 
 	fi;
-A18iadd_3: 
+A015iaddiadd_1: 
 	if 
-	:: add_4 = v9 + v8; goto A19iadd_3; 
-	:: memory[i] = add_3; goto A18; 
+	:: goto A016iaddiadd_1iadd_3; 
+	:: memory[i] = add; goto A015iadd_1; 
+	:: memory[i] = add_1; goto A015iadd; 
 	fi;
-A17: v9 = memory[i]; goto A18; 
-A20iadd_2add_3add_4: memory[i] = add_2; goto A20iadd_3add_4; 
-A19iadd_3: 
+A014i: 
 	if 
-	:: goto A20iadd_3add_4; 
-	:: memory[i] = add_3; goto A19; 
+	:: add_3 = v7 + v6; goto A015i; 
+	:: memory[i] = add_2; goto A014; 
 	fi;
-A18: add_4 = v9 + v8; goto A19; 
-A20iadd_3add_4: memory[i] = add_3; goto A20iadd_4; 
-A19: goto A20iadd_4; 
-A20iadd_4: memory[i] = add_4; goto A20; 
-A20: returnvalue = null; goto AEnd;
+A014iadd_1: 
+	if 
+	:: add_3 = v7 + v6; goto A015iadd_1; 
+	:: memory[i] = add_1; goto A014; 
+	fi;
+A014iadd: 
+	if 
+	:: add_3 = v7 + v6; goto A015iadd; 
+	:: memory[i] = add; goto A014; 
+	fi;
+A013: v7 = memory[i]; goto A014; 
+A017iiii: 
+	if 
+	:: v9 = memory[i]; goto A018iiii; 
+	:: memory[i] = add; goto A017iii; 
+	:: memory[i] = add_1; goto A017iaddiadd_2iadd_3; 
+	:: memory[i] = add_2; goto A017iaddiadd_1iadd_3; 
+	:: memory[i] = add_3; goto A017iaddiadd_1iadd_2; 
+	fi;
+A016iii: 
+	if 
+	:: v8 = memory[j]; goto A017iii; 
+	:: memory[i] = add_1; goto A016ii; 
+	:: memory[i] = add_2; goto A016iadd_1iadd_3; 
+	:: memory[i] = add_3; goto A016iadd_1iadd_2; 
+	fi;
+A016iaddiadd_2iadd_3: 
+	if 
+	:: v8 = memory[j]; goto A017iaddiadd_2iadd_3; 
+	:: memory[i] = add; goto A016ii; 
+	:: memory[i] = add_2; goto A016iaddiadd_3; 
+	:: memory[i] = add_3; goto A016iaddiadd_2; 
+	fi;
+A016iaddiadd_1iadd_3: 
+	if 
+	:: v8 = memory[j]; goto A017iaddiadd_1iadd_3; 
+	:: memory[i] = add; goto A016iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A016iaddiadd_3; 
+	:: memory[i] = add_3; goto A016iaddiadd_1; 
+	fi;
+A016iaddiadd_1iadd_2: 
+	if 
+	:: v8 = memory[j]; goto A017iaddiadd_1iadd_2; 
+	:: memory[i] = add; goto A016iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A016iaddiadd_2; 
+	:: memory[i] = add_2; goto A016iaddiadd_1; 
+	fi;
+A015i: 
+	if 
+	:: goto A016ii; 
+	:: memory[i] = add_2; goto A015; 
+	fi;
+A015iadd_1: 
+	if 
+	:: goto A016iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A015; 
+	fi;
+A015iadd: 
+	if 
+	:: goto A016iaddiadd_3; 
+	:: memory[i] = add; goto A015; 
+	fi;
+A014: add_3 = v7 + v6; goto A015; 
+A018iiii: 
+	if 
+	:: add_4 = v9 + v8; goto A019iiii; 
+	:: memory[i] = add; goto A018iii; 
+	:: memory[i] = add_1; goto A018iaddiadd_2iadd_3; 
+	:: memory[i] = add_2; goto A018iaddiadd_1iadd_3; 
+	:: memory[i] = add_3; goto A018iaddiadd_1iadd_2; 
+	fi;
+A017iii: 
+	if 
+	:: v9 = memory[i]; goto A018iii; 
+	:: memory[i] = add_1; goto A017ii; 
+	:: memory[i] = add_2; goto A017iadd_1iadd_3; 
+	:: memory[i] = add_3; goto A017iadd_1iadd_2; 
+	fi;
+A017iaddiadd_2iadd_3: 
+	if 
+	:: v9 = memory[i]; goto A018iaddiadd_2iadd_3; 
+	:: memory[i] = add; goto A017ii; 
+	:: memory[i] = add_2; goto A017iaddiadd_3; 
+	:: memory[i] = add_3; goto A017iaddiadd_2; 
+	fi;
+A017iaddiadd_1iadd_3: 
+	if 
+	:: v9 = memory[i]; goto A018iaddiadd_1iadd_3; 
+	:: memory[i] = add; goto A017iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A017iaddiadd_3; 
+	:: memory[i] = add_3; goto A017iaddiadd_1; 
+	fi;
+A017iaddiadd_1iadd_2: 
+	if 
+	:: v9 = memory[i]; goto A018iaddiadd_1iadd_2; 
+	:: memory[i] = add; goto A017iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A017iaddiadd_2; 
+	:: memory[i] = add_2; goto A017iaddiadd_1; 
+	fi;
+A016ii: 
+	if 
+	:: v8 = memory[j]; goto A017ii; 
+	:: memory[i] = add_2; goto A016i; 
+	:: memory[i] = add_3; goto A016iadd_2; 
+	fi;
+A016iadd_1iadd_3: 
+	if 
+	:: v8 = memory[j]; goto A017iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A016i; 
+	:: memory[i] = add_3; goto A016iadd_1; 
+	fi;
+A016iadd_1iadd_2: 
+	if 
+	:: v8 = memory[j]; goto A017iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A016iadd_2; 
+	:: memory[i] = add_2; goto A016iadd_1; 
+	fi;
+A016iaddiadd_3: 
+	if 
+	:: v8 = memory[j]; goto A017iaddiadd_3; 
+	:: memory[i] = add; goto A016i; 
+	:: memory[i] = add_3; goto A016iadd; 
+	fi;
+A016iaddiadd_2: 
+	if 
+	:: v8 = memory[j]; goto A017iaddiadd_2; 
+	:: memory[i] = add; goto A016iadd_2; 
+	:: memory[i] = add_2; goto A016iadd; 
+	fi;
+A016iaddiadd_1: 
+	if 
+	:: v8 = memory[j]; goto A017iaddiadd_1; 
+	:: memory[i] = add; goto A016iadd_1; 
+	:: memory[i] = add_1; goto A016iadd; 
+	fi;
+A015: goto A016i; 
+A019iiii: 
+	if 
+	:: goto A020iiiii; 
+	:: memory[i] = add; goto A019iii; 
+	:: memory[i] = add_1; goto A019iaddiadd_2iadd_3; 
+	:: memory[i] = add_2; goto A019iaddiadd_1iadd_3; 
+	:: memory[i] = add_3; goto A019iaddiadd_1iadd_2; 
+	fi;
+A018iii: 
+	if 
+	:: add_4 = v9 + v8; goto A019iii; 
+	:: memory[i] = add_1; goto A018ii; 
+	:: memory[i] = add_2; goto A018iadd_1iadd_3; 
+	:: memory[i] = add_3; goto A018iadd_1iadd_2; 
+	fi;
+A018iaddiadd_2iadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto A019iaddiadd_2iadd_3; 
+	:: memory[i] = add; goto A018ii; 
+	:: memory[i] = add_2; goto A018iaddiadd_3; 
+	:: memory[i] = add_3; goto A018iaddiadd_2; 
+	fi;
+A018iaddiadd_1iadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto A019iaddiadd_1iadd_3; 
+	:: memory[i] = add; goto A018iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A018iaddiadd_3; 
+	:: memory[i] = add_3; goto A018iaddiadd_1; 
+	fi;
+A018iaddiadd_1iadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto A019iaddiadd_1iadd_2; 
+	:: memory[i] = add; goto A018iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A018iaddiadd_2; 
+	:: memory[i] = add_2; goto A018iaddiadd_1; 
+	fi;
+A017ii: 
+	if 
+	:: v9 = memory[i]; goto A018ii; 
+	:: memory[i] = add_2; goto A017i; 
+	:: memory[i] = add_3; goto A017iadd_2; 
+	fi;
+A017iadd_1iadd_3: 
+	if 
+	:: v9 = memory[i]; goto A018iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A017i; 
+	:: memory[i] = add_3; goto A017iadd_1; 
+	fi;
+A017iadd_1iadd_2: 
+	if 
+	:: v9 = memory[i]; goto A018iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A017iadd_2; 
+	:: memory[i] = add_2; goto A017iadd_1; 
+	fi;
+A017iaddiadd_3: 
+	if 
+	:: v9 = memory[i]; goto A018iaddiadd_3; 
+	:: memory[i] = add; goto A017i; 
+	:: memory[i] = add_3; goto A017iadd; 
+	fi;
+A017iaddiadd_2: 
+	if 
+	:: v9 = memory[i]; goto A018iaddiadd_2; 
+	:: memory[i] = add; goto A017iadd_2; 
+	:: memory[i] = add_2; goto A017iadd; 
+	fi;
+A017iaddiadd_1: 
+	if 
+	:: v9 = memory[i]; goto A018iaddiadd_1; 
+	:: memory[i] = add; goto A017iadd_1; 
+	:: memory[i] = add_1; goto A017iadd; 
+	fi;
+A016i: 
+	if 
+	:: v8 = memory[j]; goto A017i; 
+	:: memory[i] = add_3; goto A016; 
+	fi;
+A016iadd_2: 
+	if 
+	:: v8 = memory[j]; goto A017iadd_2; 
+	:: memory[i] = add_2; goto A016; 
+	fi;
+A016iadd_1: 
+	if 
+	:: v8 = memory[j]; goto A017iadd_1; 
+	:: memory[i] = add_1; goto A016; 
+	fi;
+A016iadd: 
+	if 
+	:: v8 = memory[j]; goto A017iadd; 
+	:: memory[i] = add; goto A016; 
+	fi;
+A020iiiii: 
+	if 
+	:: memory[i] = add; goto A020iiii; 
+	:: memory[i] = add_1; goto A020iaddiadd_2iadd_3iadd_4; 
+	:: memory[i] = add_2; goto A020iaddiadd_1iadd_3iadd_4; 
+	:: memory[i] = add_3; goto A020iaddiadd_1iadd_2iadd_4; 
+	:: memory[i] = add_4; goto A020iaddiadd_1iadd_2iadd_3; 
+	fi;
+A019iii: 
+	if 
+	:: goto A020iiii; 
+	:: memory[i] = add_1; goto A019ii; 
+	:: memory[i] = add_2; goto A019iadd_1iadd_3; 
+	:: memory[i] = add_3; goto A019iadd_1iadd_2; 
+	fi;
+A019iaddiadd_2iadd_3: 
+	if 
+	:: goto A020iaddiadd_2iadd_3iadd_4; 
+	:: memory[i] = add; goto A019ii; 
+	:: memory[i] = add_2; goto A019iaddiadd_3; 
+	:: memory[i] = add_3; goto A019iaddiadd_2; 
+	fi;
+A019iaddiadd_1iadd_3: 
+	if 
+	:: goto A020iaddiadd_1iadd_3iadd_4; 
+	:: memory[i] = add; goto A019iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A019iaddiadd_3; 
+	:: memory[i] = add_3; goto A019iaddiadd_1; 
+	fi;
+A019iaddiadd_1iadd_2: 
+	if 
+	:: goto A020iaddiadd_1iadd_2iadd_4; 
+	:: memory[i] = add; goto A019iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A019iaddiadd_2; 
+	:: memory[i] = add_2; goto A019iaddiadd_1; 
+	fi;
+A018ii: 
+	if 
+	:: add_4 = v9 + v8; goto A019ii; 
+	:: memory[i] = add_2; goto A018i; 
+	:: memory[i] = add_3; goto A018iadd_2; 
+	fi;
+A018iadd_1iadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto A019iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A018i; 
+	:: memory[i] = add_3; goto A018iadd_1; 
+	fi;
+A018iadd_1iadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto A019iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A018iadd_2; 
+	:: memory[i] = add_2; goto A018iadd_1; 
+	fi;
+A018iaddiadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto A019iaddiadd_3; 
+	:: memory[i] = add; goto A018i; 
+	:: memory[i] = add_3; goto A018iadd; 
+	fi;
+A018iaddiadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto A019iaddiadd_2; 
+	:: memory[i] = add; goto A018iadd_2; 
+	:: memory[i] = add_2; goto A018iadd; 
+	fi;
+A018iaddiadd_1: 
+	if 
+	:: add_4 = v9 + v8; goto A019iaddiadd_1; 
+	:: memory[i] = add; goto A018iadd_1; 
+	:: memory[i] = add_1; goto A018iadd; 
+	fi;
+A017i: 
+	if 
+	:: v9 = memory[i]; goto A018i; 
+	:: memory[i] = add_3; goto A017; 
+	fi;
+A017iadd_2: 
+	if 
+	:: v9 = memory[i]; goto A018iadd_2; 
+	:: memory[i] = add_2; goto A017; 
+	fi;
+A017iadd_1: 
+	if 
+	:: v9 = memory[i]; goto A018iadd_1; 
+	:: memory[i] = add_1; goto A017; 
+	fi;
+A017iadd: 
+	if 
+	:: v9 = memory[i]; goto A018iadd; 
+	:: memory[i] = add; goto A017; 
+	fi;
+A016: v8 = memory[j]; goto A017; 
+A020iiii: 
+	if 
+	:: memory[i] = add_1; goto A020iii; 
+	:: memory[i] = add_2; goto A020iadd_1iadd_3iadd_4; 
+	:: memory[i] = add_3; goto A020iadd_1iadd_2iadd_4; 
+	:: memory[i] = add_4; goto A020iadd_1iadd_2iadd_3; 
+	fi;
+A020iaddiadd_2iadd_3iadd_4: 
+	if 
+	:: memory[i] = add; goto A020iii; 
+	:: memory[i] = add_2; goto A020iaddiadd_3iadd_4; 
+	:: memory[i] = add_3; goto A020iaddiadd_2iadd_4; 
+	:: memory[i] = add_4; goto A020iaddiadd_2iadd_3; 
+	fi;
+A020iaddiadd_1iadd_3iadd_4: 
+	if 
+	:: memory[i] = add; goto A020iadd_1iadd_3iadd_4; 
+	:: memory[i] = add_1; goto A020iaddiadd_3iadd_4; 
+	:: memory[i] = add_3; goto A020iaddiadd_1iadd_4; 
+	:: memory[i] = add_4; goto A020iaddiadd_1iadd_3; 
+	fi;
+A020iaddiadd_1iadd_2iadd_4: 
+	if 
+	:: memory[i] = add; goto A020iadd_1iadd_2iadd_4; 
+	:: memory[i] = add_1; goto A020iaddiadd_2iadd_4; 
+	:: memory[i] = add_2; goto A020iaddiadd_1iadd_4; 
+	:: memory[i] = add_4; goto A020iaddiadd_1iadd_2; 
+	fi;
+A020iaddiadd_1iadd_2iadd_3: 
+	if 
+	:: memory[i] = add; goto A020iadd_1iadd_2iadd_3; 
+	:: memory[i] = add_1; goto A020iaddiadd_2iadd_3; 
+	:: memory[i] = add_2; goto A020iaddiadd_1iadd_3; 
+	:: memory[i] = add_3; goto A020iaddiadd_1iadd_2; 
+	fi;
+A019ii: 
+	if 
+	:: goto A020iii; 
+	:: memory[i] = add_2; goto A019i; 
+	:: memory[i] = add_3; goto A019iadd_2; 
+	fi;
+A019iadd_1iadd_3: 
+	if 
+	:: goto A020iadd_1iadd_3iadd_4; 
+	:: memory[i] = add_1; goto A019i; 
+	:: memory[i] = add_3; goto A019iadd_1; 
+	fi;
+A019iadd_1iadd_2: 
+	if 
+	:: goto A020iadd_1iadd_2iadd_4; 
+	:: memory[i] = add_1; goto A019iadd_2; 
+	:: memory[i] = add_2; goto A019iadd_1; 
+	fi;
+A019iaddiadd_3: 
+	if 
+	:: goto A020iaddiadd_3iadd_4; 
+	:: memory[i] = add; goto A019i; 
+	:: memory[i] = add_3; goto A019iadd; 
+	fi;
+A019iaddiadd_2: 
+	if 
+	:: goto A020iaddiadd_2iadd_4; 
+	:: memory[i] = add; goto A019iadd_2; 
+	:: memory[i] = add_2; goto A019iadd; 
+	fi;
+A019iaddiadd_1: 
+	if 
+	:: goto A020iaddiadd_1iadd_4; 
+	:: memory[i] = add; goto A019iadd_1; 
+	:: memory[i] = add_1; goto A019iadd; 
+	fi;
+A018i: 
+	if 
+	:: add_4 = v9 + v8; goto A019i; 
+	:: memory[i] = add_3; goto A018; 
+	fi;
+A018iadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto A019iadd_2; 
+	:: memory[i] = add_2; goto A018; 
+	fi;
+A018iadd_1: 
+	if 
+	:: add_4 = v9 + v8; goto A019iadd_1; 
+	:: memory[i] = add_1; goto A018; 
+	fi;
+A018iadd: 
+	if 
+	:: add_4 = v9 + v8; goto A019iadd; 
+	:: memory[i] = add; goto A018; 
+	fi;
+A017: v9 = memory[i]; goto A018; 
+A020iii: 
+	if 
+	:: memory[i] = add_2; goto A020ii; 
+	:: memory[i] = add_3; goto A020iadd_2iadd_4; 
+	:: memory[i] = add_4; goto A020iadd_2iadd_3; 
+	fi;
+A020iadd_1iadd_3iadd_4: 
+	if 
+	:: memory[i] = add_1; goto A020ii; 
+	:: memory[i] = add_3; goto A020iadd_1iadd_4; 
+	:: memory[i] = add_4; goto A020iadd_1iadd_3; 
+	fi;
+A020iadd_1iadd_2iadd_4: 
+	if 
+	:: memory[i] = add_1; goto A020iadd_2iadd_4; 
+	:: memory[i] = add_2; goto A020iadd_1iadd_4; 
+	:: memory[i] = add_4; goto A020iadd_1iadd_2; 
+	fi;
+A020iadd_1iadd_2iadd_3: 
+	if 
+	:: memory[i] = add_1; goto A020iadd_2iadd_3; 
+	:: memory[i] = add_2; goto A020iadd_1iadd_3; 
+	:: memory[i] = add_3; goto A020iadd_1iadd_2; 
+	fi;
+A020iaddiadd_3iadd_4: 
+	if 
+	:: memory[i] = add; goto A020ii; 
+	:: memory[i] = add_3; goto A020iaddiadd_4; 
+	:: memory[i] = add_4; goto A020iaddiadd_3; 
+	fi;
+A020iaddiadd_2iadd_4: 
+	if 
+	:: memory[i] = add; goto A020iadd_2iadd_4; 
+	:: memory[i] = add_2; goto A020iaddiadd_4; 
+	:: memory[i] = add_4; goto A020iaddiadd_2; 
+	fi;
+A020iaddiadd_2iadd_3: 
+	if 
+	:: memory[i] = add; goto A020iadd_2iadd_3; 
+	:: memory[i] = add_2; goto A020iaddiadd_3; 
+	:: memory[i] = add_3; goto A020iaddiadd_2; 
+	fi;
+A020iaddiadd_1iadd_4: 
+	if 
+	:: memory[i] = add; goto A020iadd_1iadd_4; 
+	:: memory[i] = add_1; goto A020iaddiadd_4; 
+	:: memory[i] = add_4; goto A020iaddiadd_1; 
+	fi;
+A020iaddiadd_1iadd_3: 
+	if 
+	:: memory[i] = add; goto A020iadd_1iadd_3; 
+	:: memory[i] = add_1; goto A020iaddiadd_3; 
+	:: memory[i] = add_3; goto A020iaddiadd_1; 
+	fi;
+A020iaddiadd_1iadd_2: 
+	if 
+	:: memory[i] = add; goto A020iadd_1iadd_2; 
+	:: memory[i] = add_1; goto A020iaddiadd_2; 
+	:: memory[i] = add_2; goto A020iaddiadd_1; 
+	fi;
+A019i: 
+	if 
+	:: goto A020ii; 
+	:: memory[i] = add_3; goto A019; 
+	fi;
+A019iadd_2: 
+	if 
+	:: goto A020iadd_2iadd_4; 
+	:: memory[i] = add_2; goto A019; 
+	fi;
+A019iadd_1: 
+	if 
+	:: goto A020iadd_1iadd_4; 
+	:: memory[i] = add_1; goto A019; 
+	fi;
+A019iadd: 
+	if 
+	:: goto A020iaddiadd_4; 
+	:: memory[i] = add; goto A019; 
+	fi;
+A018: add_4 = v9 + v8; goto A019; 
+A020ii: 
+	if 
+	:: memory[i] = add_3; goto A020i; 
+	:: memory[i] = add_4; goto A020iadd_3; 
+	fi;
+A020iadd_2iadd_4: 
+	if 
+	:: memory[i] = add_2; goto A020i; 
+	:: memory[i] = add_4; goto A020iadd_2; 
+	fi;
+A020iadd_2iadd_3: 
+	if 
+	:: memory[i] = add_2; goto A020iadd_3; 
+	:: memory[i] = add_3; goto A020iadd_2; 
+	fi;
+A020iadd_1iadd_4: 
+	if 
+	:: memory[i] = add_1; goto A020i; 
+	:: memory[i] = add_4; goto A020iadd_1; 
+	fi;
+A020iadd_1iadd_3: 
+	if 
+	:: memory[i] = add_1; goto A020iadd_3; 
+	:: memory[i] = add_3; goto A020iadd_1; 
+	fi;
+A020iadd_1iadd_2: 
+	if 
+	:: memory[i] = add_1; goto A020iadd_2; 
+	:: memory[i] = add_2; goto A020iadd_1; 
+	fi;
+A020iaddiadd_4: 
+	if 
+	:: memory[i] = add; goto A020i; 
+	:: memory[i] = add_4; goto A020iadd; 
+	fi;
+A020iaddiadd_3: 
+	if 
+	:: memory[i] = add; goto A020iadd_3; 
+	:: memory[i] = add_3; goto A020iadd; 
+	fi;
+A020iaddiadd_2: 
+	if 
+	:: memory[i] = add; goto A020iadd_2; 
+	:: memory[i] = add_2; goto A020iadd; 
+	fi;
+A020iaddiadd_1: 
+	if 
+	:: memory[i] = add; goto A020iadd_1; 
+	:: memory[i] = add_1; goto A020iadd; 
+	fi;
+A019: goto A020i; 
+A020i: memory[i] = add_4; goto A020; 
+A020iadd_3: memory[i] = add_3; goto A020; 
+A020iadd_2: memory[i] = add_2; goto A020; 
+A020iadd_1: memory[i] = add_1; goto A020; 
+A020iadd: memory[i] = add; goto A020; 
+A020: returnvalue = null; goto AEnd;
 AEnd: skip;
 
 }
@@ -258,233 +827,798 @@ AEnd: skip;
 
 inline t2(arg, returnvalue){
 short v0, v1, add, v2, v3, add_1, v4, v5, add_2, v6, v7, add_3, v8, v9, add_4;
-BStart: goto B00;
-B00: v0 = memory[i]; goto B01; 
-B01: v1 = memory[j]; goto B02; 
-B02: add = v1 + v0; goto B03; 
-B03: goto B04j; 
-B04j: 
+BStart: goto B000;
+B000: v0 = memory[i]; goto B001; 
+B001: v1 = memory[j]; goto B002; 
+B002: add = v1 + v0; goto B003; 
+B003: goto B004j; 
+B004j: 
 	if 
-	:: v2 = memory[i]; goto B05j; 
-	:: memory[j] = add; goto B04; 
+	:: v2 = memory[i]; goto B005j; 
+	:: memory[j] = add; goto B004; 
 	fi;
-B05j: 
+B005j: 
 	if 
-	:: v3 = memory[j]; goto B06j; 
-	:: memory[j] = add; goto B05; 
+	:: v3 = memory[j]; goto B006j; 
+	:: memory[j] = add; goto B005; 
 	fi;
-B04: v2 = memory[i]; goto B05; 
-B06j: 
+B004: v2 = memory[i]; goto B005; 
+B006j: 
 	if 
-	:: add_1 = v3 + v2; goto B07j; 
-	:: memory[j] = add; goto B06; 
+	:: add_1 = v3 + v2; goto B007j; 
+	:: memory[j] = add; goto B006; 
 	fi;
-B05: v3 = memory[j]; goto B06; 
-B07j: 
+B005: v3 = memory[j]; goto B006; 
+B007j: 
 	if 
-	:: goto B08j; 
-	:: memory[j] = add; goto B07; 
+	:: goto B008jj; 
+	:: memory[j] = add; goto B007; 
 	fi;
-B06: add_1 = v3 + v2; goto B07; 
-B08j: 
+B006: add_1 = v3 + v2; goto B007; 
+B008jj: 
 	if 
-	:: v4 = memory[i]; goto B09j; 
-	:: memory[j] = add; goto B08jadd_1; 
+	:: v4 = memory[i]; goto B009jj; 
+	:: memory[j] = add; goto B008j; 
+	:: memory[j] = add_1; goto B008jadd; 
 	fi;
-B07: goto B08jadd_1; 
-B09j: 
+B007: goto B008j; 
+B009jj: 
 	if 
-	:: v5 = memory[j]; goto B10j; 
-	:: memory[j] = add; goto B09jadd_1; 
+	:: v5 = memory[j]; goto B010jj; 
+	:: memory[j] = add; goto B009j; 
+	:: memory[j] = add_1; goto B009jadd; 
 	fi;
-B08jadd_1: 
+B008j: 
 	if 
-	:: v4 = memory[i]; goto B09jadd_1; 
-	:: memory[j] = add_1; goto B08; 
+	:: v4 = memory[i]; goto B009j; 
+	:: memory[j] = add_1; goto B008; 
 	fi;
-B10j: 
+B008jadd: 
 	if 
-	:: add_2 = v5 + v4; goto B11j; 
-	:: memory[j] = add; goto B10jadd_1; 
+	:: v4 = memory[i]; goto B009jadd; 
+	:: memory[j] = add; goto B008; 
 	fi;
-B09jadd_1: 
+B010jj: 
 	if 
-	:: v5 = memory[j]; goto B10jadd_1; 
-	:: memory[j] = add_1; goto B09; 
+	:: add_2 = v5 + v4; goto B011jj; 
+	:: memory[j] = add; goto B010j; 
+	:: memory[j] = add_1; goto B010jadd; 
 	fi;
-B08: v4 = memory[i]; goto B09; 
-B11j: 
+B009j: 
 	if 
-	:: goto B12j; 
-	:: memory[j] = add; goto B11jadd_1; 
+	:: v5 = memory[j]; goto B010j; 
+	:: memory[j] = add_1; goto B009; 
 	fi;
-B10jadd_1: 
+B009jadd: 
 	if 
-	:: add_2 = v5 + v4; goto B11jadd_1; 
-	:: memory[j] = add_1; goto B10; 
+	:: v5 = memory[j]; goto B010jadd; 
+	:: memory[j] = add; goto B009; 
 	fi;
-B09: v5 = memory[j]; goto B10; 
-B12j: 
+B008: v4 = memory[i]; goto B009; 
+B011jj: 
 	if 
-	:: v6 = memory[i]; goto B13j; 
-	:: memory[j] = add; goto B12jadd_1add_2; 
+	:: goto B012jjj; 
+	:: memory[j] = add; goto B011j; 
+	:: memory[j] = add_1; goto B011jadd; 
 	fi;
-B11jadd_1: 
+B010j: 
 	if 
-	:: goto B12jadd_1add_2; 
-	:: memory[j] = add_1; goto B11; 
+	:: add_2 = v5 + v4; goto B011j; 
+	:: memory[j] = add_1; goto B010; 
 	fi;
-B10: add_2 = v5 + v4; goto B11; 
-B13j: 
+B010jadd: 
 	if 
-	:: v7 = memory[j]; goto B14j; 
-	:: memory[j] = add; goto B13jadd_1add_2; 
+	:: add_2 = v5 + v4; goto B011jadd; 
+	:: memory[j] = add; goto B010; 
 	fi;
-B12jadd_1add_2: 
+B009: v5 = memory[j]; goto B010; 
+B012jjj: 
 	if 
-	:: v6 = memory[i]; goto B13jadd_1add_2; 
-	:: memory[j] = add_1; goto B12jadd_2; 
+	:: v6 = memory[i]; goto B013jjj; 
+	:: memory[j] = add; goto B012jj; 
+	:: memory[j] = add_1; goto B012jaddjadd_2; 
+	:: memory[j] = add_2; goto B012jaddjadd_1; 
 	fi;
-B11: goto B12jadd_2; 
-B14j: 
+B011j: 
 	if 
-	:: add_3 = v7 + v6; goto B15j; 
-	:: memory[j] = add; goto B14jadd_1add_2; 
+	:: goto B012jj; 
+	:: memory[j] = add_1; goto B011; 
 	fi;
-B13jadd_1add_2: 
+B011jadd: 
 	if 
-	:: v7 = memory[j]; goto B14jadd_1add_2; 
-	:: memory[j] = add_1; goto B13jadd_2; 
+	:: goto B012jaddjadd_2; 
+	:: memory[j] = add; goto B011; 
 	fi;
-B12jadd_2: 
+B010: add_2 = v5 + v4; goto B011; 
+B013jjj: 
 	if 
-	:: v6 = memory[i]; goto B13jadd_2; 
-	:: memory[j] = add_2; goto B12; 
+	:: v7 = memory[j]; goto B014jjj; 
+	:: memory[j] = add; goto B013jj; 
+	:: memory[j] = add_1; goto B013jaddjadd_2; 
+	:: memory[j] = add_2; goto B013jaddjadd_1; 
 	fi;
-B15j: 
+B012jj: 
 	if 
-	:: goto B16j; 
-	:: memory[j] = add; goto B15jadd_1add_2; 
+	:: v6 = memory[i]; goto B013jj; 
+	:: memory[j] = add_1; goto B012j; 
+	:: memory[j] = add_2; goto B012jadd_1; 
 	fi;
-B14jadd_1add_2: 
+B012jaddjadd_2: 
 	if 
-	:: add_3 = v7 + v6; goto B15jadd_1add_2; 
-	:: memory[j] = add_1; goto B14jadd_2; 
+	:: v6 = memory[i]; goto B013jaddjadd_2; 
+	:: memory[j] = add; goto B012j; 
+	:: memory[j] = add_2; goto B012jadd; 
 	fi;
-B13jadd_2: 
+B012jaddjadd_1: 
 	if 
-	:: v7 = memory[j]; goto B14jadd_2; 
-	:: memory[j] = add_2; goto B13; 
+	:: v6 = memory[i]; goto B013jaddjadd_1; 
+	:: memory[j] = add; goto B012jadd_1; 
+	:: memory[j] = add_1; goto B012jadd; 
 	fi;
-B12: v6 = memory[i]; goto B13; 
-B16j: 
+B011: goto B012j; 
+B014jjj: 
 	if 
-	:: v8 = memory[i]; goto B17j; 
-	:: memory[j] = add; goto B16jadd_1add_2add_3; 
+	:: add_3 = v7 + v6; goto B015jjj; 
+	:: memory[j] = add; goto B014jj; 
+	:: memory[j] = add_1; goto B014jaddjadd_2; 
+	:: memory[j] = add_2; goto B014jaddjadd_1; 
 	fi;
-B15jadd_1add_2: 
+B013jj: 
 	if 
-	:: goto B16jadd_1add_2add_3; 
-	:: memory[j] = add_1; goto B15jadd_2; 
+	:: v7 = memory[j]; goto B014jj; 
+	:: memory[j] = add_1; goto B013j; 
+	:: memory[j] = add_2; goto B013jadd_1; 
 	fi;
-B14jadd_2: 
+B013jaddjadd_2: 
 	if 
-	:: add_3 = v7 + v6; goto B15jadd_2; 
-	:: memory[j] = add_2; goto B14; 
+	:: v7 = memory[j]; goto B014jaddjadd_2; 
+	:: memory[j] = add; goto B013j; 
+	:: memory[j] = add_2; goto B013jadd; 
 	fi;
-B13: v7 = memory[j]; goto B14; 
-B17j: 
+B013jaddjadd_1: 
 	if 
-	:: v9 = memory[j]; goto B18j; 
-	:: memory[j] = add; goto B17jadd_1add_2add_3; 
+	:: v7 = memory[j]; goto B014jaddjadd_1; 
+	:: memory[j] = add; goto B013jadd_1; 
+	:: memory[j] = add_1; goto B013jadd; 
 	fi;
-B16jadd_1add_2add_3: 
+B012j: 
 	if 
-	:: v8 = memory[i]; goto B17jadd_1add_2add_3; 
-	:: memory[j] = add_1; goto B16jadd_2add_3; 
+	:: v6 = memory[i]; goto B013j; 
+	:: memory[j] = add_2; goto B012; 
 	fi;
-B15jadd_2: 
+B012jadd_1: 
 	if 
-	:: goto B16jadd_2add_3; 
-	:: memory[j] = add_2; goto B15; 
+	:: v6 = memory[i]; goto B013jadd_1; 
+	:: memory[j] = add_1; goto B012; 
 	fi;
-B14: add_3 = v7 + v6; goto B15; 
-B18j: 
+B012jadd: 
 	if 
-	:: add_4 = v9 + v8; goto B19j; 
-	:: memory[j] = add; goto B18jadd_1add_2add_3; 
+	:: v6 = memory[i]; goto B013jadd; 
+	:: memory[j] = add; goto B012; 
 	fi;
-B17jadd_1add_2add_3: 
+B015jjj: 
 	if 
-	:: v9 = memory[j]; goto B18jadd_1add_2add_3; 
-	:: memory[j] = add_1; goto B17jadd_2add_3; 
+	:: goto B016jjjj; 
+	:: memory[j] = add; goto B015jj; 
+	:: memory[j] = add_1; goto B015jaddjadd_2; 
+	:: memory[j] = add_2; goto B015jaddjadd_1; 
 	fi;
-B16jadd_2add_3: 
+B014jj: 
 	if 
-	:: v8 = memory[i]; goto B17jadd_2add_3; 
-	:: memory[j] = add_2; goto B16jadd_3; 
+	:: add_3 = v7 + v6; goto B015jj; 
+	:: memory[j] = add_1; goto B014j; 
+	:: memory[j] = add_2; goto B014jadd_1; 
 	fi;
-B15: goto B16jadd_3; 
-B19j: 
+B014jaddjadd_2: 
 	if 
-	:: goto B20j; 
-	:: memory[j] = add; goto B19jadd_1add_2add_3; 
+	:: add_3 = v7 + v6; goto B015jaddjadd_2; 
+	:: memory[j] = add; goto B014j; 
+	:: memory[j] = add_2; goto B014jadd; 
 	fi;
-B18jadd_1add_2add_3: 
+B014jaddjadd_1: 
 	if 
-	:: add_4 = v9 + v8; goto B19jadd_1add_2add_3; 
-	:: memory[j] = add_1; goto B18jadd_2add_3; 
+	:: add_3 = v7 + v6; goto B015jaddjadd_1; 
+	:: memory[j] = add; goto B014jadd_1; 
+	:: memory[j] = add_1; goto B014jadd; 
 	fi;
-B17jadd_2add_3: 
+B013j: 
 	if 
-	:: v9 = memory[j]; goto B18jadd_2add_3; 
-	:: memory[j] = add_2; goto B17jadd_3; 
+	:: v7 = memory[j]; goto B014j; 
+	:: memory[j] = add_2; goto B013; 
 	fi;
-B16jadd_3: 
+B013jadd_1: 
 	if 
-	:: v8 = memory[i]; goto B17jadd_3; 
-	:: memory[j] = add_3; goto B16; 
+	:: v7 = memory[j]; goto B014jadd_1; 
+	:: memory[j] = add_1; goto B013; 
 	fi;
-B20j: memory[j] = add; goto B20jadd_1add_2add_3add_4; 
-B19jadd_1add_2add_3: 
+B013jadd: 
 	if 
-	:: goto B20jadd_1add_2add_3add_4; 
-	:: memory[j] = add_1; goto B19jadd_2add_3; 
+	:: v7 = memory[j]; goto B014jadd; 
+	:: memory[j] = add; goto B013; 
 	fi;
-B18jadd_2add_3: 
+B012: v6 = memory[i]; goto B013; 
+B016jjjj: 
 	if 
-	:: add_4 = v9 + v8; goto B19jadd_2add_3; 
-	:: memory[j] = add_2; goto B18jadd_3; 
+	:: v8 = memory[i]; goto B017jjjj; 
+	:: memory[j] = add; goto B016jjj; 
+	:: memory[j] = add_1; goto B016jaddjadd_2jadd_3; 
+	:: memory[j] = add_2; goto B016jaddjadd_1jadd_3; 
+	:: memory[j] = add_3; goto B016jaddjadd_1jadd_2; 
 	fi;
-B17jadd_3: 
+B015jj: 
 	if 
-	:: v9 = memory[j]; goto B18jadd_3; 
-	:: memory[j] = add_3; goto B17; 
+	:: goto B016jjj; 
+	:: memory[j] = add_1; goto B015j; 
+	:: memory[j] = add_2; goto B015jadd_1; 
 	fi;
-B16: v8 = memory[i]; goto B17; 
-B20jadd_1add_2add_3add_4: memory[j] = add_1; goto B20jadd_2add_3add_4; 
-B19jadd_2add_3: 
+B015jaddjadd_2: 
 	if 
-	:: goto B20jadd_2add_3add_4; 
-	:: memory[j] = add_2; goto B19jadd_3; 
+	:: goto B016jaddjadd_2jadd_3; 
+	:: memory[j] = add; goto B015j; 
+	:: memory[j] = add_2; goto B015jadd; 
 	fi;
-B18jadd_3: 
+B015jaddjadd_1: 
 	if 
-	:: add_4 = v9 + v8; goto B19jadd_3; 
-	:: memory[j] = add_3; goto B18; 
+	:: goto B016jaddjadd_1jadd_3; 
+	:: memory[j] = add; goto B015jadd_1; 
+	:: memory[j] = add_1; goto B015jadd; 
 	fi;
-B17: v9 = memory[j]; goto B18; 
-B20jadd_2add_3add_4: memory[j] = add_2; goto B20jadd_3add_4; 
-B19jadd_3: 
+B014j: 
 	if 
-	:: goto B20jadd_3add_4; 
-	:: memory[j] = add_3; goto B19; 
+	:: add_3 = v7 + v6; goto B015j; 
+	:: memory[j] = add_2; goto B014; 
 	fi;
-B18: add_4 = v9 + v8; goto B19; 
-B20jadd_3add_4: memory[j] = add_3; goto B20jadd_4; 
-B19: goto B20jadd_4; 
-B20jadd_4: memory[j] = add_4; goto B20; 
-B20: returnvalue = null; goto BEnd;
+B014jadd_1: 
+	if 
+	:: add_3 = v7 + v6; goto B015jadd_1; 
+	:: memory[j] = add_1; goto B014; 
+	fi;
+B014jadd: 
+	if 
+	:: add_3 = v7 + v6; goto B015jadd; 
+	:: memory[j] = add; goto B014; 
+	fi;
+B013: v7 = memory[j]; goto B014; 
+B017jjjj: 
+	if 
+	:: v9 = memory[j]; goto B018jjjj; 
+	:: memory[j] = add; goto B017jjj; 
+	:: memory[j] = add_1; goto B017jaddjadd_2jadd_3; 
+	:: memory[j] = add_2; goto B017jaddjadd_1jadd_3; 
+	:: memory[j] = add_3; goto B017jaddjadd_1jadd_2; 
+	fi;
+B016jjj: 
+	if 
+	:: v8 = memory[i]; goto B017jjj; 
+	:: memory[j] = add_1; goto B016jj; 
+	:: memory[j] = add_2; goto B016jadd_1jadd_3; 
+	:: memory[j] = add_3; goto B016jadd_1jadd_2; 
+	fi;
+B016jaddjadd_2jadd_3: 
+	if 
+	:: v8 = memory[i]; goto B017jaddjadd_2jadd_3; 
+	:: memory[j] = add; goto B016jj; 
+	:: memory[j] = add_2; goto B016jaddjadd_3; 
+	:: memory[j] = add_3; goto B016jaddjadd_2; 
+	fi;
+B016jaddjadd_1jadd_3: 
+	if 
+	:: v8 = memory[i]; goto B017jaddjadd_1jadd_3; 
+	:: memory[j] = add; goto B016jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B016jaddjadd_3; 
+	:: memory[j] = add_3; goto B016jaddjadd_1; 
+	fi;
+B016jaddjadd_1jadd_2: 
+	if 
+	:: v8 = memory[i]; goto B017jaddjadd_1jadd_2; 
+	:: memory[j] = add; goto B016jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B016jaddjadd_2; 
+	:: memory[j] = add_2; goto B016jaddjadd_1; 
+	fi;
+B015j: 
+	if 
+	:: goto B016jj; 
+	:: memory[j] = add_2; goto B015; 
+	fi;
+B015jadd_1: 
+	if 
+	:: goto B016jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B015; 
+	fi;
+B015jadd: 
+	if 
+	:: goto B016jaddjadd_3; 
+	:: memory[j] = add; goto B015; 
+	fi;
+B014: add_3 = v7 + v6; goto B015; 
+B018jjjj: 
+	if 
+	:: add_4 = v9 + v8; goto B019jjjj; 
+	:: memory[j] = add; goto B018jjj; 
+	:: memory[j] = add_1; goto B018jaddjadd_2jadd_3; 
+	:: memory[j] = add_2; goto B018jaddjadd_1jadd_3; 
+	:: memory[j] = add_3; goto B018jaddjadd_1jadd_2; 
+	fi;
+B017jjj: 
+	if 
+	:: v9 = memory[j]; goto B018jjj; 
+	:: memory[j] = add_1; goto B017jj; 
+	:: memory[j] = add_2; goto B017jadd_1jadd_3; 
+	:: memory[j] = add_3; goto B017jadd_1jadd_2; 
+	fi;
+B017jaddjadd_2jadd_3: 
+	if 
+	:: v9 = memory[j]; goto B018jaddjadd_2jadd_3; 
+	:: memory[j] = add; goto B017jj; 
+	:: memory[j] = add_2; goto B017jaddjadd_3; 
+	:: memory[j] = add_3; goto B017jaddjadd_2; 
+	fi;
+B017jaddjadd_1jadd_3: 
+	if 
+	:: v9 = memory[j]; goto B018jaddjadd_1jadd_3; 
+	:: memory[j] = add; goto B017jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B017jaddjadd_3; 
+	:: memory[j] = add_3; goto B017jaddjadd_1; 
+	fi;
+B017jaddjadd_1jadd_2: 
+	if 
+	:: v9 = memory[j]; goto B018jaddjadd_1jadd_2; 
+	:: memory[j] = add; goto B017jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B017jaddjadd_2; 
+	:: memory[j] = add_2; goto B017jaddjadd_1; 
+	fi;
+B016jj: 
+	if 
+	:: v8 = memory[i]; goto B017jj; 
+	:: memory[j] = add_2; goto B016j; 
+	:: memory[j] = add_3; goto B016jadd_2; 
+	fi;
+B016jadd_1jadd_3: 
+	if 
+	:: v8 = memory[i]; goto B017jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B016j; 
+	:: memory[j] = add_3; goto B016jadd_1; 
+	fi;
+B016jadd_1jadd_2: 
+	if 
+	:: v8 = memory[i]; goto B017jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B016jadd_2; 
+	:: memory[j] = add_2; goto B016jadd_1; 
+	fi;
+B016jaddjadd_3: 
+	if 
+	:: v8 = memory[i]; goto B017jaddjadd_3; 
+	:: memory[j] = add; goto B016j; 
+	:: memory[j] = add_3; goto B016jadd; 
+	fi;
+B016jaddjadd_2: 
+	if 
+	:: v8 = memory[i]; goto B017jaddjadd_2; 
+	:: memory[j] = add; goto B016jadd_2; 
+	:: memory[j] = add_2; goto B016jadd; 
+	fi;
+B016jaddjadd_1: 
+	if 
+	:: v8 = memory[i]; goto B017jaddjadd_1; 
+	:: memory[j] = add; goto B016jadd_1; 
+	:: memory[j] = add_1; goto B016jadd; 
+	fi;
+B015: goto B016j; 
+B019jjjj: 
+	if 
+	:: goto B020jjjjj; 
+	:: memory[j] = add; goto B019jjj; 
+	:: memory[j] = add_1; goto B019jaddjadd_2jadd_3; 
+	:: memory[j] = add_2; goto B019jaddjadd_1jadd_3; 
+	:: memory[j] = add_3; goto B019jaddjadd_1jadd_2; 
+	fi;
+B018jjj: 
+	if 
+	:: add_4 = v9 + v8; goto B019jjj; 
+	:: memory[j] = add_1; goto B018jj; 
+	:: memory[j] = add_2; goto B018jadd_1jadd_3; 
+	:: memory[j] = add_3; goto B018jadd_1jadd_2; 
+	fi;
+B018jaddjadd_2jadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto B019jaddjadd_2jadd_3; 
+	:: memory[j] = add; goto B018jj; 
+	:: memory[j] = add_2; goto B018jaddjadd_3; 
+	:: memory[j] = add_3; goto B018jaddjadd_2; 
+	fi;
+B018jaddjadd_1jadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto B019jaddjadd_1jadd_3; 
+	:: memory[j] = add; goto B018jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B018jaddjadd_3; 
+	:: memory[j] = add_3; goto B018jaddjadd_1; 
+	fi;
+B018jaddjadd_1jadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto B019jaddjadd_1jadd_2; 
+	:: memory[j] = add; goto B018jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B018jaddjadd_2; 
+	:: memory[j] = add_2; goto B018jaddjadd_1; 
+	fi;
+B017jj: 
+	if 
+	:: v9 = memory[j]; goto B018jj; 
+	:: memory[j] = add_2; goto B017j; 
+	:: memory[j] = add_3; goto B017jadd_2; 
+	fi;
+B017jadd_1jadd_3: 
+	if 
+	:: v9 = memory[j]; goto B018jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B017j; 
+	:: memory[j] = add_3; goto B017jadd_1; 
+	fi;
+B017jadd_1jadd_2: 
+	if 
+	:: v9 = memory[j]; goto B018jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B017jadd_2; 
+	:: memory[j] = add_2; goto B017jadd_1; 
+	fi;
+B017jaddjadd_3: 
+	if 
+	:: v9 = memory[j]; goto B018jaddjadd_3; 
+	:: memory[j] = add; goto B017j; 
+	:: memory[j] = add_3; goto B017jadd; 
+	fi;
+B017jaddjadd_2: 
+	if 
+	:: v9 = memory[j]; goto B018jaddjadd_2; 
+	:: memory[j] = add; goto B017jadd_2; 
+	:: memory[j] = add_2; goto B017jadd; 
+	fi;
+B017jaddjadd_1: 
+	if 
+	:: v9 = memory[j]; goto B018jaddjadd_1; 
+	:: memory[j] = add; goto B017jadd_1; 
+	:: memory[j] = add_1; goto B017jadd; 
+	fi;
+B016j: 
+	if 
+	:: v8 = memory[i]; goto B017j; 
+	:: memory[j] = add_3; goto B016; 
+	fi;
+B016jadd_2: 
+	if 
+	:: v8 = memory[i]; goto B017jadd_2; 
+	:: memory[j] = add_2; goto B016; 
+	fi;
+B016jadd_1: 
+	if 
+	:: v8 = memory[i]; goto B017jadd_1; 
+	:: memory[j] = add_1; goto B016; 
+	fi;
+B016jadd: 
+	if 
+	:: v8 = memory[i]; goto B017jadd; 
+	:: memory[j] = add; goto B016; 
+	fi;
+B020jjjjj: 
+	if 
+	:: memory[j] = add; goto B020jjjj; 
+	:: memory[j] = add_1; goto B020jaddjadd_2jadd_3jadd_4; 
+	:: memory[j] = add_2; goto B020jaddjadd_1jadd_3jadd_4; 
+	:: memory[j] = add_3; goto B020jaddjadd_1jadd_2jadd_4; 
+	:: memory[j] = add_4; goto B020jaddjadd_1jadd_2jadd_3; 
+	fi;
+B019jjj: 
+	if 
+	:: goto B020jjjj; 
+	:: memory[j] = add_1; goto B019jj; 
+	:: memory[j] = add_2; goto B019jadd_1jadd_3; 
+	:: memory[j] = add_3; goto B019jadd_1jadd_2; 
+	fi;
+B019jaddjadd_2jadd_3: 
+	if 
+	:: goto B020jaddjadd_2jadd_3jadd_4; 
+	:: memory[j] = add; goto B019jj; 
+	:: memory[j] = add_2; goto B019jaddjadd_3; 
+	:: memory[j] = add_3; goto B019jaddjadd_2; 
+	fi;
+B019jaddjadd_1jadd_3: 
+	if 
+	:: goto B020jaddjadd_1jadd_3jadd_4; 
+	:: memory[j] = add; goto B019jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B019jaddjadd_3; 
+	:: memory[j] = add_3; goto B019jaddjadd_1; 
+	fi;
+B019jaddjadd_1jadd_2: 
+	if 
+	:: goto B020jaddjadd_1jadd_2jadd_4; 
+	:: memory[j] = add; goto B019jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B019jaddjadd_2; 
+	:: memory[j] = add_2; goto B019jaddjadd_1; 
+	fi;
+B018jj: 
+	if 
+	:: add_4 = v9 + v8; goto B019jj; 
+	:: memory[j] = add_2; goto B018j; 
+	:: memory[j] = add_3; goto B018jadd_2; 
+	fi;
+B018jadd_1jadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto B019jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B018j; 
+	:: memory[j] = add_3; goto B018jadd_1; 
+	fi;
+B018jadd_1jadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto B019jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B018jadd_2; 
+	:: memory[j] = add_2; goto B018jadd_1; 
+	fi;
+B018jaddjadd_3: 
+	if 
+	:: add_4 = v9 + v8; goto B019jaddjadd_3; 
+	:: memory[j] = add; goto B018j; 
+	:: memory[j] = add_3; goto B018jadd; 
+	fi;
+B018jaddjadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto B019jaddjadd_2; 
+	:: memory[j] = add; goto B018jadd_2; 
+	:: memory[j] = add_2; goto B018jadd; 
+	fi;
+B018jaddjadd_1: 
+	if 
+	:: add_4 = v9 + v8; goto B019jaddjadd_1; 
+	:: memory[j] = add; goto B018jadd_1; 
+	:: memory[j] = add_1; goto B018jadd; 
+	fi;
+B017j: 
+	if 
+	:: v9 = memory[j]; goto B018j; 
+	:: memory[j] = add_3; goto B017; 
+	fi;
+B017jadd_2: 
+	if 
+	:: v9 = memory[j]; goto B018jadd_2; 
+	:: memory[j] = add_2; goto B017; 
+	fi;
+B017jadd_1: 
+	if 
+	:: v9 = memory[j]; goto B018jadd_1; 
+	:: memory[j] = add_1; goto B017; 
+	fi;
+B017jadd: 
+	if 
+	:: v9 = memory[j]; goto B018jadd; 
+	:: memory[j] = add; goto B017; 
+	fi;
+B016: v8 = memory[i]; goto B017; 
+B020jjjj: 
+	if 
+	:: memory[j] = add_1; goto B020jjj; 
+	:: memory[j] = add_2; goto B020jadd_1jadd_3jadd_4; 
+	:: memory[j] = add_3; goto B020jadd_1jadd_2jadd_4; 
+	:: memory[j] = add_4; goto B020jadd_1jadd_2jadd_3; 
+	fi;
+B020jaddjadd_2jadd_3jadd_4: 
+	if 
+	:: memory[j] = add; goto B020jjj; 
+	:: memory[j] = add_2; goto B020jaddjadd_3jadd_4; 
+	:: memory[j] = add_3; goto B020jaddjadd_2jadd_4; 
+	:: memory[j] = add_4; goto B020jaddjadd_2jadd_3; 
+	fi;
+B020jaddjadd_1jadd_3jadd_4: 
+	if 
+	:: memory[j] = add; goto B020jadd_1jadd_3jadd_4; 
+	:: memory[j] = add_1; goto B020jaddjadd_3jadd_4; 
+	:: memory[j] = add_3; goto B020jaddjadd_1jadd_4; 
+	:: memory[j] = add_4; goto B020jaddjadd_1jadd_3; 
+	fi;
+B020jaddjadd_1jadd_2jadd_4: 
+	if 
+	:: memory[j] = add; goto B020jadd_1jadd_2jadd_4; 
+	:: memory[j] = add_1; goto B020jaddjadd_2jadd_4; 
+	:: memory[j] = add_2; goto B020jaddjadd_1jadd_4; 
+	:: memory[j] = add_4; goto B020jaddjadd_1jadd_2; 
+	fi;
+B020jaddjadd_1jadd_2jadd_3: 
+	if 
+	:: memory[j] = add; goto B020jadd_1jadd_2jadd_3; 
+	:: memory[j] = add_1; goto B020jaddjadd_2jadd_3; 
+	:: memory[j] = add_2; goto B020jaddjadd_1jadd_3; 
+	:: memory[j] = add_3; goto B020jaddjadd_1jadd_2; 
+	fi;
+B019jj: 
+	if 
+	:: goto B020jjj; 
+	:: memory[j] = add_2; goto B019j; 
+	:: memory[j] = add_3; goto B019jadd_2; 
+	fi;
+B019jadd_1jadd_3: 
+	if 
+	:: goto B020jadd_1jadd_3jadd_4; 
+	:: memory[j] = add_1; goto B019j; 
+	:: memory[j] = add_3; goto B019jadd_1; 
+	fi;
+B019jadd_1jadd_2: 
+	if 
+	:: goto B020jadd_1jadd_2jadd_4; 
+	:: memory[j] = add_1; goto B019jadd_2; 
+	:: memory[j] = add_2; goto B019jadd_1; 
+	fi;
+B019jaddjadd_3: 
+	if 
+	:: goto B020jaddjadd_3jadd_4; 
+	:: memory[j] = add; goto B019j; 
+	:: memory[j] = add_3; goto B019jadd; 
+	fi;
+B019jaddjadd_2: 
+	if 
+	:: goto B020jaddjadd_2jadd_4; 
+	:: memory[j] = add; goto B019jadd_2; 
+	:: memory[j] = add_2; goto B019jadd; 
+	fi;
+B019jaddjadd_1: 
+	if 
+	:: goto B020jaddjadd_1jadd_4; 
+	:: memory[j] = add; goto B019jadd_1; 
+	:: memory[j] = add_1; goto B019jadd; 
+	fi;
+B018j: 
+	if 
+	:: add_4 = v9 + v8; goto B019j; 
+	:: memory[j] = add_3; goto B018; 
+	fi;
+B018jadd_2: 
+	if 
+	:: add_4 = v9 + v8; goto B019jadd_2; 
+	:: memory[j] = add_2; goto B018; 
+	fi;
+B018jadd_1: 
+	if 
+	:: add_4 = v9 + v8; goto B019jadd_1; 
+	:: memory[j] = add_1; goto B018; 
+	fi;
+B018jadd: 
+	if 
+	:: add_4 = v9 + v8; goto B019jadd; 
+	:: memory[j] = add; goto B018; 
+	fi;
+B017: v9 = memory[j]; goto B018; 
+B020jjj: 
+	if 
+	:: memory[j] = add_2; goto B020jj; 
+	:: memory[j] = add_3; goto B020jadd_2jadd_4; 
+	:: memory[j] = add_4; goto B020jadd_2jadd_3; 
+	fi;
+B020jadd_1jadd_3jadd_4: 
+	if 
+	:: memory[j] = add_1; goto B020jj; 
+	:: memory[j] = add_3; goto B020jadd_1jadd_4; 
+	:: memory[j] = add_4; goto B020jadd_1jadd_3; 
+	fi;
+B020jadd_1jadd_2jadd_4: 
+	if 
+	:: memory[j] = add_1; goto B020jadd_2jadd_4; 
+	:: memory[j] = add_2; goto B020jadd_1jadd_4; 
+	:: memory[j] = add_4; goto B020jadd_1jadd_2; 
+	fi;
+B020jadd_1jadd_2jadd_3: 
+	if 
+	:: memory[j] = add_1; goto B020jadd_2jadd_3; 
+	:: memory[j] = add_2; goto B020jadd_1jadd_3; 
+	:: memory[j] = add_3; goto B020jadd_1jadd_2; 
+	fi;
+B020jaddjadd_3jadd_4: 
+	if 
+	:: memory[j] = add; goto B020jj; 
+	:: memory[j] = add_3; goto B020jaddjadd_4; 
+	:: memory[j] = add_4; goto B020jaddjadd_3; 
+	fi;
+B020jaddjadd_2jadd_4: 
+	if 
+	:: memory[j] = add; goto B020jadd_2jadd_4; 
+	:: memory[j] = add_2; goto B020jaddjadd_4; 
+	:: memory[j] = add_4; goto B020jaddjadd_2; 
+	fi;
+B020jaddjadd_2jadd_3: 
+	if 
+	:: memory[j] = add; goto B020jadd_2jadd_3; 
+	:: memory[j] = add_2; goto B020jaddjadd_3; 
+	:: memory[j] = add_3; goto B020jaddjadd_2; 
+	fi;
+B020jaddjadd_1jadd_4: 
+	if 
+	:: memory[j] = add; goto B020jadd_1jadd_4; 
+	:: memory[j] = add_1; goto B020jaddjadd_4; 
+	:: memory[j] = add_4; goto B020jaddjadd_1; 
+	fi;
+B020jaddjadd_1jadd_3: 
+	if 
+	:: memory[j] = add; goto B020jadd_1jadd_3; 
+	:: memory[j] = add_1; goto B020jaddjadd_3; 
+	:: memory[j] = add_3; goto B020jaddjadd_1; 
+	fi;
+B020jaddjadd_1jadd_2: 
+	if 
+	:: memory[j] = add; goto B020jadd_1jadd_2; 
+	:: memory[j] = add_1; goto B020jaddjadd_2; 
+	:: memory[j] = add_2; goto B020jaddjadd_1; 
+	fi;
+B019j: 
+	if 
+	:: goto B020jj; 
+	:: memory[j] = add_3; goto B019; 
+	fi;
+B019jadd_2: 
+	if 
+	:: goto B020jadd_2jadd_4; 
+	:: memory[j] = add_2; goto B019; 
+	fi;
+B019jadd_1: 
+	if 
+	:: goto B020jadd_1jadd_4; 
+	:: memory[j] = add_1; goto B019; 
+	fi;
+B019jadd: 
+	if 
+	:: goto B020jaddjadd_4; 
+	:: memory[j] = add; goto B019; 
+	fi;
+B018: add_4 = v9 + v8; goto B019; 
+B020jj: 
+	if 
+	:: memory[j] = add_3; goto B020j; 
+	:: memory[j] = add_4; goto B020jadd_3; 
+	fi;
+B020jadd_2jadd_4: 
+	if 
+	:: memory[j] = add_2; goto B020j; 
+	:: memory[j] = add_4; goto B020jadd_2; 
+	fi;
+B020jadd_2jadd_3: 
+	if 
+	:: memory[j] = add_2; goto B020jadd_3; 
+	:: memory[j] = add_3; goto B020jadd_2; 
+	fi;
+B020jadd_1jadd_4: 
+	if 
+	:: memory[j] = add_1; goto B020j; 
+	:: memory[j] = add_4; goto B020jadd_1; 
+	fi;
+B020jadd_1jadd_3: 
+	if 
+	:: memory[j] = add_1; goto B020jadd_3; 
+	:: memory[j] = add_3; goto B020jadd_1; 
+	fi;
+B020jadd_1jadd_2: 
+	if 
+	:: memory[j] = add_1; goto B020jadd_2; 
+	:: memory[j] = add_2; goto B020jadd_1; 
+	fi;
+B020jaddjadd_4: 
+	if 
+	:: memory[j] = add; goto B020j; 
+	:: memory[j] = add_4; goto B020jadd; 
+	fi;
+B020jaddjadd_3: 
+	if 
+	:: memory[j] = add; goto B020jadd_3; 
+	:: memory[j] = add_3; goto B020jadd; 
+	fi;
+B020jaddjadd_2: 
+	if 
+	:: memory[j] = add; goto B020jadd_2; 
+	:: memory[j] = add_2; goto B020jadd; 
+	fi;
+B020jaddjadd_1: 
+	if 
+	:: memory[j] = add; goto B020jadd_1; 
+	:: memory[j] = add_1; goto B020jadd; 
+	fi;
+B019: goto B020j; 
+B020j: memory[j] = add_4; goto B020; 
+B020jadd_3: memory[j] = add_3; goto B020; 
+B020jadd_2: memory[j] = add_2; goto B020; 
+B020jadd_1: memory[j] = add_1; goto B020; 
+B020jadd: memory[j] = add; goto B020; 
+B020: returnvalue = null; goto BEnd;
 BEnd: skip;
 
 }
@@ -494,13 +1628,13 @@ BEnd: skip;
 proctype process1(){
 	short arg, returnvalue;
 	t1(arg, returnvalue);
-	end: skip;
+	assert(!(i> 144 || j > 144));
 }
 
 proctype process2(){
 	short arg, returnvalue;
 	t2(arg, returnvalue);
-	end: skip;
+	assert(!(i> 144 || j > 144));
 }
 
 
@@ -509,12 +1643,11 @@ atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, i);
 	alloca(1, j);
+	memory[i] = 1;
+	memory[j] = 1;
 	
 
 	run process1();
 	run process2();
 	}
 }
-
-
-ltl prop{ [] !((process1@end) && (process2@end) && (i> 144 || j > 144))}

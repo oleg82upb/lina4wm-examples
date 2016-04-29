@@ -495,13 +495,13 @@ BEnd: skip;
 proctype process1(){
 	short arg, returnvalue;
 	t1(arg, returnvalue);
-	end: skip;
+	assert(!(i> 144 || j > 144));
 }
 
 proctype process2(){
 	short arg, returnvalue;
 	t2(arg, returnvalue);
-	end: skip;
+	assert(!(i> 144 || j > 144));
 }
 
 
@@ -516,6 +516,3 @@ atomic{
 	run process2();
 	}
 }
-
-
-ltl prop{ [] !((process1@end) && (process2@end) && (i> 144 || j > 144))}
