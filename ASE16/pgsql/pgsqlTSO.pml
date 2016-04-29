@@ -193,11 +193,11 @@ BEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	worker_1();
 }
 
 proctype process2(){
-	//TODO: empty stub
+	worker_2();
 }
 
 
@@ -216,4 +216,4 @@ atomic{
 	}
 }
 
-ltl prop{ [] ((process1@A01 -> memory[latch1] = 0 || memory[flag1] = 1) && (process2@B01 -> memory[latch2] = 0 || memory[flag2] = 1))}
+ltl prop{ [] !((process1@A05) && (process2@B05))}
