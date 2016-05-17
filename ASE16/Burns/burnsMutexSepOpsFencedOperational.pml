@@ -26,6 +26,10 @@ inline alloca(type, targetRegister)
 	}
 }
 
+
+
+
+
 //------------- functions ------------------
 //function was renamed from: @_Z5p1_aqv
 inline p1_acq(){

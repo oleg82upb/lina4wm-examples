@@ -6,8 +6,8 @@
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-//#include "tso.pml"
-#include "pso.pml"
+#include "tso.pml"
+//#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -36,13 +36,17 @@ inline alloca(type, targetRegister)
 	}
 }
 
+
+
+
+
 //------------- functions ------------------
 
 inline proci(i){
 short arrayidx, v0, v1, cmp, v2, v3, add, add2, arrayidx1, arrayidx3, arrayidx11, j_023, inc, arrayidx6, v4, v5, tobool, arrayidx8, cmp17, v6, cmp9, v7, exitcond, v8, cmp12, arrayidx21, v9, v10, cmp15, or_cond;
 skip;
 entry: 
- getelementptr(2, choosing, i, arrayidx); 
+ getelementptr(2, choosing, 0 + i, arrayidx); 
  write(arrayidx, 1);
  mfence();
  read(number + 0, v0); 
@@ -57,7 +61,7 @@ entry:
 ifthen: 
  read(number + 1, v2); 
  add = v2 + 1; 
- getelementptr(2, number, i, arrayidx1); 
+ getelementptr(2, number, 0 + i, arrayidx1); 
  write(arrayidx1, add);
    goto ifend;
  
@@ -65,14 +69,15 @@ ifthen:
 ifelse: 
  read(number + 0, v3); 
  add2 = v3 + 1; 
- getelementptr(2, number, i, arrayidx3); 
+ getelementptr(2, number, 0 + i, arrayidx3); 
  write(arrayidx3, add2);
    goto ifend;
  
 
 ifend: 
+ mfence();
  write(arrayidx, 0);
- getelementptr(2, number, i, arrayidx11); 
+ getelementptr(2, number, 0 + i, arrayidx11); 
  mfence();
  	j_023 = 0;
    goto whilecondpreheader;
@@ -80,7 +85,7 @@ ifend:
 
 whilecondpreheader: 
  // phi instruction replaced by assignments before  the goto to this block 
- getelementptr(2, choosing, j_023, arrayidx6); 
+ getelementptr(2, choosing, 0 + j_023, arrayidx6); 
    goto whilecond;
  
 
@@ -95,7 +100,7 @@ whilecond:
  
 
 whilecond7loopexit: 
- getelementptr(2, number, j_023, arrayidx8); 
+ getelementptr(2, number, 0 + j_023, arrayidx8); 
  cmp17 = (j_023 < i); 
    goto whilecond7;
  
@@ -141,7 +146,7 @@ forinc:
  
 
 forend: 
- getelementptr(2, number, i, arrayidx21); 
+ getelementptr(2, number, 0 + i, arrayidx21); 
  write(arrayidx21, 0);
  goto ret;
 

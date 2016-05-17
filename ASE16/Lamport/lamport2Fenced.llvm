@@ -237,6 +237,7 @@
         <instructions xsi:type="llvm:Branch" destination="%if.end"/>
       </blocks>
       <blocks label="if.end">
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
         <instructions xsi:type="llvm:Store" volatile="true" align="1">
           <value>
             <type xsi:type="llvm:Predefined" type="i8"/>
@@ -382,7 +383,7 @@
           <result name="%8"/>
           <address>
             <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.1/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.2/@result"/>
           </address>
           <meta arg="!tbaa" value="!3"/>
         </instructions>
@@ -409,7 +410,7 @@
           <result name="%10"/>
           <address>
             <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
-            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.1/@result"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.4/@body/@blocks.3/@instructions.2/@result"/>
           </address>
           <meta arg="!tbaa" value="!3"/>
         </instructions>

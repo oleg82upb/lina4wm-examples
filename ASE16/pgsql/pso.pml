@@ -67,7 +67,7 @@ inline readB() {
 	assert(address != 0);
 	if	
 		//entry in buffer exists
-		:: ((tail[address]) > 0) 
+		:: ((tail[address] - 1) > 0) 
 			-> channel ! iRead, NULL, buffer[address].entry[(tail[address] - 1)], NULL;
 		//no entry in buffer, take it from memory
 		:: else 

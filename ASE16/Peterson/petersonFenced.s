@@ -11,6 +11,7 @@ entry:
   %0 = load i8** @flag0, align 4
   store i8 1, i8* %0, align 1
   %1 = load i8** @turn, align 4
+  fence seq_cst
   store i8 1, i8* %1, align 1
   fence seq_cst
   br label %while.cond
@@ -49,6 +50,7 @@ entry:
   %0 = load i8** @flag1, align 4
   store i8 1, i8* %0, align 1
   %1 = load i8** @turn, align 4
+  fence seq_cst
   store i8 0, i8* %1, align 1
   fence seq_cst
   br label %while.cond

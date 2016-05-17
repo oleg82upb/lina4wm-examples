@@ -233,28 +233,31 @@ CEnd: skip;
 }
 
 
+short result1, result2, result3;
 //Stubs
 proctype process1(){
-	short result;
 	push(111);
 	push(222);
 	push(333);
-	pop(result);
-	assert(result == -1 || result == 111 || result == 222 || result == 333);
+	pop(result1);
+	assert(result1 == -1 || result1 == 111 || result1 == 222 || result1 == 333);
 	//printf("Proc1: %d \n", result);
-	pop(result);
-	assert(result == -1 || result == 111 || result == 222 );
+	pop(result2);
+	assert(result2 == -1 || result2 == 111 || result2 == 222 );
 	//printf("Proc1: %d \n", result);
 	push(444);
-	pop(result);
-	assert(result == -1 || result == 111  || result == 444);
+	pop(result3);
+	assert(result3 == -1 || result3 == 111  || result3 == 444);
 }
 
 proctype process2(){
 	short result;
 	dequeue(result);
+	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	dequeue(result);
+	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	dequeue(result);
+	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333 || result == 444);
 }
 
@@ -297,9 +300,10 @@ atomic{
 	alloca(1, deq);
 	alloca(6, memory[deq]);
 
-
-	run process3();
-	run process4();
-	run process5();
+	run process1();
+	run process2();
+	//run process3();
+	//run process4();
+	//run process5();
 	}
 }

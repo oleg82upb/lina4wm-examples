@@ -52,6 +52,7 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@address"/>
           </address>
         </instructions>
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
         <instructions xsi:type="llvm:Store" align="1">
           <value>
             <type xsi:type="llvm:Predefined" type="i8"/>
@@ -208,6 +209,7 @@
             <value xsi:type="llvm:AddressUse" address="//@elements.4/@address"/>
           </address>
         </instructions>
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
         <instructions xsi:type="llvm:Store" align="1">
           <value>
             <type xsi:type="llvm:Predefined" type="i8"/>
