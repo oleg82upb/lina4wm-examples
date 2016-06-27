@@ -1,0 +1,9 @@
+data specification
+	IJ =  Z5p1_aqvini | Z6p1_relvini | Z5p2_aqvini | Z6p2_relvini | mainini ;
+	CJ =  Z5p1_aqv1 | Z5p1_aqv2 | Z5p1_aqv3 | Z5p1_aqv4 | Z5p1_aqv5 | Z5p1_aqv6 | Z5p1_aqv7 | Z5p1_aqv8 | Z5p1_aqv9 | Z5p1_aqv10 | Z6p1_relv1 | Z5p2_aqv1 | Z5p2_aqv2 | Z5p2_aqv3 | Z5p2_aqv4 | Z5p2_aqv5 | Z5p2_aqv6 | Z5p2_aqv7 | Z5p2_aqv8 | Z5p2_aqv9 | Z5p2_aqv10 | Z5p2_aqv11 | Z5p2_aqv12 | Z5p2_aqv13 | Z5p2_aqv14 | Z5p2_aqv15 | Z5p2_aqv16 | Z5p2_aqv17 | Z5p2_aqv18 | Z5p2_aqv20 | Z6p2_relv1 ;
+	RJ =  Z5p1_aqv11ret | Z6p1_relv2ret | Z5p2_aqv19ret | Z6p2_relv2ret | main1ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

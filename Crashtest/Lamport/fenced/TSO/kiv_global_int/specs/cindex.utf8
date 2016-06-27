@@ -1,0 +1,9 @@
+data specification
+	IJ =  prociini | mainini ;
+	CJ =  proci1 | proci2 | proci3 | proci4 | proci5 | proci6 | proci7 | proci8 | proci9 | proci10 | proci11 | proci12 | proci13 | proci14 | proci15 | proci16 | proci17 | proci18 | proci19 | proci20 | proci21 | proci22 | proci23 | proci24 | proci25 | proci26 | proci27 | proci28 | proci29 | proci30 | proci31 | proci32 | proci33 | proci34 | proci35 | proci36 | proci37 | proci38 | proci39 | proci40 | proci41 | proci42 | proci43 | proci44 | proci45 | proci46 | proci47 | proci48 | proci49 | proci50 | proci51 | proci52 | proci53 | proci54 | proci55 | proci56 | proci57 | proci58 | proci59 | proci60 | proci61 | proci62 | proci64 | proci65 | proci66 | proci67 ;
+	RJ =  proci63ret | main1ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

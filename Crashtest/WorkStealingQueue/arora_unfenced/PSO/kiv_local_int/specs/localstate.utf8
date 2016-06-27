@@ -1,0 +1,32 @@
+data specification
+	using intref, PC, PID
+	Localstate :=mkls( . .pc : PC; . .pid : PID;
+					. .v0 : ref;
+					. .v1 : int;
+					. .v2 : ref;
+					. .arrayidx : ref;
+					. .inc : int;
+					. .v3 : int;
+					. .shr : int;
+					. .cmp : int;
+					. .v4 : ref;
+					. .retval_0 : int;
+					. ._ : int;
+					. .v5 : int;
+					. .add5 : int;
+					. .v6 : int;
+					. .v7 : int;
+					. .dec : int;
+					. .cmp1 : int;
+					. .and : int;
+					. .add : int;
+					. .cmp5 : int;
+					. .v8 : ref;
+					. ._pre : ref;
+					. .elem : int;
+					. .argc : int;
+					. .argv : ref;
+);
+	variables
+		ls , ls' : Localstate;
+end data specification

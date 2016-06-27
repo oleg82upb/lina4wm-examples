@@ -1,0 +1,58 @@
+data specification
+	PC = N |		
+		A00 |		
+		A01f0 |		
+		A01 |		
+		A02 |		
+		A03 |		
+		A04 |		
+		A05 |		
+		A06 |		
+		A07 |		
+		A08 |		
+		A09 |		
+		A10 |		
+		B0 |		
+		B1f0 |		
+		B1 |		
+		B2 |		
+		C00 |		
+		C01 |		
+		C02 |		
+		C03 |		
+		C04 |		
+		C05 |		
+		C06 |		
+		C07 |		
+		C08 |		
+		C09f1 |		
+		C09 |		
+		C10 |		
+		C11 |		
+		C12 |		
+		C13 |		
+		C14 |		
+		C15 |		
+		C17 |		
+		C16f1 |		
+		C18 |		
+		C01f1 |		
+		C16 |		
+		C02f1 |		
+		C03f1 |		
+		C04f1 |		
+		C05f1 |		
+		C06f1 |		
+		C07f1 |		
+		C08f1 |		
+		C09f1f1 |		
+		D0 |		
+		D1f1 |		
+		D1 |		
+		D2 |		
+		E0 |		
+		E1;
+variables
+pc : PC;
+
+end data specification

@@ -1,0 +1,713 @@
+enrich 	CS,
+		cindex,
+		input with 
+
+	functions
+		INVOP : Proc × IJ → input × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × int → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : input × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × int → bool;
+		bot, bot' : ref;
+		deq, deq' : ref;
+		age, age' : ref;
+		top, top' : ref;
+		return : int;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(bot, deq, age, top, pcf, mem, reff1, intf2, reff3, reff4, intf5, intf6, intf7, intf8, reff9, intf10, intf11, intf12, intf13, intf14, intf15, intf16, intf17, intf18, intf19, intf20, reff21, reff22, intf23, intf24, reff25)) ↔ ( bot = ⌜0⌝ ∧ deq = ⌜0⌝ ∧ age = ⌜0⌝ ∧ top = ⌜0⌝ ∧ pcf = (λ p. N)  ∧ reff1 = (λ p. ⌜0⌝) ∧ intf2 = (λ p. 0) ∧ reff3 = (λ p. ⌜0⌝) ∧ reff4 = (λ p. ⌜0⌝) ∧ intf5 = (λ p. 0) ∧ intf6 = (λ p. 0) ∧ intf7 = (λ p. 0) ∧ intf8 = (λ p. 0) ∧ reff9 = (λ p. ⌜0⌝) ∧ intf10 = (λ p. 0) ∧ intf11 = (λ p. 0) ∧ intf12 = (λ p. 0) ∧ intf13 = (λ p. 0) ∧ intf14 = (λ p. 0) ∧ intf15 = (λ p. 0) ∧ intf16 = (λ p. 0) ∧ intf17 = (λ p. 0) ∧ intf18 = (λ p. 0) ∧ intf19 = (λ p. 0) ∧ intf20 = (λ p. 0) ∧ reff21 = (λ p. ⌜0⌝) ∧ reff22 = (λ p. ⌜0⌝) ∧ intf23 = (λ p. 0) ∧ intf24 = (λ p. 0) ∧ reff25 = (λ p. ⌜0⌝));
+	used for : s, ls;
+
+;; 	push reflects function @push
+	pushini :
+	⊦ INVOP(p, pushini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ int?(inp) ∧ cs' = cs .pc:= cs.pc(p ; A00) .elem:= cs.elem(p ; inp .int1); 
+	used for : s, ls;
+
+;; 	dequeue reflects function @dequeue
+	dequeueini :
+	⊦ INVOP(p, dequeueini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; B00) ; 
+	used for : s, ls;
+
+;; 	pop reflects function @pop
+	popini :
+	⊦ INVOP(p, popini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; C00) ; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(p, mainini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ intref?(inp) ∧ cs' = cs .pc:= cs.pc(p ; D0) .argv:= cs.argv(p ; inp .ref1).argc:= cs.argc(p ; inp .int1); 
+	used for : s, ls;
+
+;;	%0 = load i32** @bot, align 4, !tbaa !0
+	push1 :
+	⊦ COP(p, push1)(cs, cs') ↔ cs .pc(p) = A00 ∧ cs' = cs .pc:= cs.pc(p ; A01) .v0:= cs.v0(p ; cs.mem[cs .bot .v]);
+	used for : s, ls;
+
+;;	%1 = load i32* %0, align 4, !tbaa !3
+	push2 :
+	⊦ COP(p, push2)(cs, cs') ↔ cs .pc(p) = A01 ∧ cs' = cs .pc:= cs.pc(p ; A02) .v1:= cs.v1(p ; cs.mem[cs .v0(p) .v] .v);
+	used for : s, ls;
+
+;;	%2 = load i32** @deq, align 4, !tbaa !0
+	push3 :
+	⊦ COP(p, push3)(cs, cs') ↔ cs .pc(p) = A02 ∧ cs' = cs .pc:= cs.pc(p ; A03) .v2:= cs.v2(p ; cs.mem[cs .deq .v]);
+	used for : s, ls;
+
+;;	%arrayidx = getelementptr i32* %2, i32 %1
+	push4 :
+	⊦ COP(p, push4)(cs, cs') ↔ cs .pc(p) = A03 ∧ cs' = cs .pc:= cs.pc(p ; A04) .arrayidx:= ;
+	used for : s, ls;
+
+;;	store i32 %elem, i32* %arrayidx, align 4, !tbaa !3
+	push5 :
+	⊦ COP(p, push5)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A05arrayidx);
+	used for : s, ls;
+
+;;	%inc = add i32 %1, 1
+	push6 :
+	⊦ COP(p, push6)(cs, cs') ↔ cs .pc(p) = A05arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A06arrayidx) .inc:= cs.inc(p ; cs .v1(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	push7 :
+	⊦ COP(p, push7)(cs, cs') ↔ cs .pc(p) = A05arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A05) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜ cs .elem(p)⌝];
+	used for : s, ls;
+
+;;	store i32 %inc, i32* %0, align 4, !tbaa !3
+	push8 :
+	⊦ COP(p, push8)(cs, cs') ↔ cs .pc(p) = A06arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A07arrayidxv0);
+	used for : s, ls;
+
+;;	FlushTransition
+	push9 :
+	⊦ COP(p, push9)(cs, cs') ↔ cs .pc(p) = A06arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A06) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜ cs .elem(p)⌝];
+	used for : s, ls;
+
+;;	%inc = add i32 %1, 1
+	push10 :
+	⊦ COP(p, push10)(cs, cs') ↔ cs .pc(p) = A05 ∧ cs' = cs .pc:= cs.pc(p ; A06) .inc:= cs.inc(p ; cs .v1(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	push11 :
+	⊦ COP(p, push11)(cs, cs') ↔ cs .pc(p) = A07arrayidxv0 ∧ cs' = cs .pc:= cs.pc(p ; A07v0) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜ cs .elem(p)⌝];
+	used for : s, ls;
+
+;;	store i32 %inc, i32* %0, align 4, !tbaa !3
+	push12 :
+	⊦ COP(p, push12)(cs, cs') ↔ cs .pc(p) = A06 ∧ cs' = cs .pc:= cs.pc(p ; A07v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	push13 :
+	⊦ COP(p, push13)(cs, cs') ↔ cs .pc(p) = A07v0 ∧ cs' = cs .pc:= cs.pc(p ; A07) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .inc(p)⌝];
+	used for : s, ls;
+
+;;	%0 = load i32** @age, align 4, !tbaa !0
+	dequeue1 :
+	⊦ COP(p, dequeue1)(cs, cs') ↔ cs .pc(p) = B00 ∧ cs' = cs .pc:= cs.pc(p ; B01) .v0:= cs.v0(p ; cs.mem[cs .age .v]);
+	used for : s, ls;
+
+;;	%1 = load i32* %0, align 4, !tbaa !3
+	dequeue2 :
+	⊦ COP(p, dequeue2)(cs, cs') ↔ cs .pc(p) = B01 ∧ cs' = cs .pc:= cs.pc(p ; B02) .v1:= cs.v1(p ; cs.mem[cs .v0(p) .v] .v);
+	used for : s, ls;
+
+;;	%2 = load i32** @bot, align 4, !tbaa !0
+	dequeue3 :
+	⊦ COP(p, dequeue3)(cs, cs') ↔ cs .pc(p) = B02 ∧ cs' = cs .pc:= cs.pc(p ; B03) .v2:= cs.v2(p ; cs.mem[cs .bot .v]);
+	used for : s, ls;
+
+;;	%3 = load i32* %2, align 4, !tbaa !3
+	dequeue4 :
+	⊦ COP(p, dequeue4)(cs, cs') ↔ cs .pc(p) = B03 ∧ cs' = cs .pc:= cs.pc(p ; B04) .v3:= cs.v3(p ; cs.mem[cs .v2(p) .v] .v);
+	used for : s, ls;
+
+;;	%shr = ashr i32 %1, 16
+	NEEDS ATTENTION !
+	dequeue5 :
+	⊦ COP(p, dequeue5)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B05);
+	used for : s, ls;
+
+;;	%cmp = icmp ugt i32 %3, %shr
+	dequeue6 :
+	⊦ COP(p, dequeue6)(cs, cs') ↔ cs .pc(p) = B05 ∧ (cs .v3(p) ≤ cs .shr(p) ⊃ cs' = cs .pc:= cs.pc(p; B06) .cmp:= cs.cmp(p ; 0) ; cs' = cs .pc:= cs.pc(p; B06) .cmp:= cs.cmp(p ; 1));
+	used for : s, ls;
+
+;;	br %cmp, label %if.end, label %return
+	dequeue7 :
+	⊦ COP(p, dequeue7)(cs, cs') ↔ cs .pc(p) = B06 ∧ cs' = cs .pc:= cs.pc(p ; B07) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %if.end, label %return
+	dequeue8 :
+	⊦ COP(p, dequeue8)(cs, cs') ↔ cs .pc(p) = B06 ∧ cs' = cs .pc:= cs.pc(p ; B15) .retval_0:= cs.retval_0(p ; (0 - 1)) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	%4 = load i32** @deq, align 4, !tbaa !0
+	dequeue9 :
+	⊦ COP(p, dequeue9)(cs, cs') ↔ cs .pc(p) = B07 ∧ cs' = cs .pc:= cs.pc(p ; B08) .v4:= cs.v4(p ; cs.mem[cs .deq .v]);
+	used for : s, ls;
+
+;;	%retval.0 = phi i32 [, %entry][%. , %if.end]
+	dequeue10 :
+	⊦ COP(p, dequeue10)(cs, cs') ↔ cs .pc(p) = B15 ∧ cs' = cs .pc:= cs.pc(p ; B16);
+	used for : s, ls;
+
+;;	%arrayidx = getelementptr i32* %4, i32 %shr
+	dequeue11 :
+	⊦ COP(p, dequeue11)(cs, cs') ↔ cs .pc(p) = B08 ∧ cs' = cs .pc:= cs.pc(p ; B09) .arrayidx:= ;
+	used for : s, ls;
+
+;;	%5 = load i32* %arrayidx, align 4, !tbaa !3
+	dequeue13 :
+	⊦ COP(p, dequeue13)(cs, cs') ↔ cs .pc(p) = B09 ∧ cs' = cs .pc:= cs.pc(p ; B10) .v5:= cs.v5(p ; cs.mem[cs .arrayidx(p) .v] .v);
+	used for : s, ls;
+
+;;	%add5 = add i32 %1, 65536
+	dequeue14 :
+	⊦ COP(p, dequeue14)(cs, cs') ↔ cs .pc(p) = B10 ∧ cs' = cs .pc:= cs.pc(p ; B11) .add5:= cs.add5(p ; cs .v1(p) + 65536);
+	used for : s, ls;
+
+;;	%6 = cmpxchg i32* %0, i32 %1, i32 %add5 seq_cst
+	dequeue15 :
+	⊦ COP(p, dequeue15)(cs, cs') ↔ cs .pc(p) = B11 ∧ ( cs.mem[cs .v0(p) .v] = ⌜ cs .v1(p)⌝ ⊃ (cs' = cs .pc:= cs.pc(p; B12) .v6:= cs.v6(p ; 1) .mem:= cs.mem[cs .v0(p) .v, ⌜ cs .add5(p)⌝]) ; (cs' = cs .pc:= cs.pc(p; B12) .v6:= cs.v6(p ; 0)));
+	used for : s, ls;
+
+;;	%7 = icmp eq i32 %6, %1
+	dequeue16 :
+	⊦ COP(p, dequeue16)(cs, cs') ↔ cs .pc(p) = B12 ∧ (cs .v6(p) = cs .v1(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; B13) .v7:= cs.v7(p ; 1) ; cs' = cs .pc:= cs.pc(p; B13) .v7:= cs.v7(p ; 0));
+	used for : s, ls;
+
+;;	%. = select i1 %7, i32 %5, i32 -2
+	dequeue17 :
+	⊦ COP(p, dequeue17)(cs, cs') ↔ cs .pc(p) = B13 ∧ (cs .v7(p) = 1 ⊃ cs' = cs .pc:= cs.pc(p; B14) ._:= cs._(p ; cs .v5(p)) ; cs' = cs .pc:= cs.pc(p; B14) ._:= cs._(p ; (0 - 2)));
+	used for : s, ls;
+
+;;	br label %return
+	dequeue18 :
+	⊦ COP(p, dequeue18)(cs, cs') ↔ cs .pc(p) = B14 ∧ cs' = cs .pc:= cs.pc(p ; B15) .retval_0:= cs.retval_0(p ; cs ._(p));
+	used for : s, ls;
+
+;;	%0 = load i32** @bot, align 4, !tbaa !0
+	pop1 :
+	⊦ COP(p, pop1)(cs, cs') ↔ cs .pc(p) = C00 ∧ cs' = cs .pc:= cs.pc(p ; C01) .v0:= cs.v0(p ; cs.mem[cs .bot .v]);
+	used for : s, ls;
+
+;;	%1 = load i32* %0, align 4, !tbaa !3
+	pop2 :
+	⊦ COP(p, pop2)(cs, cs') ↔ cs .pc(p) = C01 ∧ cs' = cs .pc:= cs.pc(p ; C02) .v1:= cs.v1(p ; cs.mem[cs .v0(p) .v] .v);
+	used for : s, ls;
+
+;;	%cmp = icmp eq i32 %1, 0
+	pop3 :
+	⊦ COP(p, pop3)(cs, cs') ↔ cs .pc(p) = C02 ∧ (cs .v1(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; C03) .cmp:= cs.cmp(p ; 1) ; cs' = cs .pc:= cs.pc(p; C03) .cmp:= cs.cmp(p ; 0));
+	used for : s, ls;
+
+;;	br %cmp, label %return, label %if.end
+	pop4 :
+	⊦ COP(p, pop4)(cs, cs') ↔ cs .pc(p) = C03 ∧ cs' = cs .pc:= cs.pc(p ; C27) .retval_0:= cs.retval_0(p ; (0 - 1)) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %return, label %if.end
+	pop5 :
+	⊦ COP(p, pop5)(cs, cs') ↔ cs .pc(p) = C03 ∧ cs' = cs .pc:= cs.pc(p ; C04) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	%retval.0 = phi i32 [, %if.end9][, %entry][%3 , %if.end][%3 , %if.then6]
+	pop6 :
+	⊦ COP(p, pop6)(cs, cs') ↔ cs .pc(p) = C27 ∧ cs' = cs .pc:= cs.pc(p ; C28);
+	used for : s, ls;
+
+;;	%dec = add i32 %1, -1
+	pop7 :
+	⊦ COP(p, pop7)(cs, cs') ↔ cs .pc(p) = C04 ∧ cs' = cs .pc:= cs.pc(p ; C05) .dec:= cs.dec(p ; cs .v1(p) + (0 - 1));
+	used for : s, ls;
+
+;;	store i32 %dec, i32* %0, align 4, !tbaa !3
+	pop9 :
+	⊦ COP(p, pop9)(cs, cs') ↔ cs .pc(p) = C05 ∧ cs' = cs .pc:= cs.pc(p ; C06v0);
+	used for : s, ls;
+
+;;	%2 = load i32** @deq, align 4, !tbaa !0
+	pop10 :
+	⊦ COP(p, pop10)(cs, cs') ↔ cs .pc(p) = C06v0 ∧ cs' = cs .pc:= cs.pc(p ; C07v0) .v2:= cs.v2(p ; cs.mem[cs .deq .v]);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop11 :
+	⊦ COP(p, pop11)(cs, cs') ↔ cs .pc(p) = C06v0 ∧ cs' = cs .pc:= cs.pc(p ; C06) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx = getelementptr i32* %2, i32 %dec
+	pop12 :
+	⊦ COP(p, pop12)(cs, cs') ↔ cs .pc(p) = C07v0 ∧ cs' = cs .pc:= cs.pc(p ; C08v0) .arrayidx:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	pop13 :
+	⊦ COP(p, pop13)(cs, cs') ↔ cs .pc(p) = C07v0 ∧ cs' = cs .pc:= cs.pc(p ; C07) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%2 = load i32** @deq, align 4, !tbaa !0
+	pop14 :
+	⊦ COP(p, pop14)(cs, cs') ↔ cs .pc(p) = C06 ∧ cs' = cs .pc:= cs.pc(p ; C07) .v2:= cs.v2(p ; cs.mem[cs .deq .v]);
+	used for : s, ls;
+
+;;	%3 = load i32* %arrayidx, align 4, !tbaa !3
+	pop15 :
+	⊦ COP(p, pop15)(cs, cs') ↔ cs .pc(p) = C08v0 ∧ cs' = cs .pc:= cs.pc(p ; C09v0) .v3:= cs.v3(p ; cs.mem[cs .arrayidx(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop16 :
+	⊦ COP(p, pop16)(cs, cs') ↔ cs .pc(p) = C08v0 ∧ cs' = cs .pc:= cs.pc(p ; C08) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx = getelementptr i32* %2, i32 %dec
+	pop17 :
+	⊦ COP(p, pop17)(cs, cs') ↔ cs .pc(p) = C07 ∧ cs' = cs .pc:= cs.pc(p ; C08) .arrayidx:= ;
+	used for : s, ls;
+
+;;	%4 = load i32** @age, align 4, !tbaa !0
+	pop18 :
+	⊦ COP(p, pop18)(cs, cs') ↔ cs .pc(p) = C09v0 ∧ cs' = cs .pc:= cs.pc(p ; C10v0) .v4:= cs.v4(p ; cs.mem[cs .age .v]);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop19 :
+	⊦ COP(p, pop19)(cs, cs') ↔ cs .pc(p) = C09v0 ∧ cs' = cs .pc:= cs.pc(p ; C09) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%3 = load i32* %arrayidx, align 4, !tbaa !3
+	pop20 :
+	⊦ COP(p, pop20)(cs, cs') ↔ cs .pc(p) = C08 ∧ cs' = cs .pc:= cs.pc(p ; C09) .v3:= cs.v3(p ; cs.mem[cs .arrayidx(p) .v] .v);
+	used for : s, ls;
+
+;;	%5 = load i32* %4, align 4, !tbaa !3
+	pop21 :
+	⊦ COP(p, pop21)(cs, cs') ↔ cs .pc(p) = C10v0 ∧ cs' = cs .pc:= cs.pc(p ; C11v0) .v5:= cs.v5(p ; cs.mem[cs .v4(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop22 :
+	⊦ COP(p, pop22)(cs, cs') ↔ cs .pc(p) = C10v0 ∧ cs' = cs .pc:= cs.pc(p ; C10) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%4 = load i32** @age, align 4, !tbaa !0
+	pop23 :
+	⊦ COP(p, pop23)(cs, cs') ↔ cs .pc(p) = C09 ∧ cs' = cs .pc:= cs.pc(p ; C10) .v4:= cs.v4(p ; cs.mem[cs .age .v]);
+	used for : s, ls;
+
+;;	%shr = ashr i32 %5, 16
+	NEEDS ATTENTION !
+	pop24 :
+	⊦ COP(p, pop24)(cs, cs') ↔ cs .pc(p) = C11v0 ∧ cs' = cs .pc:= cs.pc(p ; C12v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop25 :
+	⊦ COP(p, pop25)(cs, cs') ↔ cs .pc(p) = C11v0 ∧ cs' = cs .pc:= cs.pc(p ; C11) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%5 = load i32* %4, align 4, !tbaa !3
+	pop26 :
+	⊦ COP(p, pop26)(cs, cs') ↔ cs .pc(p) = C10 ∧ cs' = cs .pc:= cs.pc(p ; C11) .v5:= cs.v5(p ; cs.mem[cs .v4(p) .v] .v);
+	used for : s, ls;
+
+;;	%cmp1 = icmp ugt i32 %dec, %shr
+	pop27 :
+	⊦ COP(p, pop27)(cs, cs') ↔ cs .pc(p) = C12v0 ∧ (cs .dec(p) ≤ cs .shr(p) ⊃ cs' = cs .pc:= cs.pc(p; C13v0) .cmp1:= cs.cmp1(p ; 0) ; cs' = cs .pc:= cs.pc(p; C13v0) .cmp1:= cs.cmp1(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop28 :
+	⊦ COP(p, pop28)(cs, cs') ↔ cs .pc(p) = C12v0 ∧ cs' = cs .pc:= cs.pc(p ; C12) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%shr = ashr i32 %5, 16
+	NEEDS ATTENTION !
+	pop29 :
+	⊦ COP(p, pop29)(cs, cs') ↔ cs .pc(p) = C11 ∧ cs' = cs .pc:= cs.pc(p ; C12);
+	used for : s, ls;
+
+;;	br %cmp1, label %return, label %if.end3
+	pop30 :
+	⊦ COP(p, pop30)(cs, cs') ↔ cs .pc(p) = C13v0 ∧ cs' = cs .pc:= cs.pc(p ; C27v0) .retval_0:= cs.retval_0(p ; cs .v3(p)) ∧ cs .cmp1(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp1, label %return, label %if.end3
+	pop31 :
+	⊦ COP(p, pop31)(cs, cs') ↔ cs .pc(p) = C13v0 ∧ cs' = cs .pc:= cs.pc(p ; C14v0) ∧ cs .cmp1(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	pop32 :
+	⊦ COP(p, pop32)(cs, cs') ↔ cs .pc(p) = C13v0 ∧ cs' = cs .pc:= cs.pc(p ; C13) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%cmp1 = icmp ugt i32 %dec, %shr
+	pop33 :
+	⊦ COP(p, pop33)(cs, cs') ↔ cs .pc(p) = C12 ∧ (cs .dec(p) ≤ cs .shr(p) ⊃ cs' = cs .pc:= cs.pc(p; C13) .cmp1:= cs.cmp1(p ; 0) ; cs' = cs .pc:= cs.pc(p; C13) .cmp1:= cs.cmp1(p ; 1));
+	used for : s, ls;
+
+;;	%retval.0 = phi i32 [, %if.end9][, %entry][%3 , %if.end][%3 , %if.then6]
+	pop34 :
+	⊦ COP(p, pop34)(cs, cs') ↔ cs .pc(p) = C27v0 ∧ cs' = cs .pc:= cs.pc(p ; C28v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop35 :
+	⊦ COP(p, pop35)(cs, cs') ↔ cs .pc(p) = C27v0 ∧ cs' = cs .pc:= cs.pc(p ; C27) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	store i32 0, i32* %0, align 4, !tbaa !3
+	pop36 :
+	⊦ COP(p, pop36)(cs, cs') ↔ cs .pc(p) = C14v0 ∧ cs' = cs .pc:= cs.pc(p ; C15v0v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop37 :
+	⊦ COP(p, pop37)(cs, cs') ↔ cs .pc(p) = C14v0 ∧ cs' = cs .pc:= cs.pc(p ; C14) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	br %cmp1, label %return, label %if.end3
+	pop38 :
+	⊦ COP(p, pop38)(cs, cs') ↔ cs .pc(p) = C13 ∧ cs' = cs .pc:= cs.pc(p ; C27) .retval_0:= cs.retval_0(p ; cs .v3(p)) ∧ cs .cmp1(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp1, label %return, label %if.end3
+	pop39 :
+	⊦ COP(p, pop39)(cs, cs') ↔ cs .pc(p) = C13 ∧ cs' = cs .pc:= cs.pc(p ; C14) ∧ cs .cmp1(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	pop40 :
+	⊦ COP(p, pop40)(cs, cs') ↔ cs .pc(p) = C28v0 ∧ cs' = cs .pc:= cs.pc(p ; C28) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%and = and i32 %5, 65535
+	NEEDS ATTENTION !
+	pop41 :
+	⊦ COP(p, pop41)(cs, cs') ↔ cs .pc(p) = C15v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C16v0v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop42 :
+	⊦ COP(p, pop42)(cs, cs') ↔ cs .pc(p) = C15v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C15v0) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	store i32 0, i32* %0, align 4, !tbaa !3
+	pop43 :
+	⊦ COP(p, pop43)(cs, cs') ↔ cs .pc(p) = C14 ∧ cs' = cs .pc:= cs.pc(p ; C15v0);
+	used for : s, ls;
+
+;;	%add = add i32 %and, 1
+	pop44 :
+	⊦ COP(p, pop44)(cs, cs') ↔ cs .pc(p) = C16v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C17v0v0) .add:= cs.add(p ; cs .and(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop45 :
+	⊦ COP(p, pop45)(cs, cs') ↔ cs .pc(p) = C16v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C16v0) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%and = and i32 %5, 65535
+	NEEDS ATTENTION !
+	pop46 :
+	⊦ COP(p, pop46)(cs, cs') ↔ cs .pc(p) = C15v0 ∧ cs' = cs .pc:= cs.pc(p ; C16v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop47 :
+	⊦ COP(p, pop47)(cs, cs') ↔ cs .pc(p) = C15v0 ∧ cs' = cs .pc:= cs.pc(p ; C15) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp5 = icmp eq i32 %dec, %shr
+	pop48 :
+	⊦ COP(p, pop48)(cs, cs') ↔ cs .pc(p) = C17v0v0 ∧ (cs .dec(p) = cs .shr(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; C18v0v0) .cmp5:= cs.cmp5(p ; 1) ; cs' = cs .pc:= cs.pc(p; C18v0v0) .cmp5:= cs.cmp5(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop49 :
+	⊦ COP(p, pop49)(cs, cs') ↔ cs .pc(p) = C17v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C17v0) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%add = add i32 %and, 1
+	pop50 :
+	⊦ COP(p, pop50)(cs, cs') ↔ cs .pc(p) = C16v0 ∧ cs' = cs .pc:= cs.pc(p ; C17v0) .add:= cs.add(p ; cs .and(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop51 :
+	⊦ COP(p, pop51)(cs, cs') ↔ cs .pc(p) = C16v0 ∧ cs' = cs .pc:= cs.pc(p ; C16) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%and = and i32 %5, 65535
+	NEEDS ATTENTION !
+	pop52 :
+	⊦ COP(p, pop52)(cs, cs') ↔ cs .pc(p) = C15 ∧ cs' = cs .pc:= cs.pc(p ; C16);
+	used for : s, ls;
+
+;;	br %cmp5, label %if.then6, label %if.end9
+	pop53 :
+	⊦ COP(p, pop53)(cs, cs') ↔ cs .pc(p) = C18v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C19v0v0) ∧ cs .cmp5(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp5, label %if.then6, label %if.end9
+	pop54 :
+	⊦ COP(p, pop54)(cs, cs') ↔ cs .pc(p) = C18v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C24v0v0) .v8:= cs.v8(p ; cs .v4(p)) ∧ cs .cmp5(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	pop55 :
+	⊦ COP(p, pop55)(cs, cs') ↔ cs .pc(p) = C18v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C18v0) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%cmp5 = icmp eq i32 %dec, %shr
+	pop56 :
+	⊦ COP(p, pop56)(cs, cs') ↔ cs .pc(p) = C17v0 ∧ (cs .dec(p) = cs .shr(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; C18v0) .cmp5:= cs.cmp5(p ; 1) ; cs' = cs .pc:= cs.pc(p; C18v0) .cmp5:= cs.cmp5(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop57 :
+	⊦ COP(p, pop57)(cs, cs') ↔ cs .pc(p) = C17v0 ∧ cs' = cs .pc:= cs.pc(p ; C17) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%add = add i32 %and, 1
+	pop58 :
+	⊦ COP(p, pop58)(cs, cs') ↔ cs .pc(p) = C16 ∧ cs' = cs .pc:= cs.pc(p ; C17) .add:= cs.add(p ; cs .and(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop59 :
+	⊦ COP(p, pop59)(cs, cs') ↔ cs .pc(p) = C19v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C19v0) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%8 = phi i32* [%.pre , %if.then6.if.end9_crit_edge][%4 , %if.end3]
+	pop60 :
+	⊦ COP(p, pop60)(cs, cs') ↔ cs .pc(p) = C24v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C25v0v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop61 :
+	⊦ COP(p, pop61)(cs, cs') ↔ cs .pc(p) = C24v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C24v0) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	br %cmp5, label %if.then6, label %if.end9
+	pop62 :
+	⊦ COP(p, pop62)(cs, cs') ↔ cs .pc(p) = C18v0 ∧ cs' = cs .pc:= cs.pc(p ; C19v0) ∧ cs .cmp5(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp5, label %if.then6, label %if.end9
+	pop63 :
+	⊦ COP(p, pop63)(cs, cs') ↔ cs .pc(p) = C18v0 ∧ cs' = cs .pc:= cs.pc(p ; C24v0) .v8:= cs.v8(p ; cs .v4(p)) ∧ cs .cmp5(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	pop64 :
+	⊦ COP(p, pop64)(cs, cs') ↔ cs .pc(p) = C18v0 ∧ cs' = cs .pc:= cs.pc(p ; C18) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp5 = icmp eq i32 %dec, %shr
+	pop65 :
+	⊦ COP(p, pop65)(cs, cs') ↔ cs .pc(p) = C17 ∧ (cs .dec(p) = cs .shr(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; C18) .cmp5:= cs.cmp5(p ; 1) ; cs' = cs .pc:= cs.pc(p; C18) .cmp5:= cs.cmp5(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop66 :
+	⊦ COP(p, pop66)(cs, cs') ↔ cs .pc(p) = C19v0 ∧ cs' = cs .pc:= cs.pc(p ; C19) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i32 %add, i32* %8, align 4, !tbaa !3
+	pop67 :
+	⊦ COP(p, pop67)(cs, cs') ↔ cs .pc(p) = C25v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C26v0v0v8);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop68 :
+	⊦ COP(p, pop68)(cs, cs') ↔ cs .pc(p) = C25v0v0 ∧ cs' = cs .pc:= cs.pc(p ; C25v0) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%8 = phi i32* [%.pre , %if.then6.if.end9_crit_edge][%4 , %if.end3]
+	pop69 :
+	⊦ COP(p, pop69)(cs, cs') ↔ cs .pc(p) = C24v0 ∧ cs' = cs .pc:= cs.pc(p ; C25v0);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop70 :
+	⊦ COP(p, pop70)(cs, cs') ↔ cs .pc(p) = C24v0 ∧ cs' = cs .pc:= cs.pc(p ; C24) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br %cmp5, label %if.then6, label %if.end9
+	pop71 :
+	⊦ COP(p, pop71)(cs, cs') ↔ cs .pc(p) = C18 ∧ cs' = cs .pc:= cs.pc(p ; C19) ∧ cs .cmp5(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp5, label %if.then6, label %if.end9
+	pop72 :
+	⊦ COP(p, pop72)(cs, cs') ↔ cs .pc(p) = C18 ∧ cs' = cs .pc:= cs.pc(p ; C24) .v8:= cs.v8(p ; cs .v4(p)) ∧ cs .cmp5(p) = 0;
+	used for : s, ls;
+
+;;	%6 = cmpxchg i32* %4, i32 %5, i32 %add seq_cst
+	pop73 :
+	⊦ COP(p, pop73)(cs, cs') ↔ cs .pc(p) = C19 ∧ ( cs.mem[cs .v4(p) .v] = ⌜ cs .v5(p)⌝ ⊃ (cs' = cs .pc:= cs.pc(p; C20) .v6:= cs.v6(p ; 1) .mem:= cs.mem[cs .v4(p) .v, ⌜ cs .add(p)⌝]) ; (cs' = cs .pc:= cs.pc(p; C20) .v6:= cs.v6(p ; 0)));
+	used for : s, ls;
+
+;;	br label %return
+	pop74 :
+	⊦ COP(p, pop74)(cs, cs') ↔ cs .pc(p) = C26v0v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C27v0v0v8) .retval_0:= cs.retval_0(p ; (0 - 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop75 :
+	⊦ COP(p, pop75)(cs, cs') ↔ cs .pc(p) = C26v0v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C26v0v8) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	store i32 %add, i32* %8, align 4, !tbaa !3
+	pop76 :
+	⊦ COP(p, pop76)(cs, cs') ↔ cs .pc(p) = C25v0 ∧ cs' = cs .pc:= cs.pc(p ; C26v0v8);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop77 :
+	⊦ COP(p, pop77)(cs, cs') ↔ cs .pc(p) = C25v0 ∧ cs' = cs .pc:= cs.pc(p ; C25) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%8 = phi i32* [%.pre , %if.then6.if.end9_crit_edge][%4 , %if.end3]
+	pop78 :
+	⊦ COP(p, pop78)(cs, cs') ↔ cs .pc(p) = C24 ∧ cs' = cs .pc:= cs.pc(p ; C25);
+	used for : s, ls;
+
+;;	%7 = icmp eq i32 %6, %5
+	pop79 :
+	⊦ COP(p, pop79)(cs, cs') ↔ cs .pc(p) = C20 ∧ (cs .v6(p) = cs .v5(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; C21) .v7:= cs.v7(p ; 1) ; cs' = cs .pc:= cs.pc(p; C21) .v7:= cs.v7(p ; 0));
+	used for : s, ls;
+
+;;	%retval.0 = phi i32 [, %if.end9][, %entry][%3 , %if.end][%3 , %if.then6]
+	pop80 :
+	⊦ COP(p, pop80)(cs, cs') ↔ cs .pc(p) = C27v0v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C28v0v0v8);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop81 :
+	⊦ COP(p, pop81)(cs, cs') ↔ cs .pc(p) = C27v0v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C27v0v8) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	br label %return
+	pop82 :
+	⊦ COP(p, pop82)(cs, cs') ↔ cs .pc(p) = C26v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C27v0v8) .retval_0:= cs.retval_0(p ; (0 - 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop83 :
+	⊦ COP(p, pop83)(cs, cs') ↔ cs .pc(p) = C26v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C26v8) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i32 %add, i32* %8, align 4, !tbaa !3
+	pop84 :
+	⊦ COP(p, pop84)(cs, cs') ↔ cs .pc(p) = C25 ∧ cs' = cs .pc:= cs.pc(p ; C26v8);
+	used for : s, ls;
+
+;;	br %7, label %return, label %if.then6.if.end9_crit_edge
+	pop85 :
+	⊦ COP(p, pop85)(cs, cs') ↔ cs .pc(p) = C21 ∧ cs' = cs .pc:= cs.pc(p ; C27) .retval_0:= cs.retval_0(p ; cs .v3(p)) ∧ cs .v7(p) = 1;
+	used for : s, ls;
+
+;;	br %7, label %return, label %if.then6.if.end9_crit_edge
+	pop86 :
+	⊦ COP(p, pop86)(cs, cs') ↔ cs .pc(p) = C21 ∧ cs' = cs .pc:= cs.pc(p ; C22) ∧ cs .v7(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	pop87 :
+	⊦ COP(p, pop87)(cs, cs') ↔ cs .pc(p) = C28v0v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C28v0v8) .mem:= cs.mem[ cs .v0(p) .v ,⌜ cs .dec(p)⌝];
+	used for : s, ls;
+
+;;	%retval.0 = phi i32 [, %if.end9][, %entry][%3 , %if.end][%3 , %if.then6]
+	pop88 :
+	⊦ COP(p, pop88)(cs, cs') ↔ cs .pc(p) = C27v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C28v0v8);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop89 :
+	⊦ COP(p, pop89)(cs, cs') ↔ cs .pc(p) = C27v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C27v8) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %return
+	pop90 :
+	⊦ COP(p, pop90)(cs, cs') ↔ cs .pc(p) = C26v8 ∧ cs' = cs .pc:= cs.pc(p ; C27v8) .retval_0:= cs.retval_0(p ; (0 - 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop91 :
+	⊦ COP(p, pop91)(cs, cs') ↔ cs .pc(p) = C26v8 ∧ cs' = cs .pc:= cs.pc(p ; C26) .mem:= cs.mem[ cs .v8(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%.pre = load i32** @age, align 4, !tbaa !0
+	pop92 :
+	⊦ COP(p, pop92)(cs, cs') ↔ cs .pc(p) = C22 ∧ cs' = cs .pc:= cs.pc(p ; C23) ._pre:= cs._pre(p ; cs.mem[cs .age .v]);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop93 :
+	⊦ COP(p, pop93)(cs, cs') ↔ cs .pc(p) = C28v0v8 ∧ cs' = cs .pc:= cs.pc(p ; C28v8) .mem:= cs.mem[ cs .v0(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%retval.0 = phi i32 [, %if.end9][, %entry][%3 , %if.end][%3 , %if.then6]
+	pop94 :
+	⊦ COP(p, pop94)(cs, cs') ↔ cs .pc(p) = C27v8 ∧ cs' = cs .pc:= cs.pc(p ; C28v8);
+	used for : s, ls;
+
+;;	FlushTransition
+	pop95 :
+	⊦ COP(p, pop95)(cs, cs') ↔ cs .pc(p) = C27v8 ∧ cs' = cs .pc:= cs.pc(p ; C27) .mem:= cs.mem[ cs .v8(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br label %return
+	pop96 :
+	⊦ COP(p, pop96)(cs, cs') ↔ cs .pc(p) = C26 ∧ cs' = cs .pc:= cs.pc(p ; C27) .retval_0:= cs.retval_0(p ; (0 - 1));
+	used for : s, ls;
+
+;;	br label %if.end9
+	pop97 :
+	⊦ COP(p, pop97)(cs, cs') ↔ cs .pc(p) = C23 ∧ cs' = cs .pc:= cs.pc(p ; C24) .v8:= cs.v8(p ; cs ._pre(p));
+	used for : s, ls;
+
+;;	FlushTransition
+	pop98 :
+	⊦ COP(p, pop98)(cs, cs') ↔ cs .pc(p) = C28v8 ∧ cs' = cs .pc:= cs.pc(p ; C28) .mem:= cs.mem[ cs .v8(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	ret void
+	push14ret :
+	⊦ RETOP(p, push14ret)(cs, cs', return) ↔ cs .pc(p) = A07 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret i32 %retval.0
+	dequeue12ret :
+	⊦ RETOP(p, dequeue12ret)(cs, cs', return) ↔ cs .pc(p) = B16 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = cs .retval_0(p);
+	used for : s, ls;
+	
+;;	ret i32 %retval.0
+	pop8ret :
+	⊦ RETOP(p, pop8ret)(cs, cs', return) ↔ cs .pc(p) = C28 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = cs .retval_0(p);
+	used for : s, ls;
+	
+;;	ret i32 0
+	main1ret :
+	⊦ RETOP(p, main1ret)(cs, cs', return) ↔ cs .pc(p) = D0 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = 0;
+	used for : s, ls;
+	
+end enrich

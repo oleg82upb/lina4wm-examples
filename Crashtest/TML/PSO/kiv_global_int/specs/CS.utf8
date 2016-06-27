@@ -1,0 +1,51 @@
+data specification
+	using intref, PC, genProc, intref-memory
+	CS := mkcs(				. .glb : ref;
+				. .x : ref;
+				. .y : ref;
+				. .lx1 : ref;
+				. .ly1 : ref;
+				. .lx2 : ref;
+				. .ly2 : ref;
+				. .pc : Proc → PC;
+				. .mem : memory;
+				. .v0 : Proc → ref;
+				. .v1 : Proc → int;
+				. .and : Proc → int;
+				. .tobool : Proc → int;
+				. .add : Proc → int;
+				. .v2 : Proc → ref;
+				. .v3 : Proc → int;
+				. .v4 : Proc → ref;
+				. .retval_0 : Proc → int;
+				. .v5 : Proc → ref;
+				. .v6 : Proc → int;
+				. .v7 : Proc → ref;
+				. .v8 : Proc → int;
+				. .cmp : Proc → int;
+				. .and7 : Proc → int;
+				. .tobool8 : Proc → int;
+				. .v9 : Proc → ref;
+				. .10 : Proc → int;
+				. .inc10 : Proc → int;
+				. .11 : Proc → ref;
+				. .12 : Proc → int;
+				. .cmp7 : Proc → int;
+				. .and10 : Proc → int;
+				. .tobool11 : Proc → int;
+				. .13 : Proc → ref;
+				. .14 : Proc → int;
+				. .inc13 : Proc → int;
+				. .and5 : Proc → int;
+				. .tobool6 : Proc → int;
+				. .inc8 : Proc → int;
+				. .cmp1 : Proc → int;
+				. .argc : Proc → int;
+				. .argv : Proc → ref;
+);
+	variables
+		cs, cs' : CS;
+		pcf, pcf' : Proc → PC;
+		intf,intf' : Proc → int;
+		reff, reff' : Proc → ref;
+end data specification

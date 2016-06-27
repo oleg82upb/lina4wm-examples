@@ -1,0 +1,7 @@
+data specification
+	using intref
+
+	input = mk1( . .ref1: ref;) with ref? | mk2( . .int1: int; . .ref1: ref;) with intref? ;
+	variables
+		inp : input;
+end data specification

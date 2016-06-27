@@ -1,0 +1,359 @@
+enrich 	natref-memory,
+		localstate,
+		cindex with 
+
+	constants
+		f0 : ref;
+		f1 : ref;
+		i : nat;
+	
+	functions
+		INVOP : IJ → nat ×  memory ×  Localstate ×  memory ×  Localstate → bool;
+		COP : CJ → memory × Localstate × memory × Localstate → bool;
+		RETOP : RJ → memory × Localstate × memory × Localstate × nat → bool;
+	predicates
+		LSInit : Localstate × PID;
+		GSInit : memory;
+	variables
+		invop : nat × memory × Localstate × memory × Localstate → bool;
+		cop : memory × Localstate × memory × Localstate → bool;
+		retop : memory × Localstate × memory × Localstate × nat → bool;
+		mem' : memory;
+		inp : nat;
+		return : nat;
+	axioms
+
+	LSInit : ⊦ LSInit(ls, p) ↔ ls .pc = N ∧ ls .pid = p;
+	used for : s, ls;
+
+;; 	Z5p1_aqv reflects function @_Z5p1_aqv
+	Z5p1_aqvini :
+	⊦ INVOP(Z5p1_aqvini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ls' = ls .pc:= A00 ∧ mem' = mem; 
+	used for : s, ls;
+
+;; 	Z6p1_relv reflects function @_Z6p1_relv
+	Z6p1_relvini :
+	⊦ INVOP(Z6p1_relvini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ls' = ls .pc:= B0 ∧ mem' = mem; 
+	used for : s, ls;
+
+;; 	Z5p2_aqv reflects function @_Z5p2_aqv
+	Z5p2_aqvini :
+	⊦ INVOP(Z5p2_aqvini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ls' = ls .pc:= C00 ∧ mem' = mem; 
+	used for : s, ls;
+
+;; 	Z6p2_relv reflects function @_Z6p2_relv
+	Z6p2_relvini :
+	⊦ INVOP(Z6p2_relvini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ls' = ls .pc:= D0 ∧ mem' = mem; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(mainini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ls' = ls .pc:= E0 ∧ mem' = mem; 
+	used for : s, ls;
+
+;;	store i81, i8*@f0, align 1
+	Z5p1_aqv1 :
+	⊦ COP(Z5p1_aqv1)(mem, ls, mem', ls') ↔ ls .pc = A00 ∧ ls' = ls .pc:= A01f0 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p1_aqv2 :
+	⊦ COP(Z5p1_aqv2)(mem, ls, mem', ls') ↔ ls .pc = A01f0 ∧ ls' = ls .pc:= A01 ∧ mem' = mem[ f0 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	fence seq_cst
+	Z5p1_aqv3 :
+	⊦ COP(Z5p1_aqv3)(mem, ls, mem', ls') ↔ ls .pc = A01 ∧ ls' = ls .pc:= A02 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p1_aqv4 :
+	⊦ COP(Z5p1_aqv4)(mem, ls, mem', ls') ↔ ls .pc = A02 ∧ ls' = ls .pc:= A03;
+	used for : s, ls;
+
+;;	%0 = load i8*@f1, align 1
+	Z5p1_aqv5 :
+	⊦ COP(Z5p1_aqv5)(mem, ls, mem', ls') ↔ ls .pc = A03 ∧ ls' = ls .pc:= A04 .v0:= mem[f1 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%tobool = trunc i8 %0 to i1
+	Z5p1_aqv6 :
+	⊦ COP(Z5p1_aqv6)(mem, ls, mem', ls') ↔ ls .pc = A04 ∧ ls' = ls .pc:= A05 .tobool:= ls .v0 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%conv = zext i1 %tobool to i32
+	Z5p1_aqv7 :
+	⊦ COP(Z5p1_aqv7)(mem, ls, mem', ls') ↔ ls .pc = A05 ∧ ls' = ls .pc:= A06 .conv:= ls .tobool ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp = icmp ne i32 %conv, 0
+	Z5p1_aqv8 :
+	⊦ COP(Z5p1_aqv8)(mem, ls, mem', ls') ↔ ls .pc = A06 ∧ (ls .conv = 0
+	 ⊃ ls' = ls .pc:= A07 .cmp:= 0 ; ls' = ls .pc:= A07 .cmp:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p1_aqv9 :
+	⊦ COP(Z5p1_aqv9)(mem, ls, mem', ls') ↔ ls .pc = A07 ∧ ls' = ls .pc:= A08 ∧ ls .cmp = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p1_aqv10 :
+	⊦ COP(Z5p1_aqv10)(mem, ls, mem', ls') ↔ ls .pc = A07 ∧ ls' = ls .pc:= A09 ∧ ls .cmp = 0;
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p1_aqv11 :
+	⊦ COP(Z5p1_aqv11)(mem, ls, mem', ls') ↔ ls .pc = A08 ∧ ls' = ls .pc:= A03;
+	used for : s, ls;
+
+;;	store i80, i8*@f0, align 1
+	Z6p1_relv1 :
+	⊦ COP(Z6p1_relv1)(mem, ls, mem', ls') ↔ ls .pc = B0 ∧ ls' = ls .pc:= B1f0 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z6p1_relv2 :
+	⊦ COP(Z6p1_relv2)(mem, ls, mem', ls') ↔ ls .pc = B1f0 ∧ ls' = ls .pc:= B1 ∧ mem' = mem[ f0 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %retry
+	Z5p2_aqv1 :
+	⊦ COP(Z5p2_aqv1)(mem, ls, mem', ls') ↔ ls .pc = C00 ∧ ls' = ls .pc:= C01;
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p2_aqv2 :
+	⊦ COP(Z5p2_aqv2)(mem, ls, mem', ls') ↔ ls .pc = C01 ∧ ls' = ls .pc:= C02;
+	used for : s, ls;
+
+;;	%0 = load i8*@f0, align 1
+	Z5p2_aqv3 :
+	⊦ COP(Z5p2_aqv3)(mem, ls, mem', ls') ↔ ls .pc = C02 ∧ ls' = ls .pc:= C03 .v0:= mem[f0 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%tobool = trunc i8 %0 to i1
+	Z5p2_aqv4 :
+	⊦ COP(Z5p2_aqv4)(mem, ls, mem', ls') ↔ ls .pc = C03 ∧ ls' = ls .pc:= C04 .tobool:= ls .v0 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%conv = zext i1 %tobool to i32
+	Z5p2_aqv5 :
+	⊦ COP(Z5p2_aqv5)(mem, ls, mem', ls') ↔ ls .pc = C04 ∧ ls' = ls .pc:= C05 .conv:= ls .tobool ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp = icmp ne i32 %conv, 0
+	Z5p2_aqv6 :
+	⊦ COP(Z5p2_aqv6)(mem, ls, mem', ls') ↔ ls .pc = C05 ∧ (ls .conv = 0
+	 ⊃ ls' = ls .pc:= C06 .cmp:= 0 ; ls' = ls .pc:= C06 .cmp:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p2_aqv7 :
+	⊦ COP(Z5p2_aqv7)(mem, ls, mem', ls') ↔ ls .pc = C06 ∧ ls' = ls .pc:= C07 ∧ ls .cmp = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p2_aqv8 :
+	⊦ COP(Z5p2_aqv8)(mem, ls, mem', ls') ↔ ls .pc = C06 ∧ ls' = ls .pc:= C08 ∧ ls .cmp = 0;
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p2_aqv9 :
+	⊦ COP(Z5p2_aqv9)(mem, ls, mem', ls') ↔ ls .pc = C07 ∧ ls' = ls .pc:= C02;
+	used for : s, ls;
+
+;;	store i81, i8*@f1, align 1
+	Z5p2_aqv10 :
+	⊦ COP(Z5p2_aqv10)(mem, ls, mem', ls') ↔ ls .pc = C08 ∧ ls' = ls .pc:= C09f1 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv11 :
+	⊦ COP(Z5p2_aqv11)(mem, ls, mem', ls') ↔ ls .pc = C09f1 ∧ ls' = ls .pc:= C09 ∧ mem' = mem[ f1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	fence seq_cst
+	Z5p2_aqv12 :
+	⊦ COP(Z5p2_aqv12)(mem, ls, mem', ls') ↔ ls .pc = C09 ∧ ls' = ls .pc:= C10 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%1 = load i8*@f0, align 1
+	Z5p2_aqv13 :
+	⊦ COP(Z5p2_aqv13)(mem, ls, mem', ls') ↔ ls .pc = C10 ∧ ls' = ls .pc:= C11 .v1:= mem[f0 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%tobool1 = trunc i8 %1 to i1
+	Z5p2_aqv14 :
+	⊦ COP(Z5p2_aqv14)(mem, ls, mem', ls') ↔ ls .pc = C11 ∧ ls' = ls .pc:= C12 .tobool1:= ls .v1 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%conv2 = zext i1 %tobool1 to i32
+	Z5p2_aqv15 :
+	⊦ COP(Z5p2_aqv15)(mem, ls, mem', ls') ↔ ls .pc = C12 ∧ ls' = ls .pc:= C13 .conv2:= ls .tobool1 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp3 = icmp ne i32 %conv2, 0
+	Z5p2_aqv16 :
+	⊦ COP(Z5p2_aqv16)(mem, ls, mem', ls') ↔ ls .pc = C13 ∧ (ls .conv2 = 0
+	 ⊃ ls' = ls .pc:= C14 .cmp3:= 0 ; ls' = ls .pc:= C14 .cmp3:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp3, label %if.then, label %if.end
+	Z5p2_aqv17 :
+	⊦ COP(Z5p2_aqv17)(mem, ls, mem', ls') ↔ ls .pc = C14 ∧ ls' = ls .pc:= C15 ∧ ls .cmp3 = 1;
+	used for : s, ls;
+
+;;	br %cmp3, label %if.then, label %if.end
+	Z5p2_aqv18 :
+	⊦ COP(Z5p2_aqv18)(mem, ls, mem', ls') ↔ ls .pc = C14 ∧ ls' = ls .pc:= C17 ∧ ls .cmp3 = 0;
+	used for : s, ls;
+
+;;	store i80, i8*@f1, align 1
+	Z5p2_aqv19 :
+	⊦ COP(Z5p2_aqv19)(mem, ls, mem', ls') ↔ ls .pc = C15 ∧ ls' = ls .pc:= C16f1 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br label %retry
+	Z5p2_aqv21 :
+	⊦ COP(Z5p2_aqv21)(mem, ls, mem', ls') ↔ ls .pc = C16f1 ∧ ls' = ls .pc:= C01f1;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv22 :
+	⊦ COP(Z5p2_aqv22)(mem, ls, mem', ls') ↔ ls .pc = C16f1 ∧ ls' = ls .pc:= C16 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p2_aqv23 :
+	⊦ COP(Z5p2_aqv23)(mem, ls, mem', ls') ↔ ls .pc = C01f1 ∧ ls' = ls .pc:= C02f1;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv24 :
+	⊦ COP(Z5p2_aqv24)(mem, ls, mem', ls') ↔ ls .pc = C01f1 ∧ ls' = ls .pc:= C01 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %retry
+	Z5p2_aqv25 :
+	⊦ COP(Z5p2_aqv25)(mem, ls, mem', ls') ↔ ls .pc = C16 ∧ ls' = ls .pc:= C01;
+	used for : s, ls;
+
+;;	%0 = load i8*@f0, align 1
+	Z5p2_aqv26 :
+	⊦ COP(Z5p2_aqv26)(mem, ls, mem', ls') ↔ ls .pc = C02f1 ∧ ls' = ls .pc:= C03f1 .v0:= mem[f0 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv27 :
+	⊦ COP(Z5p2_aqv27)(mem, ls, mem', ls') ↔ ls .pc = C02f1 ∧ ls' = ls .pc:= C02 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%tobool = trunc i8 %0 to i1
+	Z5p2_aqv28 :
+	⊦ COP(Z5p2_aqv28)(mem, ls, mem', ls') ↔ ls .pc = C03f1 ∧ ls' = ls .pc:= C04f1 .tobool:= ls .v0 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv29 :
+	⊦ COP(Z5p2_aqv29)(mem, ls, mem', ls') ↔ ls .pc = C03f1 ∧ ls' = ls .pc:= C03 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%conv = zext i1 %tobool to i32
+	Z5p2_aqv30 :
+	⊦ COP(Z5p2_aqv30)(mem, ls, mem', ls') ↔ ls .pc = C04f1 ∧ ls' = ls .pc:= C05f1 .conv:= ls .tobool ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv31 :
+	⊦ COP(Z5p2_aqv31)(mem, ls, mem', ls') ↔ ls .pc = C04f1 ∧ ls' = ls .pc:= C04 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp = icmp ne i32 %conv, 0
+	Z5p2_aqv32 :
+	⊦ COP(Z5p2_aqv32)(mem, ls, mem', ls') ↔ ls .pc = C05f1 ∧ (ls .conv = 0
+	 ⊃ ls' = ls .pc:= C06f1 .cmp:= 0 ; ls' = ls .pc:= C06f1 .cmp:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv33 :
+	⊦ COP(Z5p2_aqv33)(mem, ls, mem', ls') ↔ ls .pc = C05f1 ∧ ls' = ls .pc:= C05 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p2_aqv34 :
+	⊦ COP(Z5p2_aqv34)(mem, ls, mem', ls') ↔ ls .pc = C06f1 ∧ ls' = ls .pc:= C07f1 ∧ ls .cmp = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p2_aqv35 :
+	⊦ COP(Z5p2_aqv35)(mem, ls, mem', ls') ↔ ls .pc = C06f1 ∧ ls' = ls .pc:= C08f1 ∧ ls .cmp = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv36 :
+	⊦ COP(Z5p2_aqv36)(mem, ls, mem', ls') ↔ ls .pc = C06f1 ∧ ls' = ls .pc:= C06 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p2_aqv37 :
+	⊦ COP(Z5p2_aqv37)(mem, ls, mem', ls') ↔ ls .pc = C07f1 ∧ ls' = ls .pc:= C02f1;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv38 :
+	⊦ COP(Z5p2_aqv38)(mem, ls, mem', ls') ↔ ls .pc = C07f1 ∧ ls' = ls .pc:= C07 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i81, i8*@f1, align 1
+	Z5p2_aqv39 :
+	⊦ COP(Z5p2_aqv39)(mem, ls, mem', ls') ↔ ls .pc = C08f1 ∧ ls' = ls .pc:= C09f101 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv40 :
+	⊦ COP(Z5p2_aqv40)(mem, ls, mem', ls') ↔ ls .pc = C08f1 ∧ ls' = ls .pc:= C08 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	Z5p2_aqv41 :
+	⊦ COP(Z5p2_aqv41)(mem, ls, mem', ls') ↔ ls .pc = C09f101 ∧ ls' = ls .pc:= C09f1 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i80, i8*@f1, align 1
+	Z6p2_relv1 :
+	⊦ COP(Z6p2_relv1)(mem, ls, mem', ls') ↔ ls .pc = D0 ∧ ls' = ls .pc:= D1f1 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	FlushTransition
+	Z6p2_relv2 :
+	⊦ COP(Z6p2_relv2)(mem, ls, mem', ls') ↔ ls .pc = D1f1 ∧ ls' = ls .pc:= D1 ∧ mem' = mem[ f1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	ret void
+	Z5p1_aqv12ret :
+	⊦ RETOP(Z5p1_aqv12ret)(mem, ls, mem', ls', return) ↔ ls .pc = A09 ∧ ls' = ls .pc:= N ∧ mem' = mem;
+	used for : s, ls;
+	
+;;	ret void
+	Z6p1_relv3ret :
+	⊦ RETOP(Z6p1_relv3ret)(mem, ls, mem', ls', return) ↔ ls .pc = B1 ∧ ls' = ls .pc:= N ∧ mem' = mem;
+	used for : s, ls;
+	
+;;	ret void
+	Z5p2_aqv20ret :
+	⊦ RETOP(Z5p2_aqv20ret)(mem, ls, mem', ls', return) ↔ ls .pc = C17 ∧ ls' = ls .pc:= N ∧ mem' = mem;
+	used for : s, ls;
+	
+;;	ret void
+	Z6p2_relv3ret :
+	⊦ RETOP(Z6p2_relv3ret)(mem, ls, mem', ls', return) ↔ ls .pc = D1 ∧ ls' = ls .pc:= N ∧ mem' = mem;
+	used for : s, ls;
+	
+;;	ret i320
+	main1ret :
+	⊦ RETOP(main1ret)(mem, ls, mem', ls', return) ↔ ls .pc = E0 ∧ ls' = ls .pc:= N ∧ return = 0 ∧ mem' = mem;
+	used for : s, ls;
+	
+end enrich
+		

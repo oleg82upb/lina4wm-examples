@@ -1,0 +1,9 @@
+data specification
+	IJ =  t1ini | t2ini | mainini ;
+	CJ =  t11 | t12 | t13 | t14 | t15 | t16 | t17 | t18 | t19 | t110 | t111 | t112 | t113 | t114 | t115 | t116 | t117 | t118 | t119 | t120 | t21 | t22 | t23 | t24 | t25 | t26 | t27 | t28 | t29 | t210 | t211 | t212 | t213 | t214 | t215 | t216 | t217 | t218 | t219 | t220 | main1 | main2 | main3 | main4 | main5 | main6 | main7 | main8 | main9 | main10 | main11 | main12 | main14 | main15 ;
+	RJ =  t121ret | t221ret | main13ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

@@ -1,0 +1,9 @@
+data specification
+	IJ =  worker_1ini | worker_2ini | mainini ;
+	CJ =  worker_11 | worker_12 | worker_13 | worker_14 | worker_15 | worker_16 | worker_17 | worker_18 | worker_19 | worker_110 | worker_111 | worker_112 | worker_113 | worker_114 | worker_115 | worker_116 | worker_117 | worker_118 | worker_119 | worker_120 | worker_121 | worker_122 | worker_123 | worker_124 | worker_125 | worker_126 | worker_127 | worker_128 | worker_129 | worker_130 | worker_131 | worker_132 | worker_133 | worker_134 | worker_135 | worker_136 | worker_137 | worker_138 | worker_139 | worker_21 | worker_22 | worker_23 | worker_24 | worker_25 | worker_26 | worker_27 | worker_28 | worker_29 | worker_210 | worker_211 | worker_212 | worker_213 | worker_214 | worker_215 | worker_216 | worker_217 | worker_218 | worker_219 | worker_220 | worker_221 | worker_222 | worker_223 | worker_224 | worker_225 | worker_226 | worker_227 | worker_228 | worker_229 | worker_230 | worker_231 | worker_232 | worker_233 | worker_234 | worker_235 | worker_236 | worker_237 | worker_238 | worker_239 ;
+	RJ =  main1ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

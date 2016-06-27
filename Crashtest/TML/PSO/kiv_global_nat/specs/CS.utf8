@@ -1,0 +1,51 @@
+data specification
+	using natref, PC, genProc, natref-memory
+	CS := mkcs(				. .glb : ref;
+				. .x : ref;
+				. .y : ref;
+				. .lx1 : ref;
+				. .ly1 : ref;
+				. .lx2 : ref;
+				. .ly2 : ref;
+				. .pc : Proc → PC;
+				. .mem : memory;
+				. .v0 : Proc → ref;
+				. .v1 : Proc → nat;
+				. .and : Proc → nat;
+				. .tobool : Proc → nat;
+				. .add : Proc → nat;
+				. .v2 : Proc → ref;
+				. .v3 : Proc → nat;
+				. .v4 : Proc → ref;
+				. .retval_0 : Proc → nat;
+				. .v5 : Proc → ref;
+				. .v6 : Proc → nat;
+				. .v7 : Proc → ref;
+				. .v8 : Proc → nat;
+				. .cmp : Proc → nat;
+				. .and7 : Proc → nat;
+				. .tobool8 : Proc → nat;
+				. .v9 : Proc → ref;
+				. .10 : Proc → nat;
+				. .inc10 : Proc → nat;
+				. .11 : Proc → ref;
+				. .12 : Proc → nat;
+				. .cmp7 : Proc → nat;
+				. .and10 : Proc → nat;
+				. .tobool11 : Proc → nat;
+				. .13 : Proc → ref;
+				. .14 : Proc → nat;
+				. .inc13 : Proc → nat;
+				. .and5 : Proc → nat;
+				. .tobool6 : Proc → nat;
+				. .inc8 : Proc → nat;
+				. .cmp1 : Proc → nat;
+				. .argc : Proc → nat;
+				. .argv : Proc → ref;
+);
+	variables
+		cs, cs' : CS;
+		pcf, pcf' : Proc → PC;
+		natf,natf' : Proc → nat;
+		reff, reff' : Proc → ref;
+end data specification

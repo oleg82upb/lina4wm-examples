@@ -1,0 +1,32 @@
+data specification
+	using intref, PC, genProc, intref-memory
+	CS := mkcs(				. .flag0 : ref;
+				. .flag1 : ref;
+				. .turn : ref;
+				. .pc : Proc → PC;
+				. .mem : memory;
+				. .v0 : Proc → ref;
+				. .v1 : Proc → ref;
+				. .v2 : Proc → int;
+				. .tobool : Proc → int;
+				. .v3 : Proc → ref;
+				. .v9 : Proc → ref;
+				. .v4 : Proc → int;
+				. .tobool1 : Proc → int;
+				. .10 : Proc → ref;
+				. .conv : Proc → int;
+				. .cmp : Proc → int;
+				. .v5 : Proc → ref;
+				. .v6 : Proc → ref;
+				. .v7 : Proc → int;
+				. .tobool4 : Proc → int;
+				. .conv5 : Proc → int;
+				. .cmp6 : Proc → int;
+				. .v8 : Proc → ref;
+);
+	variables
+		cs, cs' : CS;
+		pcf, pcf' : Proc → PC;
+		intf,intf' : Proc → int;
+		reff, reff' : Proc → ref;
+end data specification

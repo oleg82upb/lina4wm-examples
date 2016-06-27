@@ -1,0 +1,28 @@
+data specification
+	using natref, PC, genProc, natref-memory
+	CS := mkcs(				. .flag0 : ref;
+				. .flag1 : ref;
+				. .turn : ref;
+				. .pc : Proc → PC;
+				. .mem : memory;
+				. .v0 : Proc → ref;
+				. .v1 : Proc → ref;
+				. .v2 : Proc → ref;
+				. .v3 : Proc → nat;
+				. .tobool : Proc → nat;
+				. .conv : Proc → nat;
+				. .cmp : Proc → nat;
+				. .v4 : Proc → ref;
+				. .v6 : Proc → nat;
+				. .cmp4 : Proc → nat;
+				. .v5 : Proc → nat;
+				. .tobool2 : Proc → nat;
+				. .v7 : Proc → ref;
+				. .conv3 : Proc → nat;
+);
+	variables
+		cs, cs' : CS;
+		pcf, pcf' : Proc → PC;
+		natf,natf' : Proc → nat;
+		reff, reff' : Proc → ref;
+end data specification

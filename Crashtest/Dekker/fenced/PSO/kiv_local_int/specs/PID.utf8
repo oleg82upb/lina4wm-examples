@@ -1,0 +1,6 @@
+specification
+	sorts
+		PID;
+	variables
+		p : PID;
+end specification

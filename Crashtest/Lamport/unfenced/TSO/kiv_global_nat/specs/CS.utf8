@@ -1,0 +1,44 @@
+data specification
+	using natref, PC, genProc, natref-memory
+	CS := mkcs(				. .choosing : ref;
+				. .number : ref;
+				. .pc : Proc → PC;
+				. .mem : memory;
+				. .arrayidx : Proc → ref;
+				. .v0 : Proc → nat;
+				. .v1 : Proc → nat;
+				. .cmp : Proc → nat;
+				. .v2 : Proc → nat;
+				. .v3 : Proc → nat;
+				. .add : Proc → nat;
+				. .add2 : Proc → nat;
+				. .arrayidx1 : Proc → ref;
+				. .arrayidx3 : Proc → ref;
+				. .arrayidx11 : Proc → ref;
+				. .j_023 : Proc → nat;
+				. .inc : Proc → nat;
+				. .arrayidx6 : Proc → ref;
+				. .v4 : Proc → nat;
+				. .v5 : Proc → nat;
+				. .tobool : Proc → nat;
+				. .arrayidx8 : Proc → ref;
+				. .cmp17 : Proc → nat;
+				. .v6 : Proc → nat;
+				. .cmp9 : Proc → nat;
+				. .v7 : Proc → nat;
+				. .exitcond : Proc → nat;
+				. .v8 : Proc → nat;
+				. .cmp12 : Proc → nat;
+				. .arrayidx21 : Proc → ref;
+				. .v9 : Proc → nat;
+				. .10 : Proc → nat;
+				. .cmp15 : Proc → nat;
+				. .or_cond : Proc → nat;
+				. .i : Proc → nat;
+);
+	variables
+		cs, cs' : CS;
+		pcf, pcf' : Proc → PC;
+		natf,natf' : Proc → nat;
+		reff, reff' : Proc → ref;
+end data specification

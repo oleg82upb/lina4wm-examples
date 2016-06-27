@@ -1,0 +1,2150 @@
+enrich 	CS,
+		cindex with 
+
+	functions
+		INVOP : Proc × IJ → int × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × int → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : int × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × int → bool;
+		choosing, choosing' : ref;
+		number, number' : ref;
+		inp : int;
+		return : int;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(choosing, number, pcf, mem, reff1, intf2, intf3, intf4, intf5, intf6, intf7, intf8, reff9, reff10, reff11, intf12, intf13, reff14, intf15, intf16, intf17, reff18, intf19, intf20, intf21, intf22, intf23, intf24, intf25, reff26, intf27, intf28, intf29, intf30, intf31)) ↔ ( choosing = ⌜0⌝ ∧ number = ⌜0⌝ ∧ pcf = (λ p. N)  ∧ reff1 = (λ p. ⌜0⌝) ∧ intf2 = (λ p. 0) ∧ intf3 = (λ p. 0) ∧ intf4 = (λ p. 0) ∧ intf5 = (λ p. 0) ∧ intf6 = (λ p. 0) ∧ intf7 = (λ p. 0) ∧ intf8 = (λ p. 0) ∧ reff9 = (λ p. ⌜0⌝) ∧ reff10 = (λ p. ⌜0⌝) ∧ reff11 = (λ p. ⌜0⌝) ∧ intf12 = (λ p. 0) ∧ intf13 = (λ p. 0) ∧ reff14 = (λ p. ⌜0⌝) ∧ intf15 = (λ p. 0) ∧ intf16 = (λ p. 0) ∧ intf17 = (λ p. 0) ∧ reff18 = (λ p. ⌜0⌝) ∧ intf19 = (λ p. 0) ∧ intf20 = (λ p. 0) ∧ intf21 = (λ p. 0) ∧ intf22 = (λ p. 0) ∧ intf23 = (λ p. 0) ∧ intf24 = (λ p. 0) ∧ intf25 = (λ p. 0) ∧ reff26 = (λ p. ⌜0⌝) ∧ intf27 = (λ p. 0) ∧ intf28 = (λ p. 0) ∧ intf29 = (λ p. 0) ∧ intf30 = (λ p. 0) ∧ intf31 = (λ p. 0));
+	used for : s, ls;
+
+;; 	proci reflects function @proci
+	prociini :
+	⊦ INVOP(p, prociini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; A000) .i:= cs.i(p ; inp); 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(p, mainini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; B0) ; 
+	used for : s, ls;
+
+;;	%arrayidx = getelementptr [2 x i8]* @choosing, i32 0, i32 %i
+	proci1 :
+	⊦ COP(p, proci1)(cs, cs') ↔ cs .pc(p) = A000 ∧ cs' = cs .pc:= cs.pc(p ; A001) .arrayidx:= ;
+	used for : s, ls;
+
+;;	store i8 1, i8* %arrayidx, align 1, !tbaa !0
+	proci2 :
+	⊦ COP(p, proci2)(cs, cs') ↔ cs .pc(p) = A001 ∧ cs' = cs .pc:= cs.pc(p ; A002arrayidx);
+	used for : s, ls;
+
+;;	%0 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 0, align 4, !tbaa !3
+	proci3 :
+	⊦ COP(p, proci3)(cs, cs') ↔ cs .pc(p) = A002arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A003arrayidx) .v0:= cs.v0(p ; cs.mem[(cs .number .v + 0)] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci4 :
+	⊦ COP(p, proci4)(cs, cs') ↔ cs .pc(p) = A002arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A002) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%1 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 1, align 4, !tbaa !3
+	proci5 :
+	⊦ COP(p, proci5)(cs, cs') ↔ cs .pc(p) = A003arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A004arrayidx) .v1:= cs.v1(p ; cs.mem[(cs .number .v + 1)] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci6 :
+	⊦ COP(p, proci6)(cs, cs') ↔ cs .pc(p) = A003arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A003) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%0 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 0, align 4, !tbaa !3
+	proci7 :
+	⊦ COP(p, proci7)(cs, cs') ↔ cs .pc(p) = A002 ∧ cs' = cs .pc:= cs.pc(p ; A003) .v0:= cs.v0(p ; cs.mem[(cs .number .v + 0)] .v);
+	used for : s, ls;
+
+;;	%cmp = icmp slt i32 %0, %1
+	proci8 :
+	⊦ COP(p, proci8)(cs, cs') ↔ cs .pc(p) = A004arrayidx ∧ (cs .v0(p) ≥ cs .v1(p) ⊃ cs' = cs .pc:= cs.pc(p; A005arrayidx) .cmp:= cs.cmp(p ; 0) ; cs' = cs .pc:= cs.pc(p; A005arrayidx) .cmp:= cs.cmp(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci9 :
+	⊦ COP(p, proci9)(cs, cs') ↔ cs .pc(p) = A004arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A004) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%1 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 1, align 4, !tbaa !3
+	proci10 :
+	⊦ COP(p, proci10)(cs, cs') ↔ cs .pc(p) = A003 ∧ cs' = cs .pc:= cs.pc(p ; A004) .v1:= cs.v1(p ; cs.mem[(cs .number .v + 1)] .v);
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %if.else
+	proci11 :
+	⊦ COP(p, proci11)(cs, cs') ↔ cs .pc(p) = A005arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A006arrayidx) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %if.else
+	proci12 :
+	⊦ COP(p, proci12)(cs, cs') ↔ cs .pc(p) = A005arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A011arrayidx) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci13 :
+	⊦ COP(p, proci13)(cs, cs') ↔ cs .pc(p) = A005arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A005) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp = icmp slt i32 %0, %1
+	proci14 :
+	⊦ COP(p, proci14)(cs, cs') ↔ cs .pc(p) = A004 ∧ (cs .v0(p) ≥ cs .v1(p) ⊃ cs' = cs .pc:= cs.pc(p; A005) .cmp:= cs.cmp(p ; 0) ; cs' = cs .pc:= cs.pc(p; A005) .cmp:= cs.cmp(p ; 1));
+	used for : s, ls;
+
+;;	%2 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 1, align 4, !tbaa !3
+	proci15 :
+	⊦ COP(p, proci15)(cs, cs') ↔ cs .pc(p) = A006arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A007arrayidx) .v2:= cs.v2(p ; cs.mem[(cs .number .v + 1)] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci16 :
+	⊦ COP(p, proci16)(cs, cs') ↔ cs .pc(p) = A006arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A006) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%3 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 0, align 4, !tbaa !3
+	proci17 :
+	⊦ COP(p, proci17)(cs, cs') ↔ cs .pc(p) = A011arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A012arrayidx) .v3:= cs.v3(p ; cs.mem[(cs .number .v + 0)] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci18 :
+	⊦ COP(p, proci18)(cs, cs') ↔ cs .pc(p) = A011arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A011) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %if.else
+	proci19 :
+	⊦ COP(p, proci19)(cs, cs') ↔ cs .pc(p) = A005 ∧ cs' = cs .pc:= cs.pc(p ; A006) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %if.else
+	proci20 :
+	⊦ COP(p, proci20)(cs, cs') ↔ cs .pc(p) = A005 ∧ cs' = cs .pc:= cs.pc(p ; A011) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	%add = add i32 %2, 1
+	proci21 :
+	⊦ COP(p, proci21)(cs, cs') ↔ cs .pc(p) = A007arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A008arrayidx) .add:= cs.add(p ; cs .v2(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci22 :
+	⊦ COP(p, proci22)(cs, cs') ↔ cs .pc(p) = A007arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A007) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%2 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 1, align 4, !tbaa !3
+	proci23 :
+	⊦ COP(p, proci23)(cs, cs') ↔ cs .pc(p) = A006 ∧ cs' = cs .pc:= cs.pc(p ; A007) .v2:= cs.v2(p ; cs.mem[(cs .number .v + 1)] .v);
+	used for : s, ls;
+
+;;	%add2 = add i32 %3, 1
+	proci24 :
+	⊦ COP(p, proci24)(cs, cs') ↔ cs .pc(p) = A012arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A013arrayidx) .add2:= cs.add2(p ; cs .v3(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci25 :
+	⊦ COP(p, proci25)(cs, cs') ↔ cs .pc(p) = A012arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A012) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%3 = load i32* getelementptr [2 x i32]* @number, i32 0, i32 0, align 4, !tbaa !3
+	proci26 :
+	⊦ COP(p, proci26)(cs, cs') ↔ cs .pc(p) = A011 ∧ cs' = cs .pc:= cs.pc(p ; A012) .v3:= cs.v3(p ; cs.mem[(cs .number .v + 0)] .v);
+	used for : s, ls;
+
+;;	%arrayidx1 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci27 :
+	⊦ COP(p, proci27)(cs, cs') ↔ cs .pc(p) = A008arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A009arrayidx) .arrayidx1:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci28 :
+	⊦ COP(p, proci28)(cs, cs') ↔ cs .pc(p) = A008arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A008) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%add = add i32 %2, 1
+	proci29 :
+	⊦ COP(p, proci29)(cs, cs') ↔ cs .pc(p) = A007 ∧ cs' = cs .pc:= cs.pc(p ; A008) .add:= cs.add(p ; cs .v2(p) + 1);
+	used for : s, ls;
+
+;;	%arrayidx3 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci30 :
+	⊦ COP(p, proci30)(cs, cs') ↔ cs .pc(p) = A013arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A014arrayidx) .arrayidx3:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci31 :
+	⊦ COP(p, proci31)(cs, cs') ↔ cs .pc(p) = A013arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A013) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%add2 = add i32 %3, 1
+	proci32 :
+	⊦ COP(p, proci32)(cs, cs') ↔ cs .pc(p) = A012 ∧ cs' = cs .pc:= cs.pc(p ; A013) .add2:= cs.add2(p ; cs .v3(p) + 1);
+	used for : s, ls;
+
+;;	store i32 %add, i32* %arrayidx1, align 4, !tbaa !3
+	proci33 :
+	⊦ COP(p, proci33)(cs, cs') ↔ cs .pc(p) = A009arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A010arrayidxarrayidx1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci34 :
+	⊦ COP(p, proci34)(cs, cs') ↔ cs .pc(p) = A009arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A009) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx1 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci35 :
+	⊦ COP(p, proci35)(cs, cs') ↔ cs .pc(p) = A008 ∧ cs' = cs .pc:= cs.pc(p ; A009) .arrayidx1:= ;
+	used for : s, ls;
+
+;;	store i32 %add2, i32* %arrayidx3, align 4, !tbaa !3
+	proci36 :
+	⊦ COP(p, proci36)(cs, cs') ↔ cs .pc(p) = A014arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A015arrayidxarrayidx3);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci37 :
+	⊦ COP(p, proci37)(cs, cs') ↔ cs .pc(p) = A014arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A014) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx3 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci38 :
+	⊦ COP(p, proci38)(cs, cs') ↔ cs .pc(p) = A013 ∧ cs' = cs .pc:= cs.pc(p ; A014) .arrayidx3:= ;
+	used for : s, ls;
+
+;;	br label %if.end
+	proci39 :
+	⊦ COP(p, proci39)(cs, cs') ↔ cs .pc(p) = A010arrayidxarrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A016arrayidxarrayidx1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci40 :
+	⊦ COP(p, proci40)(cs, cs') ↔ cs .pc(p) = A010arrayidxarrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A010arrayidx1) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i32 %add, i32* %arrayidx1, align 4, !tbaa !3
+	proci41 :
+	⊦ COP(p, proci41)(cs, cs') ↔ cs .pc(p) = A009 ∧ cs' = cs .pc:= cs.pc(p ; A010arrayidx1);
+	used for : s, ls;
+
+;;	br label %if.end
+	proci42 :
+	⊦ COP(p, proci42)(cs, cs') ↔ cs .pc(p) = A015arrayidxarrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A016arrayidxarrayidx3);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci43 :
+	⊦ COP(p, proci43)(cs, cs') ↔ cs .pc(p) = A015arrayidxarrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A015arrayidx3) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i32 %add2, i32* %arrayidx3, align 4, !tbaa !3
+	proci44 :
+	⊦ COP(p, proci44)(cs, cs') ↔ cs .pc(p) = A014 ∧ cs' = cs .pc:= cs.pc(p ; A015arrayidx3);
+	used for : s, ls;
+
+;;	store i8 0, i8* %arrayidx, align 1, !tbaa !0
+	proci45 :
+	⊦ COP(p, proci45)(cs, cs') ↔ cs .pc(p) = A016arrayidxarrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidxarrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci46 :
+	⊦ COP(p, proci46)(cs, cs') ↔ cs .pc(p) = A016arrayidxarrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A016arrayidx1) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %if.end
+	proci47 :
+	⊦ COP(p, proci47)(cs, cs') ↔ cs .pc(p) = A010arrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A016arrayidx1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci48 :
+	⊦ COP(p, proci48)(cs, cs') ↔ cs .pc(p) = A010arrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A010) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* %arrayidx, align 1, !tbaa !0
+	proci49 :
+	⊦ COP(p, proci49)(cs, cs') ↔ cs .pc(p) = A016arrayidxarrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidxarrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci50 :
+	⊦ COP(p, proci50)(cs, cs') ↔ cs .pc(p) = A016arrayidxarrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A016arrayidx3) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %if.end
+	proci51 :
+	⊦ COP(p, proci51)(cs, cs') ↔ cs .pc(p) = A015arrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A016arrayidx3);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci52 :
+	⊦ COP(p, proci52)(cs, cs') ↔ cs .pc(p) = A015arrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A015) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx11 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci53 :
+	⊦ COP(p, proci53)(cs, cs') ↔ cs .pc(p) = A017arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidxarrayidx1arrayidx) .arrayidx11:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci54 :
+	⊦ COP(p, proci54)(cs, cs') ↔ cs .pc(p) = A017arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* %arrayidx, align 1, !tbaa !0
+	proci55 :
+	⊦ COP(p, proci55)(cs, cs') ↔ cs .pc(p) = A016arrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci56 :
+	⊦ COP(p, proci56)(cs, cs') ↔ cs .pc(p) = A016arrayidx1 ∧ cs' = cs .pc:= cs.pc(p ; A016) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br label %if.end
+	proci57 :
+	⊦ COP(p, proci57)(cs, cs') ↔ cs .pc(p) = A010 ∧ cs' = cs .pc:= cs.pc(p ; A016);
+	used for : s, ls;
+
+;;	%arrayidx11 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci58 :
+	⊦ COP(p, proci58)(cs, cs') ↔ cs .pc(p) = A017arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidxarrayidx3arrayidx) .arrayidx11:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci59 :
+	⊦ COP(p, proci59)(cs, cs') ↔ cs .pc(p) = A017arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* %arrayidx, align 1, !tbaa !0
+	proci60 :
+	⊦ COP(p, proci60)(cs, cs') ↔ cs .pc(p) = A016arrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci61 :
+	⊦ COP(p, proci61)(cs, cs') ↔ cs .pc(p) = A016arrayidx3 ∧ cs' = cs .pc:= cs.pc(p ; A016) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br label %if.end
+	proci62 :
+	⊦ COP(p, proci62)(cs, cs') ↔ cs .pc(p) = A015 ∧ cs' = cs .pc:= cs.pc(p ; A016);
+	used for : s, ls;
+
+;;	br label %while.cond.preheader
+	proci63 :
+	⊦ COP(p, proci63)(cs, cs') ↔ cs .pc(p) = A018arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidxarrayidx1arrayidx) .j_023:= cs.j_023(p ; 0);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci64 :
+	⊦ COP(p, proci64)(cs, cs') ↔ cs .pc(p) = A018arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx11 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci65 :
+	⊦ COP(p, proci65)(cs, cs') ↔ cs .pc(p) = A017arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidx1arrayidx) .arrayidx11:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci66 :
+	⊦ COP(p, proci66)(cs, cs') ↔ cs .pc(p) = A017arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* %arrayidx, align 1, !tbaa !0
+	proci67 :
+	⊦ COP(p, proci67)(cs, cs') ↔ cs .pc(p) = A016 ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidx);
+	used for : s, ls;
+
+;;	br label %while.cond.preheader
+	proci68 :
+	⊦ COP(p, proci68)(cs, cs') ↔ cs .pc(p) = A018arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidxarrayidx3arrayidx) .j_023:= cs.j_023(p ; 0);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci69 :
+	⊦ COP(p, proci69)(cs, cs') ↔ cs .pc(p) = A018arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx11 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci70 :
+	⊦ COP(p, proci70)(cs, cs') ↔ cs .pc(p) = A017arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidx3arrayidx) .arrayidx11:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci71 :
+	⊦ COP(p, proci71)(cs, cs') ↔ cs .pc(p) = A017arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A017arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%j.023 = phi i32 [, %if.end][%inc , %for.inc]
+	proci72 :
+	⊦ COP(p, proci72)(cs, cs') ↔ cs .pc(p) = A019arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidxarrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci73 :
+	⊦ COP(p, proci73)(cs, cs') ↔ cs .pc(p) = A019arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %while.cond.preheader
+	proci74 :
+	⊦ COP(p, proci74)(cs, cs') ↔ cs .pc(p) = A018arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx1arrayidx) .j_023:= cs.j_023(p ; 0);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci75 :
+	⊦ COP(p, proci75)(cs, cs') ↔ cs .pc(p) = A018arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx11 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci76 :
+	⊦ COP(p, proci76)(cs, cs') ↔ cs .pc(p) = A017arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidx) .arrayidx11:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci77 :
+	⊦ COP(p, proci77)(cs, cs') ↔ cs .pc(p) = A017arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A017) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%j.023 = phi i32 [, %if.end][%inc , %for.inc]
+	proci78 :
+	⊦ COP(p, proci78)(cs, cs') ↔ cs .pc(p) = A019arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidxarrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci79 :
+	⊦ COP(p, proci79)(cs, cs') ↔ cs .pc(p) = A019arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %while.cond.preheader
+	proci80 :
+	⊦ COP(p, proci80)(cs, cs') ↔ cs .pc(p) = A018arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx3arrayidx) .j_023:= cs.j_023(p ; 0);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci81 :
+	⊦ COP(p, proci81)(cs, cs') ↔ cs .pc(p) = A018arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx6 = getelementptr [2 x i8]* @choosing, i32 0, i32 %j.023
+	proci82 :
+	⊦ COP(p, proci82)(cs, cs') ↔ cs .pc(p) = A020arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidxarrayidx1arrayidx) .arrayidx6:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci83 :
+	⊦ COP(p, proci83)(cs, cs') ↔ cs .pc(p) = A020arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%j.023 = phi i32 [, %if.end][%inc , %for.inc]
+	proci84 :
+	⊦ COP(p, proci84)(cs, cs') ↔ cs .pc(p) = A019arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci85 :
+	⊦ COP(p, proci85)(cs, cs') ↔ cs .pc(p) = A019arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br label %while.cond.preheader
+	proci86 :
+	⊦ COP(p, proci86)(cs, cs') ↔ cs .pc(p) = A018arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx) .j_023:= cs.j_023(p ; 0);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci87 :
+	⊦ COP(p, proci87)(cs, cs') ↔ cs .pc(p) = A018arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A018) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%arrayidx11 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci88 :
+	⊦ COP(p, proci88)(cs, cs') ↔ cs .pc(p) = A017 ∧ cs' = cs .pc:= cs.pc(p ; A018) .arrayidx11:= ;
+	used for : s, ls;
+
+;;	%arrayidx6 = getelementptr [2 x i8]* @choosing, i32 0, i32 %j.023
+	proci89 :
+	⊦ COP(p, proci89)(cs, cs') ↔ cs .pc(p) = A020arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidxarrayidx3arrayidx) .arrayidx6:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci90 :
+	⊦ COP(p, proci90)(cs, cs') ↔ cs .pc(p) = A020arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%j.023 = phi i32 [, %if.end][%inc , %for.inc]
+	proci91 :
+	⊦ COP(p, proci91)(cs, cs') ↔ cs .pc(p) = A019arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci92 :
+	⊦ COP(p, proci92)(cs, cs') ↔ cs .pc(p) = A019arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br label %while.cond
+	proci93 :
+	⊦ COP(p, proci93)(cs, cs') ↔ cs .pc(p) = A021arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidxarrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci94 :
+	⊦ COP(p, proci94)(cs, cs') ↔ cs .pc(p) = A021arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx6 = getelementptr [2 x i8]* @choosing, i32 0, i32 %j.023
+	proci95 :
+	⊦ COP(p, proci95)(cs, cs') ↔ cs .pc(p) = A020arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidx1arrayidx) .arrayidx6:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci96 :
+	⊦ COP(p, proci96)(cs, cs') ↔ cs .pc(p) = A020arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%j.023 = phi i32 [, %if.end][%inc , %for.inc]
+	proci97 :
+	⊦ COP(p, proci97)(cs, cs') ↔ cs .pc(p) = A019arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci98 :
+	⊦ COP(p, proci98)(cs, cs') ↔ cs .pc(p) = A019arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %while.cond.preheader
+	proci99 :
+	⊦ COP(p, proci99)(cs, cs') ↔ cs .pc(p) = A018 ∧ cs' = cs .pc:= cs.pc(p ; A019) .j_023:= cs.j_023(p ; 0);
+	used for : s, ls;
+
+;;	br label %while.cond
+	proci100 :
+	⊦ COP(p, proci100)(cs, cs') ↔ cs .pc(p) = A021arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidxarrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci101 :
+	⊦ COP(p, proci101)(cs, cs') ↔ cs .pc(p) = A021arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx6 = getelementptr [2 x i8]* @choosing, i32 0, i32 %j.023
+	proci102 :
+	⊦ COP(p, proci102)(cs, cs') ↔ cs .pc(p) = A020arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidx3arrayidx) .arrayidx6:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci103 :
+	⊦ COP(p, proci103)(cs, cs') ↔ cs .pc(p) = A020arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%4 = load i8* %arrayidx6, align 1, !tbaa !0, !range !4
+	proci104 :
+	⊦ COP(p, proci104)(cs, cs') ↔ cs .pc(p) = A022arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidxarrayidx1arrayidx) .v4:= cs.v4(p ; cs.mem[cs .arrayidx6(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci105 :
+	⊦ COP(p, proci105)(cs, cs') ↔ cs .pc(p) = A022arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %while.cond
+	proci106 :
+	⊦ COP(p, proci106)(cs, cs') ↔ cs .pc(p) = A021arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci107 :
+	⊦ COP(p, proci107)(cs, cs') ↔ cs .pc(p) = A021arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx6 = getelementptr [2 x i8]* @choosing, i32 0, i32 %j.023
+	proci108 :
+	⊦ COP(p, proci108)(cs, cs') ↔ cs .pc(p) = A020arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidx) .arrayidx6:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci109 :
+	⊦ COP(p, proci109)(cs, cs') ↔ cs .pc(p) = A020arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A020) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%j.023 = phi i32 [, %if.end][%inc , %for.inc]
+	proci110 :
+	⊦ COP(p, proci110)(cs, cs') ↔ cs .pc(p) = A019 ∧ cs' = cs .pc:= cs.pc(p ; A020);
+	used for : s, ls;
+
+;;	%4 = load i8* %arrayidx6, align 1, !tbaa !0, !range !4
+	proci111 :
+	⊦ COP(p, proci111)(cs, cs') ↔ cs .pc(p) = A022arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidxarrayidx3arrayidx) .v4:= cs.v4(p ; cs.mem[cs .arrayidx6(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci112 :
+	⊦ COP(p, proci112)(cs, cs') ↔ cs .pc(p) = A022arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %while.cond
+	proci113 :
+	⊦ COP(p, proci113)(cs, cs') ↔ cs .pc(p) = A021arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci114 :
+	⊦ COP(p, proci114)(cs, cs') ↔ cs .pc(p) = A021arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%5 = and i8 %4, 1
+	NEEDS ATTENTION !
+	proci115 :
+	⊦ COP(p, proci115)(cs, cs') ↔ cs .pc(p) = A023arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidxarrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci116 :
+	⊦ COP(p, proci116)(cs, cs') ↔ cs .pc(p) = A023arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%4 = load i8* %arrayidx6, align 1, !tbaa !0, !range !4
+	proci117 :
+	⊦ COP(p, proci117)(cs, cs') ↔ cs .pc(p) = A022arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidx1arrayidx) .v4:= cs.v4(p ; cs.mem[cs .arrayidx6(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci118 :
+	⊦ COP(p, proci118)(cs, cs') ↔ cs .pc(p) = A022arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br label %while.cond
+	proci119 :
+	⊦ COP(p, proci119)(cs, cs') ↔ cs .pc(p) = A021arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci120 :
+	⊦ COP(p, proci120)(cs, cs') ↔ cs .pc(p) = A021arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A021) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%arrayidx6 = getelementptr [2 x i8]* @choosing, i32 0, i32 %j.023
+	proci121 :
+	⊦ COP(p, proci121)(cs, cs') ↔ cs .pc(p) = A020 ∧ cs' = cs .pc:= cs.pc(p ; A021) .arrayidx6:= ;
+	used for : s, ls;
+
+;;	%5 = and i8 %4, 1
+	NEEDS ATTENTION !
+	proci122 :
+	⊦ COP(p, proci122)(cs, cs') ↔ cs .pc(p) = A023arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidxarrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci123 :
+	⊦ COP(p, proci123)(cs, cs') ↔ cs .pc(p) = A023arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%4 = load i8* %arrayidx6, align 1, !tbaa !0, !range !4
+	proci124 :
+	⊦ COP(p, proci124)(cs, cs') ↔ cs .pc(p) = A022arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidx3arrayidx) .v4:= cs.v4(p ; cs.mem[cs .arrayidx6(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci125 :
+	⊦ COP(p, proci125)(cs, cs') ↔ cs .pc(p) = A022arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %5, 0
+	proci126 :
+	⊦ COP(p, proci126)(cs, cs') ↔ cs .pc(p) = A024arrayidxarrayidx1arrayidx ∧ (cs .v5(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A025arrayidxarrayidx1arrayidx) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A025arrayidxarrayidx1arrayidx) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci127 :
+	⊦ COP(p, proci127)(cs, cs') ↔ cs .pc(p) = A024arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%5 = and i8 %4, 1
+	NEEDS ATTENTION !
+	proci128 :
+	⊦ COP(p, proci128)(cs, cs') ↔ cs .pc(p) = A023arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci129 :
+	⊦ COP(p, proci129)(cs, cs') ↔ cs .pc(p) = A023arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%4 = load i8* %arrayidx6, align 1, !tbaa !0, !range !4
+	proci130 :
+	⊦ COP(p, proci130)(cs, cs') ↔ cs .pc(p) = A022arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidx) .v4:= cs.v4(p ; cs.mem[cs .arrayidx6(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci131 :
+	⊦ COP(p, proci131)(cs, cs') ↔ cs .pc(p) = A022arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %while.cond
+	proci132 :
+	⊦ COP(p, proci132)(cs, cs') ↔ cs .pc(p) = A021 ∧ cs' = cs .pc:= cs.pc(p ; A022);
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %5, 0
+	proci133 :
+	⊦ COP(p, proci133)(cs, cs') ↔ cs .pc(p) = A024arrayidxarrayidx3arrayidx ∧ (cs .v5(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A025arrayidxarrayidx3arrayidx) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A025arrayidxarrayidx3arrayidx) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci134 :
+	⊦ COP(p, proci134)(cs, cs') ↔ cs .pc(p) = A024arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%5 = and i8 %4, 1
+	NEEDS ATTENTION !
+	proci135 :
+	⊦ COP(p, proci135)(cs, cs') ↔ cs .pc(p) = A023arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci136 :
+	⊦ COP(p, proci136)(cs, cs') ↔ cs .pc(p) = A023arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci137 :
+	⊦ COP(p, proci137)(cs, cs') ↔ cs .pc(p) = A025arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidxarrayidx1arrayidx) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci138 :
+	⊦ COP(p, proci138)(cs, cs') ↔ cs .pc(p) = A025arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidxarrayidx1arrayidx) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci139 :
+	⊦ COP(p, proci139)(cs, cs') ↔ cs .pc(p) = A025arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A025arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %5, 0
+	proci140 :
+	⊦ COP(p, proci140)(cs, cs') ↔ cs .pc(p) = A024arrayidx1arrayidx ∧ (cs .v5(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A025arrayidx1arrayidx) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A025arrayidx1arrayidx) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci141 :
+	⊦ COP(p, proci141)(cs, cs') ↔ cs .pc(p) = A024arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%5 = and i8 %4, 1
+	NEEDS ATTENTION !
+	proci142 :
+	⊦ COP(p, proci142)(cs, cs') ↔ cs .pc(p) = A023arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci143 :
+	⊦ COP(p, proci143)(cs, cs') ↔ cs .pc(p) = A023arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A023) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%4 = load i8* %arrayidx6, align 1, !tbaa !0, !range !4
+	proci144 :
+	⊦ COP(p, proci144)(cs, cs') ↔ cs .pc(p) = A022 ∧ cs' = cs .pc:= cs.pc(p ; A023) .v4:= cs.v4(p ; cs.mem[cs .arrayidx6(p) .v] .v);
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci145 :
+	⊦ COP(p, proci145)(cs, cs') ↔ cs .pc(p) = A025arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidxarrayidx3arrayidx) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci146 :
+	⊦ COP(p, proci146)(cs, cs') ↔ cs .pc(p) = A025arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidxarrayidx3arrayidx) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci147 :
+	⊦ COP(p, proci147)(cs, cs') ↔ cs .pc(p) = A025arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A025arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %5, 0
+	proci148 :
+	⊦ COP(p, proci148)(cs, cs') ↔ cs .pc(p) = A024arrayidx3arrayidx ∧ (cs .v5(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A025arrayidx3arrayidx) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A025arrayidx3arrayidx) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci149 :
+	⊦ COP(p, proci149)(cs, cs') ↔ cs .pc(p) = A024arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx8 = getelementptr [2 x i32]* @number, i32 0, i32 %j.023
+	proci150 :
+	⊦ COP(p, proci150)(cs, cs') ↔ cs .pc(p) = A026arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidxarrayidx1arrayidx) .arrayidx8:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci151 :
+	⊦ COP(p, proci151)(cs, cs') ↔ cs .pc(p) = A026arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci152 :
+	⊦ COP(p, proci152)(cs, cs') ↔ cs .pc(p) = A025arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidx1arrayidx) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci153 :
+	⊦ COP(p, proci153)(cs, cs') ↔ cs .pc(p) = A025arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx1arrayidx) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci154 :
+	⊦ COP(p, proci154)(cs, cs') ↔ cs .pc(p) = A025arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A025arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %5, 0
+	proci155 :
+	⊦ COP(p, proci155)(cs, cs') ↔ cs .pc(p) = A024arrayidx ∧ (cs .v5(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A025arrayidx) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A025arrayidx) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci156 :
+	⊦ COP(p, proci156)(cs, cs') ↔ cs .pc(p) = A024arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A024) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%5 = and i8 %4, 1
+	NEEDS ATTENTION !
+	proci157 :
+	⊦ COP(p, proci157)(cs, cs') ↔ cs .pc(p) = A023 ∧ cs' = cs .pc:= cs.pc(p ; A024);
+	used for : s, ls;
+
+;;	%arrayidx8 = getelementptr [2 x i32]* @number, i32 0, i32 %j.023
+	proci158 :
+	⊦ COP(p, proci158)(cs, cs') ↔ cs .pc(p) = A026arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidxarrayidx3arrayidx) .arrayidx8:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci159 :
+	⊦ COP(p, proci159)(cs, cs') ↔ cs .pc(p) = A026arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci160 :
+	⊦ COP(p, proci160)(cs, cs') ↔ cs .pc(p) = A025arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidx3arrayidx) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci161 :
+	⊦ COP(p, proci161)(cs, cs') ↔ cs .pc(p) = A025arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx3arrayidx) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci162 :
+	⊦ COP(p, proci162)(cs, cs') ↔ cs .pc(p) = A025arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A025arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%cmp17 = icmp slt i32 %j.023, %i
+	proci163 :
+	⊦ COP(p, proci163)(cs, cs') ↔ cs .pc(p) = A027arrayidxarrayidx1arrayidx ∧ (cs .j_023(p) ≥ cs .i(p) ⊃ cs' = cs .pc:= cs.pc(p; A028arrayidxarrayidx1arrayidx) .cmp17:= cs.cmp17(p ; 0) ; cs' = cs .pc:= cs.pc(p; A028arrayidxarrayidx1arrayidx) .cmp17:= cs.cmp17(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci164 :
+	⊦ COP(p, proci164)(cs, cs') ↔ cs .pc(p) = A027arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx8 = getelementptr [2 x i32]* @number, i32 0, i32 %j.023
+	proci165 :
+	⊦ COP(p, proci165)(cs, cs') ↔ cs .pc(p) = A026arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidx1arrayidx) .arrayidx8:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci166 :
+	⊦ COP(p, proci166)(cs, cs') ↔ cs .pc(p) = A026arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci167 :
+	⊦ COP(p, proci167)(cs, cs') ↔ cs .pc(p) = A025arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidx) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci168 :
+	⊦ COP(p, proci168)(cs, cs') ↔ cs .pc(p) = A025arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A022arrayidx) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci169 :
+	⊦ COP(p, proci169)(cs, cs') ↔ cs .pc(p) = A025arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A025) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %5, 0
+	proci170 :
+	⊦ COP(p, proci170)(cs, cs') ↔ cs .pc(p) = A024 ∧ (cs .v5(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A025) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A025) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	%cmp17 = icmp slt i32 %j.023, %i
+	proci171 :
+	⊦ COP(p, proci171)(cs, cs') ↔ cs .pc(p) = A027arrayidxarrayidx3arrayidx ∧ (cs .j_023(p) ≥ cs .i(p) ⊃ cs' = cs .pc:= cs.pc(p; A028arrayidxarrayidx3arrayidx) .cmp17:= cs.cmp17(p ; 0) ; cs' = cs .pc:= cs.pc(p; A028arrayidxarrayidx3arrayidx) .cmp17:= cs.cmp17(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci172 :
+	⊦ COP(p, proci172)(cs, cs') ↔ cs .pc(p) = A027arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx8 = getelementptr [2 x i32]* @number, i32 0, i32 %j.023
+	proci173 :
+	⊦ COP(p, proci173)(cs, cs') ↔ cs .pc(p) = A026arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidx3arrayidx) .arrayidx8:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci174 :
+	⊦ COP(p, proci174)(cs, cs') ↔ cs .pc(p) = A026arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br label %while.cond7
+	proci175 :
+	⊦ COP(p, proci175)(cs, cs') ↔ cs .pc(p) = A028arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidxarrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci176 :
+	⊦ COP(p, proci176)(cs, cs') ↔ cs .pc(p) = A028arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A028arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp17 = icmp slt i32 %j.023, %i
+	proci177 :
+	⊦ COP(p, proci177)(cs, cs') ↔ cs .pc(p) = A027arrayidx1arrayidx ∧ (cs .j_023(p) ≥ cs .i(p) ⊃ cs' = cs .pc:= cs.pc(p; A028arrayidx1arrayidx) .cmp17:= cs.cmp17(p ; 0) ; cs' = cs .pc:= cs.pc(p; A028arrayidx1arrayidx) .cmp17:= cs.cmp17(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci178 :
+	⊦ COP(p, proci178)(cs, cs') ↔ cs .pc(p) = A027arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx8 = getelementptr [2 x i32]* @number, i32 0, i32 %j.023
+	proci179 :
+	⊦ COP(p, proci179)(cs, cs') ↔ cs .pc(p) = A026arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidx) .arrayidx8:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci180 :
+	⊦ COP(p, proci180)(cs, cs') ↔ cs .pc(p) = A026arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A026) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci181 :
+	⊦ COP(p, proci181)(cs, cs') ↔ cs .pc(p) = A025 ∧ cs' = cs .pc:= cs.pc(p ; A026) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci182 :
+	⊦ COP(p, proci182)(cs, cs') ↔ cs .pc(p) = A025 ∧ cs' = cs .pc:= cs.pc(p ; A022) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	br label %while.cond7
+	proci183 :
+	⊦ COP(p, proci183)(cs, cs') ↔ cs .pc(p) = A028arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidxarrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci184 :
+	⊦ COP(p, proci184)(cs, cs') ↔ cs .pc(p) = A028arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A028arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp17 = icmp slt i32 %j.023, %i
+	proci185 :
+	⊦ COP(p, proci185)(cs, cs') ↔ cs .pc(p) = A027arrayidx3arrayidx ∧ (cs .j_023(p) ≥ cs .i(p) ⊃ cs' = cs .pc:= cs.pc(p; A028arrayidx3arrayidx) .cmp17:= cs.cmp17(p ; 0) ; cs' = cs .pc:= cs.pc(p; A028arrayidx3arrayidx) .cmp17:= cs.cmp17(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci186 :
+	⊦ COP(p, proci186)(cs, cs') ↔ cs .pc(p) = A027arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%6 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci187 :
+	⊦ COP(p, proci187)(cs, cs') ↔ cs .pc(p) = A029arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidxarrayidx1arrayidx) .v6:= cs.v6(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci188 :
+	⊦ COP(p, proci188)(cs, cs') ↔ cs .pc(p) = A029arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %while.cond7
+	proci189 :
+	⊦ COP(p, proci189)(cs, cs') ↔ cs .pc(p) = A028arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci190 :
+	⊦ COP(p, proci190)(cs, cs') ↔ cs .pc(p) = A028arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A028arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%cmp17 = icmp slt i32 %j.023, %i
+	proci191 :
+	⊦ COP(p, proci191)(cs, cs') ↔ cs .pc(p) = A027arrayidx ∧ (cs .j_023(p) ≥ cs .i(p) ⊃ cs' = cs .pc:= cs.pc(p; A028arrayidx) .cmp17:= cs.cmp17(p ; 0) ; cs' = cs .pc:= cs.pc(p; A028arrayidx) .cmp17:= cs.cmp17(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci192 :
+	⊦ COP(p, proci192)(cs, cs') ↔ cs .pc(p) = A027arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A027) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%arrayidx8 = getelementptr [2 x i32]* @number, i32 0, i32 %j.023
+	proci193 :
+	⊦ COP(p, proci193)(cs, cs') ↔ cs .pc(p) = A026 ∧ cs' = cs .pc:= cs.pc(p ; A027) .arrayidx8:= ;
+	used for : s, ls;
+
+;;	%6 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci194 :
+	⊦ COP(p, proci194)(cs, cs') ↔ cs .pc(p) = A029arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidxarrayidx3arrayidx) .v6:= cs.v6(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci195 :
+	⊦ COP(p, proci195)(cs, cs') ↔ cs .pc(p) = A029arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %while.cond7
+	proci196 :
+	⊦ COP(p, proci196)(cs, cs') ↔ cs .pc(p) = A028arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci197 :
+	⊦ COP(p, proci197)(cs, cs') ↔ cs .pc(p) = A028arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A028arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%cmp9 = icmp eq i32 %6, 0
+	proci198 :
+	⊦ COP(p, proci198)(cs, cs') ↔ cs .pc(p) = A030arrayidxarrayidx1arrayidx ∧ (cs .v6(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A031arrayidxarrayidx1arrayidx) .cmp9:= cs.cmp9(p ; 1) ; cs' = cs .pc:= cs.pc(p; A031arrayidxarrayidx1arrayidx) .cmp9:= cs.cmp9(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci199 :
+	⊦ COP(p, proci199)(cs, cs') ↔ cs .pc(p) = A030arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%6 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci200 :
+	⊦ COP(p, proci200)(cs, cs') ↔ cs .pc(p) = A029arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidx1arrayidx) .v6:= cs.v6(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci201 :
+	⊦ COP(p, proci201)(cs, cs') ↔ cs .pc(p) = A029arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br label %while.cond7
+	proci202 :
+	⊦ COP(p, proci202)(cs, cs') ↔ cs .pc(p) = A028arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci203 :
+	⊦ COP(p, proci203)(cs, cs') ↔ cs .pc(p) = A028arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A028) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp17 = icmp slt i32 %j.023, %i
+	proci204 :
+	⊦ COP(p, proci204)(cs, cs') ↔ cs .pc(p) = A027 ∧ (cs .j_023(p) ≥ cs .i(p) ⊃ cs' = cs .pc:= cs.pc(p; A028) .cmp17:= cs.cmp17(p ; 0) ; cs' = cs .pc:= cs.pc(p; A028) .cmp17:= cs.cmp17(p ; 1));
+	used for : s, ls;
+
+;;	%cmp9 = icmp eq i32 %6, 0
+	proci205 :
+	⊦ COP(p, proci205)(cs, cs') ↔ cs .pc(p) = A030arrayidxarrayidx3arrayidx ∧ (cs .v6(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A031arrayidxarrayidx3arrayidx) .cmp9:= cs.cmp9(p ; 1) ; cs' = cs .pc:= cs.pc(p; A031arrayidxarrayidx3arrayidx) .cmp9:= cs.cmp9(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci206 :
+	⊦ COP(p, proci206)(cs, cs') ↔ cs .pc(p) = A030arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%6 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci207 :
+	⊦ COP(p, proci207)(cs, cs') ↔ cs .pc(p) = A029arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidx3arrayidx) .v6:= cs.v6(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci208 :
+	⊦ COP(p, proci208)(cs, cs') ↔ cs .pc(p) = A029arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci209 :
+	⊦ COP(p, proci209)(cs, cs') ↔ cs .pc(p) = A031arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidxarrayidx1arrayidx) ∧ cs .cmp9(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci210 :
+	⊦ COP(p, proci210)(cs, cs') ↔ cs .pc(p) = A031arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidxarrayidx1arrayidx) ∧ cs .cmp9(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci211 :
+	⊦ COP(p, proci211)(cs, cs') ↔ cs .pc(p) = A031arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A031arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp9 = icmp eq i32 %6, 0
+	proci212 :
+	⊦ COP(p, proci212)(cs, cs') ↔ cs .pc(p) = A030arrayidx1arrayidx ∧ (cs .v6(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A031arrayidx1arrayidx) .cmp9:= cs.cmp9(p ; 1) ; cs' = cs .pc:= cs.pc(p; A031arrayidx1arrayidx) .cmp9:= cs.cmp9(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci213 :
+	⊦ COP(p, proci213)(cs, cs') ↔ cs .pc(p) = A030arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%6 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci214 :
+	⊦ COP(p, proci214)(cs, cs') ↔ cs .pc(p) = A029arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidx) .v6:= cs.v6(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci215 :
+	⊦ COP(p, proci215)(cs, cs') ↔ cs .pc(p) = A029arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br label %while.cond7
+	proci216 :
+	⊦ COP(p, proci216)(cs, cs') ↔ cs .pc(p) = A028 ∧ cs' = cs .pc:= cs.pc(p ; A029);
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci217 :
+	⊦ COP(p, proci217)(cs, cs') ↔ cs .pc(p) = A031arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidxarrayidx3arrayidx) ∧ cs .cmp9(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci218 :
+	⊦ COP(p, proci218)(cs, cs') ↔ cs .pc(p) = A031arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidxarrayidx3arrayidx) ∧ cs .cmp9(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci219 :
+	⊦ COP(p, proci219)(cs, cs') ↔ cs .pc(p) = A031arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A031arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp9 = icmp eq i32 %6, 0
+	proci220 :
+	⊦ COP(p, proci220)(cs, cs') ↔ cs .pc(p) = A030arrayidx3arrayidx ∧ (cs .v6(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A031arrayidx3arrayidx) .cmp9:= cs.cmp9(p ; 1) ; cs' = cs .pc:= cs.pc(p; A031arrayidx3arrayidx) .cmp9:= cs.cmp9(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci221 :
+	⊦ COP(p, proci221)(cs, cs') ↔ cs .pc(p) = A030arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%inc = add i32 %j.023, 1
+	proci222 :
+	⊦ COP(p, proci222)(cs, cs') ↔ cs .pc(p) = A041arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidxarrayidx1arrayidx) .inc:= cs.inc(p ; cs .j_023(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci223 :
+	⊦ COP(p, proci223)(cs, cs') ↔ cs .pc(p) = A041arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%7 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci224 :
+	⊦ COP(p, proci224)(cs, cs') ↔ cs .pc(p) = A032arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidxarrayidx1arrayidx) .v7:= cs.v7(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci225 :
+	⊦ COP(p, proci225)(cs, cs') ↔ cs .pc(p) = A032arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci226 :
+	⊦ COP(p, proci226)(cs, cs') ↔ cs .pc(p) = A031arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx1arrayidx) ∧ cs .cmp9(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci227 :
+	⊦ COP(p, proci227)(cs, cs') ↔ cs .pc(p) = A031arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidx1arrayidx) ∧ cs .cmp9(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci228 :
+	⊦ COP(p, proci228)(cs, cs') ↔ cs .pc(p) = A031arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A031arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%cmp9 = icmp eq i32 %6, 0
+	proci229 :
+	⊦ COP(p, proci229)(cs, cs') ↔ cs .pc(p) = A030arrayidx ∧ (cs .v6(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A031arrayidx) .cmp9:= cs.cmp9(p ; 1) ; cs' = cs .pc:= cs.pc(p; A031arrayidx) .cmp9:= cs.cmp9(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci230 :
+	⊦ COP(p, proci230)(cs, cs') ↔ cs .pc(p) = A030arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A030) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%6 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci231 :
+	⊦ COP(p, proci231)(cs, cs') ↔ cs .pc(p) = A029 ∧ cs' = cs .pc:= cs.pc(p ; A030) .v6:= cs.v6(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	%inc = add i32 %j.023, 1
+	proci232 :
+	⊦ COP(p, proci232)(cs, cs') ↔ cs .pc(p) = A041arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidxarrayidx3arrayidx) .inc:= cs.inc(p ; cs .j_023(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci233 :
+	⊦ COP(p, proci233)(cs, cs') ↔ cs .pc(p) = A041arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%7 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci234 :
+	⊦ COP(p, proci234)(cs, cs') ↔ cs .pc(p) = A032arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidxarrayidx3arrayidx) .v7:= cs.v7(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci235 :
+	⊦ COP(p, proci235)(cs, cs') ↔ cs .pc(p) = A032arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci236 :
+	⊦ COP(p, proci236)(cs, cs') ↔ cs .pc(p) = A031arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx3arrayidx) ∧ cs .cmp9(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci237 :
+	⊦ COP(p, proci237)(cs, cs') ↔ cs .pc(p) = A031arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidx3arrayidx) ∧ cs .cmp9(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci238 :
+	⊦ COP(p, proci238)(cs, cs') ↔ cs .pc(p) = A031arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A031arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%exitcond = icmp eq i32 %inc, 2
+	proci239 :
+	⊦ COP(p, proci239)(cs, cs') ↔ cs .pc(p) = A042arrayidxarrayidx1arrayidx ∧ (cs .inc(p) = 2
+	 ⊃ cs' = cs .pc:= cs.pc(p; A043arrayidxarrayidx1arrayidx) .exitcond:= cs.exitcond(p ; 1) ; cs' = cs .pc:= cs.pc(p; A043arrayidxarrayidx1arrayidx) .exitcond:= cs.exitcond(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci240 :
+	⊦ COP(p, proci240)(cs, cs') ↔ cs .pc(p) = A042arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%inc = add i32 %j.023, 1
+	proci241 :
+	⊦ COP(p, proci241)(cs, cs') ↔ cs .pc(p) = A041arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidx1arrayidx) .inc:= cs.inc(p ; cs .j_023(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci242 :
+	⊦ COP(p, proci242)(cs, cs') ↔ cs .pc(p) = A041arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%8 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci243 :
+	⊦ COP(p, proci243)(cs, cs') ↔ cs .pc(p) = A033arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidxarrayidx1arrayidx) .v8:= cs.v8(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci244 :
+	⊦ COP(p, proci244)(cs, cs') ↔ cs .pc(p) = A033arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%7 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci245 :
+	⊦ COP(p, proci245)(cs, cs') ↔ cs .pc(p) = A032arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidx1arrayidx) .v7:= cs.v7(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci246 :
+	⊦ COP(p, proci246)(cs, cs') ↔ cs .pc(p) = A032arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci247 :
+	⊦ COP(p, proci247)(cs, cs') ↔ cs .pc(p) = A031arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx) ∧ cs .cmp9(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci248 :
+	⊦ COP(p, proci248)(cs, cs') ↔ cs .pc(p) = A031arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidx) ∧ cs .cmp9(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci249 :
+	⊦ COP(p, proci249)(cs, cs') ↔ cs .pc(p) = A031arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A031) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp9 = icmp eq i32 %6, 0
+	proci250 :
+	⊦ COP(p, proci250)(cs, cs') ↔ cs .pc(p) = A030 ∧ (cs .v6(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A031) .cmp9:= cs.cmp9(p ; 1) ; cs' = cs .pc:= cs.pc(p; A031) .cmp9:= cs.cmp9(p ; 0));
+	used for : s, ls;
+
+;;	%exitcond = icmp eq i32 %inc, 2
+	proci251 :
+	⊦ COP(p, proci251)(cs, cs') ↔ cs .pc(p) = A042arrayidxarrayidx3arrayidx ∧ (cs .inc(p) = 2
+	 ⊃ cs' = cs .pc:= cs.pc(p; A043arrayidxarrayidx3arrayidx) .exitcond:= cs.exitcond(p ; 1) ; cs' = cs .pc:= cs.pc(p; A043arrayidxarrayidx3arrayidx) .exitcond:= cs.exitcond(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci252 :
+	⊦ COP(p, proci252)(cs, cs') ↔ cs .pc(p) = A042arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%inc = add i32 %j.023, 1
+	proci253 :
+	⊦ COP(p, proci253)(cs, cs') ↔ cs .pc(p) = A041arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidx3arrayidx) .inc:= cs.inc(p ; cs .j_023(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci254 :
+	⊦ COP(p, proci254)(cs, cs') ↔ cs .pc(p) = A041arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%8 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci255 :
+	⊦ COP(p, proci255)(cs, cs') ↔ cs .pc(p) = A033arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidxarrayidx3arrayidx) .v8:= cs.v8(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci256 :
+	⊦ COP(p, proci256)(cs, cs') ↔ cs .pc(p) = A033arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%7 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci257 :
+	⊦ COP(p, proci257)(cs, cs') ↔ cs .pc(p) = A032arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidx3arrayidx) .v7:= cs.v7(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci258 :
+	⊦ COP(p, proci258)(cs, cs') ↔ cs .pc(p) = A032arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci259 :
+	⊦ COP(p, proci259)(cs, cs') ↔ cs .pc(p) = A043arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidxarrayidx1arrayidx) ∧ cs .exitcond(p) = 1;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci260 :
+	⊦ COP(p, proci260)(cs, cs') ↔ cs .pc(p) = A043arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidxarrayidx1arrayidx) .j_023:= cs.j_023(p ; cs .inc(p)) ∧ cs .exitcond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci261 :
+	⊦ COP(p, proci261)(cs, cs') ↔ cs .pc(p) = A043arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A043arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%exitcond = icmp eq i32 %inc, 2
+	proci262 :
+	⊦ COP(p, proci262)(cs, cs') ↔ cs .pc(p) = A042arrayidx1arrayidx ∧ (cs .inc(p) = 2
+	 ⊃ cs' = cs .pc:= cs.pc(p; A043arrayidx1arrayidx) .exitcond:= cs.exitcond(p ; 1) ; cs' = cs .pc:= cs.pc(p; A043arrayidx1arrayidx) .exitcond:= cs.exitcond(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci263 :
+	⊦ COP(p, proci263)(cs, cs') ↔ cs .pc(p) = A042arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%inc = add i32 %j.023, 1
+	proci264 :
+	⊦ COP(p, proci264)(cs, cs') ↔ cs .pc(p) = A041arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidx) .inc:= cs.inc(p ; cs .j_023(p) + 1);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci265 :
+	⊦ COP(p, proci265)(cs, cs') ↔ cs .pc(p) = A041arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp12 = icmp slt i32 %7, %8
+	proci266 :
+	⊦ COP(p, proci266)(cs, cs') ↔ cs .pc(p) = A034arrayidxarrayidx1arrayidx ∧ (cs .v7(p) ≥ cs .v8(p) ⊃ cs' = cs .pc:= cs.pc(p; A035arrayidxarrayidx1arrayidx) .cmp12:= cs.cmp12(p ; 0) ; cs' = cs .pc:= cs.pc(p; A035arrayidxarrayidx1arrayidx) .cmp12:= cs.cmp12(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci267 :
+	⊦ COP(p, proci267)(cs, cs') ↔ cs .pc(p) = A034arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%8 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci268 :
+	⊦ COP(p, proci268)(cs, cs') ↔ cs .pc(p) = A033arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidx1arrayidx) .v8:= cs.v8(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci269 :
+	⊦ COP(p, proci269)(cs, cs') ↔ cs .pc(p) = A033arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%7 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci270 :
+	⊦ COP(p, proci270)(cs, cs') ↔ cs .pc(p) = A032arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidx) .v7:= cs.v7(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci271 :
+	⊦ COP(p, proci271)(cs, cs') ↔ cs .pc(p) = A032arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A032) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci272 :
+	⊦ COP(p, proci272)(cs, cs') ↔ cs .pc(p) = A031 ∧ cs' = cs .pc:= cs.pc(p ; A041) ∧ cs .cmp9(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci273 :
+	⊦ COP(p, proci273)(cs, cs') ↔ cs .pc(p) = A031 ∧ cs' = cs .pc:= cs.pc(p ; A032) ∧ cs .cmp9(p) = 0;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci274 :
+	⊦ COP(p, proci274)(cs, cs') ↔ cs .pc(p) = A043arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidxarrayidx3arrayidx) ∧ cs .exitcond(p) = 1;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci275 :
+	⊦ COP(p, proci275)(cs, cs') ↔ cs .pc(p) = A043arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidxarrayidx3arrayidx) .j_023:= cs.j_023(p ; cs .inc(p)) ∧ cs .exitcond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci276 :
+	⊦ COP(p, proci276)(cs, cs') ↔ cs .pc(p) = A043arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A043arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%exitcond = icmp eq i32 %inc, 2
+	proci277 :
+	⊦ COP(p, proci277)(cs, cs') ↔ cs .pc(p) = A042arrayidx3arrayidx ∧ (cs .inc(p) = 2
+	 ⊃ cs' = cs .pc:= cs.pc(p; A043arrayidx3arrayidx) .exitcond:= cs.exitcond(p ; 1) ; cs' = cs .pc:= cs.pc(p; A043arrayidx3arrayidx) .exitcond:= cs.exitcond(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci278 :
+	⊦ COP(p, proci278)(cs, cs') ↔ cs .pc(p) = A042arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%cmp12 = icmp slt i32 %7, %8
+	proci279 :
+	⊦ COP(p, proci279)(cs, cs') ↔ cs .pc(p) = A034arrayidxarrayidx3arrayidx ∧ (cs .v7(p) ≥ cs .v8(p) ⊃ cs' = cs .pc:= cs.pc(p; A035arrayidxarrayidx3arrayidx) .cmp12:= cs.cmp12(p ; 0) ; cs' = cs .pc:= cs.pc(p; A035arrayidxarrayidx3arrayidx) .cmp12:= cs.cmp12(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci280 :
+	⊦ COP(p, proci280)(cs, cs') ↔ cs .pc(p) = A034arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%8 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci281 :
+	⊦ COP(p, proci281)(cs, cs') ↔ cs .pc(p) = A033arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidx3arrayidx) .v8:= cs.v8(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci282 :
+	⊦ COP(p, proci282)(cs, cs') ↔ cs .pc(p) = A033arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx21 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci283 :
+	⊦ COP(p, proci283)(cs, cs') ↔ cs .pc(p) = A044arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidxarrayidx1arrayidx) .arrayidx21:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci284 :
+	⊦ COP(p, proci284)(cs, cs') ↔ cs .pc(p) = A044arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci285 :
+	⊦ COP(p, proci285)(cs, cs') ↔ cs .pc(p) = A043arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidx1arrayidx) ∧ cs .exitcond(p) = 1;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci286 :
+	⊦ COP(p, proci286)(cs, cs') ↔ cs .pc(p) = A043arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx1arrayidx) .j_023:= cs.j_023(p ; cs .inc(p)) ∧ cs .exitcond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci287 :
+	⊦ COP(p, proci287)(cs, cs') ↔ cs .pc(p) = A043arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A043arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%exitcond = icmp eq i32 %inc, 2
+	proci288 :
+	⊦ COP(p, proci288)(cs, cs') ↔ cs .pc(p) = A042arrayidx ∧ (cs .inc(p) = 2
+	 ⊃ cs' = cs .pc:= cs.pc(p; A043arrayidx) .exitcond:= cs.exitcond(p ; 1) ; cs' = cs .pc:= cs.pc(p; A043arrayidx) .exitcond:= cs.exitcond(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci289 :
+	⊦ COP(p, proci289)(cs, cs') ↔ cs .pc(p) = A042arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A042) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%inc = add i32 %j.023, 1
+	proci290 :
+	⊦ COP(p, proci290)(cs, cs') ↔ cs .pc(p) = A041 ∧ cs' = cs .pc:= cs.pc(p ; A042) .inc:= cs.inc(p ; cs .j_023(p) + 1);
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci291 :
+	⊦ COP(p, proci291)(cs, cs') ↔ cs .pc(p) = A035arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidxarrayidx1arrayidx) ∧ cs .cmp12(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci292 :
+	⊦ COP(p, proci292)(cs, cs') ↔ cs .pc(p) = A035arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidxarrayidx1arrayidx) ∧ cs .cmp12(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci293 :
+	⊦ COP(p, proci293)(cs, cs') ↔ cs .pc(p) = A035arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A035arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp12 = icmp slt i32 %7, %8
+	proci294 :
+	⊦ COP(p, proci294)(cs, cs') ↔ cs .pc(p) = A034arrayidx1arrayidx ∧ (cs .v7(p) ≥ cs .v8(p) ⊃ cs' = cs .pc:= cs.pc(p; A035arrayidx1arrayidx) .cmp12:= cs.cmp12(p ; 0) ; cs' = cs .pc:= cs.pc(p; A035arrayidx1arrayidx) .cmp12:= cs.cmp12(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci295 :
+	⊦ COP(p, proci295)(cs, cs') ↔ cs .pc(p) = A034arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%8 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci296 :
+	⊦ COP(p, proci296)(cs, cs') ↔ cs .pc(p) = A033arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidx) .v8:= cs.v8(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci297 :
+	⊦ COP(p, proci297)(cs, cs') ↔ cs .pc(p) = A033arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A033) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%7 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci298 :
+	⊦ COP(p, proci298)(cs, cs') ↔ cs .pc(p) = A032 ∧ cs' = cs .pc:= cs.pc(p ; A033) .v7:= cs.v7(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	%arrayidx21 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci299 :
+	⊦ COP(p, proci299)(cs, cs') ↔ cs .pc(p) = A044arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidxarrayidx3arrayidx) .arrayidx21:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci300 :
+	⊦ COP(p, proci300)(cs, cs') ↔ cs .pc(p) = A044arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci301 :
+	⊦ COP(p, proci301)(cs, cs') ↔ cs .pc(p) = A043arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidx3arrayidx) ∧ cs .exitcond(p) = 1;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci302 :
+	⊦ COP(p, proci302)(cs, cs') ↔ cs .pc(p) = A043arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx3arrayidx) .j_023:= cs.j_023(p ; cs .inc(p)) ∧ cs .exitcond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci303 :
+	⊦ COP(p, proci303)(cs, cs') ↔ cs .pc(p) = A043arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A043arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci304 :
+	⊦ COP(p, proci304)(cs, cs') ↔ cs .pc(p) = A035arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidxarrayidx3arrayidx) ∧ cs .cmp12(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci305 :
+	⊦ COP(p, proci305)(cs, cs') ↔ cs .pc(p) = A035arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidxarrayidx3arrayidx) ∧ cs .cmp12(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci306 :
+	⊦ COP(p, proci306)(cs, cs') ↔ cs .pc(p) = A035arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A035arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp12 = icmp slt i32 %7, %8
+	proci307 :
+	⊦ COP(p, proci307)(cs, cs') ↔ cs .pc(p) = A034arrayidx3arrayidx ∧ (cs .v7(p) ≥ cs .v8(p) ⊃ cs' = cs .pc:= cs.pc(p; A035arrayidx3arrayidx) .cmp12:= cs.cmp12(p ; 0) ; cs' = cs .pc:= cs.pc(p; A035arrayidx3arrayidx) .cmp12:= cs.cmp12(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci308 :
+	⊦ COP(p, proci308)(cs, cs') ↔ cs .pc(p) = A034arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	store i32 0, i32* %arrayidx21, align 4, !tbaa !3
+	proci309 :
+	⊦ COP(p, proci309)(cs, cs') ↔ cs .pc(p) = A045arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidxarrayidx1arrayidxarrayidx21);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci310 :
+	⊦ COP(p, proci310)(cs, cs') ↔ cs .pc(p) = A045arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx21 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci311 :
+	⊦ COP(p, proci311)(cs, cs') ↔ cs .pc(p) = A044arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidx1arrayidx) .arrayidx21:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci312 :
+	⊦ COP(p, proci312)(cs, cs') ↔ cs .pc(p) = A044arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci313 :
+	⊦ COP(p, proci313)(cs, cs') ↔ cs .pc(p) = A043arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidx) ∧ cs .exitcond(p) = 1;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci314 :
+	⊦ COP(p, proci314)(cs, cs') ↔ cs .pc(p) = A043arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A019arrayidx) .j_023:= cs.j_023(p ; cs .inc(p)) ∧ cs .exitcond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci315 :
+	⊦ COP(p, proci315)(cs, cs') ↔ cs .pc(p) = A043arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A043) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%exitcond = icmp eq i32 %inc, 2
+	proci316 :
+	⊦ COP(p, proci316)(cs, cs') ↔ cs .pc(p) = A042 ∧ (cs .inc(p) = 2
+	 ⊃ cs' = cs .pc:= cs.pc(p; A043) .exitcond:= cs.exitcond(p ; 1) ; cs' = cs .pc:= cs.pc(p; A043) .exitcond:= cs.exitcond(p ; 0));
+	used for : s, ls;
+
+;;	%9 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci317 :
+	⊦ COP(p, proci317)(cs, cs') ↔ cs .pc(p) = A036arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidxarrayidx1arrayidx) .v9:= cs.v9(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci318 :
+	⊦ COP(p, proci318)(cs, cs') ↔ cs .pc(p) = A036arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci319 :
+	⊦ COP(p, proci319)(cs, cs') ↔ cs .pc(p) = A035arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx1arrayidx) ∧ cs .cmp12(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci320 :
+	⊦ COP(p, proci320)(cs, cs') ↔ cs .pc(p) = A035arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidx1arrayidx) ∧ cs .cmp12(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci321 :
+	⊦ COP(p, proci321)(cs, cs') ↔ cs .pc(p) = A035arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A035arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%cmp12 = icmp slt i32 %7, %8
+	proci322 :
+	⊦ COP(p, proci322)(cs, cs') ↔ cs .pc(p) = A034arrayidx ∧ (cs .v7(p) ≥ cs .v8(p) ⊃ cs' = cs .pc:= cs.pc(p; A035arrayidx) .cmp12:= cs.cmp12(p ; 0) ; cs' = cs .pc:= cs.pc(p; A035arrayidx) .cmp12:= cs.cmp12(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci323 :
+	⊦ COP(p, proci323)(cs, cs') ↔ cs .pc(p) = A034arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A034) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%8 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci324 :
+	⊦ COP(p, proci324)(cs, cs') ↔ cs .pc(p) = A033 ∧ cs' = cs .pc:= cs.pc(p ; A034) .v8:= cs.v8(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	store i32 0, i32* %arrayidx21, align 4, !tbaa !3
+	proci325 :
+	⊦ COP(p, proci325)(cs, cs') ↔ cs .pc(p) = A045arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidxarrayidx3arrayidxarrayidx21);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci326 :
+	⊦ COP(p, proci326)(cs, cs') ↔ cs .pc(p) = A045arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%arrayidx21 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci327 :
+	⊦ COP(p, proci327)(cs, cs') ↔ cs .pc(p) = A044arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidx3arrayidx) .arrayidx21:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci328 :
+	⊦ COP(p, proci328)(cs, cs') ↔ cs .pc(p) = A044arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%9 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci329 :
+	⊦ COP(p, proci329)(cs, cs') ↔ cs .pc(p) = A036arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidxarrayidx3arrayidx) .v9:= cs.v9(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci330 :
+	⊦ COP(p, proci330)(cs, cs') ↔ cs .pc(p) = A036arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci331 :
+	⊦ COP(p, proci331)(cs, cs') ↔ cs .pc(p) = A035arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx3arrayidx) ∧ cs .cmp12(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci332 :
+	⊦ COP(p, proci332)(cs, cs') ↔ cs .pc(p) = A035arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidx3arrayidx) ∧ cs .cmp12(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci333 :
+	⊦ COP(p, proci333)(cs, cs') ↔ cs .pc(p) = A035arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A035arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	proci334 :
+	⊦ COP(p, proci334)(cs, cs') ↔ cs .pc(p) = A046arrayidxarrayidx1arrayidxarrayidx21 ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidx1arrayidxarrayidx21) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i32 0, i32* %arrayidx21, align 4, !tbaa !3
+	proci335 :
+	⊦ COP(p, proci335)(cs, cs') ↔ cs .pc(p) = A045arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidx1arrayidxarrayidx21);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci336 :
+	⊦ COP(p, proci336)(cs, cs') ↔ cs .pc(p) = A045arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%arrayidx21 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci337 :
+	⊦ COP(p, proci337)(cs, cs') ↔ cs .pc(p) = A044arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidx) .arrayidx21:= ;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci338 :
+	⊦ COP(p, proci338)(cs, cs') ↔ cs .pc(p) = A044arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A044) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci339 :
+	⊦ COP(p, proci339)(cs, cs') ↔ cs .pc(p) = A043 ∧ cs' = cs .pc:= cs.pc(p ; A044) ∧ cs .exitcond(p) = 1;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci340 :
+	⊦ COP(p, proci340)(cs, cs') ↔ cs .pc(p) = A043 ∧ cs' = cs .pc:= cs.pc(p ; A019) .j_023:= cs.j_023(p ; cs .inc(p)) ∧ cs .exitcond(p) = 0;
+	used for : s, ls;
+
+;;	%10 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci341 :
+	⊦ COP(p, proci341)(cs, cs') ↔ cs .pc(p) = A037arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidxarrayidx1arrayidx) .10:= cs.10(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci342 :
+	⊦ COP(p, proci342)(cs, cs') ↔ cs .pc(p) = A037arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%9 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci343 :
+	⊦ COP(p, proci343)(cs, cs') ↔ cs .pc(p) = A036arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidx1arrayidx) .v9:= cs.v9(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci344 :
+	⊦ COP(p, proci344)(cs, cs') ↔ cs .pc(p) = A036arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci345 :
+	⊦ COP(p, proci345)(cs, cs') ↔ cs .pc(p) = A035arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx) ∧ cs .cmp12(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci346 :
+	⊦ COP(p, proci346)(cs, cs') ↔ cs .pc(p) = A035arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidx) ∧ cs .cmp12(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci347 :
+	⊦ COP(p, proci347)(cs, cs') ↔ cs .pc(p) = A035arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A035) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp12 = icmp slt i32 %7, %8
+	proci348 :
+	⊦ COP(p, proci348)(cs, cs') ↔ cs .pc(p) = A034 ∧ (cs .v7(p) ≥ cs .v8(p) ⊃ cs' = cs .pc:= cs.pc(p; A035) .cmp12:= cs.cmp12(p ; 0) ; cs' = cs .pc:= cs.pc(p; A035) .cmp12:= cs.cmp12(p ; 1));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci349 :
+	⊦ COP(p, proci349)(cs, cs') ↔ cs .pc(p) = A046arrayidxarrayidx3arrayidxarrayidx21 ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidx3arrayidxarrayidx21) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i32 0, i32* %arrayidx21, align 4, !tbaa !3
+	proci350 :
+	⊦ COP(p, proci350)(cs, cs') ↔ cs .pc(p) = A045arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidx3arrayidxarrayidx21);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci351 :
+	⊦ COP(p, proci351)(cs, cs') ↔ cs .pc(p) = A045arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%10 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci352 :
+	⊦ COP(p, proci352)(cs, cs') ↔ cs .pc(p) = A037arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidxarrayidx3arrayidx) .10:= cs.10(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci353 :
+	⊦ COP(p, proci353)(cs, cs') ↔ cs .pc(p) = A037arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%9 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci354 :
+	⊦ COP(p, proci354)(cs, cs') ↔ cs .pc(p) = A036arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidx3arrayidx) .v9:= cs.v9(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci355 :
+	⊦ COP(p, proci355)(cs, cs') ↔ cs .pc(p) = A036arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	proci356 :
+	⊦ COP(p, proci356)(cs, cs') ↔ cs .pc(p) = A046arrayidx1arrayidxarrayidx21 ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidxarrayidx21) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	store i32 0, i32* %arrayidx21, align 4, !tbaa !3
+	proci357 :
+	⊦ COP(p, proci357)(cs, cs') ↔ cs .pc(p) = A045arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidxarrayidx21);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci358 :
+	⊦ COP(p, proci358)(cs, cs') ↔ cs .pc(p) = A045arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A045) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%arrayidx21 = getelementptr [2 x i32]* @number, i32 0, i32 %i
+	proci359 :
+	⊦ COP(p, proci359)(cs, cs') ↔ cs .pc(p) = A044 ∧ cs' = cs .pc:= cs.pc(p ; A045) .arrayidx21:= ;
+	used for : s, ls;
+
+;;	%cmp15 = icmp eq i32 %9, %10
+	proci360 :
+	⊦ COP(p, proci360)(cs, cs') ↔ cs .pc(p) = A038arrayidxarrayidx1arrayidx ∧ (cs .v9(p) = cs .10(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; A039arrayidxarrayidx1arrayidx) .cmp15:= cs.cmp15(p ; 1) ; cs' = cs .pc:= cs.pc(p; A039arrayidxarrayidx1arrayidx) .cmp15:= cs.cmp15(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci361 :
+	⊦ COP(p, proci361)(cs, cs') ↔ cs .pc(p) = A038arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%10 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci362 :
+	⊦ COP(p, proci362)(cs, cs') ↔ cs .pc(p) = A037arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidx1arrayidx) .10:= cs.10(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci363 :
+	⊦ COP(p, proci363)(cs, cs') ↔ cs .pc(p) = A037arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%9 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci364 :
+	⊦ COP(p, proci364)(cs, cs') ↔ cs .pc(p) = A036arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidx) .v9:= cs.v9(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci365 :
+	⊦ COP(p, proci365)(cs, cs') ↔ cs .pc(p) = A036arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A036) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci366 :
+	⊦ COP(p, proci366)(cs, cs') ↔ cs .pc(p) = A035 ∧ cs' = cs .pc:= cs.pc(p ; A029) ∧ cs .cmp12(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci367 :
+	⊦ COP(p, proci367)(cs, cs') ↔ cs .pc(p) = A035 ∧ cs' = cs .pc:= cs.pc(p ; A036) ∧ cs .cmp12(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci368 :
+	⊦ COP(p, proci368)(cs, cs') ↔ cs .pc(p) = A046arrayidx3arrayidxarrayidx21 ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidxarrayidx21) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	%cmp15 = icmp eq i32 %9, %10
+	proci369 :
+	⊦ COP(p, proci369)(cs, cs') ↔ cs .pc(p) = A038arrayidxarrayidx3arrayidx ∧ (cs .v9(p) = cs .10(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; A039arrayidxarrayidx3arrayidx) .cmp15:= cs.cmp15(p ; 1) ; cs' = cs .pc:= cs.pc(p; A039arrayidxarrayidx3arrayidx) .cmp15:= cs.cmp15(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci370 :
+	⊦ COP(p, proci370)(cs, cs') ↔ cs .pc(p) = A038arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%10 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci371 :
+	⊦ COP(p, proci371)(cs, cs') ↔ cs .pc(p) = A037arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidx3arrayidx) .10:= cs.10(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci372 :
+	⊦ COP(p, proci372)(cs, cs') ↔ cs .pc(p) = A037arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	proci373 :
+	⊦ COP(p, proci373)(cs, cs') ↔ cs .pc(p) = A046arrayidxarrayidx21 ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidx21) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i32 0, i32* %arrayidx21, align 4, !tbaa !3
+	proci374 :
+	⊦ COP(p, proci374)(cs, cs') ↔ cs .pc(p) = A045 ∧ cs' = cs .pc:= cs.pc(p ; A046arrayidx21);
+	used for : s, ls;
+
+;;	%or.cond = and i1 %cmp15, %cmp17
+	NEEDS ATTENTION !
+	proci375 :
+	⊦ COP(p, proci375)(cs, cs') ↔ cs .pc(p) = A039arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidxarrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci376 :
+	⊦ COP(p, proci376)(cs, cs') ↔ cs .pc(p) = A039arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A039arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp15 = icmp eq i32 %9, %10
+	proci377 :
+	⊦ COP(p, proci377)(cs, cs') ↔ cs .pc(p) = A038arrayidx1arrayidx ∧ (cs .v9(p) = cs .10(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; A039arrayidx1arrayidx) .cmp15:= cs.cmp15(p ; 1) ; cs' = cs .pc:= cs.pc(p; A039arrayidx1arrayidx) .cmp15:= cs.cmp15(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci378 :
+	⊦ COP(p, proci378)(cs, cs') ↔ cs .pc(p) = A038arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%10 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci379 :
+	⊦ COP(p, proci379)(cs, cs') ↔ cs .pc(p) = A037arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidx) .10:= cs.10(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci380 :
+	⊦ COP(p, proci380)(cs, cs') ↔ cs .pc(p) = A037arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A037) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%9 = load i32* %arrayidx8, align 4, !tbaa !3
+	proci381 :
+	⊦ COP(p, proci381)(cs, cs') ↔ cs .pc(p) = A036 ∧ cs' = cs .pc:= cs.pc(p ; A037) .v9:= cs.v9(p ; cs.mem[cs .arrayidx8(p) .v] .v);
+	used for : s, ls;
+
+;;	%or.cond = and i1 %cmp15, %cmp17
+	NEEDS ATTENTION !
+	proci382 :
+	⊦ COP(p, proci382)(cs, cs') ↔ cs .pc(p) = A039arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidxarrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci383 :
+	⊦ COP(p, proci383)(cs, cs') ↔ cs .pc(p) = A039arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A039arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%cmp15 = icmp eq i32 %9, %10
+	proci384 :
+	⊦ COP(p, proci384)(cs, cs') ↔ cs .pc(p) = A038arrayidx3arrayidx ∧ (cs .v9(p) = cs .10(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; A039arrayidx3arrayidx) .cmp15:= cs.cmp15(p ; 1) ; cs' = cs .pc:= cs.pc(p; A039arrayidx3arrayidx) .cmp15:= cs.cmp15(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci385 :
+	⊦ COP(p, proci385)(cs, cs') ↔ cs .pc(p) = A038arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	proci386 :
+	⊦ COP(p, proci386)(cs, cs') ↔ cs .pc(p) = A046arrayidx21 ∧ cs' = cs .pc:= cs.pc(p ; A046) .mem:= cs.mem[ cs .arrayidx21(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci387 :
+	⊦ COP(p, proci387)(cs, cs') ↔ cs .pc(p) = A040arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidxarrayidx1arrayidx) ∧ cs .or_cond(p) = 1;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci388 :
+	⊦ COP(p, proci388)(cs, cs') ↔ cs .pc(p) = A040arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidxarrayidx1arrayidx) ∧ cs .or_cond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci389 :
+	⊦ COP(p, proci389)(cs, cs') ↔ cs .pc(p) = A040arrayidxarrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidx1arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%or.cond = and i1 %cmp15, %cmp17
+	NEEDS ATTENTION !
+	proci390 :
+	⊦ COP(p, proci390)(cs, cs') ↔ cs .pc(p) = A039arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidx1arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci391 :
+	⊦ COP(p, proci391)(cs, cs') ↔ cs .pc(p) = A039arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A039arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%cmp15 = icmp eq i32 %9, %10
+	proci392 :
+	⊦ COP(p, proci392)(cs, cs') ↔ cs .pc(p) = A038arrayidx ∧ (cs .v9(p) = cs .10(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; A039arrayidx) .cmp15:= cs.cmp15(p ; 1) ; cs' = cs .pc:= cs.pc(p; A039arrayidx) .cmp15:= cs.cmp15(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	proci393 :
+	⊦ COP(p, proci393)(cs, cs') ↔ cs .pc(p) = A038arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A038) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%10 = load i32* %arrayidx11, align 4, !tbaa !3
+	proci394 :
+	⊦ COP(p, proci394)(cs, cs') ↔ cs .pc(p) = A037 ∧ cs' = cs .pc:= cs.pc(p ; A038) .10:= cs.10(p ; cs.mem[cs .arrayidx11(p) .v] .v);
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci395 :
+	⊦ COP(p, proci395)(cs, cs') ↔ cs .pc(p) = A040arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidxarrayidx3arrayidx) ∧ cs .or_cond(p) = 1;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci396 :
+	⊦ COP(p, proci396)(cs, cs') ↔ cs .pc(p) = A040arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidxarrayidx3arrayidx) ∧ cs .or_cond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci397 :
+	⊦ COP(p, proci397)(cs, cs') ↔ cs .pc(p) = A040arrayidxarrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidx3arrayidx) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%or.cond = and i1 %cmp15, %cmp17
+	NEEDS ATTENTION !
+	proci398 :
+	⊦ COP(p, proci398)(cs, cs') ↔ cs .pc(p) = A039arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidx3arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci399 :
+	⊦ COP(p, proci399)(cs, cs') ↔ cs .pc(p) = A039arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A039arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci401 :
+	⊦ COP(p, proci401)(cs, cs') ↔ cs .pc(p) = A040arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx1arrayidx) ∧ cs .or_cond(p) = 1;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci402 :
+	⊦ COP(p, proci402)(cs, cs') ↔ cs .pc(p) = A040arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx1arrayidx) ∧ cs .or_cond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci403 :
+	⊦ COP(p, proci403)(cs, cs') ↔ cs .pc(p) = A040arrayidx1arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidx) .mem:= cs.mem[ cs .arrayidx1(p) .v ,⌜ cs .add(p)⌝];
+	used for : s, ls;
+
+;;	%or.cond = and i1 %cmp15, %cmp17
+	NEEDS ATTENTION !
+	proci404 :
+	⊦ COP(p, proci404)(cs, cs') ↔ cs .pc(p) = A039arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidx);
+	used for : s, ls;
+
+;;	FlushTransition
+	proci405 :
+	⊦ COP(p, proci405)(cs, cs') ↔ cs .pc(p) = A039arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A039) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%cmp15 = icmp eq i32 %9, %10
+	proci406 :
+	⊦ COP(p, proci406)(cs, cs') ↔ cs .pc(p) = A038 ∧ (cs .v9(p) = cs .10(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; A039) .cmp15:= cs.cmp15(p ; 1) ; cs' = cs .pc:= cs.pc(p; A039) .cmp15:= cs.cmp15(p ; 0));
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci407 :
+	⊦ COP(p, proci407)(cs, cs') ↔ cs .pc(p) = A040arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx3arrayidx) ∧ cs .or_cond(p) = 1;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci408 :
+	⊦ COP(p, proci408)(cs, cs') ↔ cs .pc(p) = A040arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx3arrayidx) ∧ cs .or_cond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci409 :
+	⊦ COP(p, proci409)(cs, cs') ↔ cs .pc(p) = A040arrayidx3arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040arrayidx) .mem:= cs.mem[ cs .arrayidx3(p) .v ,⌜ cs .add2(p)⌝];
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci410 :
+	⊦ COP(p, proci410)(cs, cs') ↔ cs .pc(p) = A040arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A029arrayidx) ∧ cs .or_cond(p) = 1;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci411 :
+	⊦ COP(p, proci411)(cs, cs') ↔ cs .pc(p) = A040arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A041arrayidx) ∧ cs .or_cond(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	proci412 :
+	⊦ COP(p, proci412)(cs, cs') ↔ cs .pc(p) = A040arrayidx ∧ cs' = cs .pc:= cs.pc(p ; A040) .mem:= cs.mem[ cs .arrayidx(p) .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	%or.cond = and i1 %cmp15, %cmp17
+	NEEDS ATTENTION !
+	proci413 :
+	⊦ COP(p, proci413)(cs, cs') ↔ cs .pc(p) = A039 ∧ cs' = cs .pc:= cs.pc(p ; A040);
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci414 :
+	⊦ COP(p, proci414)(cs, cs') ↔ cs .pc(p) = A040 ∧ cs' = cs .pc:= cs.pc(p ; A029) ∧ cs .or_cond(p) = 1;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci415 :
+	⊦ COP(p, proci415)(cs, cs') ↔ cs .pc(p) = A040 ∧ cs' = cs .pc:= cs.pc(p ; A041) ∧ cs .or_cond(p) = 0;
+	used for : s, ls;
+
+;;	ret void
+	proci400ret :
+	⊦ RETOP(p, proci400ret)(cs, cs', return) ↔ cs .pc(p) = A046 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret i32 0
+	main1ret :
+	⊦ RETOP(p, main1ret)(cs, cs', return) ↔ cs .pc(p) = B0 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = 0;
+	used for : s, ls;
+	
+end enrich

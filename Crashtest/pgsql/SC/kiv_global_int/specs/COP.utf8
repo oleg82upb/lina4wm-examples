@@ -1,0 +1,170 @@
+enrich 	CS,
+		cindex with 
+
+	functions
+		INVOP : Proc × IJ → int × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × int → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : int × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × int → bool;
+		latch1, latch1' : ref;
+		flag1, flag1' : ref;
+		latch2, latch2' : ref;
+		flag2, flag2' : ref;
+		inp : int;
+		return : int;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(latch1, flag1, latch2, flag2, pcf, mem, intf1, intf2, intf3)) ↔ ( latch1 = ⌜0⌝ ∧ flag1 = ⌜0⌝ ∧ latch2 = ⌜0⌝ ∧ flag2 = ⌜0⌝ ∧ pcf = (λ p. N)  ∧ intf1 = (λ p. 0) ∧ intf2 = (λ p. 0) ∧ intf3 = (λ p. 0));
+	used for : s, ls;
+
+;; 	worker_1 reflects function @worker_1
+	worker_1ini :
+	⊦ INVOP(p, worker_1ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; A00) ; 
+	used for : s, ls;
+
+;; 	worker_2 reflects function @worker_2
+	worker_2ini :
+	⊦ INVOP(p, worker_2ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; B00) ; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(p, mainini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; C0) ; 
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_11 :
+	⊦ COP(p, worker_11)(cs, cs') ↔ cs .pc(p) = A00 ∧ cs' = cs .pc:= cs.pc(p ; A01);
+	used for : s, ls;
+
+;;	%0 = load i8* @flag1, align 1, !tbaa !0, !range !3
+	worker_12 :
+	⊦ COP(p, worker_12)(cs, cs') ↔ cs .pc(p) = A01 ∧ cs' = cs .pc:= cs.pc(p ; A02) .v0:= cs.v0(p ; cs.mem[cs .flag1 .v] .v);
+	used for : s, ls;
+
+;;	%1 = and i8 %0, 1
+	NEEDS ATTENTION !
+	worker_13 :
+	⊦ COP(p, worker_13)(cs, cs') ↔ cs .pc(p) = A02 ∧ cs' = cs .pc:= cs.pc(p ; A03);
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %1, 0
+	worker_14 :
+	⊦ COP(p, worker_14)(cs, cs') ↔ cs .pc(p) = A03 ∧ (cs .v1(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A04) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A04) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_15 :
+	⊦ COP(p, worker_15)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A01) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_16 :
+	⊦ COP(p, worker_16)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A05) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	store i8 0, i8* @latch1, align 1, !tbaa !0
+	worker_17 :
+	⊦ COP(p, worker_17)(cs, cs') ↔ cs .pc(p) = A05 ∧ cs' = cs .pc:= cs.pc(p ; A06);
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag1, align 1, !tbaa !0
+	worker_18 :
+	⊦ COP(p, worker_18)(cs, cs') ↔ cs .pc(p) = A06 ∧ cs' = cs .pc:= cs.pc(p ; A07);
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_19 :
+	⊦ COP(p, worker_19)(cs, cs') ↔ cs .pc(p) = A07 ∧ cs' = cs .pc:= cs.pc(p ; A08);
+	used for : s, ls;
+
+;;	fence seq_cst
+	worker_110 :
+	⊦ COP(p, worker_110)(cs, cs') ↔ cs .pc(p) = A08 ∧ cs' = cs .pc:= cs.pc(p ; A09);
+	used for : s, ls;
+
+;;	store i8 1, i8* @latch2, align 1, !tbaa !0
+	worker_111 :
+	⊦ COP(p, worker_111)(cs, cs') ↔ cs .pc(p) = A09 ∧ cs' = cs .pc:= cs.pc(p ; A10);
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_112 :
+	⊦ COP(p, worker_112)(cs, cs') ↔ cs .pc(p) = A10 ∧ cs' = cs .pc:= cs.pc(p ; A01);
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_21 :
+	⊦ COP(p, worker_21)(cs, cs') ↔ cs .pc(p) = B00 ∧ cs' = cs .pc:= cs.pc(p ; B01);
+	used for : s, ls;
+
+;;	%0 = load i8* @flag2, align 1, !tbaa !0, !range !3
+	worker_22 :
+	⊦ COP(p, worker_22)(cs, cs') ↔ cs .pc(p) = B01 ∧ cs' = cs .pc:= cs.pc(p ; B02) .v0:= cs.v0(p ; cs.mem[cs .flag2 .v] .v);
+	used for : s, ls;
+
+;;	%1 = and i8 %0, 1
+	NEEDS ATTENTION !
+	worker_23 :
+	⊦ COP(p, worker_23)(cs, cs') ↔ cs .pc(p) = B02 ∧ cs' = cs .pc:= cs.pc(p ; B03);
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %1, 0
+	worker_24 :
+	⊦ COP(p, worker_24)(cs, cs') ↔ cs .pc(p) = B03 ∧ (cs .v1(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; B04) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; B04) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_25 :
+	⊦ COP(p, worker_25)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B01) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_26 :
+	⊦ COP(p, worker_26)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B05) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	store i8 0, i8* @latch2, align 1, !tbaa !0
+	worker_27 :
+	⊦ COP(p, worker_27)(cs, cs') ↔ cs .pc(p) = B05 ∧ cs' = cs .pc:= cs.pc(p ; B06);
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag2, align 1, !tbaa !0
+	worker_28 :
+	⊦ COP(p, worker_28)(cs, cs') ↔ cs .pc(p) = B06 ∧ cs' = cs .pc:= cs.pc(p ; B07);
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_29 :
+	⊦ COP(p, worker_29)(cs, cs') ↔ cs .pc(p) = B07 ∧ cs' = cs .pc:= cs.pc(p ; B08);
+	used for : s, ls;
+
+;;	fence seq_cst
+	worker_210 :
+	⊦ COP(p, worker_210)(cs, cs') ↔ cs .pc(p) = B08 ∧ cs' = cs .pc:= cs.pc(p ; B09);
+	used for : s, ls;
+
+;;	store i8 1, i8* @latch1, align 1, !tbaa !0
+	worker_211 :
+	⊦ COP(p, worker_211)(cs, cs') ↔ cs .pc(p) = B09 ∧ cs' = cs .pc:= cs.pc(p ; B10);
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_212 :
+	⊦ COP(p, worker_212)(cs, cs') ↔ cs .pc(p) = B10 ∧ cs' = cs .pc:= cs.pc(p ; B01);
+	used for : s, ls;
+
+;;	ret i32 0
+	main1ret :
+	⊦ RETOP(p, main1ret)(cs, cs', return) ↔ cs .pc(p) = C0 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = 0;
+	used for : s, ls;
+	
+end enrich

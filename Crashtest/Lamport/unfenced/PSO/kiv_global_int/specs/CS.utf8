@@ -1,0 +1,44 @@
+data specification
+	using intref, PC, genProc, intref-memory
+	CS := mkcs(				. .choosing : ref;
+				. .number : ref;
+				. .pc : Proc → PC;
+				. .mem : memory;
+				. .arrayidx : Proc → ref;
+				. .v0 : Proc → int;
+				. .v1 : Proc → int;
+				. .cmp : Proc → int;
+				. .v2 : Proc → int;
+				. .v3 : Proc → int;
+				. .add : Proc → int;
+				. .add2 : Proc → int;
+				. .arrayidx1 : Proc → ref;
+				. .arrayidx3 : Proc → ref;
+				. .arrayidx11 : Proc → ref;
+				. .j_023 : Proc → int;
+				. .inc : Proc → int;
+				. .arrayidx6 : Proc → ref;
+				. .v4 : Proc → int;
+				. .v5 : Proc → int;
+				. .tobool : Proc → int;
+				. .arrayidx8 : Proc → ref;
+				. .cmp17 : Proc → int;
+				. .v6 : Proc → int;
+				. .cmp9 : Proc → int;
+				. .v7 : Proc → int;
+				. .exitcond : Proc → int;
+				. .v8 : Proc → int;
+				. .cmp12 : Proc → int;
+				. .arrayidx21 : Proc → ref;
+				. .v9 : Proc → int;
+				. .10 : Proc → int;
+				. .cmp15 : Proc → int;
+				. .or_cond : Proc → int;
+				. .i : Proc → int;
+);
+	variables
+		cs, cs' : CS;
+		pcf, pcf' : Proc → PC;
+		intf,intf' : Proc → int;
+		reff, reff' : Proc → ref;
+end data specification

@@ -1,0 +1,7 @@
+data specification
+	using natref
+
+	input = mk1( . .ref1: ref;) with ref? | mk2( . .nat1: nat; . .ref1: ref;) with natref? ;
+	variables
+		inp : input;
+end data specification

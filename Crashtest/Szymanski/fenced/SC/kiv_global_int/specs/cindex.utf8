@@ -1,0 +1,9 @@
+data specification
+	IJ =  proc0ini | proc1ini | mainini ;
+	CJ =  proc01 | proc02 | proc03 | proc04 | proc05 | proc06 | proc07 | proc08 | proc09 | proc010 | proc011 | proc012 | proc013 | proc014 | proc015 | proc016 | proc017 | proc018 | proc019 | proc020 | proc021 | proc022 | proc023 | proc024 | proc025 | proc026 | proc027 | proc028 | proc029 | proc030 | proc031 | proc032 | proc033 | proc034 | proc035 | proc036 | proc037 | proc038 | proc039 | proc11 | proc12 | proc13 | proc14 | proc15 | proc16 | proc17 | proc18 | proc19 | proc110 | proc111 | proc112 | proc113 | proc114 | proc115 | proc116 | proc117 | proc118 | proc119 | proc120 | proc121 | proc122 | proc123 | proc124 | proc125 | proc126 | proc127 | proc128 | proc129 | proc130 | proc131 | proc132 | proc133 | proc134 | proc135 ;
+	RJ =  proc040ret | proc136ret | main1ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

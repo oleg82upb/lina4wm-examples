@@ -1,0 +1,9 @@
+data specification
+	IJ =  pushini | dequeueini | popini | mainini ;
+	CJ =  push1 | push2 | push3 | push4 | push5 | push6 | push7 | dequeue1 | dequeue2 | dequeue3 | dequeue4 | dequeue5 | dequeue6 | dequeue7 | dequeue8 | dequeue9 | dequeue10 | dequeue11 | dequeue13 | dequeue14 | dequeue15 | dequeue16 | dequeue17 | dequeue18 | pop1 | pop2 | pop3 | pop4 | pop5 | pop6 | pop7 | pop9 | pop10 | pop11 | pop12 | pop13 | pop14 | pop15 | pop16 | pop17 | pop18 | pop19 | pop20 | pop21 | pop22 | pop23 | pop24 | pop25 | pop26 | pop27 | pop28 | pop29 | pop30 | pop31 | pop32 | pop33 ;
+	RJ =  push8ret | dequeue12ret | pop8ret | main1ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

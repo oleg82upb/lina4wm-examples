@@ -1,0 +1,233 @@
+enrich 	CS,
+		cindex with 
+
+	functions
+		INVOP : Proc × IJ → int × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × int → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : int × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × int → bool;
+		f0, f0' : ref;
+		f1, f1' : ref;
+		i, i' : int;
+		inp : int;
+		return : int;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(f0, f1, i, pcf, mem, intf1, intf2, intf3, intf4, intf5, intf6, intf7, intf8)) ↔ ( f0 = ⌜0⌝ ∧ f1 = ⌜0⌝ ∧ i = 0 ∧ pcf = (λ p. N)  ∧ intf1 = (λ p. 0) ∧ intf2 = (λ p. 0) ∧ intf3 = (λ p. 0) ∧ intf4 = (λ p. 0) ∧ intf5 = (λ p. 0) ∧ intf6 = (λ p. 0) ∧ intf7 = (λ p. 0) ∧ intf8 = (λ p. 0));
+	used for : s, ls;
+
+;; 	Z5p1_aqv reflects function @_Z5p1_aqv
+	Z5p1_aqvini :
+	⊦ INVOP(p, Z5p1_aqvini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; A00) ; 
+	used for : s, ls;
+
+;; 	Z6p1_relv reflects function @_Z6p1_relv
+	Z6p1_relvini :
+	⊦ INVOP(p, Z6p1_relvini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; B0) ; 
+	used for : s, ls;
+
+;; 	Z5p2_aqv reflects function @_Z5p2_aqv
+	Z5p2_aqvini :
+	⊦ INVOP(p, Z5p2_aqvini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; C00) ; 
+	used for : s, ls;
+
+;; 	Z6p2_relv reflects function @_Z6p2_relv
+	Z6p2_relvini :
+	⊦ INVOP(p, Z6p2_relvini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; D0) ; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(p, mainini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; E0) ; 
+	used for : s, ls;
+
+;;	store i8 1, i8* @f0, align 1
+	Z5p1_aqv1 :
+	⊦ COP(p, Z5p1_aqv1)(cs, cs') ↔ cs .pc(p) = A00 ∧ cs' = cs .pc:= cs.pc(p ; A01);
+	used for : s, ls;
+
+;;	fence seq_cst
+	Z5p1_aqv2 :
+	⊦ COP(p, Z5p1_aqv2)(cs, cs') ↔ cs .pc(p) = A01 ∧ cs' = cs .pc:= cs.pc(p ; A02);
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p1_aqv3 :
+	⊦ COP(p, Z5p1_aqv3)(cs, cs') ↔ cs .pc(p) = A02 ∧ cs' = cs .pc:= cs.pc(p ; A03);
+	used for : s, ls;
+
+;;	%0 = load i8* @f1, align 1
+	Z5p1_aqv4 :
+	⊦ COP(p, Z5p1_aqv4)(cs, cs') ↔ cs .pc(p) = A03 ∧ cs' = cs .pc:= cs.pc(p ; A04) .v0:= cs.v0(p ; cs.mem[cs .f1 .v] .v);
+	used for : s, ls;
+
+;;	%tobool = trunc i8 %0 to i1
+	Z5p1_aqv5 :
+	⊦ COP(p, Z5p1_aqv5)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A05) .tobool:= cs.tobool(p ; cs .v0(p));
+	used for : s, ls;
+
+;;	%conv = zext i1 %tobool to i32
+	Z5p1_aqv6 :
+	⊦ COP(p, Z5p1_aqv6)(cs, cs') ↔ cs .pc(p) = A05 ∧ cs' = cs .pc:= cs.pc(p ; A06) .conv:= cs.conv(p ; cs .tobool(p));
+	used for : s, ls;
+
+;;	%cmp = icmp ne i32 %conv, 0
+	Z5p1_aqv7 :
+	⊦ COP(p, Z5p1_aqv7)(cs, cs') ↔ cs .pc(p) = A06 ∧ (cs .conv(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A07) .cmp:= cs.cmp(p ; 0) ; cs' = cs .pc:= cs.pc(p; A07) .cmp:= cs.cmp(p ; 1));
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p1_aqv8 :
+	⊦ COP(p, Z5p1_aqv8)(cs, cs') ↔ cs .pc(p) = A07 ∧ cs' = cs .pc:= cs.pc(p ; A08) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p1_aqv9 :
+	⊦ COP(p, Z5p1_aqv9)(cs, cs') ↔ cs .pc(p) = A07 ∧ cs' = cs .pc:= cs.pc(p ; A09) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p1_aqv10 :
+	⊦ COP(p, Z5p1_aqv10)(cs, cs') ↔ cs .pc(p) = A08 ∧ cs' = cs .pc:= cs.pc(p ; A03);
+	used for : s, ls;
+
+;;	store i8 0, i8* @f0, align 1
+	Z6p1_relv1 :
+	⊦ COP(p, Z6p1_relv1)(cs, cs') ↔ cs .pc(p) = B0 ∧ cs' = cs .pc:= cs.pc(p ; B1);
+	used for : s, ls;
+
+;;	br label %retry
+	Z5p2_aqv1 :
+	⊦ COP(p, Z5p2_aqv1)(cs, cs') ↔ cs .pc(p) = C00 ∧ cs' = cs .pc:= cs.pc(p ; C01);
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p2_aqv2 :
+	⊦ COP(p, Z5p2_aqv2)(cs, cs') ↔ cs .pc(p) = C01 ∧ cs' = cs .pc:= cs.pc(p ; C02);
+	used for : s, ls;
+
+;;	%0 = load i8* @f0, align 1
+	Z5p2_aqv3 :
+	⊦ COP(p, Z5p2_aqv3)(cs, cs') ↔ cs .pc(p) = C02 ∧ cs' = cs .pc:= cs.pc(p ; C03) .v0:= cs.v0(p ; cs.mem[cs .f0 .v] .v);
+	used for : s, ls;
+
+;;	%tobool = trunc i8 %0 to i1
+	Z5p2_aqv4 :
+	⊦ COP(p, Z5p2_aqv4)(cs, cs') ↔ cs .pc(p) = C03 ∧ cs' = cs .pc:= cs.pc(p ; C04) .tobool:= cs.tobool(p ; cs .v0(p));
+	used for : s, ls;
+
+;;	%conv = zext i1 %tobool to i32
+	Z5p2_aqv5 :
+	⊦ COP(p, Z5p2_aqv5)(cs, cs') ↔ cs .pc(p) = C04 ∧ cs' = cs .pc:= cs.pc(p ; C05) .conv:= cs.conv(p ; cs .tobool(p));
+	used for : s, ls;
+
+;;	%cmp = icmp ne i32 %conv, 0
+	Z5p2_aqv6 :
+	⊦ COP(p, Z5p2_aqv6)(cs, cs') ↔ cs .pc(p) = C05 ∧ (cs .conv(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; C06) .cmp:= cs.cmp(p ; 0) ; cs' = cs .pc:= cs.pc(p; C06) .cmp:= cs.cmp(p ; 1));
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p2_aqv7 :
+	⊦ COP(p, Z5p2_aqv7)(cs, cs') ↔ cs .pc(p) = C06 ∧ cs' = cs .pc:= cs.pc(p ; C07) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %while.body, label %while.end
+	Z5p2_aqv8 :
+	⊦ COP(p, Z5p2_aqv8)(cs, cs') ↔ cs .pc(p) = C06 ∧ cs' = cs .pc:= cs.pc(p ; C08) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	br label %while.cond
+	Z5p2_aqv9 :
+	⊦ COP(p, Z5p2_aqv9)(cs, cs') ↔ cs .pc(p) = C07 ∧ cs' = cs .pc:= cs.pc(p ; C02);
+	used for : s, ls;
+
+;;	store i8 1, i8* @f1, align 1
+	Z5p2_aqv10 :
+	⊦ COP(p, Z5p2_aqv10)(cs, cs') ↔ cs .pc(p) = C08 ∧ cs' = cs .pc:= cs.pc(p ; C09);
+	used for : s, ls;
+
+;;	fence seq_cst
+	Z5p2_aqv11 :
+	⊦ COP(p, Z5p2_aqv11)(cs, cs') ↔ cs .pc(p) = C09 ∧ cs' = cs .pc:= cs.pc(p ; C10);
+	used for : s, ls;
+
+;;	%1 = load i8* @f0, align 1
+	Z5p2_aqv12 :
+	⊦ COP(p, Z5p2_aqv12)(cs, cs') ↔ cs .pc(p) = C10 ∧ cs' = cs .pc:= cs.pc(p ; C11) .v1:= cs.v1(p ; cs.mem[cs .f0 .v] .v);
+	used for : s, ls;
+
+;;	%tobool1 = trunc i8 %1 to i1
+	Z5p2_aqv13 :
+	⊦ COP(p, Z5p2_aqv13)(cs, cs') ↔ cs .pc(p) = C11 ∧ cs' = cs .pc:= cs.pc(p ; C12) .tobool1:= cs.tobool1(p ; cs .v1(p));
+	used for : s, ls;
+
+;;	%conv2 = zext i1 %tobool1 to i32
+	Z5p2_aqv14 :
+	⊦ COP(p, Z5p2_aqv14)(cs, cs') ↔ cs .pc(p) = C12 ∧ cs' = cs .pc:= cs.pc(p ; C13) .conv2:= cs.conv2(p ; cs .tobool1(p));
+	used for : s, ls;
+
+;;	%cmp3 = icmp ne i32 %conv2, 0
+	Z5p2_aqv15 :
+	⊦ COP(p, Z5p2_aqv15)(cs, cs') ↔ cs .pc(p) = C13 ∧ (cs .conv2(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; C14) .cmp3:= cs.cmp3(p ; 0) ; cs' = cs .pc:= cs.pc(p; C14) .cmp3:= cs.cmp3(p ; 1));
+	used for : s, ls;
+
+;;	br %cmp3, label %if.then, label %if.end
+	Z5p2_aqv16 :
+	⊦ COP(p, Z5p2_aqv16)(cs, cs') ↔ cs .pc(p) = C14 ∧ cs' = cs .pc:= cs.pc(p ; C15) ∧ cs .cmp3(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp3, label %if.then, label %if.end
+	Z5p2_aqv17 :
+	⊦ COP(p, Z5p2_aqv17)(cs, cs') ↔ cs .pc(p) = C14 ∧ cs' = cs .pc:= cs.pc(p ; C17) ∧ cs .cmp3(p) = 0;
+	used for : s, ls;
+
+;;	store i8 0, i8* @f1, align 1
+	Z5p2_aqv18 :
+	⊦ COP(p, Z5p2_aqv18)(cs, cs') ↔ cs .pc(p) = C15 ∧ cs' = cs .pc:= cs.pc(p ; C16);
+	used for : s, ls;
+
+;;	br label %retry
+	Z5p2_aqv20 :
+	⊦ COP(p, Z5p2_aqv20)(cs, cs') ↔ cs .pc(p) = C16 ∧ cs' = cs .pc:= cs.pc(p ; C01);
+	used for : s, ls;
+
+;;	store i8 0, i8* @f1, align 1
+	Z6p2_relv1 :
+	⊦ COP(p, Z6p2_relv1)(cs, cs') ↔ cs .pc(p) = D0 ∧ cs' = cs .pc:= cs.pc(p ; D1);
+	used for : s, ls;
+
+;;	ret void
+	Z5p1_aqv11ret :
+	⊦ RETOP(p, Z5p1_aqv11ret)(cs, cs', return) ↔ cs .pc(p) = A09 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret void
+	Z6p1_relv2ret :
+	⊦ RETOP(p, Z6p1_relv2ret)(cs, cs', return) ↔ cs .pc(p) = B1 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret void
+	Z5p2_aqv19ret :
+	⊦ RETOP(p, Z5p2_aqv19ret)(cs, cs', return) ↔ cs .pc(p) = C17 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret void
+	Z6p2_relv2ret :
+	⊦ RETOP(p, Z6p2_relv2ret)(cs, cs', return) ↔ cs .pc(p) = D1 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret i32 0
+	main1ret :
+	⊦ RETOP(p, main1ret)(cs, cs', return) ↔ cs .pc(p) = E0 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = 0;
+	used for : s, ls;
+	
+end enrich

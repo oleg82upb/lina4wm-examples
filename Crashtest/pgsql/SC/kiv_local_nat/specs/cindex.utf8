@@ -1,0 +1,9 @@
+data specification
+	IJ =  worker_1ini | worker_2ini | mainini ;
+	CJ =  worker_11 | worker_12 | worker_13 | worker_14 | worker_15 | worker_16 | worker_17 | worker_18 | worker_19 | worker_110 | worker_111 | worker_112 | worker_21 | worker_22 | worker_23 | worker_24 | worker_25 | worker_26 | worker_27 | worker_28 | worker_29 | worker_210 | worker_211 | worker_212 ;
+	RJ =  main1ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

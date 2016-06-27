@@ -1,0 +1,331 @@
+enrich 	CS,
+		cindex,
+		input with 
+
+	functions
+		INVOP : Proc × IJ → input × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × ref → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : input × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × ref → bool;
+		i, i' : ref;
+		j, j' : ref;
+		_str, _str' : ref;
+		_str1, _str1' : ref;
+		_PRETTY_FUNCTION___main, _PRETTY_FUNCTION___main' : ref;
+		return : ref;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(i, j, _str, _str1, _PRETTY_FUNCTION___main, pcf, mem, intf1, intf2, intf3, intf4, intf5, intf6, intf7, intf8, intf9, intf10, intf11, intf12, intf13, intf14, intf15, intf16, intf17, intf18, intf19, intf20, intf21, reff22, intf23, reff24)) ↔ ( i = ⌜0⌝ ∧ j = ⌜0⌝ ∧ _str = ⌜0⌝ ∧ _str1 = ⌜0⌝ ∧ _PRETTY_FUNCTION___main = ⌜0⌝ ∧ pcf = (λ p. N)  ∧ intf1 = (λ p. 0) ∧ intf2 = (λ p. 0) ∧ intf3 = (λ p. 0) ∧ intf4 = (λ p. 0) ∧ intf5 = (λ p. 0) ∧ intf6 = (λ p. 0) ∧ intf7 = (λ p. 0) ∧ intf8 = (λ p. 0) ∧ intf9 = (λ p. 0) ∧ intf10 = (λ p. 0) ∧ intf11 = (λ p. 0) ∧ intf12 = (λ p. 0) ∧ intf13 = (λ p. 0) ∧ intf14 = (λ p. 0) ∧ intf15 = (λ p. 0) ∧ intf16 = (λ p. 0) ∧ intf17 = (λ p. 0) ∧ intf18 = (λ p. 0) ∧ intf19 = (λ p. 0) ∧ intf20 = (λ p. 0) ∧ intf21 = (λ p. 0) ∧ reff22 = (λ p. ⌜0⌝) ∧ intf23 = (λ p. 0) ∧ reff24 = (λ p. ⌜0⌝));
+	used for : s, ls;
+
+;; 	t1 reflects function @t1
+	t1ini :
+	⊦ INVOP(p, t1ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ ref?(inp) ∧ cs' = cs .pc:= cs.pc(p ; A00) .arg:= cs.arg(p ; inp .ref1); 
+	used for : s, ls;
+
+;; 	t2 reflects function @t2
+	t2ini :
+	⊦ INVOP(p, t2ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ ref?(inp) ∧ cs' = cs .pc:= cs.pc(p ; B00) .arg:= cs.arg(p ; inp .ref1); 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(p, mainini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ intref?(inp) ∧ cs' = cs .pc:= cs.pc(p ; C00) .argv:= cs.argv(p ; inp .ref1).argc:= cs.argc(p ; inp .int1); 
+	used for : s, ls;
+
+;;	%0 = load i32* @j, align 4, !tbaa !0
+	t11 :
+	⊦ COP(p, t11)(cs, cs') ↔ cs .pc(p) = A00 ∧ cs' = cs .pc:= cs.pc(p ; A01) .v0:= cs.v0(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%1 = load i32* @i, align 4, !tbaa !0
+	t12 :
+	⊦ COP(p, t12)(cs, cs') ↔ cs .pc(p) = A01 ∧ cs' = cs .pc:= cs.pc(p ; A02) .v1:= cs.v1(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%add = add i32 %1, %0
+	t13 :
+	⊦ COP(p, t13)(cs, cs') ↔ cs .pc(p) = A02 ∧ cs' = cs .pc:= cs.pc(p ; A03) .add:= cs.add(p ; cs .v1(p) + cs .v0(p));
+	used for : s, ls;
+
+;;	store i32 %add, i32* @i, align 4, !tbaa !0
+	t14 :
+	⊦ COP(p, t14)(cs, cs') ↔ cs .pc(p) = A03 ∧ cs' = cs .pc:= cs.pc(p ; A04);
+	used for : s, ls;
+
+;;	%2 = load i32* @j, align 4, !tbaa !0
+	t15 :
+	⊦ COP(p, t15)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A05) .v2:= cs.v2(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%3 = load i32* @i, align 4, !tbaa !0
+	t16 :
+	⊦ COP(p, t16)(cs, cs') ↔ cs .pc(p) = A05 ∧ cs' = cs .pc:= cs.pc(p ; A06) .v3:= cs.v3(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%add.1 = add i32 %3, %2
+	t17 :
+	⊦ COP(p, t17)(cs, cs') ↔ cs .pc(p) = A06 ∧ cs' = cs .pc:= cs.pc(p ; A07) .add_1:= cs.add_1(p ; cs .v3(p) + cs .v2(p));
+	used for : s, ls;
+
+;;	store i32 %add.1, i32* @i, align 4, !tbaa !0
+	t18 :
+	⊦ COP(p, t18)(cs, cs') ↔ cs .pc(p) = A07 ∧ cs' = cs .pc:= cs.pc(p ; A08);
+	used for : s, ls;
+
+;;	%4 = load i32* @j, align 4, !tbaa !0
+	t19 :
+	⊦ COP(p, t19)(cs, cs') ↔ cs .pc(p) = A08 ∧ cs' = cs .pc:= cs.pc(p ; A09) .v4:= cs.v4(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%5 = load i32* @i, align 4, !tbaa !0
+	t110 :
+	⊦ COP(p, t110)(cs, cs') ↔ cs .pc(p) = A09 ∧ cs' = cs .pc:= cs.pc(p ; A10) .v5:= cs.v5(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%add.2 = add i32 %5, %4
+	t111 :
+	⊦ COP(p, t111)(cs, cs') ↔ cs .pc(p) = A10 ∧ cs' = cs .pc:= cs.pc(p ; A11) .add_2:= cs.add_2(p ; cs .v5(p) + cs .v4(p));
+	used for : s, ls;
+
+;;	store i32 %add.2, i32* @i, align 4, !tbaa !0
+	t112 :
+	⊦ COP(p, t112)(cs, cs') ↔ cs .pc(p) = A11 ∧ cs' = cs .pc:= cs.pc(p ; A12);
+	used for : s, ls;
+
+;;	%6 = load i32* @j, align 4, !tbaa !0
+	t113 :
+	⊦ COP(p, t113)(cs, cs') ↔ cs .pc(p) = A12 ∧ cs' = cs .pc:= cs.pc(p ; A13) .v6:= cs.v6(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%7 = load i32* @i, align 4, !tbaa !0
+	t114 :
+	⊦ COP(p, t114)(cs, cs') ↔ cs .pc(p) = A13 ∧ cs' = cs .pc:= cs.pc(p ; A14) .v7:= cs.v7(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%add.3 = add i32 %7, %6
+	t115 :
+	⊦ COP(p, t115)(cs, cs') ↔ cs .pc(p) = A14 ∧ cs' = cs .pc:= cs.pc(p ; A15) .add_3:= cs.add_3(p ; cs .v7(p) + cs .v6(p));
+	used for : s, ls;
+
+;;	store i32 %add.3, i32* @i, align 4, !tbaa !0
+	t116 :
+	⊦ COP(p, t116)(cs, cs') ↔ cs .pc(p) = A15 ∧ cs' = cs .pc:= cs.pc(p ; A16);
+	used for : s, ls;
+
+;;	%8 = load i32* @j, align 4, !tbaa !0
+	t117 :
+	⊦ COP(p, t117)(cs, cs') ↔ cs .pc(p) = A16 ∧ cs' = cs .pc:= cs.pc(p ; A17) .v8:= cs.v8(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%9 = load i32* @i, align 4, !tbaa !0
+	t118 :
+	⊦ COP(p, t118)(cs, cs') ↔ cs .pc(p) = A17 ∧ cs' = cs .pc:= cs.pc(p ; A18) .v9:= cs.v9(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%add.4 = add i32 %9, %8
+	t119 :
+	⊦ COP(p, t119)(cs, cs') ↔ cs .pc(p) = A18 ∧ cs' = cs .pc:= cs.pc(p ; A19) .add_4:= cs.add_4(p ; cs .v9(p) + cs .v8(p));
+	used for : s, ls;
+
+;;	store i32 %add.4, i32* @i, align 4, !tbaa !0
+	t120 :
+	⊦ COP(p, t120)(cs, cs') ↔ cs .pc(p) = A19 ∧ cs' = cs .pc:= cs.pc(p ; A20);
+	used for : s, ls;
+
+;;	%0 = load i32* @i, align 4, !tbaa !0
+	t21 :
+	⊦ COP(p, t21)(cs, cs') ↔ cs .pc(p) = B00 ∧ cs' = cs .pc:= cs.pc(p ; B01) .v0:= cs.v0(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%1 = load i32* @j, align 4, !tbaa !0
+	t22 :
+	⊦ COP(p, t22)(cs, cs') ↔ cs .pc(p) = B01 ∧ cs' = cs .pc:= cs.pc(p ; B02) .v1:= cs.v1(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%add = add i32 %1, %0
+	t23 :
+	⊦ COP(p, t23)(cs, cs') ↔ cs .pc(p) = B02 ∧ cs' = cs .pc:= cs.pc(p ; B03) .add:= cs.add(p ; cs .v1(p) + cs .v0(p));
+	used for : s, ls;
+
+;;	store i32 %add, i32* @j, align 4, !tbaa !0
+	t24 :
+	⊦ COP(p, t24)(cs, cs') ↔ cs .pc(p) = B03 ∧ cs' = cs .pc:= cs.pc(p ; B04);
+	used for : s, ls;
+
+;;	%2 = load i32* @i, align 4, !tbaa !0
+	t25 :
+	⊦ COP(p, t25)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B05) .v2:= cs.v2(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%3 = load i32* @j, align 4, !tbaa !0
+	t26 :
+	⊦ COP(p, t26)(cs, cs') ↔ cs .pc(p) = B05 ∧ cs' = cs .pc:= cs.pc(p ; B06) .v3:= cs.v3(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%add.1 = add i32 %3, %2
+	t27 :
+	⊦ COP(p, t27)(cs, cs') ↔ cs .pc(p) = B06 ∧ cs' = cs .pc:= cs.pc(p ; B07) .add_1:= cs.add_1(p ; cs .v3(p) + cs .v2(p));
+	used for : s, ls;
+
+;;	store i32 %add.1, i32* @j, align 4, !tbaa !0
+	t28 :
+	⊦ COP(p, t28)(cs, cs') ↔ cs .pc(p) = B07 ∧ cs' = cs .pc:= cs.pc(p ; B08);
+	used for : s, ls;
+
+;;	%4 = load i32* @i, align 4, !tbaa !0
+	t29 :
+	⊦ COP(p, t29)(cs, cs') ↔ cs .pc(p) = B08 ∧ cs' = cs .pc:= cs.pc(p ; B09) .v4:= cs.v4(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%5 = load i32* @j, align 4, !tbaa !0
+	t210 :
+	⊦ COP(p, t210)(cs, cs') ↔ cs .pc(p) = B09 ∧ cs' = cs .pc:= cs.pc(p ; B10) .v5:= cs.v5(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%add.2 = add i32 %5, %4
+	t211 :
+	⊦ COP(p, t211)(cs, cs') ↔ cs .pc(p) = B10 ∧ cs' = cs .pc:= cs.pc(p ; B11) .add_2:= cs.add_2(p ; cs .v5(p) + cs .v4(p));
+	used for : s, ls;
+
+;;	store i32 %add.2, i32* @j, align 4, !tbaa !0
+	t212 :
+	⊦ COP(p, t212)(cs, cs') ↔ cs .pc(p) = B11 ∧ cs' = cs .pc:= cs.pc(p ; B12);
+	used for : s, ls;
+
+;;	%6 = load i32* @i, align 4, !tbaa !0
+	t213 :
+	⊦ COP(p, t213)(cs, cs') ↔ cs .pc(p) = B12 ∧ cs' = cs .pc:= cs.pc(p ; B13) .v6:= cs.v6(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%7 = load i32* @j, align 4, !tbaa !0
+	t214 :
+	⊦ COP(p, t214)(cs, cs') ↔ cs .pc(p) = B13 ∧ cs' = cs .pc:= cs.pc(p ; B14) .v7:= cs.v7(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%add.3 = add i32 %7, %6
+	t215 :
+	⊦ COP(p, t215)(cs, cs') ↔ cs .pc(p) = B14 ∧ cs' = cs .pc:= cs.pc(p ; B15) .add_3:= cs.add_3(p ; cs .v7(p) + cs .v6(p));
+	used for : s, ls;
+
+;;	store i32 %add.3, i32* @j, align 4, !tbaa !0
+	t216 :
+	⊦ COP(p, t216)(cs, cs') ↔ cs .pc(p) = B15 ∧ cs' = cs .pc:= cs.pc(p ; B16);
+	used for : s, ls;
+
+;;	%8 = load i32* @i, align 4, !tbaa !0
+	t217 :
+	⊦ COP(p, t217)(cs, cs') ↔ cs .pc(p) = B16 ∧ cs' = cs .pc:= cs.pc(p ; B17) .v8:= cs.v8(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%9 = load i32* @j, align 4, !tbaa !0
+	t218 :
+	⊦ COP(p, t218)(cs, cs') ↔ cs .pc(p) = B17 ∧ cs' = cs .pc:= cs.pc(p ; B18) .v9:= cs.v9(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	%add.4 = add i32 %9, %8
+	t219 :
+	⊦ COP(p, t219)(cs, cs') ↔ cs .pc(p) = B18 ∧ cs' = cs .pc:= cs.pc(p ; B19) .add_4:= cs.add_4(p ; cs .v9(p) + cs .v8(p));
+	used for : s, ls;
+
+;;	store i32 %add.4, i32* @j, align 4, !tbaa !0
+	t220 :
+	⊦ COP(p, t220)(cs, cs') ↔ cs .pc(p) = B19 ∧ cs' = cs .pc:= cs.pc(p ; B20);
+	used for : s, ls;
+
+;;	%id1 = alloca i32, align 4
+	main1 :
+	⊦ COP(p, main1)(cs, cs') ↔ cs .pc(p) = C00 ∧ cs' = cs .pc:= cs.pc(p ; C01);
+	used for : s, ls;
+
+;;	%id2 = alloca i32, align 4
+	main2 :
+	⊦ COP(p, main2)(cs, cs') ↔ cs .pc(p) = C01 ∧ cs' = cs .pc:= cs.pc(p ; C02);
+	used for : s, ls;
+
+;;	%call = call i32 @pthread_create (i32* %id1, %union.pthread_attr_t * null, i8*(i8* )* @t1, i8* null)
+	NEEDS ATTENTION !
+	main3 :
+	⊦ COP(p, main3)(cs, cs') ↔ cs .pc(p) = C02 ∧ cs' = cs .pc:= cs.pc(p ; C03);
+	used for : s, ls;
+
+;;	%call1 = call i32 @pthread_create (i32* %id2, %union.pthread_attr_t * null, i8*(i8* )* @t2, i8* null)
+	NEEDS ATTENTION !
+	main4 :
+	⊦ COP(p, main4)(cs, cs') ↔ cs .pc(p) = C03 ∧ cs' = cs .pc:= cs.pc(p ; C04);
+	used for : s, ls;
+
+;;	%0 = load i32* @i, align 4, !tbaa !0
+	main5 :
+	⊦ COP(p, main5)(cs, cs') ↔ cs .pc(p) = C04 ∧ cs' = cs .pc:= cs.pc(p ; C05) .v0:= cs.v0(p ; cs.mem[cs .i .v] .v);
+	used for : s, ls;
+
+;;	%cmp = icmp sgt i32 %0, 144
+	main6 :
+	⊦ COP(p, main6)(cs, cs') ↔ cs .pc(p) = C05 ∧ (cs .v0(p) ≤ 144 ⊃ cs' = cs .pc:= cs.pc(p; C06) .cmp:= cs.cmp(p ; 0) ; cs' = cs .pc:= cs.pc(p; C06) .cmp:= cs.cmp(p ; 1));
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %lor.lhs.false
+	main7 :
+	⊦ COP(p, main7)(cs, cs') ↔ cs .pc(p) = C06 ∧ cs' = cs .pc:= cs.pc(p ; C10) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %lor.lhs.false
+	main8 :
+	⊦ COP(p, main8)(cs, cs') ↔ cs .pc(p) = C06 ∧ cs' = cs .pc:= cs.pc(p ; C07) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	call void @__assert_fail (i8* getelementptr [2 x i8]* @.str, i32 0, i32 0, i8* getelementptr [17 x i8]* @.str1, i32 0, i32 0, i32 47, i8* getelementptr [23 x i8]* @__PRETTY_FUNCTION__.main, i32 0, i32 0)
+	NEEDS ATTENTION !
+	main9 :
+	⊦ COP(p, main9)(cs, cs') ↔ cs .pc(p) = C10 ∧ cs' = cs .pc:= cs.pc(p ; C11);
+	used for : s, ls;
+
+;;	%1 = load i32* @j, align 4, !tbaa !0
+	main10 :
+	⊦ COP(p, main10)(cs, cs') ↔ cs .pc(p) = C07 ∧ cs' = cs .pc:= cs.pc(p ; C08) .v1:= cs.v1(p ; cs.mem[cs .j .v] .v);
+	used for : s, ls;
+
+;;	Unreachable
+	NEEDS ATTENTION !
+	main11 :
+	⊦ COP(p, main11)(cs, cs') ↔ cs .pc(p) = C11 ∧ cs' = cs .pc:= cs.pc(p ; C12);
+	used for : s, ls;
+
+;;	%cmp2 = icmp sgt i32 %1, 144
+	main12 :
+	⊦ COP(p, main12)(cs, cs') ↔ cs .pc(p) = C08 ∧ (cs .v1(p) ≤ 144 ⊃ cs' = cs .pc:= cs.pc(p; C09) .cmp2:= cs.cmp2(p ; 0) ; cs' = cs .pc:= cs.pc(p; C09) .cmp2:= cs.cmp2(p ; 1));
+	used for : s, ls;
+
+;;	br %cmp2, label %if.then, label %if.end
+	main14 :
+	⊦ COP(p, main14)(cs, cs') ↔ cs .pc(p) = C09 ∧ cs' = cs .pc:= cs.pc(p ; C10) ∧ cs .cmp2(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp2, label %if.then, label %if.end
+	main15 :
+	⊦ COP(p, main15)(cs, cs') ↔ cs .pc(p) = C09 ∧ cs' = cs .pc:= cs.pc(p ; C12) ∧ cs .cmp2(p) = 0;
+	used for : s, ls;
+
+;;	ret i8* null
+	t121ret :
+	⊦ RETOP(p, t121ret)(cs, cs', return) ↔ cs .pc(p) = A20 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = null;
+	used for : s, ls;
+	
+;;	ret i8* null
+	t221ret :
+	⊦ RETOP(p, t221ret)(cs, cs', return) ↔ cs .pc(p) = B20 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = null;
+	used for : s, ls;
+	
+;;	ret i32 0
+	main13ret :
+	⊦ RETOP(p, main13ret)(cs, cs', return) ↔ cs .pc(p) = C12 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = ⌜0⌝;
+	used for : s, ls;
+	
+end enrich

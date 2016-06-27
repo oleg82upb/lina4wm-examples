@@ -1,0 +1,40 @@
+data specification
+	using natref, PC, PID
+	Localstate :=mkls( . .pc : PC; . .pid : PID;
+					. .v0 : ref;
+					. .v1 : nat;
+					. .and : nat;
+					. .tobool : nat;
+					. .add : nat;
+					. .v2 : ref;
+					. .v3 : nat;
+					. .v4 : ref;
+					. .retval_0 : nat;
+					. .v5 : ref;
+					. .v6 : nat;
+					. .v7 : ref;
+					. .v8 : nat;
+					. .cmp : nat;
+					. .and7 : nat;
+					. .tobool8 : nat;
+					. .v9 : ref;
+					. .10 : nat;
+					. .inc10 : nat;
+					. .11 : ref;
+					. .12 : nat;
+					. .cmp7 : nat;
+					. .and10 : nat;
+					. .tobool11 : nat;
+					. .13 : ref;
+					. .14 : nat;
+					. .inc13 : nat;
+					. .and5 : nat;
+					. .tobool6 : nat;
+					. .inc8 : nat;
+					. .cmp1 : nat;
+					. .argc : nat;
+					. .argv : ref;
+);
+	variables
+		ls , ls' : Localstate;
+end data specification

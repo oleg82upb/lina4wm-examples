@@ -1,0 +1,319 @@
+enrich 	CS,
+		cindex with 
+
+	functions
+		INVOP : Proc × IJ → int × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × int → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : int × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × int → bool;
+		flag0, flag0' : ref;
+		flag1, flag1' : ref;
+		turn, turn' : ref;
+		inp : int;
+		return : int;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(flag0, flag1, turn, pcf, mem, reff1, reff2, reff3, intf4, intf5, intf6, intf7, reff8, intf9, intf10, intf11, intf12, reff13, intf14)) ↔ ( flag0 = ⌜0⌝ ∧ flag1 = ⌜0⌝ ∧ turn = ⌜0⌝ ∧ pcf = (λ p. N)  ∧ reff1 = (λ p. ⌜0⌝) ∧ reff2 = (λ p. ⌜0⌝) ∧ reff3 = (λ p. ⌜0⌝) ∧ intf4 = (λ p. 0) ∧ intf5 = (λ p. 0) ∧ intf6 = (λ p. 0) ∧ intf7 = (λ p. 0) ∧ reff8 = (λ p. ⌜0⌝) ∧ intf9 = (λ p. 0) ∧ intf10 = (λ p. 0) ∧ intf11 = (λ p. 0) ∧ intf12 = (λ p. 0) ∧ reff13 = (λ p. ⌜0⌝) ∧ intf14 = (λ p. 0));
+	used for : s, ls;
+
+;; 	p0 reflects function @p0
+	p0ini :
+	⊦ INVOP(p, p0ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; A00) ; 
+	used for : s, ls;
+
+;; 	p1 reflects function @p1
+	p1ini :
+	⊦ INVOP(p, p1ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; B00) ; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(p, mainini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; C0) ; 
+	used for : s, ls;
+
+;;	%0 = load i8** @flag0, align 4
+	p01 :
+	⊦ COP(p, p01)(cs, cs') ↔ cs .pc(p) = A00 ∧ cs' = cs .pc:= cs.pc(p ; A01) .v0:= cs.v0(p ; cs.mem[cs .flag0 .v]);
+	used for : s, ls;
+
+;;	store i8 1, i8* %0, align 1
+	p02 :
+	⊦ COP(p, p02)(cs, cs') ↔ cs .pc(p) = A01 ∧ cs' = cs .pc:= cs.pc(p ; A02);
+	used for : s, ls;
+
+;;	%1 = load i8** @turn, align 4
+	p03 :
+	⊦ COP(p, p03)(cs, cs') ↔ cs .pc(p) = A02 ∧ cs' = cs .pc:= cs.pc(p ; A03) .v1:= cs.v1(p ; cs.mem[cs .turn .v]);
+	used for : s, ls;
+
+;;	fence seq_cst
+	p04 :
+	⊦ COP(p, p04)(cs, cs') ↔ cs .pc(p) = A03 ∧ cs' = cs .pc:= cs.pc(p ; A04);
+	used for : s, ls;
+
+;;	store i8 1, i8* %1, align 1
+	p05 :
+	⊦ COP(p, p05)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A05);
+	used for : s, ls;
+
+;;	fence seq_cst
+	p06 :
+	⊦ COP(p, p06)(cs, cs') ↔ cs .pc(p) = A05 ∧ cs' = cs .pc:= cs.pc(p ; A06);
+	used for : s, ls;
+
+;;	br label %while.cond
+	p07 :
+	⊦ COP(p, p07)(cs, cs') ↔ cs .pc(p) = A06 ∧ cs' = cs .pc:= cs.pc(p ; A07);
+	used for : s, ls;
+
+;;	%2 = load i8** @flag1, align 4
+	p08 :
+	⊦ COP(p, p08)(cs, cs') ↔ cs .pc(p) = A07 ∧ cs' = cs .pc:= cs.pc(p ; A08) .v2:= cs.v2(p ; cs.mem[cs .flag1 .v]);
+	used for : s, ls;
+
+;;	%3 = load i8* %2, align 1
+	p09 :
+	⊦ COP(p, p09)(cs, cs') ↔ cs .pc(p) = A08 ∧ cs' = cs .pc:= cs.pc(p ; A09) .v3:= cs.v3(p ; cs.mem[cs .v2(p) .v] .v);
+	used for : s, ls;
+
+;;	%tobool = trunc i8 %3 to i1
+	p010 :
+	⊦ COP(p, p010)(cs, cs') ↔ cs .pc(p) = A09 ∧ cs' = cs .pc:= cs.pc(p ; A10) .tobool:= cs.tobool(p ; cs .v3(p));
+	used for : s, ls;
+
+;;	%conv = zext i1 %tobool to i32
+	p011 :
+	⊦ COP(p, p011)(cs, cs') ↔ cs .pc(p) = A10 ∧ cs' = cs .pc:= cs.pc(p ; A11) .conv:= cs.conv(p ; cs .tobool(p));
+	used for : s, ls;
+
+;;	%cmp = icmp eq i32 %conv, 1
+	p012 :
+	⊦ COP(p, p012)(cs, cs') ↔ cs .pc(p) = A11 ∧ (cs .conv(p) = 1
+	 ⊃ cs' = cs .pc:= cs.pc(p; A12) .cmp:= cs.cmp(p ; 1) ; cs' = cs .pc:= cs.pc(p; A12) .cmp:= cs.cmp(p ; 0));
+	used for : s, ls;
+
+;;	br %cmp, label %land.rhs, label %land.end
+	p013 :
+	⊦ COP(p, p013)(cs, cs') ↔ cs .pc(p) = A12 ∧ cs' = cs .pc:= cs.pc(p ; A13) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %land.rhs, label %land.end
+	p014 :
+	⊦ COP(p, p014)(cs, cs') ↔ cs .pc(p) = A12 ∧ cs' = cs .pc:= cs.pc(p ; A19) .v6:= cs.v6(p ; 0) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	%4 = load i8** @turn, align 4
+	p015 :
+	⊦ COP(p, p015)(cs, cs') ↔ cs .pc(p) = A13 ∧ cs' = cs .pc:= cs.pc(p ; A14) .v4:= cs.v4(p ; cs.mem[cs .turn .v]);
+	used for : s, ls;
+
+;;	%6 = phi i1 [, %while.cond][%cmp4 , %land.rhs]
+	p016 :
+	⊦ COP(p, p016)(cs, cs') ↔ cs .pc(p) = A19 ∧ cs' = cs .pc:= cs.pc(p ; A20);
+	used for : s, ls;
+
+;;	%5 = load i8* %4, align 1
+	p017 :
+	⊦ COP(p, p017)(cs, cs') ↔ cs .pc(p) = A14 ∧ cs' = cs .pc:= cs.pc(p ; A15) .v5:= cs.v5(p ; cs.mem[cs .v4(p) .v] .v);
+	used for : s, ls;
+
+;;	br %6, label %while.body, label %while.end
+	p018 :
+	⊦ COP(p, p018)(cs, cs') ↔ cs .pc(p) = A20 ∧ cs' = cs .pc:= cs.pc(p ; A21) ∧ cs .v6(p) = 1;
+	used for : s, ls;
+
+;;	br %6, label %while.body, label %while.end
+	p019 :
+	⊦ COP(p, p019)(cs, cs') ↔ cs .pc(p) = A20 ∧ cs' = cs .pc:= cs.pc(p ; A22) ∧ cs .v6(p) = 0;
+	used for : s, ls;
+
+;;	%tobool2 = trunc i8 %5 to i1
+	p020 :
+	⊦ COP(p, p020)(cs, cs') ↔ cs .pc(p) = A15 ∧ cs' = cs .pc:= cs.pc(p ; A16) .tobool2:= cs.tobool2(p ; cs .v5(p));
+	used for : s, ls;
+
+;;	br label %while.cond
+	p021 :
+	⊦ COP(p, p021)(cs, cs') ↔ cs .pc(p) = A21 ∧ cs' = cs .pc:= cs.pc(p ; A07);
+	used for : s, ls;
+
+;;	%7 = load i8** @flag0, align 4
+	p022 :
+	⊦ COP(p, p022)(cs, cs') ↔ cs .pc(p) = A22 ∧ cs' = cs .pc:= cs.pc(p ; A23) .v7:= cs.v7(p ; cs.mem[cs .flag0 .v]);
+	used for : s, ls;
+
+;;	%conv3 = zext i1 %tobool2 to i32
+	p023 :
+	⊦ COP(p, p023)(cs, cs') ↔ cs .pc(p) = A16 ∧ cs' = cs .pc:= cs.pc(p ; A17) .conv3:= cs.conv3(p ; cs .tobool2(p));
+	used for : s, ls;
+
+;;	store i8 0, i8* %7, align 1
+	p024 :
+	⊦ COP(p, p024)(cs, cs') ↔ cs .pc(p) = A23 ∧ cs' = cs .pc:= cs.pc(p ; A24);
+	used for : s, ls;
+
+;;	%cmp4 = icmp eq i32 %conv3, 1
+	p025 :
+	⊦ COP(p, p025)(cs, cs') ↔ cs .pc(p) = A17 ∧ (cs .conv3(p) = 1
+	 ⊃ cs' = cs .pc:= cs.pc(p; A18) .cmp4:= cs.cmp4(p ; 1) ; cs' = cs .pc:= cs.pc(p; A18) .cmp4:= cs.cmp4(p ; 0));
+	used for : s, ls;
+
+;;	br label %land.end
+	p027 :
+	⊦ COP(p, p027)(cs, cs') ↔ cs .pc(p) = A18 ∧ cs' = cs .pc:= cs.pc(p ; A19) .v6:= cs.v6(p ; cs .cmp4(p));
+	used for : s, ls;
+
+;;	%0 = load i8** @flag1, align 4
+	p11 :
+	⊦ COP(p, p11)(cs, cs') ↔ cs .pc(p) = B00 ∧ cs' = cs .pc:= cs.pc(p ; B01) .v0:= cs.v0(p ; cs.mem[cs .flag1 .v]);
+	used for : s, ls;
+
+;;	store i8 1, i8* %0, align 1
+	p12 :
+	⊦ COP(p, p12)(cs, cs') ↔ cs .pc(p) = B01 ∧ cs' = cs .pc:= cs.pc(p ; B02);
+	used for : s, ls;
+
+;;	%1 = load i8** @turn, align 4
+	p13 :
+	⊦ COP(p, p13)(cs, cs') ↔ cs .pc(p) = B02 ∧ cs' = cs .pc:= cs.pc(p ; B03) .v1:= cs.v1(p ; cs.mem[cs .turn .v]);
+	used for : s, ls;
+
+;;	fence seq_cst
+	p14 :
+	⊦ COP(p, p14)(cs, cs') ↔ cs .pc(p) = B03 ∧ cs' = cs .pc:= cs.pc(p ; B04);
+	used for : s, ls;
+
+;;	store i8 0, i8* %1, align 1
+	p15 :
+	⊦ COP(p, p15)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B05);
+	used for : s, ls;
+
+;;	fence seq_cst
+	p16 :
+	⊦ COP(p, p16)(cs, cs') ↔ cs .pc(p) = B05 ∧ cs' = cs .pc:= cs.pc(p ; B06);
+	used for : s, ls;
+
+;;	br label %while.cond
+	p17 :
+	⊦ COP(p, p17)(cs, cs') ↔ cs .pc(p) = B06 ∧ cs' = cs .pc:= cs.pc(p ; B07);
+	used for : s, ls;
+
+;;	%2 = load i8** @flag0, align 4
+	p18 :
+	⊦ COP(p, p18)(cs, cs') ↔ cs .pc(p) = B07 ∧ cs' = cs .pc:= cs.pc(p ; B08) .v2:= cs.v2(p ; cs.mem[cs .flag0 .v]);
+	used for : s, ls;
+
+;;	%3 = load i8* %2, align 1
+	p19 :
+	⊦ COP(p, p19)(cs, cs') ↔ cs .pc(p) = B08 ∧ cs' = cs .pc:= cs.pc(p ; B09) .v3:= cs.v3(p ; cs.mem[cs .v2(p) .v] .v);
+	used for : s, ls;
+
+;;	%tobool = trunc i8 %3 to i1
+	p110 :
+	⊦ COP(p, p110)(cs, cs') ↔ cs .pc(p) = B09 ∧ cs' = cs .pc:= cs.pc(p ; B10) .tobool:= cs.tobool(p ; cs .v3(p));
+	used for : s, ls;
+
+;;	%conv = zext i1 %tobool to i32
+	p111 :
+	⊦ COP(p, p111)(cs, cs') ↔ cs .pc(p) = B10 ∧ cs' = cs .pc:= cs.pc(p ; B11) .conv:= cs.conv(p ; cs .tobool(p));
+	used for : s, ls;
+
+;;	%cmp = icmp eq i32 %conv, 1
+	p112 :
+	⊦ COP(p, p112)(cs, cs') ↔ cs .pc(p) = B11 ∧ (cs .conv(p) = 1
+	 ⊃ cs' = cs .pc:= cs.pc(p; B12) .cmp:= cs.cmp(p ; 1) ; cs' = cs .pc:= cs.pc(p; B12) .cmp:= cs.cmp(p ; 0));
+	used for : s, ls;
+
+;;	br %cmp, label %land.rhs, label %land.end
+	p113 :
+	⊦ COP(p, p113)(cs, cs') ↔ cs .pc(p) = B12 ∧ cs' = cs .pc:= cs.pc(p ; B13) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %land.rhs, label %land.end
+	p114 :
+	⊦ COP(p, p114)(cs, cs') ↔ cs .pc(p) = B12 ∧ cs' = cs .pc:= cs.pc(p ; B19) .v6:= cs.v6(p ; 0) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	%4 = load i8** @turn, align 4
+	p115 :
+	⊦ COP(p, p115)(cs, cs') ↔ cs .pc(p) = B13 ∧ cs' = cs .pc:= cs.pc(p ; B14) .v4:= cs.v4(p ; cs.mem[cs .turn .v]);
+	used for : s, ls;
+
+;;	%6 = phi i1 [, %while.cond][%cmp4 , %land.rhs]
+	p116 :
+	⊦ COP(p, p116)(cs, cs') ↔ cs .pc(p) = B19 ∧ cs' = cs .pc:= cs.pc(p ; B20);
+	used for : s, ls;
+
+;;	%5 = load i8* %4, align 1
+	p117 :
+	⊦ COP(p, p117)(cs, cs') ↔ cs .pc(p) = B14 ∧ cs' = cs .pc:= cs.pc(p ; B15) .v5:= cs.v5(p ; cs.mem[cs .v4(p) .v] .v);
+	used for : s, ls;
+
+;;	br %6, label %while.body, label %while.end
+	p118 :
+	⊦ COP(p, p118)(cs, cs') ↔ cs .pc(p) = B20 ∧ cs' = cs .pc:= cs.pc(p ; B21) ∧ cs .v6(p) = 1;
+	used for : s, ls;
+
+;;	br %6, label %while.body, label %while.end
+	p119 :
+	⊦ COP(p, p119)(cs, cs') ↔ cs .pc(p) = B20 ∧ cs' = cs .pc:= cs.pc(p ; B22) ∧ cs .v6(p) = 0;
+	used for : s, ls;
+
+;;	%tobool2 = trunc i8 %5 to i1
+	p120 :
+	⊦ COP(p, p120)(cs, cs') ↔ cs .pc(p) = B15 ∧ cs' = cs .pc:= cs.pc(p ; B16) .tobool2:= cs.tobool2(p ; cs .v5(p));
+	used for : s, ls;
+
+;;	br label %while.cond
+	p121 :
+	⊦ COP(p, p121)(cs, cs') ↔ cs .pc(p) = B21 ∧ cs' = cs .pc:= cs.pc(p ; B07);
+	used for : s, ls;
+
+;;	%7 = load i8** @flag1, align 4
+	p122 :
+	⊦ COP(p, p122)(cs, cs') ↔ cs .pc(p) = B22 ∧ cs' = cs .pc:= cs.pc(p ; B23) .v7:= cs.v7(p ; cs.mem[cs .flag1 .v]);
+	used for : s, ls;
+
+;;	%conv3 = zext i1 %tobool2 to i32
+	p123 :
+	⊦ COP(p, p123)(cs, cs') ↔ cs .pc(p) = B16 ∧ cs' = cs .pc:= cs.pc(p ; B17) .conv3:= cs.conv3(p ; cs .tobool2(p));
+	used for : s, ls;
+
+;;	store i8 0, i8* %7, align 1
+	p124 :
+	⊦ COP(p, p124)(cs, cs') ↔ cs .pc(p) = B23 ∧ cs' = cs .pc:= cs.pc(p ; B24);
+	used for : s, ls;
+
+;;	%cmp4 = icmp eq i32 %conv3, 0
+	p125 :
+	⊦ COP(p, p125)(cs, cs') ↔ cs .pc(p) = B17 ∧ (cs .conv3(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; B18) .cmp4:= cs.cmp4(p ; 1) ; cs' = cs .pc:= cs.pc(p; B18) .cmp4:= cs.cmp4(p ; 0));
+	used for : s, ls;
+
+;;	br label %land.end
+	p127 :
+	⊦ COP(p, p127)(cs, cs') ↔ cs .pc(p) = B18 ∧ cs' = cs .pc:= cs.pc(p ; B19) .v6:= cs.v6(p ; cs .cmp4(p));
+	used for : s, ls;
+
+;;	ret void
+	p026ret :
+	⊦ RETOP(p, p026ret)(cs, cs', return) ↔ cs .pc(p) = A24 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret void
+	p126ret :
+	⊦ RETOP(p, p126ret)(cs, cs', return) ↔ cs .pc(p) = B24 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret i32 0
+	main1ret :
+	⊦ RETOP(p, main1ret)(cs, cs', return) ↔ cs .pc(p) = C0 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = 0;
+	used for : s, ls;
+	
+end enrich

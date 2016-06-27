@@ -1,0 +1,9 @@
+data specification
+	IJ =  ZN5StackC2Evini | ZN5Stack4pushEiini | ZN5Stack3popEvini ;
+	CJ =  ZN5StackC2Ev1 | ZN5StackC2Ev2 | ZN5StackC2Ev3 | ZN5Stack4pushEi1 | ZN5Stack4pushEi2 | ZN5Stack4pushEi3 | ZN5Stack4pushEi4 | ZN5Stack4pushEi5 | ZN5Stack4pushEi6 | ZN5Stack4pushEi7 | ZN5Stack4pushEi8 | ZN5Stack4pushEi9 | ZN5Stack4pushEi10 | ZN5Stack4pushEi11 | ZN5Stack4pushEi12 | ZN5Stack4pushEi13 | ZN5Stack4pushEi14 | ZN5Stack4pushEi15 | ZN5Stack4pushEi16 | ZN5Stack4pushEi17 | ZN5Stack4pushEi18 | ZN5Stack4pushEi19 | ZN5Stack4pushEi20 | ZN5Stack4pushEi21 | ZN5Stack4pushEi22 | ZN5Stack4pushEi23 | ZN5Stack4pushEi24 | ZN5Stack4pushEi25 | ZN5Stack4pushEi26 | ZN5Stack4pushEi27 | ZN5Stack4pushEi28 | ZN5Stack4pushEi29 | ZN5Stack4pushEi30 | ZN5Stack4pushEi31 | ZN5Stack4pushEi32 | ZN5Stack4pushEi33 | ZN5Stack4pushEi34 | ZN5Stack4pushEi35 | ZN5Stack4pushEi36 | ZN5Stack4pushEi37 | ZN5Stack4pushEi38 | ZN5Stack3popEv1 | ZN5Stack3popEv2 | ZN5Stack3popEv3 | ZN5Stack3popEv4 | ZN5Stack3popEv5 | ZN5Stack3popEv6 | ZN5Stack3popEv7 | ZN5Stack3popEv8 | ZN5Stack3popEv9 | ZN5Stack3popEv11 | ZN5Stack3popEv12 | ZN5Stack3popEv13 | ZN5Stack3popEv14 | ZN5Stack3popEv15 | ZN5Stack3popEv16 | ZN5Stack3popEv17 ;
+	RJ =  ZN5StackC2Ev4ret | ZN5Stack4pushEi39ret | ZN5Stack3popEv10ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification

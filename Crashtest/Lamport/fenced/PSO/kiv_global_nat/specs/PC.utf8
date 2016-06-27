@@ -1,0 +1,67 @@
+data specification
+	PC = N |		
+		A00 |		
+		A01 |		
+		A02arrayidx |		
+		A02 |		
+		A03 |		
+		A04 |		
+		A05 |		
+		A06 |		
+		A07 |		
+		A12 |		
+		A08 |		
+		A13 |		
+		A09 |		
+		A14 |		
+		A10 |		
+		A15 |		
+		A11arrayidx1 |		
+		A16arrayidx3 |		
+		A17arrayidx1 |		
+		A11 |		
+		A17arrayidx3 |		
+		A16 |		
+		A17 |		
+		A18 |		
+		A19arrayidx |		
+		A20arrayidx |		
+		A19 |		
+		A20 |		
+		A21 |		
+		A22 |		
+		A23 |		
+		A24 |		
+		A25 |		
+		A26 |		
+		A27 |		
+		A28 |		
+		A29 |		
+		A30 |		
+		A31 |		
+		A32 |		
+		A33 |		
+		A34 |		
+		A44 |		
+		A35 |		
+		A45 |		
+		A36 |		
+		A46 |		
+		A37 |		
+		A47 |		
+		A38 |		
+		A48 |		
+		A39 |		
+		A49arrayidx21 |		
+		A40 |		
+		A49 |		
+		A41 |		
+		A50 |		
+		A42 |		
+		A43 |		
+		B0 |		
+		B1;
+variables
+pc : PC;
+
+end data specification

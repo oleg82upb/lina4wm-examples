@@ -1,0 +1,15 @@
+data specification
+	using intref, PC, PID
+	Localstate :=mkls( . .pc : PC; . .pid : PID;
+					. .v0 : int;
+					. .tobool : int;
+					. .conv : int;
+					. .cmp : int;
+					. .v1 : int;
+					. .tobool1 : int;
+					. .conv2 : int;
+					. .cmp3 : int;
+);
+	variables
+		ls , ls' : Localstate;
+end data specification

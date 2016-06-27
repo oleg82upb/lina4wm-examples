@@ -1,0 +1,330 @@
+enrich 	natref-memory,
+		localstate,
+		cindex with 
+
+	constants
+		choosing : ref;
+		number : ref;
+	
+	functions
+		INVOP : IJ → nat ×  memory ×  Localstate ×  memory ×  Localstate → bool;
+		COP : CJ → memory × Localstate × memory × Localstate → bool;
+		RETOP : RJ → memory × Localstate × memory × Localstate × nat → bool;
+	predicates
+		LSInit : Localstate × PID;
+		GSInit : memory;
+	variables
+		invop : nat × memory × Localstate × memory × Localstate → bool;
+		cop : memory × Localstate × memory × Localstate → bool;
+		retop : memory × Localstate × memory × Localstate × nat → bool;
+		mem' : memory;
+		inp : nat;
+		return : nat;
+	axioms
+
+	LSInit : ⊦ LSInit(ls, p) ↔ ls .pc = N ∧ ls .pid = p;
+	used for : s, ls;
+
+;; 	proci reflects function @proci
+	prociini :
+	⊦ INVOP(prociini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ls' = ls .pc:= A00 .i:= inp ∧ mem' = mem; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(mainini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ls' = ls .pc:= B0 ∧ mem' = mem; 
+	used for : s, ls;
+
+;;	%arrayidx = getelementptr [2 x i8]*@choosing, i320, i32%i
+	proci1 :
+	⊦ COP(proci1)(mem, ls, mem', ls') ↔ ls .pc = A00 ∧ ls' = ls .pc:= A01 .arrayidx:=  ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i81, i8*%arrayidx, align 1, !tbaa !0
+	proci2 :
+	⊦ COP(proci2)(mem, ls, mem', ls') ↔ ls .pc = A01 ∧ ls' = ls .pc:= A02 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	fence seq_cst
+	proci3 :
+	⊦ COP(proci3)(mem, ls, mem', ls') ↔ ls .pc = A02 ∧ ls' = ls .pc:= A03 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%0 = load i32*getelementptr [2 x i32]*@number, i320, i320, align 4, !tbaa !3
+	proci4 :
+	⊦ COP(proci4)(mem, ls, mem', ls') ↔ ls .pc = A03 ∧ ls' = ls .pc:= A04 .v0:= mem[(number .v + 0)] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%1 = load i32*getelementptr [2 x i32]*@number, i320, i321, align 4, !tbaa !3
+	proci5 :
+	⊦ COP(proci5)(mem, ls, mem', ls') ↔ ls .pc = A04 ∧ ls' = ls .pc:= A05 .v1:= mem[(number .v + 1)] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp = icmp slt i32 %0, %1
+	proci6 :
+	⊦ COP(proci6)(mem, ls, mem', ls') ↔ ls .pc = A05 ∧ (ls .v0 ≥ ls .v1 ⊃ ls' = ls .pc:= A06 .cmp:= 0 ; ls' = ls .pc:= A06 .cmp:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %if.else
+	proci7 :
+	⊦ COP(proci7)(mem, ls, mem', ls') ↔ ls .pc = A06 ∧ ls' = ls .pc:= A07 ∧ ls .cmp = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %if.else
+	proci8 :
+	⊦ COP(proci8)(mem, ls, mem', ls') ↔ ls .pc = A06 ∧ ls' = ls .pc:= A12 ∧ ls .cmp = 0;
+	used for : s, ls;
+
+;;	%2 = load i32*getelementptr [2 x i32]*@number, i320, i321, align 4, !tbaa !3
+	proci9 :
+	⊦ COP(proci9)(mem, ls, mem', ls') ↔ ls .pc = A07 ∧ ls' = ls .pc:= A08 .v2:= mem[(number .v + 1)] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%3 = load i32*getelementptr [2 x i32]*@number, i320, i320, align 4, !tbaa !3
+	proci10 :
+	⊦ COP(proci10)(mem, ls, mem', ls') ↔ ls .pc = A12 ∧ ls' = ls .pc:= A13 .v3:= mem[(number .v + 0)] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add = add i32 %2, 1
+	proci11 :
+	⊦ COP(proci11)(mem, ls, mem', ls') ↔ ls .pc = A08 ∧ ls' = ls .pc:= A09 .add:= ( ls .v2 + 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add2 = add i32 %3, 1
+	proci12 :
+	⊦ COP(proci12)(mem, ls, mem', ls') ↔ ls .pc = A13 ∧ ls' = ls .pc:= A14 .add2:= ( ls .v3 + 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%arrayidx1 = getelementptr [2 x i32]*@number, i320, i32%i
+	proci13 :
+	⊦ COP(proci13)(mem, ls, mem', ls') ↔ ls .pc = A09 ∧ ls' = ls .pc:= A10 .arrayidx1:=  ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%arrayidx3 = getelementptr [2 x i32]*@number, i320, i32%i
+	proci14 :
+	⊦ COP(proci14)(mem, ls, mem', ls') ↔ ls .pc = A14 ∧ ls' = ls .pc:= A15 .arrayidx3:=  ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add, i32*%arrayidx1, align 4, !tbaa !3
+	proci15 :
+	⊦ COP(proci15)(mem, ls, mem', ls') ↔ ls .pc = A10 ∧ ls' = ls .pc:= A11 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add2, i32*%arrayidx3, align 4, !tbaa !3
+	proci16 :
+	⊦ COP(proci16)(mem, ls, mem', ls') ↔ ls .pc = A15 ∧ ls' = ls .pc:= A16 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br label %if.end
+	proci17 :
+	⊦ COP(proci17)(mem, ls, mem', ls') ↔ ls .pc = A11 ∧ ls' = ls .pc:= A17;
+	used for : s, ls;
+
+;;	br label %if.end
+	proci18 :
+	⊦ COP(proci18)(mem, ls, mem', ls') ↔ ls .pc = A16 ∧ ls' = ls .pc:= A17;
+	used for : s, ls;
+
+;;	fence seq_cst
+	proci19 :
+	⊦ COP(proci19)(mem, ls, mem', ls') ↔ ls .pc = A17 ∧ ls' = ls .pc:= A18 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i80, i8*%arrayidx, align 1, !tbaa !0
+	proci20 :
+	⊦ COP(proci20)(mem, ls, mem', ls') ↔ ls .pc = A18 ∧ ls' = ls .pc:= A19 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%arrayidx11 = getelementptr [2 x i32]*@number, i320, i32%i
+	proci21 :
+	⊦ COP(proci21)(mem, ls, mem', ls') ↔ ls .pc = A19 ∧ ls' = ls .pc:= A20 .arrayidx11:=  ∧ mem' = mem;
+	used for : s, ls;
+
+;;	fence seq_cst
+	proci22 :
+	⊦ COP(proci22)(mem, ls, mem', ls') ↔ ls .pc = A20 ∧ ls' = ls .pc:= A21 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br label %while.cond.preheader
+	proci23 :
+	⊦ COP(proci23)(mem, ls, mem', ls') ↔ ls .pc = A21 ∧ ls' = ls .pc:= A22 .j_023:= 0;
+	used for : s, ls;
+
+;;	%j.023 = phi i32 [, %if.end][%inc , %for.inc]
+	proci24 :
+	⊦ COP(proci24)(mem, ls, mem', ls') ↔ ls .pc = A22 ∧ ls' = ls .pc:= A23 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%arrayidx6 = getelementptr [2 x i8]*@choosing, i320, i32%j.023
+	proci25 :
+	⊦ COP(proci25)(mem, ls, mem', ls') ↔ ls .pc = A23 ∧ ls' = ls .pc:= A24 .arrayidx6:=  ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br label %while.cond
+	proci26 :
+	⊦ COP(proci26)(mem, ls, mem', ls') ↔ ls .pc = A24 ∧ ls' = ls .pc:= A25;
+	used for : s, ls;
+
+;;	%4 = load i8*%arrayidx6, align 1, !tbaa !0, !range !4
+	proci27 :
+	⊦ COP(proci27)(mem, ls, mem', ls') ↔ ls .pc = A25 ∧ ls' = ls .pc:= A26 .v4:= mem[ls .arrayidx6 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%5 = and i8 %4, 1
+	NEEDS ATTENTION !
+	proci28 :
+	⊦ COP(proci28)(mem, ls, mem', ls') ↔ ls .pc = A26 ∧ ls' = ls .pc:= A27 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %5, 0
+	proci29 :
+	⊦ COP(proci29)(mem, ls, mem', ls') ↔ ls .pc = A27 ∧ (ls .v5 = 0
+	 ⊃ ls' = ls .pc:= A28 .tobool:= 1 ; ls' = ls .pc:= A28 .tobool:= 0) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci30 :
+	⊦ COP(proci30)(mem, ls, mem', ls') ↔ ls .pc = A28 ∧ ls' = ls .pc:= A29 ∧ ls .tobool = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %while.cond7.loopexit, label %while.cond
+	proci31 :
+	⊦ COP(proci31)(mem, ls, mem', ls') ↔ ls .pc = A28 ∧ ls' = ls .pc:= A25 ∧ ls .tobool = 0;
+	used for : s, ls;
+
+;;	%arrayidx8 = getelementptr [2 x i32]*@number, i320, i32%j.023
+	proci32 :
+	⊦ COP(proci32)(mem, ls, mem', ls') ↔ ls .pc = A29 ∧ ls' = ls .pc:= A30 .arrayidx8:=  ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp17 = icmp slt i32 %j.023, %i
+	proci33 :
+	⊦ COP(proci33)(mem, ls, mem', ls') ↔ ls .pc = A30 ∧ (ls .j_023 ≥ ls .i ⊃ ls' = ls .pc:= A31 .cmp17:= 0 ; ls' = ls .pc:= A31 .cmp17:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br label %while.cond7
+	proci34 :
+	⊦ COP(proci34)(mem, ls, mem', ls') ↔ ls .pc = A31 ∧ ls' = ls .pc:= A32;
+	used for : s, ls;
+
+;;	%6 = load i32*%arrayidx8, align 4, !tbaa !3
+	proci35 :
+	⊦ COP(proci35)(mem, ls, mem', ls') ↔ ls .pc = A32 ∧ ls' = ls .pc:= A33 .v6:= mem[ls .arrayidx8 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp9 = icmp eq i32 %6, 0
+	proci36 :
+	⊦ COP(proci36)(mem, ls, mem', ls') ↔ ls .pc = A33 ∧ (ls .v6 = 0
+	 ⊃ ls' = ls .pc:= A34 .cmp9:= 1 ; ls' = ls .pc:= A34 .cmp9:= 0) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci37 :
+	⊦ COP(proci37)(mem, ls, mem', ls') ↔ ls .pc = A34 ∧ ls' = ls .pc:= A44 ∧ ls .cmp9 = 1;
+	used for : s, ls;
+
+;;	br %cmp9, label %for.inc, label %land.rhs
+	proci38 :
+	⊦ COP(proci38)(mem, ls, mem', ls') ↔ ls .pc = A34 ∧ ls' = ls .pc:= A35 ∧ ls .cmp9 = 0;
+	used for : s, ls;
+
+;;	%inc = add i32 %j.023, 1
+	proci39 :
+	⊦ COP(proci39)(mem, ls, mem', ls') ↔ ls .pc = A44 ∧ ls' = ls .pc:= A45 .inc:= ( ls .j_023 + 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%7 = load i32*%arrayidx8, align 4, !tbaa !3
+	proci40 :
+	⊦ COP(proci40)(mem, ls, mem', ls') ↔ ls .pc = A35 ∧ ls' = ls .pc:= A36 .v7:= mem[ls .arrayidx8 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%exitcond = icmp eq i32 %inc, 2
+	proci41 :
+	⊦ COP(proci41)(mem, ls, mem', ls') ↔ ls .pc = A45 ∧ (ls .inc = 2
+	 ⊃ ls' = ls .pc:= A46 .exitcond:= 1 ; ls' = ls .pc:= A46 .exitcond:= 0) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%8 = load i32*%arrayidx11, align 4, !tbaa !3
+	proci42 :
+	⊦ COP(proci42)(mem, ls, mem', ls') ↔ ls .pc = A36 ∧ ls' = ls .pc:= A37 .v8:= mem[ls .arrayidx11 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci43 :
+	⊦ COP(proci43)(mem, ls, mem', ls') ↔ ls .pc = A46 ∧ ls' = ls .pc:= A47 ∧ ls .exitcond = 1;
+	used for : s, ls;
+
+;;	br %exitcond, label %for.end, label %while.cond.preheader
+	proci44 :
+	⊦ COP(proci44)(mem, ls, mem', ls') ↔ ls .pc = A46 ∧ ls' = ls .pc:= A22 .j_023:= ls .inc ∧ ls .exitcond = 0;
+	used for : s, ls;
+
+;;	%cmp12 = icmp slt i32 %7, %8
+	proci45 :
+	⊦ COP(proci45)(mem, ls, mem', ls') ↔ ls .pc = A37 ∧ (ls .v7 ≥ ls .v8 ⊃ ls' = ls .pc:= A38 .cmp12:= 0 ; ls' = ls .pc:= A38 .cmp12:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%arrayidx21 = getelementptr [2 x i32]*@number, i320, i32%i
+	proci46 :
+	⊦ COP(proci46)(mem, ls, mem', ls') ↔ ls .pc = A47 ∧ ls' = ls .pc:= A48 .arrayidx21:=  ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci47 :
+	⊦ COP(proci47)(mem, ls, mem', ls') ↔ ls .pc = A38 ∧ ls' = ls .pc:= A32 ∧ ls .cmp12 = 1;
+	used for : s, ls;
+
+;;	br %cmp12, label %while.cond7, label %lor.rhs
+	proci48 :
+	⊦ COP(proci48)(mem, ls, mem', ls') ↔ ls .pc = A38 ∧ ls' = ls .pc:= A39 ∧ ls .cmp12 = 0;
+	used for : s, ls;
+
+;;	store i320, i32*%arrayidx21, align 4, !tbaa !3
+	proci49 :
+	⊦ COP(proci49)(mem, ls, mem', ls') ↔ ls .pc = A48 ∧ ls' = ls .pc:= A49 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%9 = load i32*%arrayidx8, align 4, !tbaa !3
+	proci50 :
+	⊦ COP(proci50)(mem, ls, mem', ls') ↔ ls .pc = A39 ∧ ls' = ls .pc:= A40 .v9:= mem[ls .arrayidx8 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%10 = load i32*%arrayidx11, align 4, !tbaa !3
+	proci52 :
+	⊦ COP(proci52)(mem, ls, mem', ls') ↔ ls .pc = A40 ∧ ls' = ls .pc:= A41 .10:= mem[ls .arrayidx11 .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp15 = icmp eq i32 %9, %10
+	proci53 :
+	⊦ COP(proci53)(mem, ls, mem', ls') ↔ ls .pc = A41 ∧ (ls .v9 = ls .10
+	 ⊃ ls' = ls .pc:= A42 .cmp15:= 1 ; ls' = ls .pc:= A42 .cmp15:= 0) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%or.cond = and i1 %cmp15, %cmp17
+	NEEDS ATTENTION !
+	proci54 :
+	⊦ COP(proci54)(mem, ls, mem', ls') ↔ ls .pc = A42 ∧ ls' = ls .pc:= A43 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci55 :
+	⊦ COP(proci55)(mem, ls, mem', ls') ↔ ls .pc = A43 ∧ ls' = ls .pc:= A32 ∧ ls .or_cond = 1;
+	used for : s, ls;
+
+;;	br %or.cond, label %while.cond7, label %for.inc
+	proci56 :
+	⊦ COP(proci56)(mem, ls, mem', ls') ↔ ls .pc = A43 ∧ ls' = ls .pc:= A44 ∧ ls .or_cond = 0;
+	used for : s, ls;
+
+;;	ret void
+	proci51ret :
+	⊦ RETOP(proci51ret)(mem, ls, mem', ls', return) ↔ ls .pc = A49 ∧ ls' = ls .pc:= N ∧ mem' = mem;
+	used for : s, ls;
+	
+;;	ret i320
+	main1ret :
+	⊦ RETOP(main1ret)(mem, ls, mem', ls', return) ↔ ls .pc = B0 ∧ ls' = ls .pc:= N ∧ return = 0 ∧ mem' = mem;
+	used for : s, ls;
+	
+end enrich
+		

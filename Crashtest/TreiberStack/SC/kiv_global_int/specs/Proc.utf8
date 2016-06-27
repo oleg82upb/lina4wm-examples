@@ -1,0 +1,7 @@
+specification
+	
+	sorts Proc;
+
+	variables p : Proc;
+
+end specification

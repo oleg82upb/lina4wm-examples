@@ -1,0 +1,884 @@
+enrich 	CS,
+		cindex with 
+
+	functions
+		INVOP : Proc × IJ → nat × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × nat → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : nat × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × nat → bool;
+		latch1, latch1' : ref;
+		flag1, flag1' : ref;
+		latch2, latch2' : ref;
+		flag2, flag2' : ref;
+		inp : nat;
+		return : nat;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(latch1, flag1, latch2, flag2, pcf, mem, natf1, natf2, natf3)) ↔ ( latch1 = ⌜0⌝ ∧ flag1 = ⌜0⌝ ∧ latch2 = ⌜0⌝ ∧ flag2 = ⌜0⌝ ∧ pcf = (λ p. N)  ∧ natf1 = (λ p. 0) ∧ natf2 = (λ p. 0) ∧ natf3 = (λ p. 0));
+	used for : s, ls;
+
+;; 	worker_1 reflects function @worker_1
+	worker_1ini :
+	⊦ INVOP(p, worker_1ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; A00) ; 
+	used for : s, ls;
+
+;; 	worker_2 reflects function @worker_2
+	worker_2ini :
+	⊦ INVOP(p, worker_2ini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; B00) ; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(p, mainini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ cs' = cs .pc:= cs.pc(p ; C0) ; 
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_11 :
+	⊦ COP(p, worker_11)(cs, cs') ↔ cs .pc(p) = A00 ∧ cs' = cs .pc:= cs.pc(p ; A01);
+	used for : s, ls;
+
+;;	%0 = load i8* @flag1, align 1, !tbaa !0, !range !3
+	worker_12 :
+	⊦ COP(p, worker_12)(cs, cs') ↔ cs .pc(p) = A01 ∧ cs' = cs .pc:= cs.pc(p ; A02) .v0:= cs.v0(p ; cs.mem[cs .flag1 .v] .v);
+	used for : s, ls;
+
+;;	%1 = and i8 %0, 1
+	NEEDS ATTENTION !
+	worker_13 :
+	⊦ COP(p, worker_13)(cs, cs') ↔ cs .pc(p) = A02 ∧ cs' = cs .pc:= cs.pc(p ; A03);
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %1, 0
+	worker_14 :
+	⊦ COP(p, worker_14)(cs, cs') ↔ cs .pc(p) = A03 ∧ (cs .v1(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A04) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A04) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_15 :
+	⊦ COP(p, worker_15)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A01) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_16 :
+	⊦ COP(p, worker_16)(cs, cs') ↔ cs .pc(p) = A04 ∧ cs' = cs .pc:= cs.pc(p ; A05) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	store i8 0, i8* @latch1, align 1, !tbaa !0
+	worker_17 :
+	⊦ COP(p, worker_17)(cs, cs') ↔ cs .pc(p) = A05 ∧ cs' = cs .pc:= cs.pc(p ; A06latch1);
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag1, align 1, !tbaa !0
+	worker_18 :
+	⊦ COP(p, worker_18)(cs, cs') ↔ cs .pc(p) = A06latch1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch1flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_19 :
+	⊦ COP(p, worker_19)(cs, cs') ↔ cs .pc(p) = A06latch1 ∧ cs' = cs .pc:= cs.pc(p ; A06) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_110 :
+	⊦ COP(p, worker_110)(cs, cs') ↔ cs .pc(p) = A07latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1flag1flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_111 :
+	⊦ COP(p, worker_111)(cs, cs') ↔ cs .pc(p) = A07latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_112 :
+	⊦ COP(p, worker_112)(cs, cs') ↔ cs .pc(p) = A07latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch1) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag1, align 1, !tbaa !0
+	worker_113 :
+	⊦ COP(p, worker_113)(cs, cs') ↔ cs .pc(p) = A06 ∧ cs' = cs .pc:= cs.pc(p ; A07flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_114 :
+	⊦ COP(p, worker_114)(cs, cs') ↔ cs .pc(p) = A08latch1flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08flag1flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_115 :
+	⊦ COP(p, worker_115)(cs, cs') ↔ cs .pc(p) = A08latch1flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_116 :
+	⊦ COP(p, worker_116)(cs, cs') ↔ cs .pc(p) = A08latch1flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_117 :
+	⊦ COP(p, worker_117)(cs, cs') ↔ cs .pc(p) = A07flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08flag1flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_118 :
+	⊦ COP(p, worker_118)(cs, cs') ↔ cs .pc(p) = A07flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_119 :
+	⊦ COP(p, worker_119)(cs, cs') ↔ cs .pc(p) = A07latch1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_120 :
+	⊦ COP(p, worker_120)(cs, cs') ↔ cs .pc(p) = A07latch1 ∧ cs' = cs .pc:= cs.pc(p ; A07) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_121 :
+	⊦ COP(p, worker_121)(cs, cs') ↔ cs .pc(p) = A08flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_122 :
+	⊦ COP(p, worker_122)(cs, cs') ↔ cs .pc(p) = A08flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_123 :
+	⊦ COP(p, worker_123)(cs, cs') ↔ cs .pc(p) = A08latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_124 :
+	⊦ COP(p, worker_124)(cs, cs') ↔ cs .pc(p) = A08latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_125 :
+	⊦ COP(p, worker_125)(cs, cs') ↔ cs .pc(p) = A08latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_126 :
+	⊦ COP(p, worker_126)(cs, cs') ↔ cs .pc(p) = A08latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_127 :
+	⊦ COP(p, worker_127)(cs, cs') ↔ cs .pc(p) = A07 ∧ cs' = cs .pc:= cs.pc(p ; A08flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_128 :
+	⊦ COP(p, worker_128)(cs, cs') ↔ cs .pc(p) = A08flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_129 :
+	⊦ COP(p, worker_129)(cs, cs') ↔ cs .pc(p) = A08flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_130 :
+	⊦ COP(p, worker_130)(cs, cs') ↔ cs .pc(p) = A08latch1 ∧ cs' = cs .pc:= cs.pc(p ; A08) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	fence seq_cst
+	worker_131 :
+	⊦ COP(p, worker_131)(cs, cs') ↔ cs .pc(p) = A08 ∧ cs' = cs .pc:= cs.pc(p ; A09);
+	used for : s, ls;
+
+;;	store i8 1, i8* @latch2, align 1, !tbaa !0
+	worker_132 :
+	⊦ COP(p, worker_132)(cs, cs') ↔ cs .pc(p) = A09 ∧ cs' = cs .pc:= cs.pc(p ; A10latch2);
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_133 :
+	⊦ COP(p, worker_133)(cs, cs') ↔ cs .pc(p) = A10latch2 ∧ cs' = cs .pc:= cs.pc(p ; A01latch2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_134 :
+	⊦ COP(p, worker_134)(cs, cs') ↔ cs .pc(p) = A10latch2 ∧ cs' = cs .pc:= cs.pc(p ; A10) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%0 = load i8* @flag1, align 1, !tbaa !0, !range !3
+	worker_135 :
+	⊦ COP(p, worker_135)(cs, cs') ↔ cs .pc(p) = A01latch2 ∧ cs' = cs .pc:= cs.pc(p ; A02latch2) .v0:= cs.v0(p ; cs.mem[cs .flag1 .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_136 :
+	⊦ COP(p, worker_136)(cs, cs') ↔ cs .pc(p) = A01latch2 ∧ cs' = cs .pc:= cs.pc(p ; A01) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_137 :
+	⊦ COP(p, worker_137)(cs, cs') ↔ cs .pc(p) = A10 ∧ cs' = cs .pc:= cs.pc(p ; A01);
+	used for : s, ls;
+
+;;	%1 = and i8 %0, 1
+	NEEDS ATTENTION !
+	worker_138 :
+	⊦ COP(p, worker_138)(cs, cs') ↔ cs .pc(p) = A02latch2 ∧ cs' = cs .pc:= cs.pc(p ; A03latch2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_139 :
+	⊦ COP(p, worker_139)(cs, cs') ↔ cs .pc(p) = A02latch2 ∧ cs' = cs .pc:= cs.pc(p ; A02) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %1, 0
+	worker_140 :
+	⊦ COP(p, worker_140)(cs, cs') ↔ cs .pc(p) = A03latch2 ∧ (cs .v1(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; A04latch2) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; A04latch2) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_141 :
+	⊦ COP(p, worker_141)(cs, cs') ↔ cs .pc(p) = A03latch2 ∧ cs' = cs .pc:= cs.pc(p ; A03) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_142 :
+	⊦ COP(p, worker_142)(cs, cs') ↔ cs .pc(p) = A04latch2 ∧ cs' = cs .pc:= cs.pc(p ; A01latch2) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_143 :
+	⊦ COP(p, worker_143)(cs, cs') ↔ cs .pc(p) = A04latch2 ∧ cs' = cs .pc:= cs.pc(p ; A05latch2) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_144 :
+	⊦ COP(p, worker_144)(cs, cs') ↔ cs .pc(p) = A04latch2 ∧ cs' = cs .pc:= cs.pc(p ; A04) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @latch1, align 1, !tbaa !0
+	worker_145 :
+	⊦ COP(p, worker_145)(cs, cs') ↔ cs .pc(p) = A05latch2 ∧ cs' = cs .pc:= cs.pc(p ; A06latch2latch1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_146 :
+	⊦ COP(p, worker_146)(cs, cs') ↔ cs .pc(p) = A05latch2 ∧ cs' = cs .pc:= cs.pc(p ; A05) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag1, align 1, !tbaa !0
+	worker_147 :
+	⊦ COP(p, worker_147)(cs, cs') ↔ cs .pc(p) = A06latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch2latch1flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_148 :
+	⊦ COP(p, worker_148)(cs, cs') ↔ cs .pc(p) = A06latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A06latch1) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_149 :
+	⊦ COP(p, worker_149)(cs, cs') ↔ cs .pc(p) = A06latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A06latch2) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_150 :
+	⊦ COP(p, worker_150)(cs, cs') ↔ cs .pc(p) = A07latch2latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2latch1flag1flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_151 :
+	⊦ COP(p, worker_151)(cs, cs') ↔ cs .pc(p) = A07latch2latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch1flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_152 :
+	⊦ COP(p, worker_152)(cs, cs') ↔ cs .pc(p) = A07latch2latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch2flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_153 :
+	⊦ COP(p, worker_153)(cs, cs') ↔ cs .pc(p) = A07latch2latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch2latch1) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag1, align 1, !tbaa !0
+	worker_154 :
+	⊦ COP(p, worker_154)(cs, cs') ↔ cs .pc(p) = A06latch2 ∧ cs' = cs .pc:= cs.pc(p ; A07latch2flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_155 :
+	⊦ COP(p, worker_155)(cs, cs') ↔ cs .pc(p) = A06latch2 ∧ cs' = cs .pc:= cs.pc(p ; A06) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_156 :
+	⊦ COP(p, worker_156)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1flag1flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_157 :
+	⊦ COP(p, worker_157)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2flag1flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_158 :
+	⊦ COP(p, worker_158)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2latch1flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_159 :
+	⊦ COP(p, worker_159)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2latch1flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_160 :
+	⊦ COP(p, worker_160)(cs, cs') ↔ cs .pc(p) = A07latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2flag1flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_161 :
+	⊦ COP(p, worker_161)(cs, cs') ↔ cs .pc(p) = A07latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_162 :
+	⊦ COP(p, worker_162)(cs, cs') ↔ cs .pc(p) = A07latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch2) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_163 :
+	⊦ COP(p, worker_163)(cs, cs') ↔ cs .pc(p) = A07latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2latch1flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_164 :
+	⊦ COP(p, worker_164)(cs, cs') ↔ cs .pc(p) = A07latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch1) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_165 :
+	⊦ COP(p, worker_165)(cs, cs') ↔ cs .pc(p) = A07latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A07latch2) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_166 :
+	⊦ COP(p, worker_166)(cs, cs') ↔ cs .pc(p) = A08latch2flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08flag1flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_167 :
+	⊦ COP(p, worker_167)(cs, cs') ↔ cs .pc(p) = A08latch2flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_168 :
+	⊦ COP(p, worker_168)(cs, cs') ↔ cs .pc(p) = A08latch2flag1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_169 :
+	⊦ COP(p, worker_169)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_170 :
+	⊦ COP(p, worker_170)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_171 :
+	⊦ COP(p, worker_171)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2latch1) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_172 :
+	⊦ COP(p, worker_172)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_173 :
+	⊦ COP(p, worker_173)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_174 :
+	⊦ COP(p, worker_174)(cs, cs') ↔ cs .pc(p) = A08latch2latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2latch1) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag2, align 1, !tbaa !0
+	worker_175 :
+	⊦ COP(p, worker_175)(cs, cs') ↔ cs .pc(p) = A07latch2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_176 :
+	⊦ COP(p, worker_176)(cs, cs') ↔ cs .pc(p) = A07latch2 ∧ cs' = cs .pc:= cs.pc(p ; A07) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_177 :
+	⊦ COP(p, worker_177)(cs, cs') ↔ cs .pc(p) = A08latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_178 :
+	⊦ COP(p, worker_178)(cs, cs') ↔ cs .pc(p) = A08latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2) .mem:= cs.mem[ cs .flag2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_179 :
+	⊦ COP(p, worker_179)(cs, cs') ↔ cs .pc(p) = A08latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_180 :
+	⊦ COP(p, worker_180)(cs, cs') ↔ cs .pc(p) = A08latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2) .mem:= cs.mem[ cs .flag1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_181 :
+	⊦ COP(p, worker_181)(cs, cs') ↔ cs .pc(p) = A08latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch1) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_182 :
+	⊦ COP(p, worker_182)(cs, cs') ↔ cs .pc(p) = A08latch2latch1 ∧ cs' = cs .pc:= cs.pc(p ; A08latch2) .mem:= cs.mem[ cs .latch1 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_183 :
+	⊦ COP(p, worker_183)(cs, cs') ↔ cs .pc(p) = A08latch2 ∧ cs' = cs .pc:= cs.pc(p ; A08) .mem:= cs.mem[ cs .latch2 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_21 :
+	⊦ COP(p, worker_21)(cs, cs') ↔ cs .pc(p) = B00 ∧ cs' = cs .pc:= cs.pc(p ; B01);
+	used for : s, ls;
+
+;;	%0 = load i8* @flag2, align 1, !tbaa !0, !range !3
+	worker_22 :
+	⊦ COP(p, worker_22)(cs, cs') ↔ cs .pc(p) = B01 ∧ cs' = cs .pc:= cs.pc(p ; B02) .v0:= cs.v0(p ; cs.mem[cs .flag2 .v] .v);
+	used for : s, ls;
+
+;;	%1 = and i8 %0, 1
+	NEEDS ATTENTION !
+	worker_23 :
+	⊦ COP(p, worker_23)(cs, cs') ↔ cs .pc(p) = B02 ∧ cs' = cs .pc:= cs.pc(p ; B03);
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %1, 0
+	worker_24 :
+	⊦ COP(p, worker_24)(cs, cs') ↔ cs .pc(p) = B03 ∧ (cs .v1(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; B04) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; B04) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_25 :
+	⊦ COP(p, worker_25)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B01) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_26 :
+	⊦ COP(p, worker_26)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B05) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	store i8 0, i8* @latch2, align 1, !tbaa !0
+	worker_27 :
+	⊦ COP(p, worker_27)(cs, cs') ↔ cs .pc(p) = B05 ∧ cs' = cs .pc:= cs.pc(p ; B06latch2);
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag2, align 1, !tbaa !0
+	worker_28 :
+	⊦ COP(p, worker_28)(cs, cs') ↔ cs .pc(p) = B06latch2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch2flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_29 :
+	⊦ COP(p, worker_29)(cs, cs') ↔ cs .pc(p) = B06latch2 ∧ cs' = cs .pc:= cs.pc(p ; B06) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_210 :
+	⊦ COP(p, worker_210)(cs, cs') ↔ cs .pc(p) = B07latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2flag2flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_211 :
+	⊦ COP(p, worker_211)(cs, cs') ↔ cs .pc(p) = B07latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_212 :
+	⊦ COP(p, worker_212)(cs, cs') ↔ cs .pc(p) = B07latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch2) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag2, align 1, !tbaa !0
+	worker_213 :
+	⊦ COP(p, worker_213)(cs, cs') ↔ cs .pc(p) = B06 ∧ cs' = cs .pc:= cs.pc(p ; B07flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_214 :
+	⊦ COP(p, worker_214)(cs, cs') ↔ cs .pc(p) = B08latch2flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08flag2flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_215 :
+	⊦ COP(p, worker_215)(cs, cs') ↔ cs .pc(p) = B08latch2flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_216 :
+	⊦ COP(p, worker_216)(cs, cs') ↔ cs .pc(p) = B08latch2flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_217 :
+	⊦ COP(p, worker_217)(cs, cs') ↔ cs .pc(p) = B07flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08flag2flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_218 :
+	⊦ COP(p, worker_218)(cs, cs') ↔ cs .pc(p) = B07flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_219 :
+	⊦ COP(p, worker_219)(cs, cs') ↔ cs .pc(p) = B07latch2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_220 :
+	⊦ COP(p, worker_220)(cs, cs') ↔ cs .pc(p) = B07latch2 ∧ cs' = cs .pc:= cs.pc(p ; B07) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_221 :
+	⊦ COP(p, worker_221)(cs, cs') ↔ cs .pc(p) = B08flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_222 :
+	⊦ COP(p, worker_222)(cs, cs') ↔ cs .pc(p) = B08flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_223 :
+	⊦ COP(p, worker_223)(cs, cs') ↔ cs .pc(p) = B08latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_224 :
+	⊦ COP(p, worker_224)(cs, cs') ↔ cs .pc(p) = B08latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_225 :
+	⊦ COP(p, worker_225)(cs, cs') ↔ cs .pc(p) = B08latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_226 :
+	⊦ COP(p, worker_226)(cs, cs') ↔ cs .pc(p) = B08latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_227 :
+	⊦ COP(p, worker_227)(cs, cs') ↔ cs .pc(p) = B07 ∧ cs' = cs .pc:= cs.pc(p ; B08flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_228 :
+	⊦ COP(p, worker_228)(cs, cs') ↔ cs .pc(p) = B08flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_229 :
+	⊦ COP(p, worker_229)(cs, cs') ↔ cs .pc(p) = B08flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_230 :
+	⊦ COP(p, worker_230)(cs, cs') ↔ cs .pc(p) = B08latch2 ∧ cs' = cs .pc:= cs.pc(p ; B08) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	fence seq_cst
+	worker_231 :
+	⊦ COP(p, worker_231)(cs, cs') ↔ cs .pc(p) = B08 ∧ cs' = cs .pc:= cs.pc(p ; B09);
+	used for : s, ls;
+
+;;	store i8 1, i8* @latch1, align 1, !tbaa !0
+	worker_232 :
+	⊦ COP(p, worker_232)(cs, cs') ↔ cs .pc(p) = B09 ∧ cs' = cs .pc:= cs.pc(p ; B10latch1);
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_233 :
+	⊦ COP(p, worker_233)(cs, cs') ↔ cs .pc(p) = B10latch1 ∧ cs' = cs .pc:= cs.pc(p ; B01latch1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_234 :
+	⊦ COP(p, worker_234)(cs, cs') ↔ cs .pc(p) = B10latch1 ∧ cs' = cs .pc:= cs.pc(p ; B10) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%0 = load i8* @flag2, align 1, !tbaa !0, !range !3
+	worker_235 :
+	⊦ COP(p, worker_235)(cs, cs') ↔ cs .pc(p) = B01latch1 ∧ cs' = cs .pc:= cs.pc(p ; B02latch1) .v0:= cs.v0(p ; cs.mem[cs .flag2 .v] .v);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_236 :
+	⊦ COP(p, worker_236)(cs, cs') ↔ cs .pc(p) = B01latch1 ∧ cs' = cs .pc:= cs.pc(p ; B01) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br label %for.cond
+	worker_237 :
+	⊦ COP(p, worker_237)(cs, cs') ↔ cs .pc(p) = B10 ∧ cs' = cs .pc:= cs.pc(p ; B01);
+	used for : s, ls;
+
+;;	%1 = and i8 %0, 1
+	NEEDS ATTENTION !
+	worker_238 :
+	⊦ COP(p, worker_238)(cs, cs') ↔ cs .pc(p) = B02latch1 ∧ cs' = cs .pc:= cs.pc(p ; B03latch1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_239 :
+	⊦ COP(p, worker_239)(cs, cs') ↔ cs .pc(p) = B02latch1 ∧ cs' = cs .pc:= cs.pc(p ; B02) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	%tobool = icmp eq i8 %1, 0
+	worker_240 :
+	⊦ COP(p, worker_240)(cs, cs') ↔ cs .pc(p) = B03latch1 ∧ (cs .v1(p) = 0
+	 ⊃ cs' = cs .pc:= cs.pc(p; B04latch1) .tobool:= cs.tobool(p ; 1) ; cs' = cs .pc:= cs.pc(p; B04latch1) .tobool:= cs.tobool(p ; 0));
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_241 :
+	⊦ COP(p, worker_241)(cs, cs') ↔ cs .pc(p) = B03latch1 ∧ cs' = cs .pc:= cs.pc(p ; B03) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_242 :
+	⊦ COP(p, worker_242)(cs, cs') ↔ cs .pc(p) = B04latch1 ∧ cs' = cs .pc:= cs.pc(p ; B01latch1) ∧ cs .tobool(p) = 1;
+	used for : s, ls;
+
+;;	br %tobool, label %for.cond, label %if.then
+	worker_243 :
+	⊦ COP(p, worker_243)(cs, cs') ↔ cs .pc(p) = B04latch1 ∧ cs' = cs .pc:= cs.pc(p ; B05latch1) ∧ cs .tobool(p) = 0;
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_244 :
+	⊦ COP(p, worker_244)(cs, cs') ↔ cs .pc(p) = B04latch1 ∧ cs' = cs .pc:= cs.pc(p ; B04) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @latch2, align 1, !tbaa !0
+	worker_245 :
+	⊦ COP(p, worker_245)(cs, cs') ↔ cs .pc(p) = B05latch1 ∧ cs' = cs .pc:= cs.pc(p ; B06latch1latch2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_246 :
+	⊦ COP(p, worker_246)(cs, cs') ↔ cs .pc(p) = B05latch1 ∧ cs' = cs .pc:= cs.pc(p ; B05) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag2, align 1, !tbaa !0
+	worker_247 :
+	⊦ COP(p, worker_247)(cs, cs') ↔ cs .pc(p) = B06latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch1latch2flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_248 :
+	⊦ COP(p, worker_248)(cs, cs') ↔ cs .pc(p) = B06latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B06latch2) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_249 :
+	⊦ COP(p, worker_249)(cs, cs') ↔ cs .pc(p) = B06latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B06latch1) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_250 :
+	⊦ COP(p, worker_250)(cs, cs') ↔ cs .pc(p) = B07latch1latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1latch2flag2flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_251 :
+	⊦ COP(p, worker_251)(cs, cs') ↔ cs .pc(p) = B07latch1latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch2flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_252 :
+	⊦ COP(p, worker_252)(cs, cs') ↔ cs .pc(p) = B07latch1latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch1flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_253 :
+	⊦ COP(p, worker_253)(cs, cs') ↔ cs .pc(p) = B07latch1latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch1latch2) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 0, i8* @flag2, align 1, !tbaa !0
+	worker_254 :
+	⊦ COP(p, worker_254)(cs, cs') ↔ cs .pc(p) = B06latch1 ∧ cs' = cs .pc:= cs.pc(p ; B07latch1flag2);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_255 :
+	⊦ COP(p, worker_255)(cs, cs') ↔ cs .pc(p) = B06latch1 ∧ cs' = cs .pc:= cs.pc(p ; B06) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_256 :
+	⊦ COP(p, worker_256)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2flag2flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_257 :
+	⊦ COP(p, worker_257)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1flag2flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_258 :
+	⊦ COP(p, worker_258)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1latch2flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_259 :
+	⊦ COP(p, worker_259)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1latch2flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_260 :
+	⊦ COP(p, worker_260)(cs, cs') ↔ cs .pc(p) = B07latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1flag2flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_261 :
+	⊦ COP(p, worker_261)(cs, cs') ↔ cs .pc(p) = B07latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_262 :
+	⊦ COP(p, worker_262)(cs, cs') ↔ cs .pc(p) = B07latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch1) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_263 :
+	⊦ COP(p, worker_263)(cs, cs') ↔ cs .pc(p) = B07latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1latch2flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_264 :
+	⊦ COP(p, worker_264)(cs, cs') ↔ cs .pc(p) = B07latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch2) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_265 :
+	⊦ COP(p, worker_265)(cs, cs') ↔ cs .pc(p) = B07latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B07latch1) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_266 :
+	⊦ COP(p, worker_266)(cs, cs') ↔ cs .pc(p) = B08latch1flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08flag2flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_267 :
+	⊦ COP(p, worker_267)(cs, cs') ↔ cs .pc(p) = B08latch1flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1flag1) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_268 :
+	⊦ COP(p, worker_268)(cs, cs') ↔ cs .pc(p) = B08latch1flag2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1flag2) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_269 :
+	⊦ COP(p, worker_269)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_270 :
+	⊦ COP(p, worker_270)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1flag1) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_271 :
+	⊦ COP(p, worker_271)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1latch2) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_272 :
+	⊦ COP(p, worker_272)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_273 :
+	⊦ COP(p, worker_273)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1flag2) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_274 :
+	⊦ COP(p, worker_274)(cs, cs') ↔ cs .pc(p) = B08latch1latch2flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1latch2) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	store i8 1, i8* @flag1, align 1, !tbaa !0
+	worker_275 :
+	⊦ COP(p, worker_275)(cs, cs') ↔ cs .pc(p) = B07latch1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1flag1);
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_276 :
+	⊦ COP(p, worker_276)(cs, cs') ↔ cs .pc(p) = B07latch1 ∧ cs' = cs .pc:= cs.pc(p ; B07) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_277 :
+	⊦ COP(p, worker_277)(cs, cs') ↔ cs .pc(p) = B08latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08flag1) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_278 :
+	⊦ COP(p, worker_278)(cs, cs') ↔ cs .pc(p) = B08latch1flag1 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1) .mem:= cs.mem[ cs .flag1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_279 :
+	⊦ COP(p, worker_279)(cs, cs') ↔ cs .pc(p) = B08latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08flag2) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_280 :
+	⊦ COP(p, worker_280)(cs, cs') ↔ cs .pc(p) = B08latch1flag2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1) .mem:= cs.mem[ cs .flag2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_281 :
+	⊦ COP(p, worker_281)(cs, cs') ↔ cs .pc(p) = B08latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch2) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_282 :
+	⊦ COP(p, worker_282)(cs, cs') ↔ cs .pc(p) = B08latch1latch2 ∧ cs' = cs .pc:= cs.pc(p ; B08latch1) .mem:= cs.mem[ cs .latch2 .v ,⌜0⌝];
+	used for : s, ls;
+
+;;	FlushTransition
+	worker_283 :
+	⊦ COP(p, worker_283)(cs, cs') ↔ cs .pc(p) = B08latch1 ∧ cs' = cs .pc:= cs.pc(p ; B08) .mem:= cs.mem[ cs .latch1 .v ,⌜1⌝];
+	used for : s, ls;
+
+;;	ret i32 0
+	main1ret :
+	⊦ RETOP(p, main1ret)(cs, cs', return) ↔ cs .pc(p) = C0 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = 0;
+	used for : s, ls;
+	
+end enrich

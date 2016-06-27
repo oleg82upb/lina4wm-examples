@@ -1,0 +1,336 @@
+enrich 	natref-memory,
+		localstate,
+		cindex,
+		input with 
+
+	constants
+		i : ref;
+		j : ref;
+		_str : ref;
+		_str1 : ref;
+		_PRETTY_FUNCTION___main : ref;
+	
+	functions
+		INVOP : IJ → input ×  memory ×  Localstate ×  memory ×  Localstate → bool;
+		COP : CJ → memory × Localstate × memory × Localstate → bool;
+		RETOP : RJ → memory × Localstate × memory × Localstate × ref → bool;
+	predicates
+		LSInit : Localstate × PID;
+		GSInit : memory;
+	variables
+		invop : input × memory × Localstate × memory × Localstate → bool;
+		cop : memory × Localstate × memory × Localstate → bool;
+		retop : memory × Localstate × memory × Localstate × ref → bool;
+		mem' : memory;
+		return : ref;
+	axioms
+
+	LSInit : ⊦ LSInit(ls, p) ↔ ls .pc = N ∧ ls .pid = p;
+	used for : s, ls;
+
+;; 	t1 reflects function @t1
+	t1ini :
+	⊦ INVOP(t1ini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ref?(inp) ∧ ls' = ls .pc:= A00 .arg:= inp .ref1 ∧ mem' = mem; 
+	used for : s, ls;
+
+;; 	t2 reflects function @t2
+	t2ini :
+	⊦ INVOP(t2ini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ ref?(inp) ∧ ls' = ls .pc:= B00 .arg:= inp .ref1 ∧ mem' = mem; 
+	used for : s, ls;
+
+;; 	main reflects function @main
+	mainini :
+	⊦ INVOP(mainini)(inp, mem, ls, mem', ls') ↔ ls .pc = N ∧ natref?(inp) ∧ ls' = ls .pc:= C00 .argv:= inp .ref1 .argc:= inp .nat1 ∧ mem' = mem; 
+	used for : s, ls;
+
+;;	%0 = load i32*@j, align 4, !tbaa !0
+	t11 :
+	⊦ COP(t11)(mem, ls, mem', ls') ↔ ls .pc = A00 ∧ ls' = ls .pc:= A01 .v0:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%1 = load i32*@i, align 4, !tbaa !0
+	t12 :
+	⊦ COP(t12)(mem, ls, mem', ls') ↔ ls .pc = A01 ∧ ls' = ls .pc:= A02 .v1:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add = add i32 %1, %0
+	t13 :
+	⊦ COP(t13)(mem, ls, mem', ls') ↔ ls .pc = A02 ∧ ls' = ls .pc:= A03 .add:= ( ls .v1 + ls .v0) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add, i32*@i, align 4, !tbaa !0
+	t14 :
+	⊦ COP(t14)(mem, ls, mem', ls') ↔ ls .pc = A03 ∧ ls' = ls .pc:= A04 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%2 = load i32*@j, align 4, !tbaa !0
+	t15 :
+	⊦ COP(t15)(mem, ls, mem', ls') ↔ ls .pc = A04 ∧ ls' = ls .pc:= A05 .v2:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%3 = load i32*@i, align 4, !tbaa !0
+	t16 :
+	⊦ COP(t16)(mem, ls, mem', ls') ↔ ls .pc = A05 ∧ ls' = ls .pc:= A06 .v3:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.1 = add i32 %3, %2
+	t17 :
+	⊦ COP(t17)(mem, ls, mem', ls') ↔ ls .pc = A06 ∧ ls' = ls .pc:= A07 .add_1:= ( ls .v3 + ls .v2) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.1, i32*@i, align 4, !tbaa !0
+	t18 :
+	⊦ COP(t18)(mem, ls, mem', ls') ↔ ls .pc = A07 ∧ ls' = ls .pc:= A08 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%4 = load i32*@j, align 4, !tbaa !0
+	t19 :
+	⊦ COP(t19)(mem, ls, mem', ls') ↔ ls .pc = A08 ∧ ls' = ls .pc:= A09 .v4:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%5 = load i32*@i, align 4, !tbaa !0
+	t110 :
+	⊦ COP(t110)(mem, ls, mem', ls') ↔ ls .pc = A09 ∧ ls' = ls .pc:= A10 .v5:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.2 = add i32 %5, %4
+	t111 :
+	⊦ COP(t111)(mem, ls, mem', ls') ↔ ls .pc = A10 ∧ ls' = ls .pc:= A11 .add_2:= ( ls .v5 + ls .v4) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.2, i32*@i, align 4, !tbaa !0
+	t112 :
+	⊦ COP(t112)(mem, ls, mem', ls') ↔ ls .pc = A11 ∧ ls' = ls .pc:= A12 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%6 = load i32*@j, align 4, !tbaa !0
+	t113 :
+	⊦ COP(t113)(mem, ls, mem', ls') ↔ ls .pc = A12 ∧ ls' = ls .pc:= A13 .v6:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%7 = load i32*@i, align 4, !tbaa !0
+	t114 :
+	⊦ COP(t114)(mem, ls, mem', ls') ↔ ls .pc = A13 ∧ ls' = ls .pc:= A14 .v7:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.3 = add i32 %7, %6
+	t115 :
+	⊦ COP(t115)(mem, ls, mem', ls') ↔ ls .pc = A14 ∧ ls' = ls .pc:= A15 .add_3:= ( ls .v7 + ls .v6) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.3, i32*@i, align 4, !tbaa !0
+	t116 :
+	⊦ COP(t116)(mem, ls, mem', ls') ↔ ls .pc = A15 ∧ ls' = ls .pc:= A16 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%8 = load i32*@j, align 4, !tbaa !0
+	t117 :
+	⊦ COP(t117)(mem, ls, mem', ls') ↔ ls .pc = A16 ∧ ls' = ls .pc:= A17 .v8:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%9 = load i32*@i, align 4, !tbaa !0
+	t118 :
+	⊦ COP(t118)(mem, ls, mem', ls') ↔ ls .pc = A17 ∧ ls' = ls .pc:= A18 .v9:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.4 = add i32 %9, %8
+	t119 :
+	⊦ COP(t119)(mem, ls, mem', ls') ↔ ls .pc = A18 ∧ ls' = ls .pc:= A19 .add_4:= ( ls .v9 + ls .v8) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.4, i32*@i, align 4, !tbaa !0
+	t120 :
+	⊦ COP(t120)(mem, ls, mem', ls') ↔ ls .pc = A19 ∧ ls' = ls .pc:= A20 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%0 = load i32*@i, align 4, !tbaa !0
+	t21 :
+	⊦ COP(t21)(mem, ls, mem', ls') ↔ ls .pc = B00 ∧ ls' = ls .pc:= B01 .v0:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%1 = load i32*@j, align 4, !tbaa !0
+	t22 :
+	⊦ COP(t22)(mem, ls, mem', ls') ↔ ls .pc = B01 ∧ ls' = ls .pc:= B02 .v1:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add = add i32 %1, %0
+	t23 :
+	⊦ COP(t23)(mem, ls, mem', ls') ↔ ls .pc = B02 ∧ ls' = ls .pc:= B03 .add:= ( ls .v1 + ls .v0) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add, i32*@j, align 4, !tbaa !0
+	t24 :
+	⊦ COP(t24)(mem, ls, mem', ls') ↔ ls .pc = B03 ∧ ls' = ls .pc:= B04 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%2 = load i32*@i, align 4, !tbaa !0
+	t25 :
+	⊦ COP(t25)(mem, ls, mem', ls') ↔ ls .pc = B04 ∧ ls' = ls .pc:= B05 .v2:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%3 = load i32*@j, align 4, !tbaa !0
+	t26 :
+	⊦ COP(t26)(mem, ls, mem', ls') ↔ ls .pc = B05 ∧ ls' = ls .pc:= B06 .v3:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.1 = add i32 %3, %2
+	t27 :
+	⊦ COP(t27)(mem, ls, mem', ls') ↔ ls .pc = B06 ∧ ls' = ls .pc:= B07 .add_1:= ( ls .v3 + ls .v2) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.1, i32*@j, align 4, !tbaa !0
+	t28 :
+	⊦ COP(t28)(mem, ls, mem', ls') ↔ ls .pc = B07 ∧ ls' = ls .pc:= B08 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%4 = load i32*@i, align 4, !tbaa !0
+	t29 :
+	⊦ COP(t29)(mem, ls, mem', ls') ↔ ls .pc = B08 ∧ ls' = ls .pc:= B09 .v4:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%5 = load i32*@j, align 4, !tbaa !0
+	t210 :
+	⊦ COP(t210)(mem, ls, mem', ls') ↔ ls .pc = B09 ∧ ls' = ls .pc:= B10 .v5:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.2 = add i32 %5, %4
+	t211 :
+	⊦ COP(t211)(mem, ls, mem', ls') ↔ ls .pc = B10 ∧ ls' = ls .pc:= B11 .add_2:= ( ls .v5 + ls .v4) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.2, i32*@j, align 4, !tbaa !0
+	t212 :
+	⊦ COP(t212)(mem, ls, mem', ls') ↔ ls .pc = B11 ∧ ls' = ls .pc:= B12 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%6 = load i32*@i, align 4, !tbaa !0
+	t213 :
+	⊦ COP(t213)(mem, ls, mem', ls') ↔ ls .pc = B12 ∧ ls' = ls .pc:= B13 .v6:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%7 = load i32*@j, align 4, !tbaa !0
+	t214 :
+	⊦ COP(t214)(mem, ls, mem', ls') ↔ ls .pc = B13 ∧ ls' = ls .pc:= B14 .v7:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.3 = add i32 %7, %6
+	t215 :
+	⊦ COP(t215)(mem, ls, mem', ls') ↔ ls .pc = B14 ∧ ls' = ls .pc:= B15 .add_3:= ( ls .v7 + ls .v6) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.3, i32*@j, align 4, !tbaa !0
+	t216 :
+	⊦ COP(t216)(mem, ls, mem', ls') ↔ ls .pc = B15 ∧ ls' = ls .pc:= B16 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%8 = load i32*@i, align 4, !tbaa !0
+	t217 :
+	⊦ COP(t217)(mem, ls, mem', ls') ↔ ls .pc = B16 ∧ ls' = ls .pc:= B17 .v8:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%9 = load i32*@j, align 4, !tbaa !0
+	t218 :
+	⊦ COP(t218)(mem, ls, mem', ls') ↔ ls .pc = B17 ∧ ls' = ls .pc:= B18 .v9:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%add.4 = add i32 %9, %8
+	t219 :
+	⊦ COP(t219)(mem, ls, mem', ls') ↔ ls .pc = B18 ∧ ls' = ls .pc:= B19 .add_4:= ( ls .v9 + ls .v8) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	store i32%add.4, i32*@j, align 4, !tbaa !0
+	t220 :
+	⊦ COP(t220)(mem, ls, mem', ls') ↔ ls .pc = B19 ∧ ls' = ls .pc:= B20 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%id1 = alloca i32, align 4
+	main1 :
+	⊦ COP(main1)(mem, ls, mem', ls') ↔ ls .pc = C00 ∧ ls' = ls .pc:= C01 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%id2 = alloca i32, align 4
+	main2 :
+	⊦ COP(main2)(mem, ls, mem', ls') ↔ ls .pc = C01 ∧ ls' = ls .pc:= C02 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%call = call i32@pthread_create (i32*%id1, %union.pthread_attr_t *null, i8*(i8* )*@t1, i8*null)
+	NEEDS ATTENTION !
+	main3 :
+	⊦ COP(main3)(mem, ls, mem', ls') ↔ ls .pc = C02 ∧ ls' = ls .pc:= C03 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%call1 = call i32@pthread_create (i32*%id2, %union.pthread_attr_t *null, i8*(i8* )*@t2, i8*null)
+	NEEDS ATTENTION !
+	main4 :
+	⊦ COP(main4)(mem, ls, mem', ls') ↔ ls .pc = C03 ∧ ls' = ls .pc:= C04 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%0 = load i32*@i, align 4, !tbaa !0
+	main5 :
+	⊦ COP(main5)(mem, ls, mem', ls') ↔ ls .pc = C04 ∧ ls' = ls .pc:= C05 .v0:= mem[i .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp = icmp sgt i32 %0, 144
+	main6 :
+	⊦ COP(main6)(mem, ls, mem', ls') ↔ ls .pc = C05 ∧ (ls .v0 ≤ 144 ⊃ ls' = ls .pc:= C06 .cmp:= 0 ; ls' = ls .pc:= C06 .cmp:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %lor.lhs.false
+	main7 :
+	⊦ COP(main7)(mem, ls, mem', ls') ↔ ls .pc = C06 ∧ ls' = ls .pc:= C10 ∧ ls .cmp = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %if.then, label %lor.lhs.false
+	main8 :
+	⊦ COP(main8)(mem, ls, mem', ls') ↔ ls .pc = C06 ∧ ls' = ls .pc:= C07 ∧ ls .cmp = 0;
+	used for : s, ls;
+
+;;	call void@__assert_fail (i8*getelementptr [2 x i8]*@.str, i320, i320, i8*getelementptr [17 x i8]*@.str1, i320, i320, i3247, i8*getelementptr [23 x i8]*@__PRETTY_FUNCTION__.main, i320, i320)
+	NEEDS ATTENTION !
+	main9 :
+	⊦ COP(main9)(mem, ls, mem', ls') ↔ ls .pc = C10 ∧ ls' = ls .pc:= C11 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%1 = load i32*@j, align 4, !tbaa !0
+	main10 :
+	⊦ COP(main10)(mem, ls, mem', ls') ↔ ls .pc = C07 ∧ ls' = ls .pc:= C08 .v1:= mem[j .v] .v ∧ mem' = mem;
+	used for : s, ls;
+
+;;	Unreachable
+	NEEDS ATTENTION !
+	main11 :
+	⊦ COP(main11)(mem, ls, mem', ls') ↔ ls .pc = C11 ∧ ls' = ls .pc:= C12 ∧ mem' = mem;
+	used for : s, ls;
+
+;;	%cmp2 = icmp sgt i32 %1, 144
+	main12 :
+	⊦ COP(main12)(mem, ls, mem', ls') ↔ ls .pc = C08 ∧ (ls .v1 ≤ 144 ⊃ ls' = ls .pc:= C09 .cmp2:= 0 ; ls' = ls .pc:= C09 .cmp2:= 1) ∧ mem' = mem;
+	used for : s, ls;
+
+;;	br %cmp2, label %if.then, label %if.end
+	main14 :
+	⊦ COP(main14)(mem, ls, mem', ls') ↔ ls .pc = C09 ∧ ls' = ls .pc:= C10 ∧ ls .cmp2 = 1;
+	used for : s, ls;
+
+;;	br %cmp2, label %if.then, label %if.end
+	main15 :
+	⊦ COP(main15)(mem, ls, mem', ls') ↔ ls .pc = C09 ∧ ls' = ls .pc:= C12 ∧ ls .cmp2 = 0;
+	used for : s, ls;
+
+;;	ret i8*null
+	t121ret :
+	⊦ RETOP(t121ret)(mem, ls, mem', ls', return) ↔ ls .pc = A20 ∧ ls' = ls .pc:= N ∧ return = null ∧ mem' = mem;
+	used for : s, ls;
+	
+;;	ret i8*null
+	t221ret :
+	⊦ RETOP(t221ret)(mem, ls, mem', ls', return) ↔ ls .pc = B20 ∧ ls' = ls .pc:= N ∧ return = null ∧ mem' = mem;
+	used for : s, ls;
+	
+;;	ret i320
+	main13ret :
+	⊦ RETOP(main13ret)(mem, ls, mem', ls', return) ↔ ls .pc = C12 ∧ ls' = ls .pc:= N ∧ return = ⌜0⌝ ∧ mem' = mem;
+	used for : s, ls;
+	
+end enrich
+		

@@ -1,0 +1,224 @@
+enrich 	CS,
+		cindex,
+		input with 
+
+	functions
+		INVOP : Proc × IJ → input × CS × CS → bool;
+		COP : Proc × CJ → CS × CS → bool;
+		RETOP : Proc × RJ → CS × CS × ref → bool;
+	predicates
+		CSInit : CS;
+
+	variables
+		invop : input × CS × CS → bool;
+		cop : CS × CS → bool;
+		retop : CS × CS × ref → bool;
+		return : ref;
+	axioms
+	CSInit : 
+	⊦ CSInit(mkcs(pcf, mem, reff1, reff2, reff3, reff4, reff5, reff6, reff7, reff8, intf9, intf10, intf11, intf12, reff13, reff14, intf15)) ↔ ( pcf = (λ p. N)  ∧ reff1 = (λ p. ⌜0⌝) ∧ reff2 = (λ p. ⌜0⌝) ∧ reff3 = (λ p. ⌜0⌝) ∧ reff4 = (λ p. ⌜0⌝) ∧ reff5 = (λ p. ⌜0⌝) ∧ reff6 = (λ p. ⌜0⌝) ∧ reff7 = (λ p. ⌜0⌝) ∧ reff8 = (λ p. ⌜0⌝) ∧ intf9 = (λ p. 0) ∧ intf10 = (λ p. 0) ∧ intf11 = (λ p. 0) ∧ intf12 = (λ p. 0) ∧ reff13 = (λ p. ⌜0⌝) ∧ reff14 = (λ p. ⌜0⌝) ∧ intf15 = (λ p. 0));
+	used for : s, ls;
+
+;; 	ZN5StackC2Ev reflects function @_ZN5StackC2Ev
+	ZN5StackC2Evini :
+	⊦ INVOP(p, ZN5StackC2Evini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ ref?(inp) ∧ cs' = cs .pc:= cs.pc(p ; A0) .this:= cs.this(p ; inp .ref1); 
+	used for : s, ls;
+
+;; 	ZN5Stack4pushEi reflects function @_ZN5Stack4pushEi
+	ZN5Stack4pushEiini :
+	⊦ INVOP(p, ZN5Stack4pushEiini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ intref?(inp) ∧ cs' = cs .pc:= cs.pc(p ; B00) .this:= cs.this(p ; inp .ref1).v:= cs.v(p ; inp .int1); 
+	used for : s, ls;
+
+;; 	ZN5Stack3popEv reflects function @_ZN5Stack3popEv
+	ZN5Stack3popEvini :
+	⊦ INVOP(p, ZN5Stack3popEvini)(inp, cs, cs') ↔ cs .pc(p) = N ∧ ref?(inp) ∧ cs' = cs .pc:= cs.pc(p ; C00) .this:= cs.this(p ; inp .ref1); 
+	used for : s, ls;
+
+;;	%head = getelementptr %class.Stack * %this, i32 0, i32 0
+	ZN5StackC2Ev1 :
+	⊦ COP(p, ZN5StackC2Ev1)(cs, cs') ↔ cs .pc(p) = A0 ∧ cs' = cs .pc:= cs.pc(p ; A1) .head:= ;
+	used for : s, ls;
+
+;;	store %class.Node * null, %class.Node ** %head, align 4, !tbaa !0
+	ZN5StackC2Ev2 :
+	⊦ COP(p, ZN5StackC2Ev2)(cs, cs') ↔ cs .pc(p) = A1 ∧ cs' = cs .pc:= cs.pc(p ; A2);
+	used for : s, ls;
+
+;;	%call = call i8* @_Znwj (i32 8)
+	NEEDS ATTENTION !
+	ZN5Stack4pushEi1 :
+	⊦ COP(p, ZN5Stack4pushEi1)(cs, cs') ↔ cs .pc(p) = B00 ∧ cs' = cs .pc:= cs.pc(p ; B01);
+	used for : s, ls;
+
+;;	%val = bitcast i8* %call to i32*
+	ZN5Stack4pushEi2 :
+	⊦ COP(p, ZN5Stack4pushEi2)(cs, cs') ↔ cs .pc(p) = B01 ∧ cs' = cs .pc:= cs.pc(p ; B02) .val:= cs.val(p ; cs .call(p));
+	used for : s, ls;
+
+;;	store i32 %v, i32* %val, align 4, !tbaa !3
+	ZN5Stack4pushEi3 :
+	⊦ COP(p, ZN5Stack4pushEi3)(cs, cs') ↔ cs .pc(p) = B02 ∧ cs' = cs .pc:= cs.pc(p ; B03);
+	used for : s, ls;
+
+;;	%head = getelementptr %class.Stack * %this, i32 0, i32 0
+	ZN5Stack4pushEi4 :
+	⊦ COP(p, ZN5Stack4pushEi4)(cs, cs') ↔ cs .pc(p) = B03 ∧ cs' = cs .pc:= cs.pc(p ; B04) .head:= ;
+	used for : s, ls;
+
+;;	%next = getelementptr i8* %call, i32 4
+	ZN5Stack4pushEi5 :
+	⊦ COP(p, ZN5Stack4pushEi5)(cs, cs') ↔ cs .pc(p) = B04 ∧ cs' = cs .pc:= cs.pc(p ; B05) .next:= ;
+	used for : s, ls;
+
+;;	%0 = bitcast i8* %next to %class.Node **
+	ZN5Stack4pushEi6 :
+	⊦ COP(p, ZN5Stack4pushEi6)(cs, cs') ↔ cs .pc(p) = B05 ∧ cs' = cs .pc:= cs.pc(p ; B06) .v0:= cs.v0(p ; cs .next(p));
+	used for : s, ls;
+
+;;	%1 = bitcast %class.Stack * %this to i32*
+	ZN5Stack4pushEi7 :
+	⊦ COP(p, ZN5Stack4pushEi7)(cs, cs') ↔ cs .pc(p) = B06 ∧ cs' = cs .pc:= cs.pc(p ; B07) .v1:= cs.v1(p ; cs .this(p));
+	used for : s, ls;
+
+;;	%2 = ptrtoint i8* %call to i32
+	ZN5Stack4pushEi8 :
+	⊦ COP(p, ZN5Stack4pushEi8)(cs, cs') ↔ cs .pc(p) = B07 ∧ cs' = cs .pc:= cs.pc(p ; B08) .v2:= cs.v2(p ; cs .call(p));
+	used for : s, ls;
+
+;;	br label %do.body
+	ZN5Stack4pushEi9 :
+	⊦ COP(p, ZN5Stack4pushEi9)(cs, cs') ↔ cs .pc(p) = B08 ∧ cs' = cs .pc:= cs.pc(p ; B09);
+	used for : s, ls;
+
+;;	%3 = load %class.Node ** %head, align 4, !tbaa !0
+	ZN5Stack4pushEi10 :
+	⊦ COP(p, ZN5Stack4pushEi10)(cs, cs') ↔ cs .pc(p) = B09 ∧ cs' = cs .pc:= cs.pc(p ; B10) .v3:= cs.v3(p ; cs.mem[cs .head(p) .v]);
+	used for : s, ls;
+
+;;	store %class.Node * %3, %class.Node ** %0, align 4, !tbaa !0
+	ZN5Stack4pushEi11 :
+	⊦ COP(p, ZN5Stack4pushEi11)(cs, cs') ↔ cs .pc(p) = B10 ∧ cs' = cs .pc:= cs.pc(p ; B11);
+	used for : s, ls;
+
+;;	%4 = ptrtoint %class.Node * %3 to i32
+	ZN5Stack4pushEi12 :
+	⊦ COP(p, ZN5Stack4pushEi12)(cs, cs') ↔ cs .pc(p) = B11 ∧ cs' = cs .pc:= cs.pc(p ; B12) .v4:= cs.v4(p ; cs .v3(p) .v);
+	used for : s, ls;
+
+;;	%5 = cmpxchg i32* %1, i32 %4, i32 %2 seq_cst
+	ZN5Stack4pushEi13 :
+	⊦ COP(p, ZN5Stack4pushEi13)(cs, cs') ↔ cs .pc(p) = B12 ∧ ( cs.mem[cs .v1(p) .v] = ⌜ cs .v4(p)⌝ ⊃ (cs' = cs .pc:= cs.pc(p; B13) .v5:= cs.v5(p ; 1) .mem:= cs.mem[cs .v1(p) .v, cs .v2(p)]) ; (cs' = cs .pc:= cs.pc(p; B13) .v5:= cs.v5(p ; 0)));
+	used for : s, ls;
+
+;;	%6 = icmp eq i32 %5, %4
+	ZN5Stack4pushEi14 :
+	⊦ COP(p, ZN5Stack4pushEi14)(cs, cs') ↔ cs .pc(p) = B13 ∧ (cs .v5(p) = cs .v4(p)
+	 ⊃ cs' = cs .pc:= cs.pc(p; B14) .v6:= cs.v6(p ; 1) ; cs' = cs .pc:= cs.pc(p; B14) .v6:= cs.v6(p ; 0));
+	used for : s, ls;
+
+;;	br %6, label %do.end, label %do.body
+	ZN5Stack4pushEi15 :
+	⊦ COP(p, ZN5Stack4pushEi15)(cs, cs') ↔ cs .pc(p) = B14 ∧ cs' = cs .pc:= cs.pc(p ; B15) ∧ cs .v6(p) = 1;
+	used for : s, ls;
+
+;;	br %6, label %do.end, label %do.body
+	ZN5Stack4pushEi16 :
+	⊦ COP(p, ZN5Stack4pushEi16)(cs, cs') ↔ cs .pc(p) = B14 ∧ cs' = cs .pc:= cs.pc(p ; B09) ∧ cs .v6(p) = 0;
+	used for : s, ls;
+
+;;	%head = getelementptr %class.Stack * %this, i32 0, i32 0
+	ZN5Stack3popEv1 :
+	⊦ COP(p, ZN5Stack3popEv1)(cs, cs') ↔ cs .pc(p) = C00 ∧ cs' = cs .pc:= cs.pc(p ; C01) .head:= ;
+	used for : s, ls;
+
+;;	%0 = bitcast %class.Stack * %this to i32*
+	ZN5Stack3popEv2 :
+	⊦ COP(p, ZN5Stack3popEv2)(cs, cs') ↔ cs .pc(p) = C01 ∧ cs' = cs .pc:= cs.pc(p ; C02) .v0:= cs.v0(p ; cs .this(p));
+	used for : s, ls;
+
+;;	br label %do.body
+	ZN5Stack3popEv3 :
+	⊦ COP(p, ZN5Stack3popEv3)(cs, cs') ↔ cs .pc(p) = C02 ∧ cs' = cs .pc:= cs.pc(p ; C03);
+	used for : s, ls;
+
+;;	%1 = load %class.Node ** %head, align 4, !tbaa !0
+	ZN5Stack3popEv4 :
+	⊦ COP(p, ZN5Stack3popEv4)(cs, cs') ↔ cs .pc(p) = C03 ∧ cs' = cs .pc:= cs.pc(p ; C04) .v1:= cs.v1(p ; cs.mem[cs .head(p) .v]);
+	used for : s, ls;
+
+;;	%cmp = icmp eq %class.Node * %1, null
+	ZN5Stack3popEv5 :
+	⊦ COP(p, ZN5Stack3popEv5)(cs, cs') ↔ cs .pc(p) = C04 ∧ (cs .v1(p) = null ⊃ cs' = cs .pc:= cs.pc(p; C05) .cmp:= cs.cmp(p ; 1) ; cs' = cs .pc:= cs.pc(p; C05) .cmp:= cs.cmp(p ; 0));
+	used for : s, ls;
+
+;;	br %cmp, label %return, label %if.end
+	ZN5Stack3popEv6 :
+	⊦ COP(p, ZN5Stack3popEv6)(cs, cs') ↔ cs .pc(p) = C05 ∧ cs' = cs .pc:= cs.pc(p ; C13) .retval_0:= cs.retval_0(p ; null) ∧ cs .cmp(p) = 1;
+	used for : s, ls;
+
+;;	br %cmp, label %return, label %if.end
+	ZN5Stack3popEv7 :
+	⊦ COP(p, ZN5Stack3popEv7)(cs, cs') ↔ cs .pc(p) = C05 ∧ cs' = cs .pc:= cs.pc(p ; C06) ∧ cs .cmp(p) = 0;
+	used for : s, ls;
+
+;;	%retval.0 = phi %class.Node * [, %do.body][%1 , %if.end]
+	ZN5Stack3popEv8 :
+	⊦ COP(p, ZN5Stack3popEv8)(cs, cs') ↔ cs .pc(p) = C13 ∧ cs' = cs .pc:= cs.pc(p ; C14);
+	used for : s, ls;
+
+;;	%next = getelementptr %class.Node * %1, i32 0, i32 1
+	ZN5Stack3popEv9 :
+	⊦ COP(p, ZN5Stack3popEv9)(cs, cs') ↔ cs .pc(p) = C06 ∧ cs' = cs .pc:= cs.pc(p ; C07) .next:= ;
+	used for : s, ls;
+
+;;	%2 = load %class.Node ** %next, align 4, !tbaa !0
+	ZN5Stack3popEv11 :
+	⊦ COP(p, ZN5Stack3popEv11)(cs, cs') ↔ cs .pc(p) = C07 ∧ cs' = cs .pc:= cs.pc(p ; C08) .v2:= cs.v2(p ; cs.mem[cs .next(p) .v]);
+	used for : s, ls;
+
+;;	%3 = ptrtoint %class.Node * %1 to i32
+	ZN5Stack3popEv12 :
+	⊦ COP(p, ZN5Stack3popEv12)(cs, cs') ↔ cs .pc(p) = C08 ∧ cs' = cs .pc:= cs.pc(p ; C09) .v3:= cs.v3(p ; cs .v1(p));
+	used for : s, ls;
+
+;;	%4 = ptrtoint %class.Node * %2 to i32
+	ZN5Stack3popEv13 :
+	⊦ COP(p, ZN5Stack3popEv13)(cs, cs') ↔ cs .pc(p) = C09 ∧ cs' = cs .pc:= cs.pc(p ; C10) .v4:= cs.v4(p ; cs .v2(p) .v);
+	used for : s, ls;
+
+;;	%5 = cmpxchg i32* %0, i32 %3, i32 %4 seq_cst
+	ZN5Stack3popEv14 :
+	⊦ COP(p, ZN5Stack3popEv14)(cs, cs') ↔ cs .pc(p) = C10 ∧ ( cs.mem[cs .v0(p) .v] = cs .v3(p) ⊃ (cs' = cs .pc:= cs.pc(p; C11) .v5:= cs.v5(p ; 1) .mem:= cs.mem[cs .v0(p) .v, ⌜ cs .v4(p)⌝]) ; (cs' = cs .pc:= cs.pc(p; C11) .v5:= cs.v5(p ; 0)));
+	used for : s, ls;
+
+;;	%6 = icmp eq i32 %5, %3
+	ZN5Stack3popEv15 :
+	⊦ COP(p, ZN5Stack3popEv15)(cs, cs') ↔ cs .pc(p) = C11 ∧ (⌜cs .v5(p)⌝ = cs .v3(p) ⊃ cs' = cs .pc:= cs.pc(p; C12) .v6:= cs.v6(p ; 1) ; cs' = cs .pc:= cs.pc(p; C12) .v6:= cs.v6(p ; 0));
+	used for : s, ls;
+
+;;	br %6, label %return, label %do.body
+	ZN5Stack3popEv16 :
+	⊦ COP(p, ZN5Stack3popEv16)(cs, cs') ↔ cs .pc(p) = C12 ∧ cs' = cs .pc:= cs.pc(p ; C13) .retval_0:= cs.retval_0(p ; cs .v1(p)) ∧ cs .v6(p) = 1;
+	used for : s, ls;
+
+;;	br %6, label %return, label %do.body
+	ZN5Stack3popEv17 :
+	⊦ COP(p, ZN5Stack3popEv17)(cs, cs') ↔ cs .pc(p) = C12 ∧ cs' = cs .pc:= cs.pc(p ; C03) ∧ cs .v6(p) = 0;
+	used for : s, ls;
+
+;;	ret void
+	ZN5StackC2Ev3ret :
+	⊦ RETOP(p, ZN5StackC2Ev3ret)(cs, cs', return) ↔ cs .pc(p) = A2 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret void
+	ZN5Stack4pushEi17ret :
+	⊦ RETOP(p, ZN5Stack4pushEi17ret)(cs, cs', return) ↔ cs .pc(p) = B15 ∧ cs' = cs .pc:= cs.pc(p ; N);
+	used for : s, ls;
+	
+;;	ret %class.Node * %retval.0
+	ZN5Stack3popEv10ret :
+	⊦ RETOP(p, ZN5Stack3popEv10ret)(cs, cs', return) ↔ cs .pc(p) = C14 ∧ cs' = cs .pc:= cs.pc(p ; N) ∧ return = cs .retval_0(p);
+	used for : s, ls;
+	
+end enrich

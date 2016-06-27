@@ -1,0 +1,9 @@
+data specification
+	IJ =  Z5p1_aqvini | Z6p1_relvini | Z5p2_aqvini | Z6p2_relvini | mainini ;
+	CJ =  Z5p1_aqv1 | Z5p1_aqv2 | Z5p1_aqv3 | Z5p1_aqv4 | Z5p1_aqv5 | Z5p1_aqv6 | Z5p1_aqv7 | Z5p1_aqv8 | Z5p1_aqv9 | Z5p1_aqv10 | Z5p1_aqv11 | Z6p1_relv1 | Z6p1_relv2 | Z5p2_aqv1 | Z5p2_aqv2 | Z5p2_aqv3 | Z5p2_aqv4 | Z5p2_aqv5 | Z5p2_aqv6 | Z5p2_aqv7 | Z5p2_aqv8 | Z5p2_aqv9 | Z5p2_aqv10 | Z5p2_aqv11 | Z5p2_aqv12 | Z5p2_aqv13 | Z5p2_aqv14 | Z5p2_aqv15 | Z5p2_aqv16 | Z5p2_aqv17 | Z5p2_aqv18 | Z5p2_aqv19 | Z5p2_aqv21 | Z5p2_aqv22 | Z5p2_aqv23 | Z5p2_aqv24 | Z5p2_aqv25 | Z5p2_aqv26 | Z5p2_aqv27 | Z5p2_aqv28 | Z5p2_aqv29 | Z5p2_aqv30 | Z5p2_aqv31 | Z5p2_aqv32 | Z5p2_aqv33 | Z5p2_aqv34 | Z5p2_aqv35 | Z5p2_aqv36 | Z5p2_aqv37 | Z5p2_aqv38 | Z5p2_aqv39 | Z5p2_aqv40 | Z5p2_aqv41 | Z6p2_relv1 | Z6p2_relv2 ;
+	RJ =  Z5p1_aqv12ret | Z6p1_relv3ret | Z5p2_aqv20ret | Z6p2_relv3ret | main1ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification
