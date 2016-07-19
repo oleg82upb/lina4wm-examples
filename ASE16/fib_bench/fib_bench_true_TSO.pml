@@ -11,6 +11,7 @@ short i = 1;
 short j = 1;
 
 
+
 //memory allocation
 inline alloca(type, targetRegister)
 {
@@ -25,7 +26,7 @@ inline alloca(type, targetRegister)
 
 inline t1(arg, returnvalue){
 short v0, v1, add, v2, v3, add_1, v4, v5, add_2, v6, v7, add_3, v8, v9, add_4;
-AStart: goto A00;
+AStart: goto A00; 
 A00: v0 = memory[j]; goto A01; 
 A01: v1 = memory[i]; goto A02; 
 A02: add = v1 + v0; goto A03; 
@@ -37,7 +38,7 @@ A04i:
 	fi;
 A05i: 
 	if 
-	:: v3 = memory[i]; goto A06i; 
+	:: v3 = add; goto A06i; 
 	:: memory[i] = add; goto A05; 
 	fi;
 A04: v2 = memory[j]; goto A05; 
@@ -61,7 +62,7 @@ A08ii:
 A07: goto A08i; 
 A09ii: 
 	if 
-	:: v5 = memory[i]; goto A10ii; 
+	:: v5 = add_1; goto A10ii; 
 	:: memory[i] = add; goto A09i; 
 	fi;
 A08i: 
@@ -76,7 +77,7 @@ A10ii:
 	fi;
 A09i: 
 	if 
-	:: v5 = memory[i]; goto A10i; 
+	:: v5 = add_1; goto A10i; 
 	:: memory[i] = add_1; goto A09; 
 	fi;
 A08: v4 = memory[j]; goto A09; 
@@ -104,7 +105,7 @@ A11i:
 A10: add_2 = v5 + v4; goto A11; 
 A13iii: 
 	if 
-	:: v7 = memory[i]; goto A14iii; 
+	:: v7 = add_2; goto A14iii; 
 	:: memory[i] = add; goto A13ii; 
 	fi;
 A12ii: 
@@ -120,7 +121,7 @@ A14iii:
 	fi;
 A13ii: 
 	if 
-	:: v7 = memory[i]; goto A14ii; 
+	:: v7 = add_2; goto A14ii; 
 	:: memory[i] = add_1; goto A13i; 
 	fi;
 A12i: 
@@ -140,7 +141,7 @@ A14ii:
 	fi;
 A13i: 
 	if 
-	:: v7 = memory[i]; goto A14i; 
+	:: v7 = add_2; goto A14i; 
 	:: memory[i] = add_2; goto A13; 
 	fi;
 A12: v6 = memory[j]; goto A13; 
@@ -162,7 +163,7 @@ A14i:
 A13: v7 = memory[i]; goto A14; 
 A17iiii: 
 	if 
-	:: v9 = memory[i]; goto A18iiii; 
+	:: v9 = add_3; goto A18iiii; 
 	:: memory[i] = add; goto A17iii; 
 	fi;
 A16iii: 
@@ -183,7 +184,7 @@ A18iiii:
 	fi;
 A17iii: 
 	if 
-	:: v9 = memory[i]; goto A18iii; 
+	:: v9 = add_3; goto A18iii; 
 	:: memory[i] = add_1; goto A17ii; 
 	fi;
 A16ii: 
@@ -204,7 +205,7 @@ A18iii:
 	fi;
 A17ii: 
 	if 
-	:: v9 = memory[i]; goto A18ii; 
+	:: v9 = add_3; goto A18ii; 
 	:: memory[i] = add_2; goto A17i; 
 	fi;
 A16i: 
@@ -225,7 +226,7 @@ A18ii:
 	fi;
 A17i: 
 	if 
-	:: v9 = memory[i]; goto A18i; 
+	:: v9 = add_3; goto A18i; 
 	:: memory[i] = add_3; goto A17; 
 	fi;
 A16: v8 = memory[j]; goto A17; 
@@ -252,14 +253,14 @@ A20ii: memory[i] = add_3; goto A20i;
 A19: goto A20i; 
 A20i: memory[i] = add_4; goto A20; 
 A20: returnvalue = null; goto AEnd;
-AEnd: skip;
 
+AEnd: skip; 
 }
 
 
 inline t2(arg, returnvalue){
 short v0, v1, add, v2, v3, add_1, v4, v5, add_2, v6, v7, add_3, v8, v9, add_4;
-BStart: goto B00;
+BStart: goto B00; 
 B00: v0 = memory[i]; goto B01; 
 B01: v1 = memory[j]; goto B02; 
 B02: add = v1 + v0; goto B03; 
@@ -271,7 +272,7 @@ B04j:
 	fi;
 B05j: 
 	if 
-	:: v3 = memory[j]; goto B06j; 
+	:: v3 = add; goto B06j; 
 	:: memory[j] = add; goto B05; 
 	fi;
 B04: v2 = memory[i]; goto B05; 
@@ -295,7 +296,7 @@ B08jj:
 B07: goto B08j; 
 B09jj: 
 	if 
-	:: v5 = memory[j]; goto B10jj; 
+	:: v5 = add_1; goto B10jj; 
 	:: memory[j] = add; goto B09j; 
 	fi;
 B08j: 
@@ -310,7 +311,7 @@ B10jj:
 	fi;
 B09j: 
 	if 
-	:: v5 = memory[j]; goto B10j; 
+	:: v5 = add_1; goto B10j; 
 	:: memory[j] = add_1; goto B09; 
 	fi;
 B08: v4 = memory[i]; goto B09; 
@@ -338,7 +339,7 @@ B11j:
 B10: add_2 = v5 + v4; goto B11; 
 B13jjj: 
 	if 
-	:: v7 = memory[j]; goto B14jjj; 
+	:: v7 = add_2; goto B14jjj; 
 	:: memory[j] = add; goto B13jj; 
 	fi;
 B12jj: 
@@ -354,7 +355,7 @@ B14jjj:
 	fi;
 B13jj: 
 	if 
-	:: v7 = memory[j]; goto B14jj; 
+	:: v7 = add_2; goto B14jj; 
 	:: memory[j] = add_1; goto B13j; 
 	fi;
 B12j: 
@@ -374,7 +375,7 @@ B14jj:
 	fi;
 B13j: 
 	if 
-	:: v7 = memory[j]; goto B14j; 
+	:: v7 = add_2; goto B14j; 
 	:: memory[j] = add_2; goto B13; 
 	fi;
 B12: v6 = memory[i]; goto B13; 
@@ -396,7 +397,7 @@ B14j:
 B13: v7 = memory[j]; goto B14; 
 B17jjjj: 
 	if 
-	:: v9 = memory[j]; goto B18jjjj; 
+	:: v9 = add_3; goto B18jjjj; 
 	:: memory[j] = add; goto B17jjj; 
 	fi;
 B16jjj: 
@@ -417,7 +418,7 @@ B18jjjj:
 	fi;
 B17jjj: 
 	if 
-	:: v9 = memory[j]; goto B18jjj; 
+	:: v9 = add_3; goto B18jjj; 
 	:: memory[j] = add_1; goto B17jj; 
 	fi;
 B16jj: 
@@ -438,7 +439,7 @@ B18jjj:
 	fi;
 B17jj: 
 	if 
-	:: v9 = memory[j]; goto B18jj; 
+	:: v9 = add_3; goto B18jj; 
 	:: memory[j] = add_2; goto B17j; 
 	fi;
 B16j: 
@@ -459,7 +460,7 @@ B18jj:
 	fi;
 B17j: 
 	if 
-	:: v9 = memory[j]; goto B18j; 
+	:: v9 = add_3; goto B18j; 
 	:: memory[j] = add_3; goto B17; 
 	fi;
 B16: v8 = memory[i]; goto B17; 
@@ -486,9 +487,11 @@ B20jj: memory[j] = add_3; goto B20j;
 B19: goto B20j; 
 B20j: memory[j] = add_4; goto B20; 
 B20: returnvalue = null; goto BEnd;
-BEnd: skip;
 
+BEnd: skip; 
 }
+
+
 
 
 //Stubs
