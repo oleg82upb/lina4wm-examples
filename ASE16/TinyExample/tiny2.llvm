@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<llvm:LLVM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:llvm="http://www.upb.de/llvm_parser/llvm">
+  <elements xsi:type="llvm:GlobalDefinition" align="4">
+    <address name="@y"/>
+    <value xsi:type="llvm:Parameter">
+      <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+      <value xsi:type="llvm:PrimitiveValue" value="null"/>
+    </value>
+  </elements>
+  <elements xsi:type="llvm:GlobalDefinition" align="4">
+    <address name="@x"/>
+    <value xsi:type="llvm:Parameter">
+      <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+      <value xsi:type="llvm:PrimitiveValue" value="null"/>
+    </value>
+  </elements>
+  <elements xsi:type="llvm:FunctionDefinition">
+    <returnType xsi:type="llvm:Predefined" type="void"/>
+    <address name="@p0"/>
+    <body>
+      <blocks label="entry">
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant" value="1"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.1/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant" value="1"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.0/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
+        <instructions xsi:type="llvm:Load" align="4">
+          <result name="%1"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.0/@address"/>
+          </address>
+        </instructions>
+        <instructions xsi:type="llvm:Return">
+          <value xsi:type="llvm:PrimitiveValue" value="void"/>
+        </instructions>
+      </blocks>
+    </body>
+  </elements>
+  <elements xsi:type="llvm:FunctionDefinition">
+    <returnType xsi:type="llvm:Predefined" type="void"/>
+    <address name="@p1"/>
+    <body>
+      <blocks label="entry">
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant" value="1"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.0/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Load" align="4">
+          <result name="%0"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i32"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.1/@address"/>
+          </address>
+        </instructions>
+        <instructions xsi:type="llvm:Return">
+          <value xsi:type="llvm:PrimitiveValue" value="void"/>
+        </instructions>
+      </blocks>
+    </body>
+  </elements>
+</llvm:LLVM>

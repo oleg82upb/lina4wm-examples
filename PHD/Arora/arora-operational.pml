@@ -1,0 +1,198 @@
+#define MEM_SIZE 10	//size of memory
+#define BUFF_SIZE 3 	//size of Buffer 
+#define null 0
+#define I32  1
+#define PTR 1
+short memUse = 1; 	//shows to the next free cell in memory
+
+//#include "sc.pml"
+#include "tso.pml"
+//#include "pso.pml"
+
+chan channelT1 = [0] of {mtype, short, short, short};
+chan channelT2 = [0] of {mtype, short, short, short};
+short bot = null;
+short deq = null;
+short age = null;
+
+
+//pointer computation 
+inline getelementptr(type, instance, offset, targetRegister)
+{
+	atomic{
+	//simplified version of what llvm does.
+	//we don't need the type as long as we assume our memory to hold only values/pointers etc of equal length. 
+	//In this case, the offset directly correspond to adding it to instance address. 
+	assert(offset <= type); //offset shouldn't be greater than the type range
+	targetRegister = instance + offset;
+	}
+}
+//memory allocation
+inline alloca(type, targetRegister)
+{
+	atomic{
+	targetRegister = memUse;
+	memUse = memUse + type;
+	assert(memUse < MEM_SIZE);
+	}
+}
+
+//Note, CAS operations in LLVM return a tuple (i32, i1), the value read and a success bit.
+//Sometimes the follow up code uses the succes bit but usually the read value. 
+//Adjust CAS semantics, if necessary.
+
+
+
+
+//------------- functions ------------------
+
+inline pushBottom(elem){
+short v0, v1, v2, idx, inc;
+skip;
+entry: 
+ read(bot, v0); 
+ read(v0, v1); 
+ read(deq, v2); 
+ getelementptr(1, v2, v1, idx); 
+ write(idx, elem);
+ inc = v1 + 1; 
+ write(v0, inc);
+ goto ret;
+
+
+ret: skip;
+}
+
+
+inline popTop(returnvalue){
+short v0, v1, v2, v3, shr, cmp, v4, retval_0, idx, v5, add5, v6, v7, v_;
+skip;
+entry: 
+ read(age, v0); 
+ read(v0, v1); 
+ read(bot, v2); 
+ read(v2, v3); 
+ shr = v1 >> 16; 
+ cmp = (v3 > shr); 
+ if 
+ 	:: cmp ->  goto ifend;
+ 	:: !cmp -> retval_0 = -1;  goto return1;
+ fi;
+ 
+
+ifend: 
+ read(deq, v4); 
+ getelementptr(1, v4, shr, idx); 
+ read(idx, v5); 
+ add5 = v1 + 65536; 
+ cas(v0, v1, add5, v6); 
+ v7 = (v6 == v1); 
+ v_ = (v7 -> v5 : -2); 
+ retval_0 = v_;   goto return1;
+ 
+
+return1: 
+ 
+ returnvalue = retval_0; 
+ goto ret;
+
+
+ret: skip;
+}
+
+
+inline popBottom(returnvalue){
+short v0, v1, cmp, retval_0, dec, v2, idx, v3, v4, v5, shr, cmp1, and, add, cmp5, v6, v8, v7, v_pre;
+skip;
+entry: 
+ read(bot, v0); 
+ read(v0, v1); 
+ cmp = (v1 == 0); 
+ if 
+ 	:: cmp -> retval_0 = -1;  goto return1;
+ 	:: !cmp ->  goto ifend;
+ fi;
+ 
+
+ifend: 
+ dec = v1 + -1; 
+ write(v0, dec);
+ read(deq, v2); 
+ getelementptr(1, v2, dec, idx); 
+ read(idx, v3); 
+ read(age, v4); 
+ read(v4, v5); 
+ shr = v5 >> 16; 
+ cmp1 = (dec > shr); 
+ if 
+ 	:: cmp1 -> retval_0 = v3;  goto return1;
+ 	:: !cmp1 ->  goto ifend3;
+ fi;
+ 
+
+ifend3: 
+ write(v0, 0);
+ and = v5 & 65535; 
+ add = and + 1; 
+ cmp5 = (dec == shr); 
+ if 
+ 	:: cmp5 ->  goto ifthen6;
+ 	:: !cmp5 -> v8 = v4;  goto ifend9;
+ fi;
+ 
+
+ifthen6: 
+ cas(v4, v5, add, v6); 
+ v7 = (v6 == v5); 
+ if 
+ 	:: v7 -> retval_0 = v3;  goto return1;
+ 	:: !v7 ->  goto ifthen7;
+ fi;
+ 
+
+ifthen7: 
+ read(age, v_pre); 
+ v8 = v_pre;   goto ifend9;
+ 
+
+ifend9: 
+ 
+ write(v8, add);
+ retval_0 = -1;   goto return1;
+ 
+
+return1: 
+ 
+ returnvalue = retval_0; 
+ goto ret;
+
+
+ret: skip;
+}
+
+
+//------------- process template -------------
+
+//Stubs
+proctype process1(chan ch){
+	//TODO: empty stub
+}
+
+proctype process2(chan ch){
+	//TODO: empty stub
+}
+
+
+init{
+atomic{
+	//initialize global variables or allocate memory space here, if necessary
+	alloca(1, bot);
+	alloca(1, deq);
+	alloca(1, age);
+	
+	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
+	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
+	run process1(channelT1);
+	run process2(channelT2);
+	}
+}

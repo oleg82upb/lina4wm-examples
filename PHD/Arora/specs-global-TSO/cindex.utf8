@@ -1,0 +1,9 @@
+data specification
+	IJ =  pushBottomini | popTopini | popBottomini ;
+	CJ =  pushBottom1 | pushBottom2 | pushBottom3 | pushBottom4 | pushBottom5 | pushBottom6 | invalid | pushBottom8 | invalid | pushBottom10 | invalid | pushBottom12 | invalid | popTop1 | popTop2 | popTop3 | popTop4 | popTop5 | popTop6_t | popTop6_f | popTop7 | popTop8 | popTop9 | popTop10 | popTop11 | popTop13 | popTop14 | popTop15_t | popTop15_f | popTop16_t | popTop16_f | popTop17_t | popTop17_f | popTop18 | popBottom1 | popBottom2 | popBottom3_t | popBottom3_f | popBottom4 | popBottom5 | popBottom6 | popBottom7 | popBottom9 | popBottom10 | invalid | popBottom12 | invalid | popBottom14 | popBottom15 | invalid | popBottom17 | popBottom18 | invalid | popBottom20 | popBottom21 | invalid | popBottom23 | popBottom24 | invalid | popBottom26 | popBottom27_t | popBottom27_f | invalid | popBottom29 | popBottom30 | popBottom31 | invalid | popBottom33_t | popBottom33_f | popBottom34 | invalid | popBottom36 | invalid | popBottom38 | popBottom39 | invalid | popBottom41 | invalid | popBottom43 | popBottom44 | invalid | popBottom46 | invalid | popBottom48_t | popBottom48_f | invalid | popBottom50 | invalid | popBottom52 | popBottom53 | popBottom54 | invalid | popBottom56_t | popBottom56_f | invalid | popBottom58 | invalid | popBottom60 | invalid | popBottom62 | popBottom63 | invalid | popBottom65_t | popBottom65_f | invalid | popBottom67 | invalid | popBottom69 | invalid | popBottom71 | popBottom72 | popBottom73_t | popBottom73_f | popBottom74 | invalid | popBottom76 | invalid | popBottom78 | popBottom79_t | popBottom79_f | popBottom80 | invalid | popBottom82 | invalid | popBottom84 | popBottom85 | popBottom86 | invalid | popBottom88 | invalid | popBottom90 | invalid | popBottom92 | invalid | popBottom94 | invalid | popBottom96 | popBottom97 | invalid;
+	RJ =  pushBottom14ret | popTop12ret | popBottom8ret ;
+variables
+		ij : IJ;
+		cj : CJ;
+		rj : RJ;
+end data specification
