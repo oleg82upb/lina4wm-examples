@@ -1,0 +1,22 @@
+data specification
+	using natref, PC, Proc
+	Localstate :=mkls( . .pc : PC; . .proc : Proc;
+					. .call : ref;
+					. .cmp : nat;
+					. .head : ref;
+					. .next : ref;
+					. .retval_0 : ref;
+					. .this : ref;
+					. .v : nat;
+					. .v0 : ref;
+					. .v1 : ref;
+					. .v2 : nat;
+					. .v3 : nat;
+					. .v4 : nat;
+					. .v5 : nat;
+					. .v6 : nat;
+					. .val : ref;
+);
+	variables
+		ls , ls' : Localstate;
+end data specification

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="ASCII"?>
+<llvm:LLVM xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:llvm="http://www.upb.de/llvm_parser/llvm">
+  <elements xsi:type="llvm:TopLevelEntity" target="e-p:32:32:32-i1:8:8-i8:8:8-i16:16:16-i32:32:32-i64:32:64-f32:32:32-f64:32:64-v64:64:64-v128:128:128-a0:0:64-f80:32:32-n8:16:32-S128"/>
+  <elements xsi:type="llvm:TopLevelEntity" target="i386-pc-linux-gnu"/>
+  <elements xsi:type="llvm:GlobalDefinition" align="1">
+    <address name="@f0"/>
+    <value xsi:type="llvm:Parameter">
+      <type xsi:type="llvm:Predefined" type="i8"/>
+      <value xsi:type="llvm:IntegerConstant"/>
+    </value>
+  </elements>
+  <elements xsi:type="llvm:GlobalDefinition" align="1">
+    <address name="@f1"/>
+    <value xsi:type="llvm:Parameter">
+      <type xsi:type="llvm:Predefined" type="i8"/>
+      <value xsi:type="llvm:IntegerConstant"/>
+    </value>
+  </elements>
+  <elements xsi:type="llvm:GlobalDefinition" align="4">
+    <address name="@i"/>
+    <value xsi:type="llvm:Parameter">
+      <type xsi:type="llvm:Predefined" type="i32"/>
+      <value xsi:type="llvm:IntegerConstant"/>
+    </value>
+  </elements>
+  <elements xsi:type="llvm:FunctionDefinition">
+    <returnType xsi:type="llvm:Predefined" type="void"/>
+    <address name="@_Z5p1_aqv"/>
+    <body>
+      <blocks label="entry">
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant" value="1"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.2/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
+        <instructions xsi:type="llvm:Branch" destination="%while.cond"/>
+      </blocks>
+      <blocks label="while.cond">
+        <instructions xsi:type="llvm:Load" align="1">
+          <result name="%0"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
+          </address>
+        </instructions>
+        <instructions xsi:type="llvm:Cast" operation="trunc">
+          <result name="%tobool"/>
+          <from xsi:type="llvm:Predefined" type="i8"/>
+          <value xsi:type="llvm:AddressUse" address="//@elements.5/@body/@blocks.1/@instructions.0/@result"/>
+          <to xsi:type="llvm:Predefined" type="i1"/>
+        </instructions>
+        <instructions xsi:type="llvm:Cast" operation="zext">
+          <result name="%conv"/>
+          <from xsi:type="llvm:Predefined" type="i1"/>
+          <value xsi:type="llvm:AddressUse" address="//@elements.5/@body/@blocks.1/@instructions.1/@result"/>
+          <to xsi:type="llvm:Predefined" type="i32"/>
+        </instructions>
+        <instructions xsi:type="llvm:CompareInt" cond="ne">
+          <result name="%cmp"/>
+          <opType xsi:type="llvm:Predefined" type="i32"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.5/@body/@blocks.1/@instructions.2/@result"/>
+          <operand2 xsi:type="llvm:IntegerConstant"/>
+        </instructions>
+        <instructions xsi:type="llvm:Branch" destination="%while.body" elseDestination="%while.end">
+          <condition xsi:type="llvm:AddressUse" address="//@elements.5/@body/@blocks.1/@instructions.3/@result"/>
+        </instructions>
+      </blocks>
+      <blocks label="while.body">
+        <instructions xsi:type="llvm:Branch" destination="%while.cond"/>
+      </blocks>
+      <blocks label="while.end">
+        <instructions xsi:type="llvm:Return">
+          <value xsi:type="llvm:PrimitiveValue" value="void"/>
+        </instructions>
+      </blocks>
+    </body>
+  </elements>
+  <elements xsi:type="llvm:FunctionDefinition">
+    <returnType xsi:type="llvm:Predefined" type="void"/>
+    <address name="@_Z6p1_relv"/>
+    <body>
+      <blocks label="entry">
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.2/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Return">
+          <value xsi:type="llvm:PrimitiveValue" value="void"/>
+        </instructions>
+      </blocks>
+    </body>
+  </elements>
+  <elements xsi:type="llvm:FunctionDefinition">
+    <returnType xsi:type="llvm:Predefined" type="void"/>
+    <address name="@_Z5p2_aqv"/>
+    <body>
+      <blocks label="entry">
+        <instructions xsi:type="llvm:Branch" destination="%retry"/>
+      </blocks>
+      <blocks label="retry">
+        <instructions xsi:type="llvm:Branch" destination="%while.cond"/>
+      </blocks>
+      <blocks label="while.cond">
+        <instructions xsi:type="llvm:Load" align="1">
+          <result name="%0"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.2/@address"/>
+          </address>
+        </instructions>
+        <instructions xsi:type="llvm:Cast" operation="trunc">
+          <result name="%tobool"/>
+          <from xsi:type="llvm:Predefined" type="i8"/>
+          <value xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.2/@instructions.0/@result"/>
+          <to xsi:type="llvm:Predefined" type="i1"/>
+        </instructions>
+        <instructions xsi:type="llvm:Cast" operation="zext">
+          <result name="%conv"/>
+          <from xsi:type="llvm:Predefined" type="i1"/>
+          <value xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.2/@instructions.1/@result"/>
+          <to xsi:type="llvm:Predefined" type="i32"/>
+        </instructions>
+        <instructions xsi:type="llvm:CompareInt" cond="ne">
+          <result name="%cmp"/>
+          <opType xsi:type="llvm:Predefined" type="i32"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.2/@instructions.2/@result"/>
+          <operand2 xsi:type="llvm:IntegerConstant"/>
+        </instructions>
+        <instructions xsi:type="llvm:Branch" destination="%while.body" elseDestination="%while.end">
+          <condition xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.2/@instructions.3/@result"/>
+        </instructions>
+      </blocks>
+      <blocks label="while.body">
+        <instructions xsi:type="llvm:Branch" destination="%while.cond"/>
+      </blocks>
+      <blocks label="while.end">
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant" value="1"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Fence" ordering="seq_cst"/>
+        <instructions xsi:type="llvm:Load" align="1">
+          <result name="%1"/>
+          <address>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.2/@address"/>
+          </address>
+        </instructions>
+        <instructions xsi:type="llvm:Cast" operation="trunc">
+          <result name="%tobool1"/>
+          <from xsi:type="llvm:Predefined" type="i8"/>
+          <value xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.4/@instructions.2/@result"/>
+          <to xsi:type="llvm:Predefined" type="i1"/>
+        </instructions>
+        <instructions xsi:type="llvm:Cast" operation="zext">
+          <result name="%conv2"/>
+          <from xsi:type="llvm:Predefined" type="i1"/>
+          <value xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.4/@instructions.3/@result"/>
+          <to xsi:type="llvm:Predefined" type="i32"/>
+        </instructions>
+        <instructions xsi:type="llvm:CompareInt" cond="ne">
+          <result name="%cmp3"/>
+          <opType xsi:type="llvm:Predefined" type="i32"/>
+          <operand1 xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.4/@instructions.4/@result"/>
+          <operand2 xsi:type="llvm:IntegerConstant"/>
+        </instructions>
+        <instructions xsi:type="llvm:Branch" destination="%if.then" elseDestination="%if.end">
+          <condition xsi:type="llvm:AddressUse" address="//@elements.7/@body/@blocks.4/@instructions.5/@result"/>
+        </instructions>
+      </blocks>
+      <blocks label="if.then">
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Branch" destination="%retry"/>
+      </blocks>
+      <blocks label="if.end">
+        <instructions xsi:type="llvm:Return">
+          <value xsi:type="llvm:PrimitiveValue" value="void"/>
+        </instructions>
+      </blocks>
+    </body>
+  </elements>
+  <elements xsi:type="llvm:FunctionDefinition">
+    <returnType xsi:type="llvm:Predefined" type="void"/>
+    <address name="@_Z6p2_relv"/>
+    <body>
+      <blocks label="entry">
+        <instructions xsi:type="llvm:Store" align="1">
+          <value>
+            <type xsi:type="llvm:Predefined" type="i8"/>
+            <value xsi:type="llvm:IntegerConstant"/>
+          </value>
+          <targetAddress>
+            <type xsi:type="llvm:Predefined" pointer="*" type="i8"/>
+            <value xsi:type="llvm:AddressUse" address="//@elements.3/@address"/>
+          </targetAddress>
+        </instructions>
+        <instructions xsi:type="llvm:Return">
+          <value xsi:type="llvm:PrimitiveValue" value="void"/>
+        </instructions>
+      </blocks>
+    </body>
+  </elements>
+  <elements xsi:type="llvm:FunctionDefinition">
+    <returnType xsi:type="llvm:Predefined" type="i32"/>
+    <address name="@main"/>
+    <body>
+      <blocks label="entry">
+        <instructions xsi:type="llvm:Return">
+          <value xsi:type="llvm:Parameter">
+            <type xsi:type="llvm:Predefined" type="i32"/>
+            <value xsi:type="llvm:IntegerConstant"/>
+          </value>
+        </instructions>
+      </blocks>
+    </body>
+  </elements>
+</llvm:LLVM>
