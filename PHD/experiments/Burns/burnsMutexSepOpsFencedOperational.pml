@@ -26,26 +26,6 @@ inline alloca(type, targetRegister)
 	}
 }
 
-//---------------- abstract spec
-short mtxOwner = 0;
-
-inline acquire(pid)
-{
-	atomic{
-	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
-	 }
-}
-
-inline release(pid)
-{
-	atomic{
-	 assert(mtxOwner == pid);
-	 mtxOwner = 0;
-	 }
-}
-//---------------- abstract spec end
-
 
 
 //------------- functions ------------------
@@ -66,7 +46,7 @@ whilecond:
  cmp = (conv != 0); 
  if 
  	:: cmp ->  goto whilebody;
- 	:: !cmp ->  acquire(_pid); goto whileend;
+ 	:: !cmp ->  acquire(_pid); goto whileend;		//LP acquire
  fi;
  
 
@@ -86,8 +66,7 @@ inline p1_rel(){
 
 skip;
 entry: 
- release(_pid);
- write(f0, 0);
+ writeLP(f0, 0, _pid);			//LP release
  goto ret;
 
 
@@ -130,7 +109,7 @@ whileend:
  cmp3 = (conv2 != 0); 
  if 
  	:: cmp3 ->  goto ifthen;
- 	:: !cmp3 -> acquire(_pid); goto ifend;
+ 	:: !cmp3 -> acquire(_pid); goto ifend;			//LP acquire
  fi;
  
 
@@ -151,8 +130,7 @@ inline p2_rel(){
 
 skip;
 entry: 
- release(_pid);
- write(f1, 0);
+ writeLP(f1, 0, _pid);		//LP release
  goto ret;
 
 

@@ -3,6 +3,28 @@
 // or remove the first and last line of the file, if you want it to be regenerated.  
 #define NULL 0
 
+
+//---------------- abstract spec
+short mtxOwner = 0;
+
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
+//---------------- abstract spec end
+
+
 mtype = {iWrite, iRead , iMfence, iCas};
 /*memory*/
 
@@ -18,6 +40,13 @@ inline write(adr, newValue)
 {
 	atomic{
 	ch ! iWrite, adr, newValue, NULL;
+	}
+}
+
+inline writeLP(adr, newValue, lp)
+{
+	atomic{
+	ch ! iWrite, adr, newValue, lp;
 	}
 }
 
@@ -55,9 +84,11 @@ inline writeB() {
 	assert(address < MEM_SIZE);
 	assert(tail[address] < BUFF_SIZE);
 	buffer[address].entry[tail[address]] = value;
+	bufferLPs[address].entry[tail[address]] = lp;
 	tail[address]++;
 	address = 0;
 	value = 0;
+	lp = 0;
 	}
 }
 
@@ -116,13 +147,22 @@ atomic{
 		//write oldest value to memory
 		memory[flushAdr] = buffer[flushAdr].entry[0];
 		
+		// triggering abstract operation during LP flush here
+		if
+			:: bufferLPs[flushAdr].entry[0] != 0 -> release(bufferLPs[flushAdr].entry[0]);
+			:: else -> skip;
+		fi;
+		
+		
 		//move all content one step further
 		for (i : 1 .. (tail[flushAdr]-1)) 
 		{
 			buffer[flushAdr].entry[i-1] = buffer[flushAdr].entry[i]
+			bufferLPs[flushAdr].entry[i-1] = bufferLPs[flushAdr].entry[i]
 		} 
 		//remove duplicate tail
 		buffer[flushAdr].entry[tail[flushAdr]-1] = 0; //i = tail-1
+		bufferLPs[flushAdr].entry[tail[flushAdr]-1] = 0; //i = tail-1
 		tail[flushAdr]--;	//tail--;
 		flushAdr = 0;
 		i = 0;
@@ -203,13 +243,14 @@ proctype bufferProcess(chan channel)
 	short value = 0; 
 	short newValue = 0;
 	SingleAdrBuffer buffer [MEM_SIZE];
+	SingleAdrBuffer bufferLPs [MEM_SIZE];
 	short tail [MEM_SIZE];
 
 	
 end:	do 
 		::	if
 				//WRITE
-				:: atomic{channel ? iWrite(address,value, NULL) -> writeB();
+				:: atomic{channel ? iWrite(address,value, lp) -> writeB();
 					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//READ
