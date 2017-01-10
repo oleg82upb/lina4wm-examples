@@ -13,7 +13,23 @@ chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
 short flag0 = null;
 short flag1 = null;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -78,10 +94,11 @@ ifend:
  read(flag0, v9); 
  write(v9, 4);
  read(flag1, v10); 
-critical:   goto whilecond6;
+critical: acquire(_pid);   goto whilecond6;
  
 
 whilecond6: 
+ release(_pid); 
  read(v10, v11); 
  cmp7 = (v11 == 2); 
  if 
@@ -168,11 +185,12 @@ whilecond6:
  cmp7 = (v11 > 1); 
  if 
  	:: cmp7 ->  goto whilecond6;
- 	:: !cmp7 ->  goto whileend9;
+ 	:: !cmp7 ->  acquire(_pid); goto whileend9;
  fi;
  
 
 whileend9: 
+ release(_pid); 
  read(flag1, v12); 
  write(v12, 0);
  goto ret;

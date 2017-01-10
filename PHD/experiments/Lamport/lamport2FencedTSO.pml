@@ -109,11 +109,11 @@ A45: exitcond = (inc == 2); goto A46;
 A36: v8 = memory[arrayidx11]; goto A37; 
 A46: 
 	if 
-	::exitcond -> goto A47; 
+	::exitcond -> acquire(_pid); goto A47; 
 	::!exitcond -> j_023 = inc; goto A22; 
 	fi;
 A37: cmp12 = (v7 < v8); goto A38; 
-A47: getelementptr(2, number, 0 + i, arrayidx21); goto A48; 
+A47: release(_pid); getelementptr(2, number, 0 + i, arrayidx21); goto A48; 
 A38: 
 	if 
 	::cmp12 -> goto A32; 

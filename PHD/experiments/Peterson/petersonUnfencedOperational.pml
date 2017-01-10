@@ -14,7 +14,23 @@ chan channelT2 = [0] of {mtype, short, short, short};
 short flag0 = null;
 short flag1 = null;
 short turn = null;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -66,7 +82,7 @@ landend:
  // phi instruction replaced by assignments before  the goto to this block 
  if 
  	:: v6 ->  goto whilebody;
- 	:: !v6 ->  goto whileend;
+ 	:: !v6 ->  acquire(_pid); goto whileend;
  fi;
  
 
@@ -75,6 +91,7 @@ whilebody:
  
 
 whileend: 
+ release(_pid); 
  read(flag0, v7); 
  write(v7, 0);
  goto ret;
@@ -122,7 +139,7 @@ landend:
  // phi instruction replaced by assignments before  the goto to this block 
  if 
  	:: v6 ->  goto whilebody;
- 	:: !v6 ->  goto whileend;
+ 	:: !v6 -> acquire(_pid);  goto whileend;
  fi;
  
 
@@ -131,6 +148,7 @@ whilebody:
  
 
 whileend: 
+ release(_pid); 
  read(flag1, v7); 
  write(v7, 0);
  goto ret;

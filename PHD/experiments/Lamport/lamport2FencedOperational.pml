@@ -13,7 +13,23 @@ chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
 short choosing = 0; //Array: please, check initialization in the init process
 short number = 0; //Array: please, check initialization in the init process
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //pointer computation 
 inline getelementptr(type, instance, offset, targetRegister)
@@ -139,13 +155,14 @@ forinc:
  inc = j_023 + 1; 
  exitcond = (inc == 2); 
  if 
- 	:: exitcond ->  goto forend;
+ 	:: exitcond ->  acquire(_pid); goto forend;
  	:: !exitcond -> 	j_023 = inc;
  	 goto whilecondpreheader;
  fi;
  
 
 forend: 
+ release(_pid);
  getelementptr(2, number, 0 + i, arrayidx21); 
  write(arrayidx21, 0);
  goto ret;

@@ -10,7 +10,23 @@ short memUse = 1; 	//shows to the next free cell in memory
 short flag0 = null;
 short flag1 = null;
 short turn = null;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -173,7 +189,7 @@ A19v0v1:
 	fi;
 A20v0v1: 
 	if 
-	:: v7 = memory[flag0]; goto A21v0v1; 
+	:: acquire(_pid); v7 = memory[flag0]; goto A21v0v1; 
 	:: memory[v0] = 1; goto A20v1; 
 	fi;
 A18v1: 
@@ -201,12 +217,12 @@ A19v1:
 	fi;
 A21v0v1: 
 	if 
-	:: goto A22v0v1v7; 
+	:: release(_pid); goto A22v0v1v7; 
 	:: memory[v0] = 1; goto A21v1; 
 	fi;
 A20v1: 
 	if 
-	:: v7 = memory[flag0]; goto A21v1; 
+	:: acquire(_pid); v7 = memory[flag0]; goto A21v1; 
 	:: memory[v1] = 1; goto A20; 
 	fi;
 A18: 
@@ -229,10 +245,10 @@ A19: goto A05;
 A22v0v1v7: memory[v0] = 1; goto A22v1v7; 
 A21v1: 
 	if 
-	:: goto A22v1v7; 
+	:: release(_pid); goto A22v1v7; 
 	:: memory[v1] = 1; goto A21; 
 	fi;
-A20: v7 = memory[flag0]; goto A21; 
+A20: acquire(_pid); v7 = memory[flag0]; goto A21; 
 A16v0v1: 
 	if 
 	:: v6 = cmp4; goto A17v0v1; 
@@ -245,7 +261,7 @@ A15v1:
 	fi;
 A14: conv3 = tobool2; goto A15; 
 A22v1v7: memory[v1] = 1; goto A22v7; 
-A21: goto A22v7; 
+A21: release(_pid); goto A22v7; 
 A16v1: 
 	if 
 	:: v6 = cmp4; goto A17v1; 
@@ -409,7 +425,7 @@ B19v0v1:
 	fi;
 B20v0v1: 
 	if 
-	:: v7 = memory[flag1]; goto B21v0v1; 
+	:: acquire(_pid); v7 = memory[flag1]; goto B21v0v1; 
 	:: memory[v0] = 1; goto B20v1; 
 	fi;
 B18v1: 
@@ -437,12 +453,12 @@ B19v1:
 	fi;
 B21v0v1: 
 	if 
-	:: goto B22v0v1v7; 
+	:: release(_pid); goto B22v0v1v7; 
 	:: memory[v0] = 1; goto B21v1; 
 	fi;
 B20v1: 
 	if 
-	:: v7 = memory[flag1]; goto B21v1; 
+	:: acquire(_pid); v7 = memory[flag1]; goto B21v1; 
 	:: memory[v1] = 0; goto B20; 
 	fi;
 B18: 
@@ -465,10 +481,10 @@ B19: goto B05;
 B22v0v1v7: memory[v0] = 1; goto B22v1v7; 
 B21v1: 
 	if 
-	:: goto B22v1v7; 
+	:: release(_pid); goto B22v1v7; 
 	:: memory[v1] = 0; goto B21; 
 	fi;
-B20: v7 = memory[flag1]; goto B21; 
+B20: acquire(_pid); v7 = memory[flag1]; goto B21; 
 B16v0v1: 
 	if 
 	:: v6 = cmp4; goto B17v0v1; 
@@ -481,7 +497,7 @@ B15v1:
 	fi;
 B14: conv3 = tobool2; goto B15; 
 B22v1v7: memory[v1] = 0; goto B22v7; 
-B21: goto B22v7; 
+B21: release(_pid); goto B22v7; 
 B16v1: 
 	if 
 	:: v6 = cmp4; goto B17v1; 

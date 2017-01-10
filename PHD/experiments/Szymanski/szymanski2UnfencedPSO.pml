@@ -9,7 +9,23 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 short flag0 = null;
 short flag1 = null;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -214,7 +230,7 @@ A014v0:
 A013: v6 = memory[flag0]; goto A014; 
 A022v0v3v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0v3v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0v3v9; 
 	:: memory[v0] = 1; goto A022v3v9; 
 	:: memory[v3] = 3; goto A022v0v9; 
 	:: memory[v9] = 4; goto A022v0v3; 
@@ -258,26 +274,26 @@ A015v0v3:
 A014: goto A015v6; 
 A023v0v3v9: 
 	if 
-	:: goto A024v0v3v9; 
+	:: release(_pid); goto A024v0v3v9; 
 	:: memory[v0] = 1; goto A023v3v9; 
 	:: memory[v3] = 3; goto A023v0v9; 
 	:: memory[v9] = 4; goto A023v0v3; 
 	fi;
 A022v3v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v3v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v3v9; 
 	:: memory[v3] = 3; goto A022v9; 
 	:: memory[v9] = 4; goto A022v3; 
 	fi;
 A022v0v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0v9; 
 	:: memory[v0] = 1; goto A022v9; 
 	:: memory[v9] = 4; goto A022v0; 
 	fi;
 A022v0v3: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0v3; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0v3; 
 	:: memory[v0] = 1; goto A022v3; 
 	:: memory[v3] = 3; goto A022v0; 
 	fi;
@@ -331,35 +347,35 @@ A024v0v3v9:
 	fi;
 A023v3v9: 
 	if 
-	:: goto A024v3v9; 
+	:: release(_pid); goto A024v3v9; 
 	:: memory[v3] = 3; goto A023v9; 
 	:: memory[v9] = 4; goto A023v3; 
 	fi;
 A023v0v9: 
 	if 
-	:: goto A024v0v9; 
+	:: release(_pid); goto A024v0v9; 
 	:: memory[v0] = 1; goto A023v9; 
 	:: memory[v9] = 4; goto A023v0; 
 	fi;
 A023v0v3: 
 	if 
-	:: goto A024v0v3; 
+	:: release(_pid); goto A024v0v3; 
 	:: memory[v0] = 1; goto A023v3; 
 	:: memory[v3] = 3; goto A023v0; 
 	fi;
 A022v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v9; 
 	:: memory[v9] = 4; goto A022; 
 	fi;
 A022v3: 
 	if 
-	:: v10 = memory[flag1]; goto A023v3; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v3; 
 	:: memory[v3] = 3; goto A022; 
 	fi;
 A022v0: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0; 
 	:: memory[v0] = 1; goto A022; 
 	fi;
 A018v0v3v6: 
@@ -430,20 +446,20 @@ A024v0v3:
 	fi;
 A023v9: 
 	if 
-	:: goto A024v9; 
+	:: release(_pid); goto A024v9; 
 	:: memory[v9] = 4; goto A023; 
 	fi;
 A023v3: 
 	if 
-	:: goto A024v3; 
+	:: release(_pid); goto A024v3; 
 	:: memory[v3] = 3; goto A023; 
 	fi;
 A023v0: 
 	if 
-	:: goto A024v0; 
+	:: release(_pid); goto A024v0; 
 	:: memory[v0] = 1; goto A023; 
 	fi;
-A022: v10 = memory[flag1]; goto A023; 
+A022: acquire(_pid); v10 = memory[flag1]; goto A023; 
 A019v0v3v6: 
 	if 
 	::cmp3 -> goto A020v0v3v6; 
@@ -527,7 +543,7 @@ A024v0:
 	:: v11 = memory[v10]; goto A025v0; 
 	:: memory[v0] = 1; goto A024; 
 	fi;
-A023: goto A024; 
+A023: release(_pid); goto A024; 
 A020v0v3v6: 
 	if 
 	:: v9 = memory[flag0]; goto A021v0v3v6; 
@@ -700,7 +716,7 @@ A026v0:
 A025: cmp7 = (v11 == 2); goto A026; 
 A022v0v3v6v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0v3v6v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0v3v6v9; 
 	:: memory[v0] = 1; goto A022v3v6v9; 
 	:: memory[v3] = 3; goto A022v0v6v9; 
 	:: memory[v6] = 2; goto A022v0v3v9; 
@@ -776,7 +792,7 @@ A026:
 	fi;
 A023v0v3v6v9: 
 	if 
-	:: goto A024v0v3v6v9; 
+	:: release(_pid); goto A024v0v3v6v9; 
 	:: memory[v0] = 1; goto A023v3v6v9; 
 	:: memory[v3] = 3; goto A023v0v6v9; 
 	:: memory[v6] = 2; goto A023v0v3v9; 
@@ -784,21 +800,21 @@ A023v0v3v6v9:
 	fi;
 A022v3v6v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v3v6v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v3v6v9; 
 	:: memory[v3] = 3; goto A022v6v9; 
 	:: memory[v6] = 2; goto A022v3v9; 
 	:: memory[v9] = 4; goto A022v3v6; 
 	fi;
 A022v0v6v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0v6v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0v6v9; 
 	:: memory[v0] = 1; goto A022v6v9; 
 	:: memory[v6] = 2; goto A022v0v9; 
 	:: memory[v9] = 4; goto A022v0v6; 
 	fi;
 A022v0v3v6: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0v3v6; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0v3v6; 
 	:: memory[v0] = 1; goto A022v3v6; 
 	:: memory[v3] = 3; goto A022v0v6; 
 	:: memory[v6] = 2; goto A022v0v3; 
@@ -862,40 +878,40 @@ A024v0v3v6v9:
 	fi;
 A023v3v6v9: 
 	if 
-	:: goto A024v3v6v9; 
+	:: release(_pid); goto A024v3v6v9; 
 	:: memory[v3] = 3; goto A023v6v9; 
 	:: memory[v6] = 2; goto A023v3v9; 
 	:: memory[v9] = 4; goto A023v3v6; 
 	fi;
 A023v0v6v9: 
 	if 
-	:: goto A024v0v6v9; 
+	:: release(_pid); goto A024v0v6v9; 
 	:: memory[v0] = 1; goto A023v6v9; 
 	:: memory[v6] = 2; goto A023v0v9; 
 	:: memory[v9] = 4; goto A023v0v6; 
 	fi;
 A023v0v3v6: 
 	if 
-	:: goto A024v0v3v6; 
+	:: release(_pid); goto A024v0v3v6; 
 	:: memory[v0] = 1; goto A023v3v6; 
 	:: memory[v3] = 3; goto A023v0v6; 
 	:: memory[v6] = 2; goto A023v0v3; 
 	fi;
 A022v6v9: 
 	if 
-	:: v10 = memory[flag1]; goto A023v6v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v6v9; 
 	:: memory[v6] = 2; goto A022v9; 
 	:: memory[v9] = 4; goto A022v6; 
 	fi;
 A022v3v6: 
 	if 
-	:: v10 = memory[flag1]; goto A023v3v6; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v3v6; 
 	:: memory[v3] = 3; goto A022v6; 
 	:: memory[v6] = 2; goto A022v3; 
 	fi;
 A022v0v6: 
 	if 
-	:: v10 = memory[flag1]; goto A023v0v6; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v0v6; 
 	:: memory[v0] = 1; goto A022v6; 
 	:: memory[v6] = 2; goto A022v0; 
 	fi;
@@ -974,25 +990,25 @@ A024v0v3v6:
 	fi;
 A023v6v9: 
 	if 
-	:: goto A024v6v9; 
+	:: release(_pid); goto A024v6v9; 
 	:: memory[v6] = 2; goto A023v9; 
 	:: memory[v9] = 4; goto A023v6; 
 	fi;
 A023v3v6: 
 	if 
-	:: goto A024v3v6; 
+	:: release(_pid); goto A024v3v6; 
 	:: memory[v3] = 3; goto A023v6; 
 	:: memory[v6] = 2; goto A023v3; 
 	fi;
 A023v0v6: 
 	if 
-	:: goto A024v0v6; 
+	:: release(_pid); goto A024v0v6; 
 	:: memory[v0] = 1; goto A023v6; 
 	:: memory[v6] = 2; goto A023v0; 
 	fi;
 A022v6: 
 	if 
-	:: v10 = memory[flag1]; goto A023v6; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A023v6; 
 	:: memory[v6] = 2; goto A022; 
 	fi;
 A032v0v3v9v13: 
@@ -1090,7 +1106,7 @@ A024v0v6:
 	fi;
 A023v6: 
 	if 
-	:: goto A024v6; 
+	:: release(_pid); goto A024v6; 
 	:: memory[v6] = 2; goto A023; 
 	fi;
 A032v3v9v13: 
@@ -2080,7 +2096,7 @@ B016: goto B017;
 B026v0v3v9: 
 	if 
 	::cmp7 -> goto B024v0v3v9; 
-	::!cmp7 -> goto B027v0v3v9; 
+	::!cmp7 -> acquire(_pid); goto B027v0v3v9; 
 	:: memory[v0] = 1; goto B026v3v9; 
 	:: memory[v3] = 3; goto B026v0v9; 
 	:: memory[v9] = 4; goto B026v0v3; 
@@ -2165,7 +2181,7 @@ B018v0:
 B017: v8 = memory[v7]; goto B018; 
 B027v0v3v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0v3v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0v3v9; 
 	:: memory[v0] = 1; goto B027v3v9; 
 	:: memory[v3] = 3; goto B027v0v9; 
 	:: memory[v9] = 4; goto B027v0v3; 
@@ -2173,21 +2189,21 @@ B027v0v3v9:
 B026v3v9: 
 	if 
 	::cmp7 -> goto B024v3v9; 
-	::!cmp7 -> goto B027v3v9; 
+	::!cmp7 -> acquire(_pid); goto B027v3v9; 
 	:: memory[v3] = 3; goto B026v9; 
 	:: memory[v9] = 4; goto B026v3; 
 	fi;
 B026v0v9: 
 	if 
 	::cmp7 -> goto B024v0v9; 
-	::!cmp7 -> goto B027v0v9; 
+	::!cmp7 -> acquire(_pid); goto B027v0v9; 
 	:: memory[v0] = 1; goto B026v9; 
 	:: memory[v9] = 4; goto B026v0; 
 	fi;
 B026v0v3: 
 	if 
 	::cmp7 -> goto B024v0v3; 
-	::!cmp7 -> goto B027v0v3; 
+	::!cmp7 -> acquire(_pid); goto B027v0v3; 
 	:: memory[v0] = 1; goto B026v3; 
 	:: memory[v3] = 3; goto B026v0; 
 	fi;
@@ -2254,38 +2270,38 @@ B028v0v3v9:
 	fi;
 B027v3v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v3v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v3v9; 
 	:: memory[v3] = 3; goto B027v9; 
 	:: memory[v9] = 4; goto B027v3; 
 	fi;
 B027v0v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0v9; 
 	:: memory[v0] = 1; goto B027v9; 
 	:: memory[v9] = 4; goto B027v0; 
 	fi;
 B027v0v3: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0v3; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0v3; 
 	:: memory[v0] = 1; goto B027v3; 
 	:: memory[v3] = 3; goto B027v0; 
 	fi;
 B026v9: 
 	if 
 	::cmp7 -> goto B024v9; 
-	::!cmp7 -> goto B027v9; 
+	::!cmp7 -> acquire(_pid); goto B027v9; 
 	:: memory[v9] = 4; goto B026; 
 	fi;
 B026v3: 
 	if 
 	::cmp7 -> goto B024v3; 
-	::!cmp7 -> goto B027v3; 
+	::!cmp7 -> acquire(_pid); goto B027v3; 
 	:: memory[v3] = 3; goto B026; 
 	fi;
 B026v0: 
 	if 
 	::cmp7 -> goto B024v0; 
-	::!cmp7 -> goto B027v0; 
+	::!cmp7 -> acquire(_pid); goto B027v0; 
 	:: memory[v0] = 1; goto B026; 
 	fi;
 B025: cmp7 = (v11 > 1); goto B026; 
@@ -2346,23 +2362,23 @@ B028v0v3:
 	fi;
 B027v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v9; 
 	:: memory[v9] = 4; goto B027; 
 	fi;
 B027v3: 
 	if 
-	:: v12 = memory[flag1]; goto B028v3; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v3; 
 	:: memory[v3] = 3; goto B027; 
 	fi;
 B027v0: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0; 
 	:: memory[v0] = 1; goto B027; 
 	fi;
 B026: 
 	if 
 	::cmp7 -> goto B024; 
-	::!cmp7 -> goto B027; 
+	::!cmp7 -> acquire(_pid); goto B027; 
 	fi;
 B023v0v3v6v9: 
 	if 
@@ -2437,7 +2453,7 @@ B028v0:
 	:: goto B029v0v12; 
 	:: memory[v0] = 1; goto B028; 
 	fi;
-B027: v12 = memory[flag1]; goto B028; 
+B027: release(_pid); v12 = memory[flag1]; goto B028; 
 B024v0v3v6v9: 
 	if 
 	:: v11 = memory[v10]; goto B025v0v3v6v9; 
@@ -2575,7 +2591,7 @@ B029v0: memory[v0] = 1; goto B029;
 B026v0v3v6v9: 
 	if 
 	::cmp7 -> goto B024v0v3v6v9; 
-	::!cmp7 -> goto B027v0v3v6v9; 
+	::!cmp7 -> acquire(_pid); goto B027v0v3v6v9; 
 	:: memory[v0] = 1; goto B026v3v6v9; 
 	:: memory[v3] = 3; goto B026v0v6v9; 
 	:: memory[v6] = 2; goto B026v0v3v9; 
@@ -2628,7 +2644,7 @@ B023v6:
 B029: goto BEnd;
 B027v0v3v6v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0v3v6v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0v3v6v9; 
 	:: memory[v0] = 1; goto B027v3v6v9; 
 	:: memory[v3] = 3; goto B027v0v6v9; 
 	:: memory[v6] = 2; goto B027v0v3v9; 
@@ -2637,7 +2653,7 @@ B027v0v3v6v9:
 B026v3v6v9: 
 	if 
 	::cmp7 -> goto B024v3v6v9; 
-	::!cmp7 -> goto B027v3v6v9; 
+	::!cmp7 -> acquire(_pid); goto B027v3v6v9; 
 	:: memory[v3] = 3; goto B026v6v9; 
 	:: memory[v6] = 2; goto B026v3v9; 
 	:: memory[v9] = 4; goto B026v3v6; 
@@ -2645,7 +2661,7 @@ B026v3v6v9:
 B026v0v6v9: 
 	if 
 	::cmp7 -> goto B024v0v6v9; 
-	::!cmp7 -> goto B027v0v6v9; 
+	::!cmp7 -> acquire(_pid); goto B027v0v6v9; 
 	:: memory[v0] = 1; goto B026v6v9; 
 	:: memory[v6] = 2; goto B026v0v9; 
 	:: memory[v9] = 4; goto B026v0v6; 
@@ -2653,7 +2669,7 @@ B026v0v6v9:
 B026v0v3v6: 
 	if 
 	::cmp7 -> goto B024v0v3v6; 
-	::!cmp7 -> goto B027v0v3v6; 
+	::!cmp7 -> acquire(_pid); goto B027v0v3v6; 
 	:: memory[v0] = 1; goto B026v3v6; 
 	:: memory[v3] = 3; goto B026v0v6; 
 	:: memory[v6] = 2; goto B026v0v3; 
@@ -2691,21 +2707,21 @@ B028v0v3v6v9:
 	fi;
 B027v3v6v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v3v6v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v3v6v9; 
 	:: memory[v3] = 3; goto B027v6v9; 
 	:: memory[v6] = 2; goto B027v3v9; 
 	:: memory[v9] = 4; goto B027v3v6; 
 	fi;
 B027v0v6v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0v6v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0v6v9; 
 	:: memory[v0] = 1; goto B027v6v9; 
 	:: memory[v6] = 2; goto B027v0v9; 
 	:: memory[v9] = 4; goto B027v0v6; 
 	fi;
 B027v0v3v6: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0v3v6; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0v3v6; 
 	:: memory[v0] = 1; goto B027v3v6; 
 	:: memory[v3] = 3; goto B027v0v6; 
 	:: memory[v6] = 2; goto B027v0v3; 
@@ -2713,21 +2729,21 @@ B027v0v3v6:
 B026v6v9: 
 	if 
 	::cmp7 -> goto B024v6v9; 
-	::!cmp7 -> goto B027v6v9; 
+	::!cmp7 -> acquire(_pid); goto B027v6v9; 
 	:: memory[v6] = 2; goto B026v9; 
 	:: memory[v9] = 4; goto B026v6; 
 	fi;
 B026v3v6: 
 	if 
 	::cmp7 -> goto B024v3v6; 
-	::!cmp7 -> goto B027v3v6; 
+	::!cmp7 -> acquire(_pid); goto B027v3v6; 
 	:: memory[v3] = 3; goto B026v6; 
 	:: memory[v6] = 2; goto B026v3; 
 	fi;
 B026v0v6: 
 	if 
 	::cmp7 -> goto B024v0v6; 
-	::!cmp7 -> goto B027v0v6; 
+	::!cmp7 -> acquire(_pid); goto B027v0v6; 
 	:: memory[v0] = 1; goto B026v6; 
 	:: memory[v6] = 2; goto B026v0; 
 	fi;
@@ -2767,26 +2783,26 @@ B028v0v3v6:
 	fi;
 B027v6v9: 
 	if 
-	:: v12 = memory[flag1]; goto B028v6v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v6v9; 
 	:: memory[v6] = 2; goto B027v9; 
 	:: memory[v9] = 4; goto B027v6; 
 	fi;
 B027v3v6: 
 	if 
-	:: v12 = memory[flag1]; goto B028v3v6; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v3v6; 
 	:: memory[v3] = 3; goto B027v6; 
 	:: memory[v6] = 2; goto B027v3; 
 	fi;
 B027v0v6: 
 	if 
-	:: v12 = memory[flag1]; goto B028v0v6; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v0v6; 
 	:: memory[v0] = 1; goto B027v6; 
 	:: memory[v6] = 2; goto B027v0; 
 	fi;
 B026v6: 
 	if 
 	::cmp7 -> goto B024v6; 
-	::!cmp7 -> goto B027v6; 
+	::!cmp7 -> acquire(_pid); goto B027v6; 
 	:: memory[v6] = 2; goto B026; 
 	fi;
 B029v3v6v9v12: 
@@ -2837,7 +2853,7 @@ B028v0v6:
 	fi;
 B027v6: 
 	if 
-	:: v12 = memory[flag1]; goto B028v6; 
+	:: release(_pid); v12 = memory[flag1]; goto B028v6; 
 	:: memory[v6] = 2; goto B027; 
 	fi;
 B029v6v9v12: 

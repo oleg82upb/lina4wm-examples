@@ -9,7 +9,23 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 short flag0 = null;
 short flag1 = null;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -62,7 +78,7 @@ A17v6:
 	fi;
 A24v9: 
 	if 
-	:: v10 = memory[flag1]; goto A25v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A25v9; 
 	:: memory[v9] = 4; goto A24; 
 	fi;
 A18v6: 
@@ -73,10 +89,10 @@ A18v6:
 A17: v7 = memory[flag1]; goto A18; 
 A25v9: 
 	if 
-	:: goto A26v9; 
+	:: release(_pid); goto A26v9; 
 	:: memory[v9] = 4; goto A25; 
 	fi;
-A24: v10 = memory[flag1]; goto A25; 
+A24: acquire(_pid); v10 = memory[flag1]; goto A25; 
 A19v6: 
 	if 
 	:: v8 = memory[v7]; goto A20v6; 
@@ -88,7 +104,7 @@ A26v9:
 	:: v11 = memory[v10]; goto A27v9; 
 	:: memory[v9] = 4; goto A26; 
 	fi;
-A25: goto A26; 
+A25: release(_pid); goto A26; 
 A20v6: 
 	if 
 	:: cmp3 = (v8 == 4); goto A21v6; 
@@ -148,7 +164,7 @@ A30v9:
 A29: v12 = memory[v10]; goto A30; 
 A24v6v9: 
 	if 
-	:: v10 = memory[flag1]; goto A25v6v9; 
+	:: acquire(_pid); v10 = memory[flag1]; goto A25v6v9; 
 	:: memory[v6] = 2; goto A24v9; 
 	fi;
 A31v9: 
@@ -160,7 +176,7 @@ A31v9:
 A30: cmp8 = (v12 == 3); goto A31; 
 A25v6v9: 
 	if 
-	:: goto A26v6v9; 
+	:: release(_pid); goto A26v6v9; 
 	:: memory[v6] = 2; goto A25v9; 
 	fi;
 A32v9: 
@@ -319,7 +335,7 @@ B20: cmp3 = (v8 == 4); goto B21;
 B28v9: 
 	if 
 	::cmp7 -> goto B26v9; 
-	::!cmp7 -> goto B29v9; 
+	::!cmp7 -> acquire(_pid); goto B29v9; 
 	:: memory[v9] = 4; goto B28; 
 	fi;
 B27: cmp7 = (v11 > 1); goto B28; 
@@ -335,13 +351,13 @@ B21:
 	fi;
 B29v9: 
 	if 
-	:: v12 = memory[flag1]; goto B30v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B30v9; 
 	:: memory[v9] = 4; goto B29; 
 	fi;
 B28: 
 	if 
 	::cmp7 -> goto B26; 
-	::!cmp7 -> goto B29; 
+	::!cmp7 -> acquire(_pid); goto B29; 
 	fi;
 B23v6: 
 	if 
@@ -353,7 +369,7 @@ B30v9:
 	:: goto B31v9v12; 
 	:: memory[v9] = 4; goto B30; 
 	fi;
-B29: v12 = memory[flag1]; goto B30; 
+B29: release(_pid); v12 = memory[flag1]; goto B30; 
 B24v6v9: 
 	if 
 	:: v10 = memory[flag0]; goto B25v6v9; 
@@ -381,12 +397,12 @@ B27v6v9:
 B28v6v9: 
 	if 
 	::cmp7 -> goto B26v6v9; 
-	::!cmp7 -> goto B29v6v9; 
+	::!cmp7 -> acquire(_pid); goto B29v6v9; 
 	:: memory[v6] = 2; goto B28v9; 
 	fi;
 B29v6v9: 
 	if 
-	:: v12 = memory[flag1]; goto B30v6v9; 
+	:: release(_pid); v12 = memory[flag1]; goto B30v6v9; 
 	:: memory[v6] = 2; goto B29v9; 
 	fi;
 B30v6v9: 

@@ -10,7 +10,23 @@ short memUse = 1; 	//shows to the next free cell in memory
 short f0 = 0;
 short f1 = 0;
 short i = 0;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -31,14 +47,14 @@ A00: goto A01f0;
 A01f0: memory[f0] = 1; goto A01; 
 A01: goto A02; 
 A02: goto A03; 
-A03: v0 = memory[f1]; goto A04; 
+A03: v0 = memory[f1]; goto A04; 		//actual LP, if else case in A07 is taken
 A04: tobool = v0; goto A05; 
 A05: conv = tobool; goto A06; 
 A06: cmp = (conv != 0); goto A07; 
 A07: 
 	if 
 	::cmp -> goto A08; 
-	::!cmp -> goto A09; 
+	::!cmp -> acquire(_pid); goto A09; 	//LP acquire
 	fi;
 A08: goto A03; 
 A09: goto AEnd;
@@ -51,7 +67,7 @@ inline p1_rel(){
 
 BStart: goto B0;
 B0: goto B1f0; 
-B1f0: memory[f0] = 0; goto B1; 
+B1f0: atomic{memory[f0] = 0; release(_pid);} goto B1; //LP release
 B1: goto BEnd;
 BEnd: skip;
 
@@ -76,14 +92,14 @@ C07: goto C02;
 C08: goto C09f1; 
 C09f1: memory[f1] = 1; goto C09; 
 C09: goto C10; 
-C10: v1 = memory[f0]; goto C11; 
+C10: v1 = memory[f0]; goto C11; 				//actual LP, if else case in C14 will be taken
 C11: tobool1 = v1; goto C12; 
 C12: conv2 = tobool1; goto C13; 
 C13: cmp3 = (conv2 != 0); goto C14; 
 C14: 
 	if 
 	::cmp3 -> goto C15; 
-	::!cmp3 -> goto C17; 
+	::!cmp3 -> acquire(_pid); goto C17;				//LP acquire 
 	fi;
 C15: goto C16f1; 
 C17: goto CEnd;
@@ -144,7 +160,7 @@ inline p2_rel(){
 
 DStart: goto D0;
 D0: goto D1f1; 
-D1f1: memory[f1] = 0; goto D1; 
+D1f1: atomic{memory[f1] = 0; release(_pid);} goto D1;		//LP release 
 D1: goto DEnd;
 DEnd: skip;
 

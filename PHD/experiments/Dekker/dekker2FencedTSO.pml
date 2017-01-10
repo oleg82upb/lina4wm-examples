@@ -10,7 +10,23 @@ short memUse = 1; 	//shows to the next free cell in memory
 short flag0 = null;
 short flag1 = null;
 short turn = null;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -43,10 +59,10 @@ A06: tobool = v2; goto A07;
 A07: 
 	if 
 	::tobool -> goto A08; 
-	::!tobool -> goto A28; 
+	::!tobool -> acquire(_pid); goto A28; 
 	fi;
 A08: v3 = memory[turn]; goto A09; 
-A28: v9 = memory[turn]; goto A29; 
+A28: release(_pid); v9 = memory[turn]; goto A29; 
 A09: v4 = memory[v3]; goto A10; 
 A29: goto A30v9; 
 A10: tobool1 = v4; goto A11; 
@@ -187,10 +203,10 @@ B06: tobool = v2; goto B07;
 B07: 
 	if 
 	::tobool -> goto B08; 
-	::!tobool -> goto B28; 
+	::!tobool -> acquire(_pid); goto B28; 
 	fi;
 B08: v3 = memory[turn]; goto B09; 
-B28: v9 = memory[turn]; goto B29; 
+B28: release(_pid); v9 = memory[turn]; goto B29; 
 B09: v4 = memory[v3]; goto B10; 
 B29: goto B30v9; 
 B10: tobool1 = v4; goto B11; 

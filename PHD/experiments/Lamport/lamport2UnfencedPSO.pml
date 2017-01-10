@@ -1296,7 +1296,7 @@ A031arrayidx3:
 	fi;
 A043arrayidxarrayidx1arrayidx: 
 	if 
-	::exitcond -> goto A044arrayidxarrayidx1arrayidx; 
+	::exitcond -> acquire(_pid); goto A044arrayidxarrayidx1arrayidx; 
 	::!exitcond -> j_023 = inc; goto A019arrayidxarrayidx1arrayidx; 
 	:: memory[arrayidx] = 1; goto A043arrayidx1arrayidx; 
 	:: memory[arrayidx1] = add; goto A043arrayidxarrayidx; 
@@ -1382,7 +1382,7 @@ A031:
 	fi;
 A043arrayidxarrayidx3arrayidx: 
 	if 
-	::exitcond -> goto A044arrayidxarrayidx3arrayidx; 
+	::exitcond -> acquire(_pid); goto A044arrayidxarrayidx3arrayidx; 
 	::!exitcond -> j_023 = inc; goto A019arrayidxarrayidx3arrayidx; 
 	:: memory[arrayidx] = 1; goto A043arrayidx3arrayidx; 
 	:: memory[arrayidx3] = add2; goto A043arrayidxarrayidx; 
@@ -1431,28 +1431,28 @@ A032arrayidx3:
 	fi;
 A044arrayidxarrayidx1arrayidx: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx1arrayidx; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx1arrayidx; 
 	:: memory[arrayidx] = 1; goto A044arrayidx1arrayidx; 
 	:: memory[arrayidx1] = add; goto A044arrayidxarrayidx; 
 	:: memory[arrayidx] = 0; goto A044arrayidxarrayidx1; 
 	fi;
 A043arrayidx1arrayidx: 
 	if 
-	::exitcond -> goto A044arrayidx1arrayidx; 
+	::exitcond -> acquire(_pid); goto A044arrayidx1arrayidx; 
 	::!exitcond -> j_023 = inc; goto A019arrayidx1arrayidx; 
 	:: memory[arrayidx1] = add; goto A043arrayidx; 
 	:: memory[arrayidx] = 0; goto A043arrayidx1; 
 	fi;
 A043arrayidxarrayidx: 
 	if 
-	::exitcond -> goto A044arrayidxarrayidx; 
+	::exitcond -> acquire(_pid); goto A044arrayidxarrayidx; 
 	::!exitcond -> j_023 = inc; goto A019arrayidxarrayidx; 
 	:: memory[arrayidx] = 1; goto A043arrayidx; 
 	:: memory[arrayidx] = 0; goto A043arrayidx10; 
 	fi;
 A043arrayidxarrayidx1: 
 	if 
-	::exitcond -> goto A044arrayidxarrayidx1; 
+	::exitcond -> acquire(_pid); goto A044arrayidxarrayidx1; 
 	::!exitcond -> j_023 = inc; goto A019arrayidxarrayidx1; 
 	:: memory[arrayidx] = 1; goto A043arrayidx1; 
 	:: memory[arrayidx1] = add; goto A043arrayidx10; 
@@ -1517,21 +1517,21 @@ A033arrayidx10:
 A032: v7 = memory[arrayidx8]; goto A033; 
 A044arrayidxarrayidx3arrayidx: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx3arrayidx; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx3arrayidx; 
 	:: memory[arrayidx] = 1; goto A044arrayidx3arrayidx; 
 	:: memory[arrayidx3] = add2; goto A044arrayidxarrayidx; 
 	:: memory[arrayidx] = 0; goto A044arrayidxarrayidx3; 
 	fi;
 A043arrayidx3arrayidx: 
 	if 
-	::exitcond -> goto A044arrayidx3arrayidx; 
+	::exitcond -> acquire(_pid); goto A044arrayidx3arrayidx; 
 	::!exitcond -> j_023 = inc; goto A019arrayidx3arrayidx; 
 	:: memory[arrayidx3] = add2; goto A043arrayidx; 
 	:: memory[arrayidx] = 0; goto A043arrayidx3; 
 	fi;
 A043arrayidxarrayidx3: 
 	if 
-	::exitcond -> goto A044arrayidxarrayidx3; 
+	::exitcond -> acquire(_pid); goto A044arrayidxarrayidx3; 
 	::!exitcond -> j_023 = inc; goto A019arrayidxarrayidx3; 
 	:: memory[arrayidx] = 1; goto A043arrayidx3; 
 	:: memory[arrayidx3] = add2; goto A043arrayidx10; 
@@ -1575,37 +1575,37 @@ A045arrayidxarrayidx1arrayidx:
 	fi;
 A044arrayidx1arrayidx: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidx1arrayidx; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidx1arrayidx; 
 	:: memory[arrayidx1] = add; goto A044arrayidx; 
 	:: memory[arrayidx] = 0; goto A044arrayidx1; 
 	fi;
 A044arrayidxarrayidx: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx; 
 	:: memory[arrayidx] = 1; goto A044arrayidx; 
 	:: memory[arrayidx] = 0; goto A044arrayidx10; 
 	fi;
 A044arrayidxarrayidx1: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx1; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx1; 
 	:: memory[arrayidx] = 1; goto A044arrayidx1; 
 	:: memory[arrayidx1] = add; goto A044arrayidx10; 
 	fi;
 A043arrayidx: 
 	if 
-	::exitcond -> goto A044arrayidx; 
+	::exitcond -> acquire(_pid); goto A044arrayidx; 
 	::!exitcond -> j_023 = inc; goto A019arrayidx; 
 	:: memory[arrayidx] = 0; goto A043; 
 	fi;
 A043arrayidx1: 
 	if 
-	::exitcond -> goto A044arrayidx1; 
+	::exitcond -> acquire(_pid); goto A044arrayidx1; 
 	::!exitcond -> j_023 = inc; goto A019arrayidx1; 
 	:: memory[arrayidx1] = add; goto A043; 
 	fi;
 A043arrayidx10: 
 	if 
-	::exitcond -> goto A044arrayidx10; 
+	::exitcond -> acquire(_pid); goto A044arrayidx10; 
 	::!exitcond -> j_023 = inc; goto A019arrayidx10; 
 	:: memory[arrayidx] = 1; goto A043; 
 	fi;
@@ -1663,19 +1663,19 @@ A045arrayidxarrayidx3arrayidx:
 	fi;
 A044arrayidx3arrayidx: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidx3arrayidx; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidx3arrayidx; 
 	:: memory[arrayidx3] = add2; goto A044arrayidx; 
 	:: memory[arrayidx] = 0; goto A044arrayidx3; 
 	fi;
 A044arrayidxarrayidx3: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx3; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidxarrayidx3; 
 	:: memory[arrayidx] = 1; goto A044arrayidx3; 
 	:: memory[arrayidx3] = add2; goto A044arrayidx10; 
 	fi;
 A043arrayidx3: 
 	if 
-	::exitcond -> goto A044arrayidx3; 
+	::exitcond -> acquire(_pid); goto A044arrayidx3; 
 	::!exitcond -> j_023 = inc; goto A019arrayidx3; 
 	:: memory[arrayidx3] = add2; goto A043; 
 	fi;
@@ -1732,22 +1732,22 @@ A045arrayidxarrayidx1:
 	fi;
 A044arrayidx: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidx; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidx; 
 	:: memory[arrayidx] = 0; goto A044; 
 	fi;
 A044arrayidx1: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidx1; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidx1; 
 	:: memory[arrayidx1] = add; goto A044; 
 	fi;
 A044arrayidx10: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidx10; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidx10; 
 	:: memory[arrayidx] = 1; goto A044; 
 	fi;
 A043: 
 	if 
-	::exitcond -> goto A044; 
+	::exitcond -> acquire(_pid); goto A044; 
 	::!exitcond -> j_023 = inc; goto A019; 
 	fi;
 A037arrayidxarrayidx1arrayidx: 
@@ -1815,7 +1815,7 @@ A045arrayidxarrayidx3:
 	fi;
 A044arrayidx3: 
 	if 
-	:: getelementptr(2, number, i, arrayidx21); goto A045arrayidx3; 
+	:: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045arrayidx3; 
 	:: memory[arrayidx3] = add2; goto A044; 
 	fi;
 A037arrayidxarrayidx3arrayidx: 
@@ -1882,7 +1882,7 @@ A045arrayidx10:
 	:: goto A046arrayidx1arrayidx210; 
 	:: memory[arrayidx] = 1; goto A045; 
 	fi;
-A044: getelementptr(2, number, i, arrayidx21); goto A045; 
+A044: release(_pid); getelementptr(2, number, i, arrayidx21); goto A045; 
 A038arrayidxarrayidx1arrayidx: 
 	if 
 	:: cmp15 = (v9 == v10); goto A039arrayidxarrayidx1arrayidx; 

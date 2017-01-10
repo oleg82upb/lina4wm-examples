@@ -10,7 +10,23 @@ short memUse = 1; 	//shows to the next free cell in memory
 short f0 = 0;
 short f1 = 0;
 short i = 0;
+short mtxOwner = 0;
 
+inline acquire(pid)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = pid;
+	 }
+}
+
+inline release(pid)
+{
+	atomic{
+	 assert(mtxOwner == pid);
+	 mtxOwner = 0;
+	 }
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -38,7 +54,7 @@ A06: cmp = (conv != 0); goto A07;
 A07: 
 	if 
 	::cmp -> goto A08; 
-	::!cmp -> goto A09; 
+	::!cmp -> acquire(_pid); goto A09; 
 	fi;
 A08: goto A03; 
 A09: goto AEnd;
@@ -51,7 +67,7 @@ inline p1_rel(){
 
 BStart: goto B0;
 B0: goto B1f0; 
-B1f0: memory[f0] = 0; goto B1; 
+B1f0: atomic{memory[f0] = 0; release(_pid);} goto B1; 
 B1: goto BEnd;
 BEnd: skip;
 
@@ -83,7 +99,7 @@ C13: cmp3 = (conv2 != 0); goto C14;
 C14: 
 	if 
 	::cmp3 -> goto C15; 
-	::!cmp3 -> goto C17; 
+	::!cmp3 -> acquire(_pid); goto C17; 
 	fi;
 C15: goto C16f1; 
 C17: goto CEnd;
@@ -144,7 +160,7 @@ inline p2_rel(){
 
 DStart: goto D0;
 D0: goto D1f1; 
-D1f1: memory[f1] = 0; goto D1; 
+D1f1: atomic{memory[f1] = 0; release(_pid);} goto D1; 
 D1: goto DEnd;
 DEnd: skip;
 
