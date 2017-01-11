@@ -7,7 +7,77 @@ short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 
 
+//abstract Stack implemented as array----------------------
+#define ASSIZE 4
+short asStack[ASSIZE];
+hidden byte asTop = 0;
 
+//asValue the value we expect to be on top of the stack
+inline asPop(asValue, asReturn) //can leave out the returnValue????????????????????????????????
+{
+	atomic
+	{
+		asTop--;										//decrement top 
+		assert (asStack[asTop] == memory[asValue]);  	//asValue must be top element
+		asStack[asTop] = 0;								//remove element from stack
+	}
+}
+
+inline asPopFail()
+{
+	assert (asTop == 0)
+}
+
+inline asPush(asValue)
+{
+	atomic
+	{
+		assert(asTop < ASSIZE); //make sure, stack array is never full
+		asStack[asTop] = asValue;
+		asTop++;
+	}
+	//should we return something?
+}
+
+inline readLPPopFail(adr, target)
+{
+	atomic{
+	//short readValue;
+	target = memory[adr];
+	//target = readValue;
+	if 
+		:: target == NULL -> asPopFail();
+		:: else -> skip;
+	fi
+	}
+}
+
+inline casLPPop(adr, oldValue, newValue, success) 
+{
+	// 2 steps for the executing process, but atomic on memory
+	//bit success;
+	atomic{
+	cas(adr, oldValue, newValue, success);
+	//returnValue = success;
+	if 
+		:: success -> asPop(oldValue, success); //if successfull, then the popped value is the oldValue
+		:: else -> skip;
+	fi
+	}
+}
+
+inline casLPPush(adr, oldValue, newValue, success, controlValue) 
+{
+	// 2 steps for the executing process, but atomic on memory
+	//bit success;
+	atomic{
+	cas(adr, oldValue, newValue, success);
+	//returnValue = success;
+	if 	:: success -> asPush(controlValue);
+		:: else -> skip;
+	fi
+	}
+}
 
 //pointer computation 
 inline getelementptr(type, instance, offset, targetRegister)
@@ -122,7 +192,7 @@ A11val:
 A12v0: memory[v0] = v3; goto A12; 
 A12val: memory[val] = v; goto A12; 
 A11: v4 = v3; goto A12; 
-A12: cas(v1, v4, v2, v5); goto A13; 
+A12: casLPPush(v1, v4, v2, v5, v)  goto A13; 		//LP
 A13: v6 = (v5 == v4); goto A14; 
 A14: 
 	if 
@@ -141,7 +211,7 @@ BStart: goto B00;
 B00: getelementptr(1, this, 0, head); goto B01; 
 B01: v0 = this; goto B02; 
 B02: goto B03; 
-B03: v1 = memory[head]; goto B04; 
+B03: readLPPopFail(head, v1); goto B04; 				//LP if failing
 B04: cmp = (v1 == null); goto B05; 
 B05: 
 	if 
@@ -154,7 +224,7 @@ B14: returnvalue = retval_0; goto BEnd;
 B07: v2 = memory[next]; goto B08; 
 B08: v3 = v1; goto B09; 
 B09: v4 = v2; goto B10; 
-B10: cas(v0, v3, v4, v5); goto B11; 
+B10: casLPPop(v0, v3, v4, v5); goto B11; 			//LP success
 B11: v6 = (v5 == v3); goto B12; 
 B12: 
 	if 
