@@ -15,6 +15,100 @@ short ly1 = 0;
 short lx2 = 0;
 short ly2 = 0;
 
+short ax = 0, ay = 0;
+//scenarios only write and observe x and y
+//must observe only atomic transactions
+
+
+inline tabort(px,py)
+{
+	atomic{
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t11(px,py)
+{
+	atomic{
+	 ax = 1;
+	 //short ly = ay;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t21(px,py)
+{
+	atomic{
+	 ay = 1;
+	 //short lx = ax;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t12(px,py)
+{
+	atomic{
+	 ax = 1;
+	 //short lx = ax;
+	 //short ly = ay;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t22(px,py)
+{
+	atomic{
+	 ay = 1;
+	 //short ly = ay;
+	 //short lx = ax;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+
+//IRIW
+inline t13(px,py)
+{
+	atomic{
+	 ax = 1;
+	 assert(ay == py);
+	 assert(ax == px);
+	}
+}
+
+inline t23(px,py)
+{
+	atomic{
+	 ay = 1;
+	 assert(ay == py);
+	 assert(ax == px);
+	}
+}
+
+inline t33(px,py)
+{
+	atomic{
+	//short lx = ax;
+	//short ly = ay;
+	assert(ay == py);
+	assert(ax == px);
+	}
+}
+
+inline t43(px,py)
+{
+	atomic{
+	//short ly = ay;
+	//short lx = ax;
+	assert(ay == py);
+	assert(ax == px);
+	}
+}
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -57,7 +151,14 @@ A05:
 	::!tobool -> goto A02; 
 	fi;
 A06: add = v1 + 1; goto A07; 
-A07: cas(v0, v1, add, v2); goto A08; 
+A07: atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t11(1, memory[memory[y]]);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ goto A08; 
+ } 
 A08: v3 = (v2 == v1); goto A09; 
 A09: 
 	if 
@@ -210,7 +311,14 @@ B05:
 	::!tobool -> goto B02; 
 	fi;
 B06: add = v1 + 1; goto B07; 
-B07: cas(v0, v1, add, v2); goto B08; 
+B07: atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t21(memory[memory[x]], 1);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ goto B08; 
+ }
 B08: v3 = (v2 == v1); goto B09; 
 B09: 
 	if 
@@ -363,7 +471,14 @@ C05:
 	::!tobool -> goto C02; 
 	fi;
 C06: add = v1 + 1; goto C07; 
-C07: cas(v0, v1, add, v2); goto C08; 
+C07: atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t12(1, memory[memory[y]]);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ goto C08; 
+ }
 C08: v3 = (v2 == v1); goto C09; 
 C09: 
 	if 
@@ -634,7 +749,14 @@ D05:
 	::!tobool -> goto D02; 
 	fi;
 D06: add = v1 + 1; goto D07; 
-D07: cas(v0, v1, add, v2); goto D08; 
+D07: atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t22(memory[memory[x]], 1);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ goto D08; 
+ }
 D08: v3 = (v2 == v1); goto D09; 
 D09: 
 	if 
@@ -905,7 +1027,14 @@ E05:
 	::!tobool -> goto E02; 
 	fi;
 E06: add = v1 + 1; goto E07; 
-E07: cas(v0, v1, add, v2); goto E08; 
+E07: atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t13(1, memory[memory[y]]);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ goto E08; 
+ }
 E08: v3 = (v2 == v1); goto E09; 
 E09: 
 	if 
@@ -982,7 +1111,14 @@ F05:
 	::!tobool -> goto F02; 
 	fi;
 F06: add = v1 + 1; goto F07; 
-F07: cas(v0, v1, add, v2); goto F08; 
+F07: atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t23(memory[memory[y]],1);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ goto F08; 
+ }
 F08: v3 = (v2 == v1); goto F09; 
 F09: 
 	if 
@@ -1089,7 +1225,13 @@ G14lx1:
 G13: v6 = memory[v5]; goto G14; 
 G15lx1: 
 	if 
-	:: v8 = memory[v7]; goto G16lx1; 
+	:: atomic{v8 = memory[v7]; 
+		if 
+		 :: v8 == v1 -> t33(v3,v6);		//this is the LP for read only
+		 :: else -> skip;		//abort, unclear what to check as other may have changed something already
+		fi;
+	   }
+	   goto G16lx1; 
 	:: memory[lx1] = v3; goto G15; 
 	fi;
 G14: v7 = memory[glb]; goto G15; 
@@ -1098,7 +1240,13 @@ G16lx1:
 	:: cmp1 = (v8 == v1); goto G17lx1; 
 	:: memory[lx1] = v3; goto G16; 
 	fi;
-G15: v8 = memory[v7]; goto G16; 
+G15: atomic{
+	v8 = memory[v7]; 
+	if 
+	 :: v8 == v1 -> t33(v3,v6);		//this is the LP for read only
+	 :: else -> skip;		//abort, unclear what to check as other may have changed something already
+	fi;
+	} goto G16; 
 G17lx1: 
 	if 
 	::cmp1 -> goto G18lx1; 
@@ -1195,7 +1343,12 @@ H14ly2:
 H13: v6 = memory[v5]; goto H14; 
 H15ly2: 
 	if 
-	:: v8 = memory[v7]; goto H16ly2; 
+	:: atomic{v8 = memory[v7]; 
+		if 
+		 :: v8 == v1 -> t43(v6,v3);		//this is the LP for read only
+		 :: else -> skip;		//abort, unclear what to check as other may have changed something already
+		fi;
+	   }; goto H16ly2; 
 	:: memory[ly2] = v3; goto H15; 
 	fi;
 H14: v7 = memory[glb]; goto H15; 
@@ -1204,7 +1357,12 @@ H16ly2:
 	:: cmp1 = (v8 == v1); goto H17ly2; 
 	:: memory[ly2] = v3; goto H16; 
 	fi;
-H15: v8 = memory[v7]; goto H16; 
+H15: atomic{v8 = memory[v7]; 
+		if 
+		 :: v8 == v1 -> t33(v3,v6);		//this is the LP for read only
+		 :: else -> skip;		//abort, unclear what to check as other may have changed something already
+		fi;
+	   }; goto H16; 
 H17ly2: 
 	if 
 	::cmp1 -> goto H18ly2; 

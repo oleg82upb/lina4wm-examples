@@ -21,6 +21,100 @@ short ly1 = 0;
 short lx2 = 0;
 short ly2 = 0;
 
+short ax = 0, ay = 0;
+//scenarios only write and observe x and y
+//must observe only atomic transactions
+
+inline tabort(px,py)
+{
+	atomic{
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t11(px,py)
+{
+	atomic{
+	 ax = 1;
+	 //short ly = ay;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t21(px,py)
+{
+	atomic{
+	 ay = 1;
+	 //short lx = ax;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t12(px,py)
+{
+	atomic{
+	 ax = 1;
+	 //short lx = ax;
+	 //short ly = ay;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+inline t22(px,py)
+{
+	atomic{
+	 ay = 1;
+	 //short ly = ay;
+	 //short lx = ax;
+	 assert(ay == py);
+	 assert(ax == px);
+	 }
+}
+
+
+//IRIW
+inline t13(px,py)
+{
+	atomic{
+	 ax = 1;
+	 assert(ay == py);
+	 assert(ax == px);
+	}
+}
+
+inline t23(px,py)
+{
+	atomic{
+	 ay = 1;
+	 assert(ay == py);
+	 assert(ax == px);
+	}
+}
+
+inline t33(px,py)
+{
+	atomic{
+	//short lx = ax;
+	//short ly = ay;
+	assert(ay == py);
+	assert(ax == px);
+	}
+}
+
+inline t43(px,py)
+{
+	atomic{
+	//short ly = ay;
+	//short lx = ax;
+	assert(ay == py);
+	assert(ax == px);
+	}
+}
+
 
 //memory allocation
 inline alloca(type, targetRegister)
@@ -61,7 +155,13 @@ dobody:
 
 ifthen: 
  add = v1 + 1; 
- cas(v0, v1, add, v2); 
+ atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t11(1, memory[memory[y]]);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ } 
  v3 = (v2 == v1); 
  if 
  	:: v3 ->  goto ifend4;
@@ -136,7 +236,13 @@ dobody:
 
 ifthen: 
  add = v1 + 1; 
- cas(v0, v1, add, v2); 
+ atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t21(memory[memory[x]], 1);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ }
  v3 = (v2 == v1); 
  if 
  	:: v3 ->  goto ifend4;
@@ -211,7 +317,13 @@ dobody:
 
 ifthen: 
  add = v1 + 1; 
- cas(v0, v1, add, v2); 
+ atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t12(1, memory[memory[y]]);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ }
  v3 = (v2 == v1); 
  if 
  	:: v3 ->  goto ifend4;
@@ -300,7 +412,13 @@ dobody:
 
 ifthen: 
  add = v1 + 1; 
- cas(v0, v1, add, v2); 
+ atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t22(memory[memory[x]], 1);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ }
  v3 = (v2 == v1); 
  if 
  	:: v3 ->  goto ifend4;
@@ -389,7 +507,13 @@ dobody:
 
 ifthen: 
  add = v1 + 1; 
- cas(v0, v1, add, v2); 
+ atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t13(1, memory[memory[y]]);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ }
  v3 = (v2 == v1); 
  if 
  	:: v3 ->  goto ifend4;
@@ -450,7 +574,13 @@ dobody:
 
 ifthen: 
  add = v1 + 1; 
- cas(v0, v1, add, v2); 
+ atomic{
+ cas(v0, v1, add, v2);
+ if 
+ :: v2 == v1 -> t23(memory[memory[y]], 1);		//this is the LP, although nothing was written yet
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ }
  v3 = (v2 == v1); 
  if 
  	:: v3 ->  goto ifend4;
@@ -525,8 +655,14 @@ ifend:
  write(lx1, v3);
  read(y, v5); 
  read(v5, v6); 
- read(glb, v7); 
- read(v7, v8); 
+ read(glb, v7);  
+ atomic{
+ read(v7, v8);
+ if 
+ :: v8 == v1 -> t33(v3,v6);		//this is the LP for read only
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ }
  cmp1 = (v8 == v1); 
  if 
  	:: cmp1 ->  goto ifend3;
@@ -586,7 +722,13 @@ ifend:
  read(x, v5); 
  read(v5, v6); 
  read(glb, v7); 
- read(v7, v8); 
+ atomic{
+ read(v7, v8);
+ if 
+ :: v8 == v1 -> t43(v6,v3);		//this is the LP for read only
+ :: else -> skip;		//abort, unclear what to check as other may have changed something already
+ fi;
+ }
  cmp1 = (v8 == v1); 
  if 
  	:: cmp1 ->  goto ifend3;
@@ -672,7 +814,7 @@ init{
 atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, glb);
-	alloca(1, memory[glb]);
+	alloca(1, memory[glb]);  //initializing the pointer glb to point to this location
 	alloca(1, x);
 	alloca(1, memory[x]);
 	alloca(1, y);
