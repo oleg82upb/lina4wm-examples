@@ -12,18 +12,18 @@ short f1 = 0;
 short i = 0;
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -64,8 +64,7 @@ AEnd: skip;
 
 //function was renamed from: @_Z6p1_relv
 inline p1_rel(){
-
-BStart: goto B0;
+goto B0;
 B0: goto B1f0; 
 B1f0: atomic{memory[f0] = 0; release(_pid);} goto B1; //LP release
 B1: goto BEnd;
@@ -157,8 +156,7 @@ CEnd: skip;
 
 //function was renamed from: @_Z6p2_relv
 inline p2_rel(){
-
-DStart: goto D0;
+goto D0;
 D0: goto D1f1; 
 D1f1: atomic{memory[f1] = 0; release(_pid);} goto D1;		//LP release 
 D1: goto DEnd;
@@ -169,11 +167,13 @@ DEnd: skip;
 
 //Stubs
 proctype process1(){
-	//TODO: empty stub
+	p1_acq();
+	p1_rel();
 }
 
 proctype process2(){
-	//TODO: empty stub
+	p2_acq();
+	p2_rel();
 }
 
 

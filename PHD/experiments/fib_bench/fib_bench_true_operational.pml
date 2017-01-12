@@ -12,7 +12,7 @@ short memUse = 1; 	//shows to the next free cell in memory
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
 short i = 1;
-short j = 1;
+short j = 2;
 
 
 //memory allocation

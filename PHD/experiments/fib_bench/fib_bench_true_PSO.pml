@@ -8,7 +8,7 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 
 short i = 1;
-short j = 1;
+short j = 2;
 short _str = 0; //Array: please, check initialization in the init process
 short _str1 = 0; //Array: please, check initialization in the init process
 short _PRETTY_FUNCTION___main = 0; //Array: please, check initialization in the init process

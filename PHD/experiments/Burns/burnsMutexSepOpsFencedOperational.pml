@@ -46,7 +46,7 @@ whilecond:
  cmp = (conv != 0); 
  if 
  	:: cmp ->  goto whilebody;
- 	:: !cmp ->  acquire(_pid); goto whileend;		//LP acquire
+ 	:: !cmp ->  acquire( _pid) ; goto whileend;		//LP acquire
  fi;
  
 
@@ -142,11 +142,13 @@ ret: skip;
 
 //Stubs
 proctype process1(chan ch){
-	//TODO: empty stub
+	p1_acq();
+	p1_rel();
 }
 
 proctype process2(chan ch){
-	//TODO: empty stub
+	p2_acq();
+	p2_rel();
 }
 
 

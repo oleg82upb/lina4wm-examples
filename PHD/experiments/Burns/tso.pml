@@ -6,18 +6,18 @@
 //---------------- abstract spec
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -40,13 +40,6 @@ inline write(adr, newValue)
 }
 
 inline writeLP(adr, newValue, lp)
-{
-	atomic{
-	ch ! iWrite, adr, newValue, lp;
-	}
-}
-
-inline write(adr, newValue, lp)
 {
 	atomic{
 	ch ! iWrite, adr, newValue, lp;
@@ -83,7 +76,7 @@ inline writeB() {
 		assert(tail < BUFF_SIZE);
 		buffer[tail].line[0] = address;
 		buffer[tail].line[1] = value;
-		buffer[tail].line[1] = lp;
+		buffer[tail].line[2] = lp;
 		tail++;
 		address = 0;
 		value = 0;
@@ -122,7 +115,7 @@ inline flushB() {
 		
 		// triggering abstract operation during LP flush here
 		if
-			:: buffer[0].line[2] != 0 -> release(buffer[0].line[0]);
+			:: buffer[0].line[2] != 0 -> release(buffer[0].line[2]);
 			:: else -> skip;
 		fi;
 		

@@ -7,18 +7,18 @@
 //---------------- abstract spec
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -157,8 +157,8 @@ atomic{
 		//move all content one step further
 		for (i : 1 .. (tail[flushAdr]-1)) 
 		{
-			buffer[flushAdr].entry[i-1] = buffer[flushAdr].entry[i]
-			bufferLPs[flushAdr].entry[i-1] = bufferLPs[flushAdr].entry[i]
+			buffer[flushAdr].entry[i-1] = buffer[flushAdr].entry[i];
+			bufferLPs[flushAdr].entry[i-1] = bufferLPs[flushAdr].entry[i];
 		} 
 		//remove duplicate tail
 		buffer[flushAdr].entry[tail[flushAdr]-1] = 0; //i = tail-1
@@ -242,6 +242,7 @@ proctype bufferProcess(chan channel)
 	short flushAdr = 0;
 	short value = 0; 
 	short newValue = 0;
+	short lp = 0;
 	SingleAdrBuffer buffer [MEM_SIZE];
 	SingleAdrBuffer bufferLPs [MEM_SIZE];
 	short tail [MEM_SIZE];

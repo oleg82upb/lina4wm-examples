@@ -8,7 +8,7 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 
 short i = 1;
-short j = 1;
+short j = 2;
 
 
 

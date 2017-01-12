@@ -4,11 +4,11 @@
 #define PTR 1
 
 short memory[MEM_SIZE];
-short memUse = 1; 	//shows to the next free cell in memory
+short memUse = 3; 	//shows to the next free cell in memory
 
 
 short i = 1;
-short j = 1;
+short j = 2;
 
 
 
@@ -513,7 +513,8 @@ atomic{
 	//initialize global variables or allocate memory space here, if necessary
 	alloca(1, i);
 	alloca(1, j);
-	
+	memory[i] = 1;
+	memory[j] = 1;
 
 	run process1();
 	run process2();
