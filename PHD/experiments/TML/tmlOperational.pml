@@ -577,7 +577,7 @@ ifthen:
  atomic{
  cas(v0, v1, add, v2);
  if 
- :: v2 == v1 -> t23(memory[memory[y]], 1);		//this is the LP, although nothing was written yet
+ :: v2 == v1 -> t23(memory[memory[x]], 1);		//this is the LP, although nothing was written yet
  :: else -> skip;		//abort, unclear what to check as other may have changed something already
  fi;
  }
@@ -826,16 +826,16 @@ atomic{
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
-//	run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
-//	run bufferProcess(channelT4); //obsolete for SC, remove line when SC is chosen
-	run process1(channelT1);
-	run process2(channelT2);
-//	run process33(channelT3);
-//	run process43(channelT4);
+	run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
+	run bufferProcess(channelT4); //obsolete for SC, remove line when SC is chosen
+	run process13(channelT1);
+	run process23(channelT2);
+	run process33(channelT3);
+	run process43(channelT4);
 	}
 }
 
-ltl reorder{ [] ((process1@end && process2@end && result1 == 1 && result2 == 1) -> !(memory[ly1] == 0 && memory[lx2] == 0))}
+//ltl reorder{ [] ((process1@end && process2@end && result1 == 1 && result2 == 1) -> !(memory[ly1] == 0 && memory[lx2] == 0))}
 //ltl early{ [] ((process12@end) && (process22@end) -> !(memory[lx1] == 1 && memory[ly1] == 0 && memory[ly2] == 1 && memory[lx2] == 0))}
 //ltl iriw{ [] ((process13@end && process23@end && process33@end && process43@end) 
 //-> !(memory[lx1] == 1 && memory[ly2] == 1 && memory[ly1] == 0 && memory[lx2] == 0))}

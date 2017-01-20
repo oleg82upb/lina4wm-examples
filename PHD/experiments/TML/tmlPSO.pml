@@ -1,4 +1,4 @@
-#define MEM_SIZE 15	//size of memory
+#define MEM_SIZE 12	//size of memory
 #define null 0
 #define I32  1
 #define PTR 1
@@ -529,13 +529,13 @@ C005:
 	::!tobool -> goto C002; 
 	fi;
 C006: add = v1 + 1; goto C007; 
-C07: atomic{
+C007: atomic{
  cas(v0, v1, add, v2);
  if 
  :: v2 == v1 -> t12(1, memory[memory[y]]);		//this is the LP, although nothing was written yet
  :: else -> skip;		//abort, unclear what to check as other may have changed something already
  fi;
- goto C08; 
+ goto C008; 
  }
 C008: v3 = (v2 == v1); goto C009; 
 C009: 
@@ -978,13 +978,13 @@ D005:
 	::!tobool -> goto D002; 
 	fi;
 D006: add = v1 + 1; goto D007; 
-D07: atomic{
+D007: atomic{
  cas(v0, v1, add, v2);
  if 
  :: v2 == v1 -> t22(memory[memory[x]], 1);		//this is the LP, although nothing was written yet
  :: else -> skip;		//abort, unclear what to check as other may have changed something already
  fi;
- goto D08; 
+ goto D008; 
  }
 D008: v3 = (v2 == v1); goto D009; 
 D009: 
@@ -1514,7 +1514,7 @@ F06: add = v1 + 1; goto F07;
 F07: atomic{
  cas(v0, v1, add, v2);
  if 
- :: v2 == v1 -> t23(memory[memory[y]],1);		//this is the LP, although nothing was written yet
+ :: v2 == v1 -> t23(memory[memory[x]],1);		//this is the LP, although nothing was written yet
  :: else -> skip;		//abort, unclear what to check as other may have changed something already
  fi;
  goto F08; 
@@ -1770,7 +1770,7 @@ H16ly2:
 	fi;
 H15: atomic{v8 = memory[v7]; 
 		if 
-		 :: v8 == v1 -> t33(v3,v6);		//this is the LP for read only
+		 :: v8 == v1 -> t43(v6,v3);		//this is the LP for read only
 		 :: else -> skip;		//abort, unclear what to check as other may have changed something already
 		fi;
 	   }; goto H16;  
@@ -1914,5 +1914,5 @@ atomic{
 //both transactions finished without abort -> only one may observe value 0 
 //ltl reorder{ [] ((process1@end && process2@end && result1 == 1 && result2 == 1) -> !(memory[ly1] == 0 && memory[lx2] == 0))}
 //ltl early{ [] ((process12@end) && (process22@end) -> !(memory[lx1] == 1 && memory[ly1] == 0 && memory[ly2] == 1 && memory[lx2] == 0))}
-ltl iriw{ [] ((process13@end && process23@end && process33@end && process43@end) 
--> !(memory[lx1] == 1 && memory[ly2] == 1 && memory[ly1] == 0 && memory[lx2] == 0))}
+//ltl iriw{ [] ((process13@end && process23@end && process33@end && process43@end) 
+//-> !(memory[lx1] == 1 && memory[ly2] == 1 && memory[ly1] == 0 && memory[lx2] == 0))}

@@ -276,7 +276,7 @@ C27v0v8:
 	if 
 	:: retval_0 = -1; goto C28v0v8; 
 	:: memory[v0] = 0; goto C27v8; 
-	:: memory[v8] = add; goto C27v0; 
+	//:: memory[v8] = add; goto C27v0; 					not allowed, writes must preserve order!
 	fi;
 C26: goto C27v8; 
 C22: 
@@ -288,7 +288,7 @@ C28v0v8:
 	if 
 	:: goto C29v0v8; 
 	:: memory[v0] = 0; goto C28v8; 
-	:: memory[v8] = add; goto C28v0; 
+	//:: memory[v8] = add; goto C28v0; 					not allowed, writes must preserve order!
 	fi;
 C27v8: 
 	if 
@@ -301,11 +301,11 @@ C27v0:
 	:: memory[v0] = 0; goto C27; 
 	fi;
 C23: _pre = memory[age]; goto C24; 
-C29v0v8: 
-	if 
-	:: memory[v0] = 0; goto C29v8; 
-	:: memory[v8] = add; goto C29v0; 
-	fi;
+C29v0v8: memory[v0] = 0; goto C29v8;
+//	if 													not allowed, writes must preserve order!
+//	:: memory[v0] = 0; goto C29v8; 
+//	:: memory[v8] = add; goto C29v0; 
+//	fi;
 C28v8: 
 	if 
 	:: goto C29v8; 
@@ -393,10 +393,10 @@ atomic{
 	alloca(1, deq);
 	alloca(6, memory[deq]);
 
-	run process2();
-	run process1();
-	//run process3();
-	//run process4();
-	//run process5();
+	//run process2();
+	//run process1();
+	run process3();
+	run process4();
+	run process5();
 	}
 }

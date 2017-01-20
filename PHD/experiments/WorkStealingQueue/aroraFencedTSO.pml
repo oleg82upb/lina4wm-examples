@@ -375,10 +375,10 @@ atomic{
 	alloca(1, deq);
 	alloca(6, memory[deq]);
 
-	run process1();
-	run process2();
-	//run process3();
-	//run process4();
-	//run process5();
+	//run process1();
+	//run process2();
+	run process3();
+	run process4();
+	run process5();
 	}
 }

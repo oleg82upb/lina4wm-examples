@@ -51,8 +51,8 @@ inline asPush(pushValue)
 
 
 //#include "sc.pml"
-//#include "tso.pml"
-#include "pso.pml"
+#include "tso.pml"
+//#include "pso.pml"
 
 
 chan channelT1 = [0] of {mtype, short, short, short};
@@ -354,11 +354,11 @@ atomic{
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen
-	//run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
-	run process1(channelT1);
-	run process2(channelT2);
-	//run process3(channelT1);
-	//run process4(channelT2);
-	//run process5(channelT3);
+	run bufferProcess(channelT3); //obsolete for SC, remove line when SC is chosen
+	//run process1(channelT1);
+	//run process2(channelT2);
+	run process3(channelT1);
+	run process4(channelT2);
+	run process5(channelT3);
 	}
 }
