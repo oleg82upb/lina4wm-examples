@@ -5,9 +5,55 @@
 #define PTR 1
 short memUse = 1; 	//shows to the next free cell in memory
 
+
+
+//abstract deque as array----------------------
+#define ASSIZE 5
+short asDeq[ASSIZE];
+hidden byte asTop = 0, asBot = 0;
+
+inline asEmpty()
+{
+	assert (asTop == asBot);
+}
+
+inline asPop(popValue) 
+{
+	atomic
+	{
+		assert(asBot < asTop); //not empty
+		asTop--;								 
+		assert (asDeq[asTop] == popValue); 	 	
+		asDeq[asTop] = 0;						
+	}
+}
+
+inline asDequeue(deqValue) 
+{
+	atomic
+	{ 
+		assert(asBot < asTop); //not empty
+		assert (asDeq[asBot] == deqValue); 	
+		asDeq[asBot] = 0;						
+		asBot++;
+	}
+}
+
+inline asPush(pushValue)
+{
+	atomic
+	{
+		assert(asTop < ASSIZE); //make sure, stack array is never full
+		asDeq[asTop] = pushValue;
+		asTop++;
+	}
+}
+
+
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
+
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -44,7 +90,27 @@ inline alloca(type, targetRegister)
 //Adjust CAS semantics, if necessary.
 
 
+inline casLPDeq(adr, oldValue, newValue, casRes, res)
+{
+atomic{
+ 	cas(adr, oldValue, newValue, casRes);
+ 	if 
+ 		:: casRes == oldValue -> asDequeue(res); printf("Stealer stolen: %d \n", res);
+ 		:: else -> skip; //may be not empty anymore
+ 	fi;
+ 	}
+}
 
+inline casLPPop(adr, oldValue, newValue, casRes, v3)
+{
+atomic{
+ 	cas(adr, oldValue, newValue, casRes);
+ 	if 
+ 		:: casRes == oldValue -> asPop(v3); printf("Owner Pop: %d \n", v3);
+ 		:: else -> asEmpty(); printf("Owner Empty  \n");
+ 	fi;
+ 	}
+}
 
 //------------- functions ------------------
 
@@ -59,7 +125,8 @@ entry:
  write(arrayidx, elem);
  inc = v1 + 1; 
  mfence();
- write(v0, inc);
+ writeLP(v0, inc, elem);		//flush is LP
+ printf("Owner Push: %d \n", elem);
  goto ret;
 
 
@@ -74,13 +141,19 @@ entry:
  read(age, v0); 
  read(v0, v1); 
  read(bot, v2); 
- read(v2, v3); 
+ 
+ //atomic{
+ read(v2, v3); 			//LP if empty, but may also fail due to being interupted for too long (thus failing for seemingly no reason)
+ //if 
+ //	:: !(v3 > (v1 >> 8)) -> asEmpty();  printf("Stealer Empty\n");
+ //	:: else -> skip;
+ //fi;
+ //}	
  shr = v1 >> 8; 
  cmp = (v3 > shr); 
  if 
  	:: cmp ->  goto ifend;
- 	:: !cmp -> 	retval_0 = -1;
- 	 goto return1;
+ 	:: !cmp -> 	retval_0 = -1; goto return1;
  fi;
  
 
@@ -89,7 +162,7 @@ ifend:
  getelementptr(10, v4, shr, arrayidx); 
  read(arrayidx, v5); 
  add5 = v1 + 256; 
- cas(v0, v1, add5, v6); 
+ casLPDeq(v0, v1, add5, v6, v5); 		//LP if non-empty
  v7 = (v6 == v1); 
  _v = (v7 -> v5 : -2); 
  	retval_0 = _v;
@@ -111,8 +184,14 @@ short v0, v1, cmp, retval_0, v3, dec, v2, arrayidx, v4, v5, shr, cmp1, and, add,
 skip;
 entry: 
  read(bot, v0); 
- read(v0, v1); 
- cmp = (v1 == 0); 
+ atomic{
+ read(v0, v1); 				//LP if empty
+ cmp = (v1 == 0);
+ if
+ 	:: cmp -> asEmpty(); printf("Owner Empty\n");
+ 	:: else -> skip;
+ fi; 
+ }
  if 
  	:: cmp -> 	retval_0 = -1;
  	 goto return1;
@@ -121,22 +200,26 @@ entry:
  
 
 ifend: 
- dec = v1 + -1; 
+ dec = v1 -1; 
  write(v0, dec);
  read(deq, v2); 
  getelementptr(10, v2, dec, arrayidx); 
  read(arrayidx, v3); 
  read(age, v4); 
  mfence();
- read(v4, v5); 
+ atomic{
+ read(v4, v5);			//LP if more elements left 
+ if 
+ 	:: (dec > (v5 >> 8)) -> asPop(v3); printf("Owner Pop: %d \n", v3);
+ 	:: else -> skip;
+ fi;
+ }
  shr = v5 >> 8; 
  cmp1 = (dec > shr); 
  if 
- 	:: cmp1 -> 	retval_0 = v3;
- 	 goto return1;
+ 	:: cmp1 -> 	retval_0 = v3; goto return1;
  	:: !cmp1 ->  goto ifend3;
  fi;
- 
 
 ifend3: 
  write(v0, 0);
@@ -145,17 +228,15 @@ ifend3:
  cmp5 = (dec == shr); 
  if 
  	:: cmp5 ->  goto ifthen6;
- 	:: !cmp5 -> 	v8 = v4;
- 	 goto ifend9;
+ 	:: !cmp5 -> v8 = v4; goto ifend9;
  fi;
  
 
 ifthen6: 
- cas(v4, v5, add, v6); 
+ casLPPop(v4, v5, add, v6, v3); 			//LP if last element
  v7 = (v6 == v5); 
  if 
- 	:: v7 -> 	retval_0 = v3;
- 	 goto return1;
+ 	:: v7 -> retval_0 = v3;  goto return1;
  	:: !v7 ->  goto ifthen6ifend9_crit_edge;
  fi;
  
@@ -168,6 +249,7 @@ ifthen6ifend9_crit_edge:
 
 ifend9: 
  // phi instruction replaced by assignments before  the goto to this block 
+ mfence(); //only required for PSO
  write(v8, add);
  	retval_0 = -1;
    goto return1;
@@ -196,30 +278,30 @@ proctype process1(chan ch){
 	push(333);
 	mfence();
 	pop(result1);
-	assert(result1 == -1 || result1 == 111 || result1 == 222 || result1 == 333);
+	//assert(result1 == -1 || result1 == 111 || result1 == 222 || result1 == 333);
 	mfence();
 	//printf("Proc1: %d \n", result);
 	pop(result2);
-	assert(result2 == -1 || result2 == 111 || result2 == 222 );
+	//assert(result2 == -1 || result2 == 111 || result2 == 222 );
 	//printf("Proc1: %d \n", result);
 	mfence();
 	push(444);
 	mfence();
 	pop(result3);
-	assert(result3 == -1 || result3 == 111  || result3 == 444);
+	//assert(result3 == -1 || result3 == 111  || result3 == 444);
 }
 
 proctype process2(chan ch){
 	short result;
 	dequeue(result);
-	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
+	//assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	mfence();
 	dequeue(result);
-	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
+	//assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
 	mfence();
 	dequeue(result);
-	assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
-	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333 || result == 444);
+	//assert (!(result != -1 && result != -2) || (result != result1 && result != result2 && result != result3));
+	//assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333 || result == 444);
 }
 
 
@@ -229,17 +311,17 @@ proctype process3(chan ch){
 	push(111);
 	mfence();
 	pop(result);
-	assert(result == -1 || result == 111);
+	//assert(result == -1 || result == 111);
 	mfence();
 	push(222);
 	mfence();
 	pop(result);
-	assert(result == -1 || result == 222);
+	//assert(result == -1 || result == 222);
 	mfence();
 	push(333);
 	mfence();
 	pop(result);
-	assert(result == -1 || result == 222 || result == 333);
+	//assert(result == -1 || result == 222 || result == 333);
 }
 
 proctype process4(chan ch){
@@ -247,7 +329,7 @@ proctype process4(chan ch){
 	dequeue(result);
 	mfence();
 	dequeue(result);
-	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333);
+	//assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333);
 }
 
 proctype process5(chan ch){
@@ -255,7 +337,7 @@ proctype process5(chan ch){
 	dequeue(result);
 	mfence();
 	dequeue(result);
-	assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333);
+	//assert(result == -1 || result == -2 || result == 111 || result == 222 || result == 333);
 }
 
 init{
@@ -267,6 +349,8 @@ atomic{
 	alloca(1, memory[age]);
 	alloca(1, deq);
 	alloca(6, memory[deq]);
+	
+
 	
 	run bufferProcess(channelT1); //obsolete for SC, remove line when SC is chosen
 	run bufferProcess(channelT2); //obsolete for SC, remove line when SC is chosen

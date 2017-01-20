@@ -15,18 +15,18 @@ short choosing = 0; //Array: please, check initialization in the init process
 short number = 0; //Array: please, check initialization in the init process
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -196,4 +196,4 @@ atomic{
 	run process2(channelT2);
 	}
 }
-ltl prop{ [] !((process1@forend) && (process2@forend))}
+//ltl prop{ [] !((process1@forend) && (process2@forend))}

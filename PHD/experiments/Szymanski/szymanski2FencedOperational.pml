@@ -6,8 +6,8 @@
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -15,18 +15,18 @@ short flag0 = null;
 short flag1 = null;
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -95,12 +95,12 @@ whilecond2:
 ifend: 
  read(flag0, v9); 
  write(v9, 4);
+ critical:   acquire(_pid); 
  read(flag1, v10); 
-critical:   acquire(_pid); goto whilecond6;
+ release(_pid); goto whilecond6;
  
 
 whilecond6: 
- release(_pid); 
  read(v10, v11); 
  cmp7 = (v11 == 2); 
  if 
@@ -232,4 +232,4 @@ atomic{
 	}
 }
 
-ltl prop{ [] !((process1@critical) && (process2@whileend9))}
+//ltl prop{ [] !((process1@critical) && (process2@whileend9))}

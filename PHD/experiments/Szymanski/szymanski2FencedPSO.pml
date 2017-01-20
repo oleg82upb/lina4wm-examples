@@ -1,4 +1,4 @@
-#define MEM_SIZE 15	//size of memory
+#define MEM_SIZE 10	//size of memory
 #define null 0
 #define I32  1
 #define PTR 1
@@ -11,18 +11,18 @@ short flag0 = null;
 short flag1 = null;
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -586,5 +586,5 @@ atomic{
 	run process2();
 	}
 }
-ltl prop{ [] !((process1@A25v6v9 || process1@A25v6 || process1@A25v9 || process1@A25) 
-	&& (process2@B29v6v9 || process2@B29v6 || process2@B29v9 || process2@B29))}
+//ltl prop{ [] !((process1@A25v6v9 || process1@A25v6 || process1@A25v9 || process1@A25) 
+//	&& (process2@B29v6v9 || process2@B29v6 || process2@B29v9 || process2@B29))}

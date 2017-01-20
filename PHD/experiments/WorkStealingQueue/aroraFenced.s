@@ -83,6 +83,9 @@ if.then6.if.end9_crit_edge:                       ; preds = %if.then6
   br label %if.end9
 
 if.end9:                                          ; preds = %if.then6.if.end9_crit_edge, %if.end3
+  ; need to maintain write order between if.end3 and this block
+  ; resetting bot to 0 must happen before top is reset to 1
+  ; otherwise, stealers may  steal already removed elements
   %8 = phi i32* [ %.pre, %if.then6.if.end9_crit_edge ], [ %4, %if.end3 ]
   store i32 %add, i32* %8, align 4, !tbaa !3
   br label %return

@@ -4,7 +4,7 @@
 #define NULL 0
 
 /*Buffer as a 2 dimensional array which represents the queue [(nx2)-matrix]*/
-typedef matrix{short line [2]}
+typedef matrix{short line [3]}
 
 mtype = {iWrite, iRead , iMfence, iCas};
 /*memory*/
@@ -15,6 +15,13 @@ inline write(adr, newValue)
 {
 	atomic{
 	ch ! iWrite, adr, newValue, NULL;
+	}
+}
+
+inline writeLP(adr, newValue, lp)
+{
+	atomic{
+	ch ! iWrite, adr, newValue, lp;
 	}
 }
 
@@ -48,9 +55,11 @@ inline writeB() {
 		assert(tail < BUFF_SIZE);
 		buffer[tail].line[0] = address;
 		buffer[tail].line[1] = value;
+		buffer[tail].line[2] = lp;
 		tail++;
 		address = 0;
 		value = 0;
+		lp = 0;
 }
 
 
@@ -83,13 +92,21 @@ inline flushB() {
 		memory[buffer[0].line[0]] = buffer[0].line[1];
 		//move all content one step further
 		
+		// triggering abstract operation during LP flush here
+		if
+			:: buffer[0].line[2] != 0 -> asPush(buffer[0].line[2]);
+			:: else -> skip;
+		fi;
+		
 		for (i : 1 .. tail-1) {
 			buffer[i-1].line[0] = buffer[i].line[0];
 			buffer[i-1].line[1] = buffer[i].line[1];
+			buffer[i-1].line[2] = buffer[i].line[2];
 		} 
 		//remove duplicate tail
 		buffer[tail-1].line[0] = 0;
 		buffer[tail-1].line[1] = 0;
+		buffer[tail-1].line[2] = 0;
 		tail--;
 		i = 0;
 		}
@@ -133,6 +150,7 @@ proctype bufferProcess(chan channel)
 	short address = 0;
 	short value = 0; 
 	short newValue = 0;
+	short lp = 0;
 	
 	/*writebuffer*/
 	matrix buffer [BUFF_SIZE];
@@ -141,7 +159,7 @@ proctype bufferProcess(chan channel)
 end:	do 
 		::	if
 				//WRITE
-				:: atomic{channel ? iWrite(address,value, NULL) -> writeB();
+				:: atomic{channel ? iWrite(address,value, lp) -> writeB();
 				//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 				}
 				//READ

@@ -6,8 +6,8 @@
 short memUse = 1; 	//shows to the next free cell in memory
 
 //#include "sc.pml"
-#include "tso.pml"
-//#include "pso.pml"
+//#include "tso.pml"
+#include "pso.pml"
 
 chan channelT1 = [0] of {mtype, short, short, short};
 chan channelT2 = [0] of {mtype, short, short, short};
@@ -16,18 +16,18 @@ short flag1 = null;
 short turn = null;
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -195,4 +195,4 @@ atomic{
 	}
 }
 
-ltl prop{ [] !((process1@whileend) && (process2@whileend))}
+//ltl prop{ [] !((process1@whileend) && (process2@whileend))}

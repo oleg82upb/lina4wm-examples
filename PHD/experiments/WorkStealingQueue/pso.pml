@@ -21,6 +21,13 @@ inline write(adr, newValue)
 	}
 }
 
+inline writeLP(adr, newValue, lp)
+{
+	atomic{
+	ch ! iWrite, adr, newValue, lp;
+	}
+}
+
 inline read(adr, target)
 {
 	atomic{
@@ -51,12 +58,15 @@ inline cas(adr, oldValue, newValue, successBit)
 //the semantics for each instruction
 inline writeB() {
 	atomic{
-	assert(address < MEM_SIZE && address != 0);
+	assert(address != 0);
+	assert(address < MEM_SIZE);
 	assert(tail[address] < BUFF_SIZE);
 	buffer[address].entry[tail[address]] = value;
+	bufferLPs[address].entry[tail[address]] = lp;
 	tail[address]++;
 	address = 0;
 	value = 0;
+	lp = 0;
 	}
 }
 
@@ -66,7 +76,7 @@ inline readB() {
 	assert(address != 0);
 	if	
 		//entry in buffer exists
-		:: ((tail[address] - 1) > 0) 
+		:: ((tail[address]) > 0) 
 			-> channel ! iRead, NULL, buffer[address].entry[(tail[address] - 1)], NULL;
 		//no entry in buffer, take it from memory
 		:: else 
@@ -115,13 +125,22 @@ atomic{
 		//write oldest value to memory
 		memory[flushAdr] = buffer[flushAdr].entry[0];
 		
+		// triggering abstract operation during LP flush here
+		if
+			:: bufferLPs[flushAdr].entry[0] != 0 -> asPush(bufferLPs[flushAdr].entry[0]);
+			:: else -> skip;
+		fi;
+		
+		
 		//move all content one step further
 		for (i : 1 .. (tail[flushAdr]-1)) 
 		{
-			buffer[flushAdr].entry[i-1] = buffer[flushAdr].entry[i]
+			buffer[flushAdr].entry[i-1] = buffer[flushAdr].entry[i];
+			bufferLPs[flushAdr].entry[i-1] = bufferLPs[flushAdr].entry[i];
 		} 
 		//remove duplicate tail
 		buffer[flushAdr].entry[tail[flushAdr]-1] = 0; //i = tail-1
+		bufferLPs[flushAdr].entry[tail[flushAdr]-1] = 0; //i = tail-1
 		tail[flushAdr]--;	//tail--;
 		flushAdr = 0;
 		i = 0;
@@ -201,14 +220,16 @@ proctype bufferProcess(chan channel)
 	short flushAdr = 0;
 	short value = 0; 
 	short newValue = 0;
+	short lp = 0;
 	SingleAdrBuffer buffer [MEM_SIZE];
+	SingleAdrBuffer bufferLPs [MEM_SIZE];
 	short tail [MEM_SIZE];
 
 	
 end:	do 
 		::	if
 				//WRITE
-				:: atomic{channel ? iWrite(address,value, NULL) -> writeB();
+				:: atomic{channel ? iWrite(address,value, lp) -> writeB();
 					//i = 0; address = 0; value = 0; newValue = 0; //can reduce state space, but not reliably
 					}
 				//READ

@@ -13,6 +13,48 @@ short age = null;
 short top = null;
 
 
+//abstract deque as array----------------------
+#define ASSIZE 5
+short asDeq[ASSIZE];
+hidden byte asTop = 0, asBot = 0;
+
+inline asEmpty()
+{
+	assert (asTop == asBot);
+}
+
+inline asPop(popValue) 
+{
+	atomic
+	{
+		assert(asBot < asTop); //not empty
+		asTop--;								 
+		assert (asDeq[asTop] == popValue); 	 	
+		asDeq[asTop] = 0;						
+	}
+}
+
+inline asDequeue(deqValue) 
+{
+	atomic
+	{ 
+		assert(asBot < asTop); //not empty
+		assert (asDeq[asBot] == deqValue); 	
+		asDeq[asBot] = 0;						
+		asBot++;
+	}
+}
+
+inline asPush(pushValue)
+{
+	atomic
+	{
+		assert(asTop < ASSIZE); //make sure, stack array is never full
+		asDeq[asTop] = pushValue;
+		asTop++;
+	}
+}
+
 //pointer computation 
 inline getelementptr(type, instance, offset, targetRegister)
 {
@@ -49,6 +91,29 @@ inline cas(adr, old, new, result)
 	}
 }
 
+inline casLPDeq(adr, old, new, result, stolen)
+{
+	atomic{
+	//in LLVM result is usually a tuple (memory[adr], successFlag)
+	//we assume it to be just a loaded value
+	result = memory[adr];
+	if 	:: memory[adr] == old -> memory[adr] = new; asDequeue(stolen); 
+		:: else -> skip;
+	fi;
+	}
+}
+
+inline casLPPop(adr, old, new, result, popped)
+{
+	atomic{
+	//in LLVM result is usually a tuple (memory[adr], successFlag)
+	//we assume it to be just a loaded value
+	result = memory[adr];
+	if 	:: memory[adr] == old -> memory[adr] = new; asPop(popped); 
+		:: else -> skip;
+	fi;
+	}
+}
 
 
 inline push(elem){
@@ -68,7 +133,7 @@ A06arrayidx: memory[arrayidx] = elem; goto A06;
 A05: inc = v1 + 1; goto A06; 
 A06: goto A07; 
 A07: goto A08v0; 
-A08v0: memory[v0] = inc; goto A08; 
+A08v0: atomic{memory[v0] = inc; asPush(elem);}; goto A08; 
 A08: goto AEnd;
 AEnd: skip;
 
@@ -95,7 +160,7 @@ B08: getelementptr(10, v4, shr, arrayidx); goto B09;
 B16: returnvalue = retval_0; goto BEnd;
 B09: v5 = memory[arrayidx]; goto B10; 
 B10: add5 = v1 + 256; goto B11; 
-B11: cas(v0, v1, add5, v6); goto B12; 
+B11: casLPDeq(v0, v1, add5, v6, v5); goto B12; 
 B12: v7 = (v6 == v1); goto B13; 
 B13: _v = (v7 -> v5 : -2); goto B14; 
 B14: retval_0 = _v; goto B15; 
@@ -108,7 +173,12 @@ inline pop(returnvalue){
 short v0, v1, cmp, retval_0, v3, dec, v2, arrayidx, v4, v5, shr, cmp1, and, add, cmp5, v8, _pre, v6, v7;
 CStart: goto C00;
 C00: v0 = memory[bot]; goto C01; 
-C01: v1 = memory[v0]; goto C02; 
+C01: atomic{v1 = memory[v0]; //LP empty
+ if
+	:: (v1 == 0) -> asEmpty();
+ 	:: else -> skip;
+ fi; 
+};goto C02; 
 C02: cmp = (v1 == 0); goto C03; 
 C03: 
 	if 
@@ -145,7 +215,12 @@ C08: v3 = memory[arrayidx]; goto C09;
 C10v0: memory[v0] = dec; goto C10; 
 C09: v4 = memory[age]; goto C10; 
 C10: goto C11; 
-C11: v5 = memory[v4]; goto C12; 
+C11: atomic{v5 = memory[v4]; //LP non-empty
+ if 
+ 	:: (dec > (v5 >> 8)) -> asPop(v3); 
+ 	:: else -> skip;
+ fi;
+}; goto C12; 
 C12: shr = v5 >> 8; goto C13; 
 C13: cmp1 = (dec > shr); goto C14; 
 C14: 
@@ -189,7 +264,7 @@ C19:
 	::cmp5 -> goto C20; 
 	::!cmp5 -> v8 = v4; goto C25; 
 	fi;
-C20: cas(v4, v5, add, v6); goto C21; 
+C20: casLPPop(v4, v5, add, v6,v3); goto C21; //LP last element
 C26v0: 
 	if 
 	:: goto C27v0v8; 

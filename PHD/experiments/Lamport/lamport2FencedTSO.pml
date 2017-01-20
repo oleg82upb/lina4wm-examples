@@ -1,4 +1,4 @@
-#define MEM_SIZE 15	//size of memory
+#define MEM_SIZE 10	//size of memory
 #define null 0
 #define I32  1
 #define PTR 1
@@ -9,7 +9,23 @@ short memUse = 1; 	//shows to the next free cell in memory
 
 short choosing = 0; //Array: please, check initialization in the init process
 short number = 0; //Array: please, check initialization in the init process
+short mtxOwner = 0;
 
+inline acquire(id)
+{
+	atomic{
+	 assert(mtxOwner == 0);
+	 mtxOwner = id;
+	 }
+}
+
+inline release(id)
+{
+	atomic{
+	 assert(mtxOwner == id);
+	 mtxOwner = 0;
+	 }
+}
 
 //pointer computation 
 inline getelementptr(type, instance, offset, targetRegister)
@@ -156,4 +172,4 @@ atomic{
 	run process2();
 	}
 }
-ltl prop{ [] !((process1@A46) && (process2@A46))}
+//ltl prop{ [] !((process1@A46) && (process2@A46))}

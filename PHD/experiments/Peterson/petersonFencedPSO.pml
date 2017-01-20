@@ -1,4 +1,4 @@
-#define MEM_SIZE 15	//size of memory
+#define MEM_SIZE 10	//size of memory
 #define null 0
 #define I32  1
 #define PTR 1
@@ -12,18 +12,18 @@ short flag1 = null;
 short turn = null;
 short mtxOwner = 0;
 
-inline acquire(pid)
+inline acquire(id)
 {
 	atomic{
 	 assert(mtxOwner == 0);
-	 mtxOwner = pid;
+	 mtxOwner = id;
 	 }
 }
 
-inline release(pid)
+inline release(id)
 {
 	atomic{
-	 assert(mtxOwner == pid);
+	 assert(mtxOwner == id);
 	 mtxOwner = 0;
 	 }
 }
@@ -72,12 +72,12 @@ A19: goto A20;
 A14: v5 = memory[v4]; goto A15; 
 A20: 
 	if 
-	::v6 -> acquire(_pid); goto A21; 
-	::!v6 -> goto A22; 
+	::v6 -> goto A21; 
+	::!v6 -> acquire(_pid); goto A22; 
 	fi;
 A15: tobool2 = v5; goto A16; 
-A21: release(_pid); goto A07; 
-A22: v7 = memory[flag0]; goto A23; 
+A21: goto A07; 
+A22: release(_pid); v7 = memory[flag0]; goto A23; 
 A16: conv3 = tobool2; goto A17; 
 A23: goto A24v7; 
 A17: cmp4 = (conv3 == 1); goto A18; 
@@ -121,12 +121,12 @@ B19: goto B20;
 B14: v5 = memory[v4]; goto B15; 
 B20: 
 	if 
-	::v6 -> acquire(_pid); goto B21; 
-	::!v6 -> goto B22; 
+	::v6 -> goto B21; 
+	::!v6 -> acquire(_pid); goto B22; 
 	fi;
 B15: tobool2 = v5; goto B16; 
-B21: release(_pid); goto B07; 
-B22: v7 = memory[flag1]; goto B23; 
+B21: goto B07; 
+B22: release(_pid); v7 = memory[flag1]; goto B23; 
 B16: conv3 = tobool2; goto B17; 
 B23: goto B24v7; 
 B17: cmp4 = (conv3 == 0); goto B18; 
@@ -163,4 +163,4 @@ atomic{
 	run process2();
 	}
 }
-ltl prop{ [] !((process1@A21) && (process2@B21))}
+//ltl prop{ [] !((process1@A21) && (process2@B21))}

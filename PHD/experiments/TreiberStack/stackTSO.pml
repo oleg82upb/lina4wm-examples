@@ -7,12 +7,12 @@ short memory[MEM_SIZE];
 short memUse = 1; 	//shows to the next free cell in memory
 
 //abstract Stack implemented as array----------------------
-#define ASSIZE 4
+#define ASSIZE 7
 short asStack[ASSIZE];
 hidden byte asTop = 0;
 
 //asValue the value we expect to be on top of the stack
-inline asPop(asValue, asReturn) //can leave out the returnValue????????????????????????????????
+inline asPop(asValue) //can leave out the returnValue????????????????????????????????
 {
 	atomic
 	{
@@ -45,7 +45,7 @@ inline readLPPopFail(adr, target)
 	target = memory[adr];
 	//target = readValue;
 	if 
-		:: target == NULL -> asPopFail();
+		:: target == null -> asPopFail();
 		:: else -> skip;
 	fi
 	}
@@ -59,7 +59,7 @@ inline casLPPop(adr, oldValue, newValue, success)
 	cas(adr, oldValue, newValue, success);
 	//returnValue = success;
 	if 
-		:: success -> asPop(oldValue, success); //if successfull, then the popped value is the oldValue
+		:: success == oldValue-> asPop(oldValue); //if successfull, then the popped value is the oldValue
 		:: else -> skip;
 	fi
 	}
@@ -72,7 +72,7 @@ inline casLPPush(adr, oldValue, newValue, success, controlValue)
 	atomic{
 	cas(adr, oldValue, newValue, success);
 	//returnValue = success;
-	if 	:: success -> asPush(controlValue);
+	if 	:: success == oldValue -> asPush(controlValue);
 		:: else -> skip;
 	fi
 	}
@@ -231,20 +231,20 @@ proctype process1(){
 	short returnvalue;
 	push(this, 111);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
 	push(this, 112);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222  || memory[returnvalue] == 223);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222  || memory[returnvalue] == 223);
 }
 
 proctype process2(){
 	short returnvalue;
 	push(this, 222);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222);
 	push(this, 223);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 222 || memory[returnvalue] == 223);
 }
 
  
@@ -256,18 +256,18 @@ proctype process3(){
 	pop(this, returnvalue);
 	pop(this, returnvalue);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null 
-	|| memory[returnvalue] == 222  || memory[returnvalue] == 223   || memory[returnvalue] == 224);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null 
+	//|| memory[returnvalue] == 222  || memory[returnvalue] == 223   || memory[returnvalue] == 224);
 }
 
 proctype process4(){
 	short returnvalue;
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
 	pop(this, returnvalue);
-	assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
+	//assert(memory[returnvalue] == 111 || memory[returnvalue] == 112 || memory[returnvalue] == 113 || memory[returnvalue] == null);
 	push(this, 222);
 	push(this, 223);
 	push(this, 224);

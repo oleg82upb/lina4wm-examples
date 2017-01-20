@@ -1,4 +1,4 @@
-#define MEM_SIZE 15	//size of memory
+#define MEM_SIZE 10	//size of memory
 #define null 0
 #define I32  1
 #define PTR 1
